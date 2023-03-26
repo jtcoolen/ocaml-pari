@@ -1,0 +1,3 @@
+[submodule "src/libpari"]
+	path = src/libpari
+	url = https://pari.math.u-bordeaux.fr/git/pari.git

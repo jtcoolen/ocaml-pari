@@ -1,0 +1,8 @@
+C++ version of OCaml-C bindings generator using libclang
+
+Usage:
+
+./generatebindings -f <c/c++ header file>
+
+Optional -c++ argument makes libclang parse the file as a C++ header,
+not a C header.

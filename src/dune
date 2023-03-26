@@ -1,0 +1,69 @@
+(data_only_dirs libpari)
+
+(include_subdirs unqualified)
+
+(rule
+ (deps
+  (source_tree libpari))
+ ; keep adding targets!
+ (targets libpari.a dllpari.so paricfg.h parimt.h mpinl.h)
+ (action
+  (no-infer
+   (progn
+    (chdir
+     libpari
+     (run mkdir local))
+    (chdir
+     libpari
+     (run ./Configure --prefix=local))
+    (chdir
+     libpari
+     (run make gp))
+    (chdir
+     libpari
+     (run make install-lib-sta))
+    (copy libpari/local/lib/libpari.a libpari.a)
+    (copy libpari/Olinux-x86_64/libpari.so dllpari.so)
+    (copy libpari/Olinux-x86_64/paricfg.h paricfg.h)
+    (copy libpari/Olinux-x86_64/parimt.h parimt.h)
+    (copy libpari/Olinux-x86_64/mpinl.h mpinl.h)))))
+
+(library
+ (name pari)
+ (public_name pari)
+ (libraries core ctypes.stubs ctypes.foreign ctypes)
+ (foreign_archives pari)
+ ; ctypes backward compatibility shims warn sometimes; suppress them
+ (flags
+  (:standard -w -9-11-27-32))
+ (c_library_flags
+  (:standard -fPIC -lgmp))
+ (ctypes
+  (external_library_name libpari)
+  (build_flags_resolver
+   (vendored
+    (c_flags
+     (:standard
+      -O2
+      -Wall
+      -Wextra
+      -finline-functions
+      -ffast-math
+      -funroll-all-loops)
+     (-I./src/libpari/src/headers)
+     (-I../src/libpari/src/headers)
+     (-I./_build/default/src)
+     (-I../../../_build/default/src)
+     (-I../../_build/default/src))
+    (c_library_flags :standard -lc -lm -ldl -lrt -fPIC -lpari)))
+  (headers
+   (include "pari.h"))
+  (type_description
+   (instance Type)
+   (functor Type_description))
+  (function_description
+   (concurrency unlocked)
+   (instance Function)
+   (functor Function_description))
+  (generated_types Types_generated)
+  (generated_entry_point C)))
