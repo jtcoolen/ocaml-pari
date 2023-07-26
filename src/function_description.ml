@@ -242,6 +242,10 @@ module F1 (F : Ctypes.FOREIGN) = struct
   let f2xqx_halfgcd =
     foreign "F2xqX_halfgcd" (gen @-> gen @-> gen @-> returning gen)
 
+  let f2xqx_halfgcd_all =
+    foreign "F2xqX_halfgcd_all"
+      (gen @-> gen @-> gen @-> ptr gen @-> ptr gen @-> returning gen)
+
   let f2xqx_invbarrett =
     foreign "F2xqX_invBarrett" (gen @-> gen @-> returning gen)
 
@@ -387,12 +391,12 @@ module F1 (F : Ctypes.FOREIGN) = struct
   let f3m_to_zm = foreign "F3m_to_ZM" (gen @-> returning gen)
   let f3m_to_mod = foreign "F3m_to_mod" (gen @-> returning gen)
   let f3m_transpose = foreign "F3m_transpose" (gen @-> returning gen)
-  let f3v_to_flv = foreign "F3v_to_Flv" (gen @-> returning gen)
 end
 
 module F2 (F : Ctypes.FOREIGN) = struct
   open F
 
+  let f3v_to_flv = foreign "F3v_to_Flv" (gen @-> returning gen)
   let f3v_coeff = foreign "F3v_coeff" (gen @-> long @-> returning pari_ulong)
   let f3v_clear = foreign "F3v_clear" (gen @-> long @-> returning void)
 
@@ -592,6 +596,10 @@ module F2 (F : Ctypes.FOREIGN) = struct
     foreign "Fl2_sqr_pre"
       (gen @-> pari_ulong @-> pari_ulong @-> pari_ulong @-> returning gen)
 
+  let fl2_sqrt_pre =
+    foreign "Fl2_sqrt_pre"
+      (gen @-> pari_ulong @-> pari_ulong @-> pari_ulong @-> returning gen)
+
   let fl2_sqrtn_pre =
     foreign "Fl2_sqrtn_pre"
       (gen @-> gen @-> pari_ulong @-> pari_ulong @-> pari_ulong @-> ptr gen
@@ -642,6 +650,10 @@ module F2 (F : Ctypes.FOREIGN) = struct
   let flx_fl_mul =
     foreign "Flx_Fl_mul" (gen @-> pari_ulong @-> pari_ulong @-> returning gen)
 
+  let flx_fl_mul_pre =
+    foreign "Flx_Fl_mul_pre"
+      (gen @-> pari_ulong @-> pari_ulong @-> pari_ulong @-> returning gen)
+
   let flx_fl_mul_to_monic =
     foreign "Flx_Fl_mul_to_monic"
       (gen @-> pari_ulong @-> pari_ulong @-> returning gen)
@@ -687,13 +699,23 @@ module F2 (F : Ctypes.FOREIGN) = struct
 
   let flx_add = foreign "Flx_add" (gen @-> gen @-> pari_ulong @-> returning gen)
   let flx_blocks = foreign "Flx_blocks" (gen @-> long @-> long @-> returning gen)
-  let flx_deflate = foreign "Flx_deflate" (gen @-> long @-> returning gen)
-  let flx_deriv = foreign "Flx_deriv" (gen @-> pari_ulong @-> returning gen)
-  let flx_diff1 = foreign "Flx_diff1" (gen @-> pari_ulong @-> returning gen)
 end
 
 module F3 (F : Ctypes.FOREIGN) = struct
   open F
+
+  let flx_composedprod =
+    foreign "Flx_composedprod" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flx_composedsum =
+    foreign "Flx_composedsum" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flx_convol =
+    foreign "Flx_convol" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flx_deflate = foreign "Flx_deflate" (gen @-> long @-> returning gen)
+  let flx_deriv = foreign "Flx_deriv" (gen @-> pari_ulong @-> returning gen)
+  let flx_diff1 = foreign "Flx_diff1" (gen @-> pari_ulong @-> returning gen)
 
   let flx_digits =
     foreign "Flx_digits" (gen @-> gen @-> pari_ulong @-> returning gen)
@@ -739,6 +761,11 @@ module F3 (F : Ctypes.FOREIGN) = struct
       (gen @-> gen @-> pari_ulong @-> ptr gen @-> ptr gen
      @-> returning pari_ulong)
 
+  let flx_extresultant_pre =
+    foreign "Flx_extresultant_pre"
+      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> ptr gen @-> ptr gen
+     @-> returning pari_ulong)
+
   let flx_fromnewton =
     foreign "Flx_fromNewton" (gen @-> pari_ulong @-> returning gen)
 
@@ -756,6 +783,15 @@ module F3 (F : Ctypes.FOREIGN) = struct
 
   let flx_halfgcd =
     foreign "Flx_halfgcd" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flx_halfgcd_all =
+    foreign "Flx_halfgcd_all"
+      (gen @-> gen @-> pari_ulong @-> ptr gen @-> ptr gen @-> returning gen)
+
+  let flx_halfgcd_all_pre =
+    foreign "Flx_halfgcd_all_pre"
+      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> ptr gen @-> ptr gen
+     @-> returning gen)
 
   let flx_halfgcd_pre =
     foreign "Flx_halfgcd_pre"
@@ -911,6 +947,9 @@ module F3 (F : Ctypes.FOREIGN) = struct
   let flxv_flx_fromdigits =
     foreign "FlxV_Flx_fromdigits" (gen @-> gen @-> pari_ulong @-> returning gen)
 
+  let flxv_composedsum =
+    foreign "FlxV_composedsum" (gen @-> pari_ulong @-> returning gen)
+
   let flxv_prod = foreign "FlxV_prod" (gen @-> pari_ulong @-> returning gen)
   let flxv_red = foreign "FlxV_red" (gen @-> pari_ulong @-> returning gen)
   let flxv_to_flm = foreign "FlxV_to_Flm" (gen @-> long @-> returning gen)
@@ -938,6 +977,10 @@ module F3 (F : Ctypes.FOREIGN) = struct
 
   let flxn_mul =
     foreign "Flxn_mul" (gen @-> gen @-> long @-> pari_ulong @-> returning gen)
+end
+
+module F4 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let flxn_mul_pre =
     foreign "Flxn_mul_pre"
@@ -977,10 +1020,6 @@ module F3 (F : Ctypes.FOREIGN) = struct
     foreign "Flxq_auttrace_pre"
       (gen @-> pari_ulong @-> gen @-> pari_ulong @-> pari_ulong
      @-> returning gen)
-end
-
-module F4 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let flxq_charpoly =
     foreign "Flxq_charpoly" (gen @-> gen @-> pari_ulong @-> returning gen)
@@ -1112,6 +1151,10 @@ module F4 (F : Ctypes.FOREIGN) = struct
   let flxq_sqrt =
     foreign "Flxq_sqrt" (gen @-> gen @-> pari_ulong @-> returning gen)
 
+  let flxq_sqrt_pre =
+    foreign "Flxq_sqrt_pre"
+      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
   let flxq_sqrtn =
     foreign "Flxq_sqrtn"
       (gen @-> gen @-> gen @-> pari_ulong @-> ptr gen @-> returning gen)
@@ -1177,63 +1220,71 @@ module F4 (F : Ctypes.FOREIGN) = struct
     foreign "zlx_translate1" (gen @-> pari_ulong @-> long @-> returning gen)
 
   let zx_to_flx = foreign "zx_to_Flx" (gen @-> pari_ulong @-> returning gen)
-  let flxxc_to_zxxc = foreign "FlxXC_to_ZXXC" (gen @-> returning gen)
-  let flxxm_to_zxxm = foreign "FlxXM_to_ZXXM" (gen @-> returning gen)
-  let flxx_to_zxx = foreign "FlxX_to_ZXX" (gen @-> returning gen)
-  let fly_to_flxy = foreign "Fly_to_FlxY" (gen @-> long @-> returning gen)
-  let zxx_to_flxx = foreign "zxX_to_FlxX" (gen @-> pari_ulong @-> returning gen)
 
-  let zxx_to_kronecker =
-    foreign "zxX_to_Kronecker" (gen @-> gen @-> returning gen)
+  let flxx_fl_mul =
+    foreign "FlxX_Fl_mul" (gen @-> pari_ulong @-> pari_ulong @-> returning gen)
 
-  let flxqx_gcd =
-    foreign "FlxqX_gcd" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+  let flxx_flx_add =
+    foreign "FlxX_Flx_add" (gen @-> gen @-> pari_ulong @-> returning gen)
 
-  let flxqx_gcd_pre =
-    foreign "FlxqX_gcd_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+  let flxx_flx_mul =
+    foreign "FlxX_Flx_mul" (gen @-> gen @-> pari_ulong @-> returning gen)
 
-  let flxqx_safegcd =
-    foreign "FlxqX_safegcd"
-      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+  let flxx_flx_sub =
+    foreign "FlxX_Flx_sub" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxx_laplace =
+    foreign "FlxX_Laplace" (gen @-> pari_ulong @-> returning gen)
 
   let flxx_add =
     foreign "FlxX_add" (gen @-> gen @-> pari_ulong @-> returning gen)
 
+  let flxx_blocks =
+    foreign "FlxX_blocks" (gen @-> long @-> long @-> long @-> returning gen)
+
+  let flxx_deriv = foreign "FlxX_deriv" (gen @-> pari_ulong @-> returning gen)
+  let flxx_double = foreign "FlxX_double" (gen @-> pari_ulong @-> returning gen)
+
+  let flxx_invlaplace =
+    foreign "FlxX_invLaplace" (gen @-> pari_ulong @-> returning gen)
+
+  let flxx_neg = foreign "FlxX_neg" (gen @-> pari_ulong @-> returning gen)
+
+  let flxx_renormalize =
+    foreign "FlxX_renormalize" (gen @-> long @-> returning gen)
+
+  let flxx_shift = foreign "FlxX_shift" (gen @-> long @-> long @-> returning gen)
+
   let flxx_sub =
     foreign "FlxX_sub" (gen @-> gen @-> pari_ulong @-> returning gen)
 
-  let flxqx_fromnewton =
-    foreign "FlxqX_fromNewton" (gen @-> gen @-> pari_ulong @-> returning gen)
+  let flxx_swap = foreign "FlxX_swap" (gen @-> long @-> long @-> returning gen)
+  let flxx_to_flm = foreign "FlxX_to_Flm" (gen @-> long @-> returning gen)
+  let flxx_to_flx = foreign "FlxX_to_Flx" (gen @-> returning gen)
 
-  let flxqx_fromnewton_pre =
-    foreign "FlxqX_fromNewton_pre"
-      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+  let flxx_to_flxc =
+    foreign "FlxX_to_FlxC" (gen @-> long @-> long @-> returning gen)
 
-  let flxqx_flxq_mul =
-    foreign "FlxqX_Flxq_mul"
-      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+  let flxx_to_zxx = foreign "FlxX_to_ZXX" (gen @-> returning gen)
 
-  let flxqx_flxq_mul_to_monic =
-    foreign "FlxqX_Flxq_mul_to_monic"
-      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+  let flxx_translate1 =
+    foreign "FlxX_translate1" (gen @-> long @-> long @-> returning gen)
 
-  let flxqx_flxq_mul_pre =
-    foreign "FlxqX_Flxq_mul_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+  let flxx_triple = foreign "FlxX_triple" (gen @-> pari_ulong @-> returning gen)
 
-  let flxqx_flxq_mul_to_monic_pre =
-    foreign "FlxqX_Flxq_mul_to_monic_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+  let flxxc_sub =
+    foreign "FlxXC_sub" (gen @-> gen @-> pari_ulong @-> returning gen)
 
-  let flxqx_flxqxqv_eval =
-    foreign "FlxqX_FlxqXQV_eval"
-      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+  let flxxc_to_zxxc = foreign "FlxXC_to_ZXXC" (gen @-> returning gen)
+  let flxxm_to_zxxm = foreign "FlxXM_to_ZXXM" (gen @-> returning gen)
 
-  let flxqx_flxqxqv_eval_pre =
-    foreign "FlxqX_FlxqXQV_eval_pre"
-      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
-     @-> returning gen)
+  let flxxv_to_flxm =
+    foreign "FlxXV_to_FlxM" (gen @-> long @-> long @-> returning gen)
+
+  let flxxn_red = foreign "FlxXn_red" (gen @-> long @-> returning gen)
+
+  let flxy_flx_div =
+    foreign "FlxY_Flx_div" (gen @-> gen @-> pari_ulong @-> returning gen)
 
   let flxy_flx_translate =
     foreign "FlxY_Flx_translate" (gen @-> gen @-> pari_ulong @-> returning gen)
@@ -1241,6 +1292,10 @@ module F4 (F : Ctypes.FOREIGN) = struct
   let flxy_flxqv_evalx =
     foreign "FlxY_FlxqV_evalx"
       (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+end
+
+module F5 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let flxy_flxqv_evalx_pre =
     foreign "FlxY_FlxqV_evalx_pre"
@@ -1254,228 +1309,24 @@ module F4 (F : Ctypes.FOREIGN) = struct
     foreign "FlxY_Flxq_evalx_pre"
       (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
 
-  let flxqx_newton =
-    foreign "FlxqX_Newton"
-      (gen @-> long @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_newton_pre =
-    foreign "FlxqX_Newton_pre"
-      (gen @-> long @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxx_blocks =
-    foreign "FlxX_blocks" (gen @-> long @-> long @-> long @-> returning gen)
-
-  let zlxx_translate1 =
-    foreign "zlxX_translate1" (gen @-> long @-> long @-> long @-> returning gen)
-
-  let flxx_translate1 =
-    foreign "FlxX_translate1" (gen @-> long @-> long @-> returning gen)
-
-  let flxqx_flxqxq_eval =
-    foreign "FlxqX_FlxqXQ_eval"
-      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_flxqxq_eval_pre =
-    foreign "FlxqX_FlxqXQ_eval_pre"
-      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
-     @-> returning gen)
-
   let flxy_evalx =
     foreign "FlxY_evalx" (gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxy_evalx_powers_pre =
+    foreign "FlxY_evalx_powers_pre"
+      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
 
   let flxy_evalx_pre =
     foreign "FlxY_evalx_pre"
       (gen @-> pari_ulong @-> pari_ulong @-> pari_ulong @-> returning gen)
 
-  let flxqx_get_red =
-    foreign "FlxqX_get_red" (gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_get_red_pre =
-    foreign "FlxqX_get_red_pre"
-      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxqx_invbarrett =
-    foreign "FlxqX_invBarrett" (gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_invbarrett_pre =
-    foreign "FlxqX_invBarrett_pre"
-      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxqxv_prod =
-    foreign "FlxqXV_prod" (gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqv_roots_to_pol =
-    foreign "FlxqV_roots_to_pol"
-      (gen @-> gen @-> pari_ulong @-> long @-> returning gen)
-
-  let flxqx_powu =
-    foreign "FlxqX_powu"
-      (gen @-> pari_ulong @-> gen @-> pari_ulong @-> returning gen)
-end
-
-module F5 (F : Ctypes.FOREIGN) = struct
-  open F
-
-  let flxqx_powu_pre =
-    foreign "FlxqX_powu_pre"
-      (gen @-> pari_ulong @-> gen @-> pari_ulong @-> pari_ulong
-     @-> returning gen)
-
-  let flxqx_saferesultant =
-    foreign "FlxqX_saferesultant"
-      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_extgcd =
-    foreign "FlxqX_extgcd"
-      (gen @-> gen @-> gen @-> pari_ulong @-> ptr gen @-> ptr gen
-     @-> returning gen)
-
-  let flxqxn_mul =
-    foreign "FlxqXn_mul"
-      (gen @-> gen @-> long @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxn_mul_pre =
-    foreign "FlxqXn_mul_pre"
-      (gen @-> gen @-> long @-> gen @-> pari_ulong @-> pari_ulong
-     @-> returning gen)
-
-  let flxxn_red = foreign "FlxXn_red" (gen @-> long @-> returning gen)
-
-  let flxqxn_sqr =
-    foreign "FlxqXn_sqr" (gen @-> long @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxn_sqr_pre =
-    foreign "FlxqXn_sqr_pre"
-      (gen @-> long @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxx_shift = foreign "FlxX_shift" (gen @-> long @-> long @-> returning gen)
-
-  let flxqxq_autsum =
-    foreign "FlxqXQ_autsum"
-      (gen @-> long @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxq_autsum_pre =
-    foreign "FlxqXQ_autsum_pre"
-      (gen @-> long @-> gen @-> gen @-> pari_ulong @-> pari_ulong
-     @-> returning gen)
-
-  let flxy_degreex = foreign "FlxY_degreex" (gen @-> returning long)
-
-  let get_flxqxq_algebra =
-    foreign "get_FlxqXQ_algebra"
-      (ptr (ptr void)
-      @-> gen @-> gen @-> pari_ulong
-      @-> returning (ptr bb_algebra))
-
-  let random_flxqx =
-    foreign "random_FlxqX"
-      (long @-> long @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxx_to_flx = foreign "FlxX_to_Flx" (gen @-> returning gen)
-
-  let flxqxn_inv =
-    foreign "FlxqXn_inv" (gen @-> long @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxn_inv_pre =
-    foreign "FlxqXn_inv_pre"
-      (gen @-> long @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxqxn_expint =
-    foreign "FlxqXn_expint"
-      (gen @-> long @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxn_expint_pre =
-    foreign "FlxqXn_expint_pre"
-      (gen @-> long @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxy_eval_powers_pre =
-    foreign "FlxY_eval_powers_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
-     @-> returning pari_ulong)
-
-  let flxy_evalx_powers_pre =
-    foreign "FlxY_evalx_powers_pre"
-      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxy_evalx_powers_pre =
-    foreign "FlxY_evalx_powers_pre"
-      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxx_to_flm = foreign "FlxX_to_Flm" (gen @-> long @-> returning gen)
-
-  let flxxv_to_flxm =
-    foreign "FlxXV_to_FlxM" (gen @-> long @-> long @-> returning gen)
-
-  let pol1_flxx = foreign "pol1_FlxX" (long @-> long @-> returning gen)
-  let polx_flxx = foreign "polx_FlxX" (long @-> long @-> returning gen)
-
-  let flxqxc_flxqxq_eval =
-    foreign "FlxqXC_FlxqXQ_eval"
-      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxq_inv =
-    foreign "FlxqXQ_inv" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxq_invsafe =
-    foreign "FlxqXQ_invsafe"
-      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxq_minpoly =
-    foreign "FlxqXQ_minpoly"
-      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxq_minpoly_pre =
-    foreign "FlxqXQ_minpoly_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxqxq_sqr =
-    foreign "FlxqXQ_sqr" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_divrem_pre =
-    foreign "FlxqX_divrem_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> long @-> ptr gen @-> returning gen)
-
-  let flxqxq_inv_pre =
-    foreign "FlxqXQ_inv_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxqxq_invsafe_pre =
-    foreign "FlxqXQ_invsafe_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxqxq_sqr_pre =
-    foreign "FlxqXQ_sqr_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxqx_rem_pre =
-    foreign "FlxqX_rem_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxqx_disc =
-    foreign "FlxqX_disc" (gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_sqr =
-    foreign "FlxqX_sqr" (gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_sqr_pre =
-    foreign "FlxqX_sqr_pre"
-      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let rgx_to_flxqx =
-    foreign "RgX_to_FlxqX" (gen @-> gen @-> pari_ulong @-> returning gen)
-
   let flxyqq_pow =
     foreign "FlxYqq_pow"
       (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
 
-  let flxqxq_pow =
-    foreign "FlxqXQ_pow"
-      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxq_pow_pre =
-    foreign "FlxqXQ_pow_pre"
-      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
-     @-> returning gen)
+  let flxqv_roots_to_pol =
+    foreign "FlxqV_roots_to_pol"
+      (gen @-> gen @-> pari_ulong @-> long @-> returning gen)
 
   let flxqxc_flxqxqv_eval =
     foreign "FlxqXC_FlxqXQV_eval"
@@ -1486,78 +1337,9 @@ module F5 (F : Ctypes.FOREIGN) = struct
       (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
      @-> returning gen)
 
-  let flxqxq_div =
-    foreign "FlxqXQ_div"
+  let flxqxc_flxqxq_eval =
+    foreign "FlxqXC_FlxqXQ_eval"
       (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxq_mul =
-    foreign "FlxqXQ_mul"
-      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqxq_div_pre =
-    foreign "FlxqXQ_div_pre"
-      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
-     @-> returning gen)
-
-  let flxqxq_mul_pre =
-    foreign "FlxqXQ_mul_pre"
-      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
-     @-> returning gen)
-
-  let flxqx_dotproduct =
-    foreign "FlxqX_dotproduct"
-      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_halfgcd =
-    foreign "FlxqX_halfgcd"
-      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_mul =
-    foreign "FlxqX_mul" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_rem =
-    foreign "FlxqX_rem" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_resultant =
-    foreign "FlxqX_resultant"
-      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_divrem =
-    foreign "FlxqX_divrem"
-      (gen @-> gen @-> gen @-> pari_ulong @-> ptr gen @-> returning gen)
-
-  let flxqx_halfgcd_pre =
-    foreign "FlxqX_halfgcd_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxqx_mul_pre =
-    foreign "FlxqX_mul_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
-
-  let flxqx_extgcd_pre =
-    foreign "FlxqX_extgcd_pre"
-      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> ptr gen @-> ptr gen
-     @-> returning gen)
-
-  let flxxc_sub =
-    foreign "FlxXC_sub" (gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxx_flx_mul =
-    foreign "FlxX_Flx_mul" (gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxy_flx_div =
-    foreign "FlxY_Flx_div" (gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxx_to_flxc =
-    foreign "FlxX_to_FlxC" (gen @-> long @-> long @-> returning gen)
-
-  let flxqxq_powers_pre =
-    foreign "FlxqXQ_powers_pre"
-      (gen @-> long @-> gen @-> gen @-> pari_ulong @-> pari_ulong
-     @-> returning gen)
-
-  let flxx_renormalize =
-    foreign "FlxX_renormalize" (gen @-> long @-> returning gen)
 
   let flxqxq_autpow =
     foreign "FlxqXQ_autpow"
@@ -1568,15 +1350,14 @@ module F5 (F : Ctypes.FOREIGN) = struct
       (gen @-> long @-> gen @-> gen @-> pari_ulong @-> pari_ulong
      @-> returning gen)
 
-  let flxqxq_powers =
-    foreign "FlxqXQ_powers"
+  let flxqxq_autsum =
+    foreign "FlxqXQ_autsum"
       (gen @-> long @-> gen @-> gen @-> pari_ulong @-> returning gen)
 
-  let flxqxq_matrix_pow =
-    foreign "FlxqXQ_matrix_pow"
-      (gen @-> long @-> long @-> gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxx_swap = foreign "FlxX_swap" (gen @-> long @-> long @-> returning gen)
+  let flxqxq_autsum_pre =
+    foreign "FlxqXQ_autsum_pre"
+      (gen @-> long @-> gen @-> gen @-> pari_ulong @-> pari_ulong
+     @-> returning gen)
 
   let flxqxq_auttrace =
     foreign "FlxqXQ_auttrace"
@@ -1585,6 +1366,69 @@ module F5 (F : Ctypes.FOREIGN) = struct
   let flxqxq_auttrace_pre =
     foreign "FlxqXQ_auttrace_pre"
       (gen @-> pari_ulong @-> gen @-> gen @-> pari_ulong @-> pari_ulong
+     @-> returning gen)
+
+  let flxqxq_div =
+    foreign "FlxqXQ_div"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxq_div_pre =
+    foreign "FlxqXQ_div_pre"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
+     @-> returning gen)
+
+  let flxqxq_inv =
+    foreign "FlxqXQ_inv" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxq_inv_pre =
+    foreign "FlxqXQ_inv_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqxq_invsafe =
+    foreign "FlxqXQ_invsafe"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxq_invsafe_pre =
+    foreign "FlxqXQ_invsafe_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqxq_matrix_pow =
+    foreign "FlxqXQ_matrix_pow"
+      (gen @-> long @-> long @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxq_minpoly =
+    foreign "FlxqXQ_minpoly"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxq_minpoly_pre =
+    foreign "FlxqXQ_minpoly_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqxq_mul =
+    foreign "FlxqXQ_mul"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxq_mul_pre =
+    foreign "FlxqXQ_mul_pre"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
+     @-> returning gen)
+
+  let flxqxq_pow =
+    foreign "FlxqXQ_pow"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxq_pow_pre =
+    foreign "FlxqXQ_pow_pre"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
+     @-> returning gen)
+
+  let flxqxq_powers =
+    foreign "FlxqXQ_powers"
+      (gen @-> long @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxq_powers_pre =
+    foreign "FlxqXQ_powers_pre"
+      (gen @-> long @-> gen @-> gen @-> pari_ulong @-> pari_ulong
      @-> returning gen)
 
   let flxqxq_powu =
@@ -1596,48 +1440,277 @@ module F5 (F : Ctypes.FOREIGN) = struct
       (gen @-> pari_ulong @-> gen @-> gen @-> pari_ulong @-> pari_ulong
      @-> returning gen)
 
-  let flxx_laplace =
-    foreign "FlxX_Laplace" (gen @-> pari_ulong @-> returning gen)
+  let flxqxq_sqr =
+    foreign "FlxqXQ_sqr" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
 
-  let flxx_double = foreign "FlxX_double" (gen @-> pari_ulong @-> returning gen)
+  let flxqxq_sqr_pre =
+    foreign "FlxqXQ_sqr_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
 
-  let flxx_invlaplace =
-    foreign "FlxX_invLaplace" (gen @-> pari_ulong @-> returning gen)
+  let flxqxv_prod =
+    foreign "FlxqXV_prod" (gen @-> gen @-> pari_ulong @-> returning gen)
 
-  let flxx_neg = foreign "FlxX_neg" (gen @-> pari_ulong @-> returning gen)
-  let flxx_triple = foreign "FlxX_triple" (gen @-> pari_ulong @-> returning gen)
+  let flxqx_flxqxqv_eval =
+    foreign "FlxqX_FlxqXQV_eval"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
 
-  let flxx_fl_mul =
-    foreign "FlxX_Fl_mul" (gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+  let flxqx_flxqxqv_eval_pre =
+    foreign "FlxqX_FlxqXQV_eval_pre"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
+     @-> returning gen)
 
-  let flxx_flx_add =
-    foreign "FlxX_Flx_add" (gen @-> gen @-> pari_ulong @-> returning gen)
+  let flxqx_flxqxq_eval =
+    foreign "FlxqX_FlxqXQ_eval"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
 
-  let flxx_flx_sub =
-    foreign "FlxX_Flx_sub" (gen @-> gen @-> pari_ulong @-> returning gen)
+  let flxqx_flxqxq_eval_pre =
+    foreign "FlxqX_FlxqXQ_eval_pre"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
+     @-> returning gen)
+
+  let flxqx_flxq_mul =
+    foreign "FlxqX_Flxq_mul"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_flxq_mul_pre =
+    foreign "FlxqX_Flxq_mul_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqx_flxq_mul_to_monic =
+    foreign "FlxqX_Flxq_mul_to_monic"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_flxq_mul_to_monic_pre =
+    foreign "FlxqX_Flxq_mul_to_monic_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqx_newton =
+    foreign "FlxqX_Newton"
+      (gen @-> long @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_newton_pre =
+    foreign "FlxqX_Newton_pre"
+      (gen @-> long @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqx_composedsum =
+    foreign "FlxqX_composedsum"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_disc =
+    foreign "FlxqX_disc" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_div_by_x_x =
+    foreign "FlxqX_div_by_X_x"
+      (gen @-> gen @-> gen @-> pari_ulong @-> ptr gen @-> returning gen)
+
+  let flxqx_div_by_x_x_pre =
+    foreign "FlxqX_div_by_X_x_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> ptr gen
+     @-> returning gen)
+
+  let flxqx_divrem =
+    foreign "FlxqX_divrem"
+      (gen @-> gen @-> gen @-> pari_ulong @-> ptr gen @-> returning gen)
+
+  let flxqx_divrem_pre =
+    foreign "FlxqX_divrem_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> long @-> ptr gen @-> returning gen)
+
+  let flxqx_dotproduct =
+    foreign "FlxqX_dotproduct"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_extgcd =
+    foreign "FlxqX_extgcd"
+      (gen @-> gen @-> gen @-> pari_ulong @-> ptr gen @-> ptr gen
+     @-> returning gen)
+
+  let flxqx_extgcd_pre =
+    foreign "FlxqX_extgcd_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> ptr gen @-> ptr gen
+     @-> returning gen)
+
+  let flxqx_fromnewton =
+    foreign "FlxqX_fromNewton" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_fromnewton_pre =
+    foreign "FlxqX_fromNewton_pre"
+      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqx_gcd =
+    foreign "FlxqX_gcd" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_gcd_pre =
+    foreign "FlxqX_gcd_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqx_get_red =
+    foreign "FlxqX_get_red" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_get_red_pre =
+    foreign "FlxqX_get_red_pre"
+      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqx_halfgcd =
+    foreign "FlxqX_halfgcd"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_halfgcd_all =
+    foreign "FlxqX_halfgcd_all"
+      (gen @-> gen @-> gen @-> pari_ulong @-> ptr gen @-> ptr gen
+     @-> returning gen)
+
+  let flxqx_halfgcd_all_pre =
+    foreign "FlxqX_halfgcd_all_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> ptr gen @-> ptr gen
+     @-> returning gen)
+
+  let flxqx_halfgcd_pre =
+    foreign "FlxqX_halfgcd_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqx_invbarrett =
+    foreign "FlxqX_invBarrett" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_invbarrett_pre =
+    foreign "FlxqX_invBarrett_pre"
+      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqx_mul =
+    foreign "FlxqX_mul" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_mul_pre =
+    foreign "FlxqX_mul_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
 
   let flxqx_normalize =
     foreign "FlxqX_normalize" (gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let flxqx_red =
-    foreign "FlxqX_red" (gen @-> gen @-> pari_ulong @-> returning gen)
-
-  let kronecker_to_flxqx =
-    foreign "Kronecker_to_FlxqX" (gen @-> gen @-> pari_ulong @-> returning gen)
 
   let flxqx_normalize_pre =
     foreign "FlxqX_normalize_pre"
       (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
 
+  let flxqx_powu =
+    foreign "FlxqX_powu"
+      (gen @-> pari_ulong @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_powu_pre =
+    foreign "FlxqX_powu_pre"
+      (gen @-> pari_ulong @-> gen @-> pari_ulong @-> pari_ulong
+     @-> returning gen)
+
+  let flxqx_red =
+    foreign "FlxqX_red" (gen @-> gen @-> pari_ulong @-> returning gen)
+
   let flxqx_red_pre =
     foreign "FlxqX_red_pre"
       (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqx_rem =
+    foreign "FlxqX_rem" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_rem_pre =
+    foreign "FlxqX_rem_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqx_resultant =
+    foreign "FlxqX_resultant"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_resultant_pre =
+    foreign "FlxqX_resultant_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqx_safegcd =
+    foreign "FlxqX_safegcd"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_saferesultant =
+    foreign "FlxqX_saferesultant"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_sqr =
+    foreign "FlxqX_sqr" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqx_sqr_pre =
+    foreign "FlxqX_sqr_pre"
+      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqxn_expint =
+    foreign "FlxqXn_expint"
+      (gen @-> long @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxn_expint_pre =
+    foreign "FlxqXn_expint_pre"
+      (gen @-> long @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqxn_inv =
+    foreign "FlxqXn_inv" (gen @-> long @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxn_inv_pre =
+    foreign "FlxqXn_inv_pre"
+      (gen @-> long @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxqxn_mul =
+    foreign "FlxqXn_mul"
+      (gen @-> gen @-> long @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxn_mul_pre =
+    foreign "FlxqXn_mul_pre"
+      (gen @-> gen @-> long @-> gen @-> pari_ulong @-> pari_ulong
+     @-> returning gen)
+
+  let flxqxn_sqr =
+    foreign "FlxqXn_sqr" (gen @-> long @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxqxn_sqr_pre =
+    foreign "FlxqXn_sqr_pre"
+      (gen @-> long @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flxy_degreex = foreign "FlxY_degreex" (gen @-> returning long)
+
+  let flxy_eval_powers_pre =
+    foreign "FlxY_eval_powers_pre"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong
+     @-> returning pari_ulong)
+
+  let fly_to_flxy = foreign "Fly_to_FlxY" (gen @-> long @-> returning gen)
+
+  let kronecker_to_flxqx =
+    foreign "Kronecker_to_FlxqX" (gen @-> gen @-> pari_ulong @-> returning gen)
 
   let kronecker_to_flxqx_pre =
     foreign "Kronecker_to_FlxqX_pre"
       (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning gen)
 
-  let flxx_deriv = foreign "FlxX_deriv" (gen @-> pari_ulong @-> returning gen)
+  let rgx_to_flxqx =
+    foreign "RgX_to_FlxqX" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let get_flxqxq_algebra =
+    foreign "get_FlxqXQ_algebra"
+      (ptr (ptr void)
+      @-> gen @-> gen @-> pari_ulong
+      @-> returning (ptr bb_algebra))
+
+  let pol1_flxx = foreign "pol1_FlxX" (long @-> long @-> returning gen)
+end
+
+module F6 (F : Ctypes.FOREIGN) = struct
+  open F
+
+  let polx_flxx = foreign "polx_FlxX" (long @-> long @-> returning gen)
+
+  let random_flxqx =
+    foreign "random_FlxqX"
+      (long @-> long @-> gen @-> pari_ulong @-> returning gen)
+
+  let zlxx_translate1 =
+    foreign "zlxX_translate1" (gen @-> long @-> long @-> long @-> returning gen)
+
+  let zxx_to_flxx = foreign "zxX_to_FlxX" (gen @-> pari_ulong @-> returning gen)
+
+  let zxx_to_kronecker =
+    foreign "zxX_to_Kronecker" (gen @-> gen @-> returning gen)
 
   let flxq_ellcard =
     foreign "Flxq_ellcard" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
@@ -1681,10 +1754,6 @@ module F5 (F : Ctypes.FOREIGN) = struct
   let flxqe_log =
     foreign "FlxqE_log"
       (gen @-> gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
-end
-
-module F6 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let flxqe_mul =
     foreign "FlxqE_mul"
@@ -1735,6 +1804,8 @@ module F6 (F : Ctypes.FOREIGN) = struct
   let random_flxqe =
     foreign "random_FlxqE" (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
 
+  let polisclass = foreign "polisclass" (gen @-> returning long)
+
   let fl_elltrace =
     foreign "Fl_elltrace"
       (pari_ulong @-> pari_ulong @-> pari_ulong @-> returning long)
@@ -1757,6 +1828,10 @@ module F6 (F : Ctypes.FOREIGN) = struct
       (gen @-> gen @-> gen @-> gen @-> ptr gen @-> returning gen)
 
   let fp_ellj = foreign "Fp_ellj" (gen @-> gen @-> gen @-> returning gen)
+
+  let fp_ellj_to_a4a6 =
+    foreign "Fp_ellj_to_a4a6"
+      (gen @-> gen @-> ptr gen @-> ptr gen @-> returning void)
 
   let fp_elljissupersingular =
     foreign "Fp_elljissupersingular" (gen @-> gen @-> returning int)
@@ -1808,6 +1883,10 @@ module F6 (F : Ctypes.FOREIGN) = struct
 
   let fpxq_ellcard =
     foreign "FpXQ_ellcard" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let fpxq_ellcard_supersingular =
+    foreign "FpXQ_ellcard_supersingular"
+      (gen @-> gen @-> gen @-> gen @-> returning gen)
 
   let fpxq_elldivpol =
     foreign "FpXQ_elldivpol"
@@ -1867,6 +1946,13 @@ module F6 (F : Ctypes.FOREIGN) = struct
     foreign "FpXQE_weilpairing"
       (gen @-> gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
 
+  let fq_elljissupersingular =
+    foreign "Fq_elljissupersingular" (gen @-> gen @-> gen @-> returning int)
+
+  let fq_ellcard_supersingular =
+    foreign "Fq_ellcard_supersingular"
+      (gen @-> gen @-> gen @-> gen @-> returning gen)
+
   let rge_to_fpe = foreign "RgE_to_FpE" (gen @-> gen @-> returning gen)
 
   let rge_to_fpxqe =
@@ -1881,6 +1967,9 @@ module F6 (F : Ctypes.FOREIGN) = struct
       (ptr (ptr void)
       @-> gen @-> gen @-> gen @-> gen
       @-> returning (ptr bb_group))
+
+  let ellsupersingularj_fpxq =
+    foreign "ellsupersingularj_FpXQ" (gen @-> gen @-> returning gen)
 
   let elltrace_extension =
     foreign "elltrace_extension" (gen @-> long @-> gen @-> returning gen)
@@ -1917,6 +2006,10 @@ module F6 (F : Ctypes.FOREIGN) = struct
 
   let fpx_fp_div = foreign "FpX_Fp_div" (gen @-> gen @-> gen @-> returning gen)
   let fpx_fp_mul = foreign "FpX_Fp_mul" (gen @-> gen @-> gen @-> returning gen)
+end
+
+module F7 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let fpx_fp_mul_to_monic =
     foreign "FpX_Fp_mul_to_monic" (gen @-> gen @-> gen @-> returning gen)
@@ -1954,6 +2047,12 @@ module F6 (F : Ctypes.FOREIGN) = struct
     foreign "FpX_chinese_coprime"
       (gen @-> gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
 
+  let fpx_composedprod =
+    foreign "FpX_composedprod" (gen @-> gen @-> gen @-> returning gen)
+
+  let fpx_composedsum =
+    foreign "FpX_composedsum" (gen @-> gen @-> gen @-> returning gen)
+
   let fpx_convol = foreign "FpX_convol" (gen @-> gen @-> gen @-> returning gen)
   let fpx_deriv = foreign "FpX_deriv" (gen @-> gen @-> returning gen)
   let fpx_digits = foreign "FpX_digits" (gen @-> gen @-> gen @-> returning gen)
@@ -1967,10 +2066,6 @@ module F6 (F : Ctypes.FOREIGN) = struct
 
   let fpx_divu =
     foreign "FpX_divu" (gen @-> pari_ulong @-> gen @-> returning gen)
-end
-
-module F7 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let fpx_dotproduct =
     foreign "FpX_dotproduct" (gen @-> gen @-> gen @-> returning gen)
@@ -1979,6 +2074,10 @@ module F7 (F : Ctypes.FOREIGN) = struct
 
   let fpx_extgcd =
     foreign "FpX_extgcd"
+      (gen @-> gen @-> gen @-> ptr gen @-> ptr gen @-> returning gen)
+
+  let fpx_extresultant =
+    foreign "FpX_extresultant"
       (gen @-> gen @-> gen @-> ptr gen @-> ptr gen @-> returning gen)
 
   let fpx_fromnewton = foreign "FpX_fromNewton" (gen @-> gen @-> returning gen)
@@ -1990,6 +2089,11 @@ module F7 (F : Ctypes.FOREIGN) = struct
   let fpx_get_red = foreign "FpX_get_red" (gen @-> gen @-> returning gen)
   let fpx_halve = foreign "FpX_halve" (gen @-> gen @-> returning gen)
   let fpx_halfgcd = foreign "FpX_halfgcd" (gen @-> gen @-> gen @-> returning gen)
+
+  let fpx_halfgcd_all =
+    foreign "FpX_halfgcd_all"
+      (gen @-> gen @-> gen @-> ptr gen @-> ptr gen @-> returning gen)
+
   let fpx_integ = foreign "FpX_integ" (gen @-> gen @-> returning gen)
   let fpx_invbarrett = foreign "FpX_invBarrett" (gen @-> gen @-> returning gen)
   let fpx_invlaplace = foreign "FpX_invLaplace" (gen @-> gen @-> returning gen)
@@ -2118,6 +2222,9 @@ module F7 (F : Ctypes.FOREIGN) = struct
   let fpxv_chinese =
     foreign "FpXV_chinese" (gen @-> gen @-> gen @-> ptr gen @-> returning gen)
 
+  let fpxv_composedsum =
+    foreign "FpXV_composedsum" (gen @-> gen @-> returning gen)
+
   let fpxv_factorback =
     foreign "FpXV_factorback" (gen @-> gen @-> gen @-> long @-> returning gen)
 
@@ -2148,6 +2255,11 @@ module F7 (F : Ctypes.FOREIGN) = struct
 
   let fqc_to_mod = foreign "FqC_to_mod" (gen @-> gen @-> gen @-> returning gen)
   let fqm_to_mod = foreign "FqM_to_mod" (gen @-> gen @-> gen @-> returning gen)
+end
+
+module F8 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let fqv_inv = foreign "FqV_inv" (gen @-> gen @-> gen @-> returning gen)
   let z_to_fpx = foreign "Z_to_FpX" (gen @-> gen @-> long @-> returning gen)
 
@@ -2221,10 +2333,6 @@ module F7 (F : Ctypes.FOREIGN) = struct
       (gen @-> ptr long @-> pari_ulong @-> returning gen)
 
   let flx_nbroots = foreign "Flx_nbroots" (gen @-> pari_ulong @-> returning long)
-end
-
-module F8 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let flx_oneroot =
     foreign "Flx_oneroot" (gen @-> pari_ulong @-> returning pari_ulong)
@@ -2435,6 +2543,11 @@ module F8 (F : Ctypes.FOREIGN) = struct
 
   let factorff = foreign "factorff" (gen @-> gen @-> gen @-> returning gen)
   let factormod0 = foreign "factormod0" (gen @-> gen @-> long @-> returning gen)
+end
+
+module F9 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let factormodddf = foreign "factormodDDF" (gen @-> gen @-> returning gen)
   let factormodsqf = foreign "factormodSQF" (gen @-> gen @-> returning gen)
 
@@ -2486,6 +2599,10 @@ module F8 (F : Ctypes.FOREIGN) = struct
   let fpxqx_halfgcd =
     foreign "FpXQX_halfgcd" (gen @-> gen @-> gen @-> gen @-> returning gen)
 
+  let fpxqx_halfgcd_all =
+    foreign "FpXQX_halfgcd_all"
+      (gen @-> gen @-> gen @-> gen @-> ptr gen @-> ptr gen @-> returning gen)
+
   let fpxqx_invbarrett =
     foreign "FpXQX_invBarrett" (gen @-> gen @-> gen @-> returning gen)
 
@@ -2510,10 +2627,6 @@ module F8 (F : Ctypes.FOREIGN) = struct
 
   let fpxqxq_div =
     foreign "FpXQXQ_div" (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
-end
-
-module F9 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let fpxqxq_inv =
     foreign "FpXQXQ_inv" (gen @-> gen @-> gen @-> gen @-> returning gen)
@@ -2716,6 +2829,10 @@ module F9 (F : Ctypes.FOREIGN) = struct
   let flv_dotproduct =
     foreign "Flv_dotproduct"
       (gen @-> gen @-> pari_ulong @-> returning pari_ulong)
+end
+
+module F10 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let flv_dotproduct_pre =
     foreign "Flv_dotproduct_pre"
@@ -2777,10 +2894,6 @@ module F9 (F : Ctypes.FOREIGN) = struct
 
   let fpms_fpcs_solve =
     foreign "FpMs_FpCs_solve" (gen @-> gen @-> long @-> gen @-> returning gen)
-end
-
-module F10 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let fpms_fpcs_solve_safe =
     foreign "FpMs_FpCs_solve_safe"
@@ -2977,6 +3090,10 @@ module F10 (F : Ctypes.FOREIGN) = struct
   let zqx_liftfact =
     foreign "ZqX_liftfact"
       (gen @-> gen @-> gen @-> gen @-> gen @-> long @-> returning gen)
+end
+
+module F11 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let zqx_liftroot =
     foreign "ZqX_liftroot"
@@ -3045,10 +3162,6 @@ module F10 (F : Ctypes.FOREIGN) = struct
   let rgc_neg = foreign "RgC_neg" (gen @-> returning gen)
   let rgc_sub = foreign "RgC_sub" (gen @-> gen @-> returning gen)
   let rgm_rg_add = foreign "RgM_Rg_add" (gen @-> gen @-> returning gen)
-end
-
-module F11 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let rgm_rg_add_shallow =
     foreign "RgM_Rg_add_shallow" (gen @-> gen @-> returning gen)
@@ -3171,6 +3284,10 @@ module F11 (F : Ctypes.FOREIGN) = struct
 
   let rgm_to_rgxv_reverse =
     foreign "RgM_to_RgXV_reverse" (gen @-> long @-> returning gen)
+end
+
+module F12 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let rgm_to_rgxx =
     foreign "RgM_to_RgXX" (gen @-> long @-> long @-> returning gen)
@@ -3230,10 +3347,6 @@ module F11 (F : Ctypes.FOREIGN) = struct
 
   let rgx_divrem =
     foreign "RgX_divrem" (gen @-> gen @-> ptr gen @-> returning gen)
-end
-
-module F12 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let rgx_divs = foreign "RgX_divs" (gen @-> long @-> returning gen)
   let rgx_equal = foreign "RgX_equal" (gen @-> gen @-> returning long)
@@ -3367,6 +3480,11 @@ module F12 (F : Ctypes.FOREIGN) = struct
   let rgxn_eval = foreign "RgXn_eval" (gen @-> gen @-> long @-> returning gen)
   let rgxn_exp = foreign "RgXn_exp" (gen @-> long @-> returning gen)
   let rgxn_expint = foreign "RgXn_expint" (gen @-> long @-> returning gen)
+end
+
+module F13 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let rgxn_inv = foreign "RgXn_inv" (gen @-> long @-> returning gen)
   let rgxn_inv_i = foreign "RgXn_inv_i" (gen @-> long @-> returning gen)
   let rgxn_mul = foreign "RgXn_mul" (gen @-> gen @-> long @-> returning gen)
@@ -3436,10 +3554,6 @@ module F12 (F : Ctypes.FOREIGN) = struct
     foreign "rfrac_deflate_max" (gen @-> ptr long @-> returning gen)
 
   let rfrac_deflate = foreign "rfrac_deflate" (gen @-> long @-> returning gen)
-end
-
-module F13 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let zgc_g_mul_inplace =
     foreign "ZGC_G_mul_inplace" (gen @-> gen @-> returning void)
@@ -3545,6 +3659,11 @@ module F13 (F : Ctypes.FOREIGN) = struct
     foreign "ZM_reducemodmatrix" (gen @-> gen @-> returning gen)
 
   let zm_sqr = foreign "ZM_sqr" (gen @-> returning gen)
+end
+
+module F14 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let zm_sub = foreign "ZM_sub" (gen @-> gen @-> returning gen)
   let zm_supnorm = foreign "ZM_supnorm" (gen @-> returning gen)
   let zm_to_flm = foreign "ZM_to_Flm" (gen @-> pari_ulong @-> returning gen)
@@ -3579,11 +3698,6 @@ module F13 (F : Ctypes.FOREIGN) = struct
   let zv_to_nv = foreign "ZV_to_nv" (gen @-> returning gen)
   let zv_togglesign = foreign "ZV_togglesign" (gen @-> returning void)
   let gram_matrix = foreign "gram_matrix" (gen @-> returning gen)
-end
-
-module F14 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let nm_z_mul = foreign "nm_Z_mul" (gen @-> gen @-> returning gen)
   let zm_mul = foreign "zm_mul" (gen @-> gen @-> returning gen)
   let zm_to_flm = foreign "zm_to_Flm" (gen @-> pari_ulong @-> returning gen)
@@ -3684,6 +3798,11 @@ module F14 (F : Ctypes.FOREIGN) = struct
     foreign "ZXM_to_FlxM" (gen @-> pari_ulong @-> long @-> returning gen)
 
   let zxqm_mul = foreign "ZXQM_mul" (gen @-> gen @-> gen @-> returning gen)
+end
+
+module F15 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let zxqm_sqr = foreign "ZXQM_sqr" (gen @-> gen @-> returning gen)
 
   let zxqx_zxq_mul =
@@ -3739,10 +3858,6 @@ module F14 (F : Ctypes.FOREIGN) = struct
 
   let alg_csa_table =
     foreign "alg_csa_table" (gen @-> gen @-> long @-> long @-> returning gen)
-end
-
-module F15 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let alg_cyclic =
     foreign "alg_cyclic" (gen @-> gen @-> gen @-> long @-> returning gen)
@@ -3867,6 +3982,10 @@ module F15 (F : Ctypes.FOREIGN) = struct
     foreign "alglat_get_primbasis" (gen @-> returning gen)
 
   let alglat_get_scalar = foreign "alglat_get_scalar" (gen @-> returning gen)
+end
+
+module F16 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let alglatadd =
     foreign "alglatadd" (gen @-> gen @-> gen @-> ptr gen @-> returning gen)
@@ -3921,10 +4040,6 @@ module F15 (F : Ctypes.FOREIGN) = struct
 
   let checkhasse =
     foreign "checkhasse" (gen @-> gen @-> gen @-> long @-> returning void)
-end
-
-module F16 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let checklat = foreign "checklat" (gen @-> gen @-> returning void)
 
@@ -4085,6 +4200,11 @@ module F16 (F : Ctypes.FOREIGN) = struct
   let fqm_suppl = foreign "FqM_suppl" (gen @-> gen @-> gen @-> returning gen)
   let qm_image_shallow = foreign "QM_image_shallow" (gen @-> returning gen)
   let qm_image = foreign "QM_image" (gen @-> returning gen)
+end
+
+module F17 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let qm_gauss = foreign "QM_gauss" (gen @-> gen @-> returning gen)
   let qm_gauss_i = foreign "QM_gauss_i" (gen @-> gen @-> long @-> returning gen)
   let qm_indexrank = foreign "QM_indexrank" (gen @-> returning gen)
@@ -4136,10 +4256,6 @@ module F16 (F : Ctypes.FOREIGN) = struct
   let zlm_gauss =
     foreign "ZlM_gauss"
       (gen @-> gen @-> pari_ulong @-> long @-> gen @-> returning gen)
-end
-
-module F17 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let closemodinvertible =
     foreign "closemodinvertible" (gen @-> gen @-> returning gen)
@@ -4272,6 +4388,11 @@ module F17 (F : Ctypes.FOREIGN) = struct
   let matcompanion = foreign "matcompanion" (gen @-> returning gen)
   let matrixqz0 = foreign "matrixqz0" (gen @-> gen @-> returning gen)
   let minpoly = foreign "minpoly" (gen @-> long @-> returning gen)
+end
+
+module F18 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let qfgaussred = foreign "qfgaussred" (gen @-> returning gen)
   let qfgaussred_positive = foreign "qfgaussred_positive" (gen @-> returning gen)
   let qfsign = foreign "qfsign" (gen @-> returning gen)
@@ -4356,10 +4477,6 @@ module F17 (F : Ctypes.FOREIGN) = struct
   let parforprime_init =
     foreign "parforprime_init"
       (ptr parforprime_t @-> gen @-> gen @-> gen @-> returning void)
-end
-
-module F18 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let parforprime_next =
     foreign "parforprime_next" (ptr parforprime_t @-> returning gen)
@@ -4526,9 +4643,13 @@ module F18 (F : Ctypes.FOREIGN) = struct
   let primeform = foreign "primeform" (gen @-> gen @-> returning gen)
   let primeform_u = foreign "primeform_u" (gen @-> pari_ulong @-> returning gen)
   let qfb_1 = foreign "qfb_1" (gen @-> returning gen)
-  let qfb_equal1 = foreign "qfb_equal1" (gen @-> returning int)
   let qfbcomp = foreign "qfbcomp" (gen @-> gen @-> returning gen)
   let qfbcomp_i = foreign "qfbcomp_i" (gen @-> gen @-> returning gen)
+end
+
+module F19 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let qfbcompraw = foreign "qfbcompraw" (gen @-> gen @-> returning gen)
   let qfbcompraw_i = foreign "qfbcompraw_i" (gen @-> gen @-> returning gen)
   let qfbcornacchia = foreign "qfbcornacchia" (gen @-> gen @-> returning gen)
@@ -4546,9 +4667,6 @@ module F18 (F : Ctypes.FOREIGN) = struct
   let qfbsolve = foreign "qfbsolve" (gen @-> gen @-> long @-> returning gen)
   let qfbsqr = foreign "qfbsqr" (gen @-> returning gen)
   let qfbsqr_i = foreign "qfbsqr_i" (gen @-> returning gen)
-  let qfi_shanks = foreign "qfi_Shanks" (gen @-> gen @-> long @-> returning gen)
-  let qfi_log = foreign "qfi_log" (gen @-> gen @-> gen @-> returning gen)
-  let qfi_order = foreign "qfi_order" (gen @-> gen @-> returning gen)
   let qfisolvep = foreign "qfisolvep" (gen @-> gen @-> returning gen)
 
   let qfr3_comp =
@@ -4568,10 +4686,6 @@ module F18 (F : Ctypes.FOREIGN) = struct
 
   let qfr5_compraw = foreign "qfr5_compraw" (gen @-> gen @-> returning gen)
   let qfr5_dist = foreign "qfr5_dist" (gen @-> gen @-> long @-> returning gen)
-end
-
-module F19 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let qfr5_pow =
     foreign "qfr5_pow" (gen @-> gen @-> ptr qfr_data @-> returning gen)
@@ -4593,6 +4707,10 @@ module F19 (F : Ctypes.FOREIGN) = struct
 
   let fl_2gener_pre =
     foreign "Fl_2gener_pre" (pari_ulong @-> pari_ulong @-> returning pari_ulong)
+
+  let fl_2gener_pre_i =
+    foreign "Fl_2gener_pre_i"
+      (pari_ulong @-> pari_ulong @-> pari_ulong @-> returning pari_ulong)
 
   let fl_log =
     foreign "Fl_log"
@@ -4656,6 +4774,7 @@ module F19 (F : Ctypes.FOREIGN) = struct
      @-> returning pari_ulong)
 
   let fp_2gener = foreign "Fp_2gener" (gen @-> returning gen)
+  let fp_2gener_i = foreign "Fp_2gener_i" (gen @-> gen @-> returning gen)
 
   let fp_factored_order =
     foreign "Fp_factored_order" (gen @-> gen @-> gen @-> returning gen)
@@ -4750,6 +4869,10 @@ module F19 (F : Ctypes.FOREIGN) = struct
   let gboundcf = foreign "gboundcf" (gen @-> long @-> returning gen)
   let gcf = foreign "gcf" (gen @-> returning gen)
   let gcf2 = foreign "gcf2" (gen @-> gen @-> returning gen)
+end
+
+module F20 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let get_fp_field =
     foreign "get_Fp_field" (ptr (ptr void) @-> gen @-> returning (ptr bb_field))
@@ -4801,10 +4924,6 @@ module F19 (F : Ctypes.FOREIGN) = struct
       (gen @-> gen @-> gen @-> gen @-> returning gen)
 
   let nonsquare_fl = foreign "nonsquare_Fl" (pari_ulong @-> returning pari_ulong)
-end
-
-module F20 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let nxcv_chinese_center =
     foreign "nxCV_chinese_center" (gen @-> gen @-> ptr gen @-> returning gen)
@@ -4937,6 +5056,11 @@ module F20 (F : Ctypes.FOREIGN) = struct
   let omega = foreign "omega" (gen @-> returning long)
   let omegau = foreign "omegau" (pari_ulong @-> returning long)
   let sumdiv = foreign "sumdiv" (gen @-> returning gen)
+end
+
+module F21 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let sumdivk = foreign "sumdivk" (gen @-> long @-> returning gen)
   let uissquarefree = foreign "uissquarefree" (pari_ulong @-> returning long)
   let uissquarefree_fact = foreign "uissquarefree_fact" (gen @-> returning long)
@@ -4974,11 +5098,6 @@ module F20 (F : Ctypes.FOREIGN) = struct
   let checkprid_i = foreign "checkprid_i" (gen @-> returning int)
   let checkrnf = foreign "checkrnf" (gen @-> returning void)
   let checkrnf_i = foreign "checkrnf_i" (gen @-> returning int)
-end
-
-module F21 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let factoredpolred = foreign "factoredpolred" (gen @-> gen @-> returning gen)
   let factoredpolred2 = foreign "factoredpolred2" (gen @-> gen @-> returning gen)
   let galoisapply = foreign "galoisapply" (gen @-> gen @-> gen @-> returning gen)
@@ -5099,8 +5218,7 @@ module F21 (F : Ctypes.FOREIGN) = struct
   let rgx_nffix =
     foreign "RgX_nffix" (string @-> gen @-> gen @-> int @-> returning gen)
 
-  let zx_compositum_disjoint =
-    foreign "ZX_compositum_disjoint" (gen @-> gen @-> returning gen)
+  let zx_composedsum = foreign "ZX_composedsum" (gen @-> gen @-> returning gen)
 
   let zx_compositum =
     foreign "ZX_compositum" (gen @-> gen @-> ptr long @-> returning gen)
@@ -5125,6 +5243,11 @@ module F21 (F : Ctypes.FOREIGN) = struct
     foreign "ZpX_resultant_val" (gen @-> gen @-> gen @-> long @-> returning long)
 
   let checkmodpr = foreign "checkmodpr" (gen @-> returning void)
+end
+
+module F22 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let compositum = foreign "compositum" (gen @-> gen @-> returning gen)
   let compositum2 = foreign "compositum2" (gen @-> gen @-> returning gen)
   let nfdisc = foreign "nfdisc" (gen @-> returning gen)
@@ -5179,10 +5302,6 @@ module F21 (F : Ctypes.FOREIGN) = struct
   let idealprimedec_kummer =
     foreign "idealprimedec_kummer"
       (gen @-> gen @-> long @-> gen @-> returning gen)
-end
-
-module F22 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let idealprimedec_limit_f =
     foreign "idealprimedec_limit_f" (gen @-> gen @-> long @-> returning gen)
@@ -5333,6 +5452,10 @@ module F22 (F : Ctypes.FOREIGN) = struct
     foreign "nfeltembed_i" (ptr gen @-> gen @-> gen @-> long @-> returning gen)
 
   let nfeltsign = foreign "nfeltsign" (gen @-> gen @-> gen @-> returning gen)
+end
+
+module F23 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let nffactorback =
     foreign "nffactorback" (gen @-> gen @-> gen @-> returning gen)
@@ -5377,11 +5500,6 @@ module F22 (F : Ctypes.FOREIGN) = struct
   let nfsqri = foreign "nfsqri" (gen @-> gen @-> returning gen)
   let nfsub = foreign "nfsub" (gen @-> gen @-> gen @-> returning gen)
   let nftrace = foreign "nftrace" (gen @-> gen @-> returning gen)
-end
-
-module F23 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let nfval = foreign "nfval" (gen @-> gen @-> gen @-> returning long)
 
   let nfvalrem =
@@ -5545,6 +5663,10 @@ module F23 (F : Ctypes.FOREIGN) = struct
   let idealappr = foreign "idealappr" (gen @-> gen @-> returning gen)
   let idealappr0 = foreign "idealappr0" (gen @-> gen @-> long @-> returning gen)
   let idealapprfact = foreign "idealapprfact" (gen @-> gen @-> returning gen)
+end
+
+module F24 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let idealchinese =
     foreign "idealchinese" (gen @-> gen @-> gen @-> returning gen)
@@ -5606,11 +5728,6 @@ module F23 (F : Ctypes.FOREIGN) = struct
 
   let idealmulred = foreign "idealmulred" (gen @-> gen @-> gen @-> returning gen)
   let idealnorm = foreign "idealnorm" (gen @-> gen @-> returning gen)
-end
-
-module F24 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let idealnumden = foreign "idealnumden" (gen @-> gen @-> returning gen)
   let idealpow = foreign "idealpow" (gen @-> gen @-> gen @-> returning gen)
 
@@ -5745,6 +5862,11 @@ module F24 (F : Ctypes.FOREIGN) = struct
   let rnfidealdown = foreign "rnfidealdown" (gen @-> gen @-> returning gen)
   let rnfidealfactor = foreign "rnfidealfactor" (gen @-> gen @-> returning gen)
   let rnfidealhnf = foreign "rnfidealhnf" (gen @-> gen @-> returning gen)
+end
+
+module F25 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let rnfidealmul = foreign "rnfidealmul" (gen @-> gen @-> gen @-> returning gen)
   let rnfidealnormabs = foreign "rnfidealnormabs" (gen @-> gen @-> returning gen)
   let rnfidealnormrel = foreign "rnfidealnormrel" (gen @-> gen @-> returning gen)
@@ -5835,10 +5957,6 @@ module F24 (F : Ctypes.FOREIGN) = struct
       @-> static_funptr Ctypes.(ptr void @-> gen @-> returning gen)
       @-> static_funptr Ctypes.(ptr void @-> gen @-> returning gen)
       @-> returning gen)
-end
-
-module F25 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let gen_pow_fold_i =
     foreign "gen_pow_fold_i"
@@ -6025,6 +6143,11 @@ module F25 (F : Ctypes.FOREIGN) = struct
     foreign "ZV_union_shallow" (gen @-> gen @-> returning gen)
 
   let binomial = foreign "binomial" (gen @-> long @-> returning gen)
+end
+
+module F26 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let binomial0 = foreign "binomial0" (gen @-> gen @-> returning gen)
 
   let binomialuu =
@@ -6104,11 +6227,6 @@ module F25 (F : Ctypes.FOREIGN) = struct
 
   let getstack = foreign "getstack" (void @-> returning long)
   let gettime = foreign "gettime" (void @-> returning long)
-end
-
-module F26 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let getabstime = foreign "getabstime" (void @-> returning long)
   let getwalltime = foreign "getwalltime" (void @-> returning gen)
   let gprec = foreign "gprec" (gen @-> long @-> returning gen)
@@ -6241,6 +6359,10 @@ module F26 (F : Ctypes.FOREIGN) = struct
 
   let nv_fromdigits_2k =
     foreign "nv_fromdigits_2k" (gen @-> long @-> returning gen)
+end
+
+module F27 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let bnflogef = foreign "bnflogef" (gen @-> gen @-> returning gen)
   let bnflog = foreign "bnflog" (gen @-> gen @-> returning gen)
@@ -6289,10 +6411,6 @@ module F26 (F : Ctypes.FOREIGN) = struct
 
   let bnfisprincipal0 =
     foreign "bnfisprincipal0" (gen @-> gen @-> long @-> returning gen)
-end
-
-module F27 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let bnfnewprec = foreign "bnfnewprec" (gen @-> long @-> returning gen)
 
@@ -6456,6 +6574,10 @@ module F27 (F : Ctypes.FOREIGN) = struct
   let charconj0 = foreign "charconj0" (gen @-> gen @-> returning gen)
   let chardiv = foreign "chardiv" (gen @-> gen @-> gen @-> returning gen)
   let chardiv0 = foreign "chardiv0" (gen @-> gen @-> gen @-> returning gen)
+end
+
+module F28 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let chareval =
     foreign "chareval" (gen @-> gen @-> gen @-> gen @-> returning gen)
@@ -6496,11 +6618,6 @@ module F27 (F : Ctypes.FOREIGN) = struct
     foreign "zncharinduce" (gen @-> gen @-> gen @-> returning gen)
 
   let zncharisodd = foreign "zncharisodd" (gen @-> gen @-> returning long)
-end
-
-module F28 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let zncharker = foreign "zncharker" (gen @-> gen @-> returning gen)
   let zncharmul = foreign "zncharmul" (gen @-> gen @-> gen @-> returning gen)
   let zncharorder = foreign "zncharorder" (gen @-> gen @-> returning gen)
@@ -6652,6 +6769,11 @@ module F28 (F : Ctypes.FOREIGN) = struct
     foreign "setrealprecision" (long @-> ptr long @-> returning long)
 
   let digits = foreign "digits" (gen @-> gen @-> returning gen)
+end
+
+module F29 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let fromdigits = foreign "fromdigits" (gen @-> gen @-> returning gen)
   let fromdigitsu = foreign "fromdigitsu" (gen @-> gen @-> returning gen)
 
@@ -6696,11 +6818,6 @@ module F28 (F : Ctypes.FOREIGN) = struct
   let sd_readline = foreign "sd_readline" (string @-> long @-> returning gen)
   let sd_recover = foreign "sd_recover" (string @-> long @-> returning gen)
   let sd_timer = foreign "sd_timer" (string @-> long @-> returning gen)
-end
-
-module F29 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let pari_hit_return = foreign "pari_hit_return" (void @-> returning void)
   let gp_load_gprc = foreign "gp_load_gprc" (void @-> returning void)
   let gp_meta = foreign "gp_meta" (string @-> int @-> returning int)
@@ -6807,17 +6924,20 @@ module F29 (F : Ctypes.FOREIGN) = struct
   let ec_3divpol_evalx =
     foreign "ec_3divpol_evalx" (gen @-> gen @-> returning gen)
 
-  let ec_bmodel = foreign "ec_bmodel" (gen @-> returning gen)
+  let ec_bmodel = foreign "ec_bmodel" (gen @-> long @-> returning gen)
   let ec_f_evalx = foreign "ec_f_evalx" (gen @-> gen @-> returning gen)
   let ec_h_evalx = foreign "ec_h_evalx" (gen @-> gen @-> returning gen)
   let ec_dfdx_evalq = foreign "ec_dFdx_evalQ" (gen @-> gen @-> returning gen)
   let ec_dfdy_evalq = foreign "ec_dFdy_evalQ" (gen @-> gen @-> returning gen)
   let ec_dmfdy_evalq = foreign "ec_dmFdy_evalQ" (gen @-> gen @-> returning gen)
 
+  let ec_half_deriv_2divpol =
+    foreign "ec_half_deriv_2divpol" (gen @-> long @-> returning gen)
+
   let ec_half_deriv_2divpol_evalx =
     foreign "ec_half_deriv_2divpol_evalx" (gen @-> gen @-> returning gen)
 
-  let ec_phi2 = foreign "ec_phi2" (gen @-> returning gen)
+  let ec_phi2 = foreign "ec_phi2" (gen @-> long @-> returning gen)
   let ell_is_integral = foreign "ell_is_integral" (gen @-> returning int)
   let ellq_get_cm = foreign "ellQ_get_CM" (gen @-> returning long)
   let ellq_get_n = foreign "ellQ_get_N" (gen @-> returning gen)
@@ -6838,6 +6958,10 @@ module F29 (F : Ctypes.FOREIGN) = struct
 
   let ellqtwist_bsdperiod =
     foreign "ellQtwist_bsdperiod" (gen @-> long @-> returning gen)
+end
+
+module F30 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let ellr_area = foreign "ellR_area" (gen @-> long @-> returning gen)
   let ellr_ab = foreign "ellR_ab" (gen @-> long @-> returning gen)
@@ -6878,11 +7002,6 @@ module F29 (F : Ctypes.FOREIGN) = struct
   let ellff_get_group = foreign "ellff_get_group" (gen @-> returning gen)
   let ellff_get_o = foreign "ellff_get_o" (gen @-> returning gen)
   let ellff_get_p = foreign "ellff_get_p" (gen @-> returning gen)
-end
-
-module F30 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let ellff_get_m = foreign "ellff_get_m" (gen @-> returning gen)
   let ellff_get_d = foreign "ellff_get_D" (gen @-> returning gen)
   let ellfromj = foreign "ellfromj" (gen @-> returning gen)
@@ -6910,6 +7029,7 @@ module F30 (F : Ctypes.FOREIGN) = struct
   let ellintegralmodel_i =
     foreign "ellintegralmodel_i" (gen @-> ptr gen @-> returning gen)
 
+  let elliscm = foreign "elliscm" (gen @-> returning long)
   let ellisoncurve = foreign "ellisoncurve" (gen @-> gen @-> returning gen)
   let ellisotree = foreign "ellisotree" (gen @-> returning gen)
 
@@ -6967,6 +7087,7 @@ module F30 (F : Ctypes.FOREIGN) = struct
     foreign "ellsigma" (gen @-> gen @-> long @-> long @-> returning gen)
 
   let ellsub = foreign "ellsub" (gen @-> gen @-> gen @-> returning gen)
+  let ellsupersingularj = foreign "ellsupersingularj" (gen @-> returning gen)
   let elltamagawa = foreign "elltamagawa" (gen @-> returning gen)
   let elltaniyama = foreign "elltaniyama" (gen @-> long @-> returning gen)
 
@@ -7028,6 +7149,10 @@ module F30 (F : Ctypes.FOREIGN) = struct
 
   let ellformalpoint =
     foreign "ellformalpoint" (gen @-> long @-> long @-> returning gen)
+end
+
+module F31 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let ellformalw = foreign "ellformalw" (gen @-> long @-> long @-> returning gen)
 
@@ -7106,11 +7231,6 @@ module F30 (F : Ctypes.FOREIGN) = struct
   let externstr = foreign "externstr" (string @-> returning gen)
   let gp_filter = foreign "gp_filter" (string @-> returning string)
   let gpextern = foreign "gpextern" (string @-> returning gen)
-end
-
-module F31 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let gpsystem = foreign "gpsystem" (string @-> returning long)
   let readstr = foreign "readstr" (string @-> returning gen)
   let gentogenstr_nospace = foreign "GENtoGENstr_nospace" (gen @-> returning gen)
@@ -7217,6 +7337,11 @@ module F31 (F : Ctypes.FOREIGN) = struct
   let printp = foreign "printp" (gen @-> returning void)
   let print1 = foreign "print1" (gen @-> returning void)
   let printf0 = foreign "printf0" (string @-> gen @-> returning void)
+end
+
+module F32 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let printsep = foreign "printsep" (string @-> gen @-> returning void)
   let printsep1 = foreign "printsep1" (string @-> gen @-> returning void)
   let printtex = foreign "printtex" (gen @-> returning void)
@@ -7267,10 +7392,6 @@ module F31 (F : Ctypes.FOREIGN) = struct
 
   let closure_callgenvec =
     foreign "closure_callgenvec" (gen @-> gen @-> returning gen)
-end
-
-module F32 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let closure_callgenvecdef =
     foreign "closure_callgenvecdef" (gen @-> gen @-> gen @-> returning gen)
@@ -7414,6 +7535,10 @@ module F32 (F : Ctypes.FOREIGN) = struct
 
   let ff_z_z_muldiv =
     foreign "FF_Z_Z_muldiv" (gen @-> gen @-> gen @-> returning gen)
+end
+
+module F33 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let ff_q_add = foreign "FF_Q_add" (gen @-> gen @-> returning gen)
   let ff_z_add = foreign "FF_Z_add" (gen @-> gen @-> returning gen)
@@ -7457,11 +7582,6 @@ module F32 (F : Ctypes.FOREIGN) = struct
     foreign "FF_ispower" (gen @-> gen @-> ptr gen @-> returning long)
 
   let ff_log = foreign "FF_log" (gen @-> gen @-> gen @-> returning gen)
-end
-
-module F33 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let ff_map = foreign "FF_map" (gen @-> gen @-> returning gen)
   let ff_minpoly = foreign "FF_minpoly" (gen @-> returning gen)
   let ff_mod = foreign "FF_mod" (gen @-> returning gen)
@@ -7529,6 +7649,10 @@ module F33 (F : Ctypes.FOREIGN) = struct
   let ffx_gcd = foreign "FFX_gcd" (gen @-> gen @-> gen @-> returning gen)
   let ffx_halfgcd = foreign "FFX_halfgcd" (gen @-> gen @-> gen @-> returning gen)
 
+  let ffx_halfgcd_all =
+    foreign "FFX_halfgcd_all"
+      (gen @-> gen @-> gen @-> ptr gen @-> ptr gen @-> returning gen)
+
   let ffx_ispower =
     foreign "FFX_ispower" (gen @-> long @-> gen @-> ptr gen @-> returning long)
 
@@ -7563,6 +7687,11 @@ module F33 (F : Ctypes.FOREIGN) = struct
   let ffextend = foreign "ffextend" (gen @-> gen @-> long @-> returning gen)
   let fffrobenius = foreign "fffrobenius" (gen @-> long @-> returning gen)
   let ffgen = foreign "ffgen" (gen @-> long @-> returning gen)
+end
+
+module F34 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let ffinvmap = foreign "ffinvmap" (gen @-> returning gen)
   let fflog = foreign "fflog" (gen @-> gen @-> gen @-> returning gen)
   let ffmap = foreign "ffmap" (gen @-> gen @-> returning gen)
@@ -7609,10 +7738,6 @@ module F33 (F : Ctypes.FOREIGN) = struct
 
   let galoisisabelian =
     foreign "galoisisabelian" (gen @-> long @-> returning gen)
-end
-
-module F34 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let galoisisnormal = foreign "galoisisnormal" (gen @-> gen @-> returning long)
   let galoispermtopol = foreign "galoispermtopol" (gen @-> gen @-> returning gen)
@@ -7739,6 +7864,11 @@ module F34 (F : Ctypes.FOREIGN) = struct
   let cx_approx0 = foreign "cx_approx0" (gen @-> gen @-> returning int)
   let gabs = foreign "gabs" (gen @-> long @-> returning gen)
   let gaffect = foreign "gaffect" (gen @-> gen @-> returning void)
+end
+
+module F35 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let gaffsg = foreign "gaffsg" (long @-> gen @-> returning void)
   let gcmp = foreign "gcmp" (gen @-> gen @-> returning int)
   let gequal0 = foreign "gequal0" (gen @-> returning int)
@@ -7769,11 +7899,6 @@ module F34 (F : Ctypes.FOREIGN) = struct
   let listinsert = foreign "listinsert" (gen @-> gen @-> long @-> returning gen)
   let listpop = foreign "listpop" (gen @-> long @-> returning void)
   let listpop0 = foreign "listpop0" (gen @-> long @-> returning void)
-end
-
-module F35 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let listput = foreign "listput" (gen @-> gen @-> long @-> returning gen)
   let listput0 = foreign "listput0" (gen @-> gen @-> long @-> returning gen)
   let listsort = foreign "listsort" (gen @-> long @-> returning void)
@@ -7896,6 +8021,11 @@ module F35 (F : Ctypes.FOREIGN) = struct
 
   let rgx_deflate_order = foreign "RgX_deflate_order" (gen @-> returning long)
   let rgx_degree = foreign "RgX_degree" (gen @-> long @-> returning long)
+end
+
+module F36 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let rgx_integ = foreign "RgX_integ" (gen @-> returning gen)
 
   let rgxy_cxevalx =
@@ -7940,11 +8070,6 @@ module F35 (F : Ctypes.FOREIGN) = struct
   let gdivent = foreign "gdivent" (gen @-> gen @-> returning gen)
   let gdiventgs = foreign "gdiventgs" (gen @-> long @-> returning gen)
   let gdiventsg = foreign "gdiventsg" (long @-> gen @-> returning gen)
-end
-
-module F36 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let gdiventres = foreign "gdiventres" (gen @-> gen @-> returning gen)
   let gdivmod = foreign "gdivmod" (gen @-> gen @-> ptr gen @-> returning gen)
   let gdivround = foreign "gdivround" (gen @-> gen @-> returning gen)
@@ -8018,6 +8143,11 @@ module F36 (F : Ctypes.FOREIGN) = struct
   let liftall = foreign "liftall" (gen @-> returning gen)
   let liftall_shallow = foreign "liftall_shallow" (gen @-> returning gen)
   let liftint = foreign "liftint" (gen @-> returning gen)
+end
+
+module F37 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let liftint_shallow = foreign "liftint_shallow" (gen @-> returning gen)
   let liftpol = foreign "liftpol" (gen @-> returning gen)
   let liftpol_shallow = foreign "liftpol_shallow" (gen @-> returning gen)
@@ -8027,6 +8157,7 @@ module F36 (F : Ctypes.FOREIGN) = struct
   let mkvecn = foreign "mkvecn" (long @-> returning gen)
   let mkvecsmalln = foreign "mkvecsmalln" (long @-> returning gen)
   let modrr_safe = foreign "modRr_safe" (gen @-> gen @-> returning gen)
+  let modrr_i = foreign "modRr_i" (gen @-> gen @-> gen @-> returning gen)
   let mulreal = foreign "mulreal" (gen @-> gen @-> returning gen)
   let numer = foreign "numer" (gen @-> returning gen)
   let numer_i = foreign "numer_i" (gen @-> returning gen)
@@ -8048,11 +8179,6 @@ module F36 (F : Ctypes.FOREIGN) = struct
   let qfevalb = foreign "qfevalb" (gen @-> gen @-> gen @-> returning gen)
   let qfnorm = foreign "qfnorm" (gen @-> gen @-> returning gen)
   let real_i = foreign "real_i" (gen @-> returning gen)
-end
-
-module F37 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let round0 = foreign "round0" (gen @-> ptr gen @-> returning gen)
   let roundr = foreign "roundr" (gen @-> returning gen)
   let roundr_safe = foreign "roundr_safe" (gen @-> returning gen)
@@ -8227,6 +8353,10 @@ module F37 (F : Ctypes.FOREIGN) = struct
       (gen @-> pari_ulong @-> long @-> returning gen)
 
   let hyperellred = foreign "hyperellred" (gen @-> ptr gen @-> returning gen)
+end
+
+module F38 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let nfhyperellpadicfrobenius =
     foreign "nfhyperellpadicfrobenius"
@@ -8301,11 +8431,6 @@ module F37 (F : Ctypes.FOREIGN) = struct
 
   let gsmith = foreign "gsmith" (gen @-> returning gen)
   let gsmithall = foreign "gsmithall" (gen @-> returning gen)
-end
-
-module F38 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let hnf = foreign "hnf" (gen @-> returning gen)
 
   let hnf_divscale =
@@ -8439,6 +8564,11 @@ module F38 (F : Ctypes.FOREIGN) = struct
   let copy_bin = foreign "copy_bin" (gen @-> returning (ptr genbin))
   let copy_bin_canon = foreign "copy_bin_canon" (gen @-> returning (ptr genbin))
   let dbg_gerepile = foreign "dbg_gerepile" (pari_sp @-> returning void)
+end
+
+module F39 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let dbg_gerepileupto = foreign "dbg_gerepileupto" (gen @-> returning void)
   let errname = foreign "errname" (gen @-> returning gen)
   let gclone = foreign "gclone" (gen @-> returning gen)
@@ -8507,10 +8637,6 @@ module F38 (F : Ctypes.FOREIGN) = struct
       @-> static_funptr Ctypes.(gen @-> long @-> returning gen)
       @-> static_funptr Ctypes.(gen @-> returning long)
       @-> long @-> returning gen)
-end
-
-module F39 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let obj_free = foreign "obj_free" (gen @-> returning void)
   let obj_init = foreign "obj_init" (long @-> long @-> returning gen)
@@ -8704,6 +8830,10 @@ module F39 (F : Ctypes.FOREIGN) = struct
       (ptr void
       @-> static_funptr Ctypes.(ptr void @-> gen @-> returning gen)
       @-> gen @-> gen @-> long @-> returning gen)
+end
+
+module F40 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let sumnummonieninit =
     foreign "sumnummonieninit" (gen @-> gen @-> gen @-> long @-> returning gen)
@@ -8772,11 +8902,6 @@ module F39 (F : Ctypes.FOREIGN) = struct
   let rnfkummer = foreign "rnfkummer" (gen @-> gen @-> long @-> returning gen)
   let is_linit = foreign "is_linit" (gen @-> returning long)
   let ldata_get_an = foreign "ldata_get_an" (gen @-> returning gen)
-end
-
-module F40 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let ldata_get_dual = foreign "ldata_get_dual" (gen @-> returning gen)
   let ldata_get_gammavec = foreign "ldata_get_gammavec" (gen @-> returning gen)
   let ldata_get_degree = foreign "ldata_get_degree" (gen @-> returning long)
@@ -8897,6 +9022,11 @@ module F40 (F : Ctypes.FOREIGN) = struct
     foreign "znchargauss" (gen @-> gen @-> gen @-> long @-> returning gen)
 
   let dirzetak = foreign "dirzetak" (gen @-> gen @-> returning gen)
+end
+
+module F41 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let ellmoddegree = foreign "ellmoddegree" (gen @-> returning gen)
   let eta_zxn = foreign "eta_ZXn" (long @-> long @-> returning gen)
 
@@ -8954,11 +9084,6 @@ module F40 (F : Ctypes.FOREIGN) = struct
   let lllgramkerim = foreign "lllgramkerim" (gen @-> returning gen)
   let lllgramkerimgen = foreign "lllgramkerimgen" (gen @-> returning gen)
   let lllint = foreign "lllint" (gen @-> returning gen)
-end
-
-module F41 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let lllintpartial = foreign "lllintpartial" (gen @-> returning gen)
 
   let lllintpartial_inplace =
@@ -9048,6 +9173,11 @@ module F41 (F : Ctypes.FOREIGN) = struct
   let member_tate = foreign "member_tate" (gen @-> returning gen)
   let member_tu = foreign "member_tu" (gen @-> returning gen)
   let member_zk = foreign "member_zk" (gen @-> returning gen)
+end
+
+module F42 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let member_zkst = foreign "member_zkst" (gen @-> returning gen)
   let mf_get_chi = foreign "MF_get_CHI" (gen @-> returning gen)
   let mf_get_m = foreign "MF_get_M" (gen @-> returning gen)
@@ -9091,11 +9221,6 @@ module F41 (F : Ctypes.FOREIGN) = struct
 
   let lfunmf = foreign "lfunmf" (gen @-> gen @-> long @-> returning gen)
   let mfdelta = foreign "mfDelta" (void @-> returning gen)
-end
-
-module F42 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let mfeh = foreign "mfEH" (gen @-> returning gen)
   let mfek = foreign "mfEk" (long @-> returning gen)
   let mftheta = foreign "mfTheta" (gen @-> returning gen)
@@ -9189,6 +9314,10 @@ module F42 (F : Ctypes.FOREIGN) = struct
 
   let mfperiodpol =
     foreign "mfperiodpol" (gen @-> gen @-> long @-> long @-> returning gen)
+end
+
+module F43 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let mfperiodpolbasis =
     foreign "mfperiodpolbasis" (long @-> long @-> returning gen)
@@ -9245,11 +9374,6 @@ module F42 (F : Ctypes.FOREIGN) = struct
   let zm2_mul = foreign "ZM2_mul" (gen @-> gen @-> returning gen)
   let abscmpii = foreign "abscmpii" (gen @-> gen @-> returning int)
   let abscmprr = foreign "abscmprr" (gen @-> gen @-> returning int)
-end
-
-module F43 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let absequalii = foreign "absequalii" (gen @-> gen @-> returning int)
 
   let addii_sign =
@@ -9357,6 +9481,11 @@ module F43 (F : Ctypes.FOREIGN) = struct
   let shifti = foreign "shifti" (gen @-> long @-> returning gen)
   let sqri = foreign "sqri" (gen @-> returning gen)
   let sqrr = foreign "sqrr" (gen @-> returning gen)
+end
+
+module F44 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let sqrs = foreign "sqrs" (long @-> returning gen)
   let sqrtr_abs = foreign "sqrtr_abs" (gen @-> returning gen)
   let sqrtremi = foreign "sqrtremi" (gen @-> ptr gen @-> returning gen)
@@ -9412,10 +9541,6 @@ module F43 (F : Ctypes.FOREIGN) = struct
     foreign "rnfabelianconjgen" (gen @-> gen @-> returning gen)
 
   let rnfisabelian = foreign "rnfisabelian" (gen @-> gen @-> returning long)
-end
-
-module F44 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let forpart =
     foreign "forpart"
@@ -9552,6 +9677,11 @@ module F44 (F : Ctypes.FOREIGN) = struct
   let permtonum = foreign "permtonum" (gen @-> returning gen)
   let quotient_group = foreign "quotient_group" (gen @-> gen @-> returning gen)
   let quotient_groupelts = foreign "quotient_groupelts" (gen @-> returning gen)
+end
+
+module F45 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let quotient_perm = foreign "quotient_perm" (gen @-> gen @-> returning gen)
 
   let quotient_subgroup_lift =
@@ -9617,10 +9747,6 @@ module F44 (F : Ctypes.FOREIGN) = struct
   let mt_queue_get =
     foreign "mt_queue_get"
       (ptr pari_mt @-> ptr long @-> ptr long @-> returning gen)
-end
-
-module F45 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let mt_queue_start =
     foreign "mt_queue_start" (ptr pari_mt @-> gen @-> returning void)
@@ -9808,6 +9934,11 @@ module F45 (F : Ctypes.FOREIGN) = struct
 
   let q_content = foreign "Q_content" (gen @-> returning gen)
   let q_content_safe = foreign "Q_content_safe" (gen @-> returning gen)
+end
+
+module F46 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let q_denom = foreign "Q_denom" (gen @-> returning gen)
   let q_denom_safe = foreign "Q_denom_safe" (gen @-> returning gen)
   let q_div_to_int = foreign "Q_div_to_int" (gen @-> gen @-> returning gen)
@@ -9874,6 +10005,11 @@ module F45 (F : Ctypes.FOREIGN) = struct
   let rgx_gcd = foreign "RgX_gcd" (gen @-> gen @-> returning gen)
   let rgx_gcd_simple = foreign "RgX_gcd_simple" (gen @-> gen @-> returning gen)
   let rgx_halfgcd = foreign "RgX_halfgcd" (gen @-> gen @-> returning gen)
+
+  let rgx_halfgcd_all =
+    foreign "RgX_halfgcd_all"
+      (gen @-> gen @-> ptr gen @-> ptr gen @-> returning gen)
+
   let rgx_rescale_to_int = foreign "RgX_rescale_to_int" (gen @-> returning gen)
 
   let rgx_resultant_all =
@@ -9887,10 +10023,6 @@ module F45 (F : Ctypes.FOREIGN) = struct
   let rgx_type =
     foreign "RgX_type"
       (gen @-> ptr gen @-> ptr gen @-> ptr long @-> returning long)
-end
-
-module F46 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let rgx_type2 =
     foreign "RgX_type2"
@@ -10031,6 +10163,10 @@ module F46 (F : Ctypes.FOREIGN) = struct
 
   let fq_fp_mul =
     foreign "Fq_Fp_mul" (gen @-> gen @-> gen @-> gen @-> returning gen)
+end
+
+module F47 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let fq_add = foreign "Fq_add" (gen @-> gen @-> gen @-> gen @-> returning gen)
   let fq_div = foreign "Fq_div" (gen @-> gen @-> gen @-> gen @-> returning gen)
@@ -10102,11 +10238,6 @@ module F46 (F : Ctypes.FOREIGN) = struct
 
   let qx_disc = foreign "QX_disc" (gen @-> returning gen)
   let qx_gcd = foreign "QX_gcd" (gen @-> gen @-> returning gen)
-end
-
-module F47 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let qx_resultant = foreign "QX_resultant" (gen @-> gen @-> returning gen)
   let qxq_div = foreign "QXQ_div" (gen @-> gen @-> gen @-> returning gen)
   let qxq_intnorm = foreign "QXQ_intnorm" (gen @-> gen @-> returning gen)
@@ -10248,6 +10379,10 @@ module F47 (F : Ctypes.FOREIGN) = struct
 
   let polmodular_zxx =
     foreign "polmodular_ZXX" (long @-> long @-> long @-> long @-> returning gen)
+end
+
+module F48 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let bpsw_isprime = foreign "BPSW_isprime" (gen @-> returning long)
   let bpsw_psp = foreign "BPSW_psp" (gen @-> returning long)
@@ -10297,11 +10432,6 @@ module F47 (F : Ctypes.FOREIGN) = struct
   let uispsp = foreign "uispsp" (pari_ulong @-> pari_ulong @-> returning int)
   let uislucaspsp = foreign "uislucaspsp" (pari_ulong @-> returning int)
   let uisprime = foreign "uisprime" (pari_ulong @-> returning int)
-end
-
-module F48 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let uisprime_101 = foreign "uisprime_101" (pari_ulong @-> returning int)
   let uisprime_661 = foreign "uisprime_661" (pari_ulong @-> returning int)
   let uprime = foreign "uprime" (long @-> returning pari_ulong)
@@ -10327,7 +10457,11 @@ module F48 (F : Ctypes.FOREIGN) = struct
   let hclassno = foreign "hclassno" (gen @-> returning gen)
   let hclassno6 = foreign "hclassno6" (gen @-> returning gen)
   let isfundamental = foreign "isfundamental" (gen @-> returning long)
+  let qfb_equal1 = foreign "qfb_equal1" (gen @-> returning int)
   let qfbclassno0 = foreign "qfbclassno0" (gen @-> long @-> returning gen)
+  let qfi_shanks = foreign "qfi_Shanks" (gen @-> gen @-> long @-> returning gen)
+  let qfi_log = foreign "qfi_log" (gen @-> gen @-> gen @-> returning gen)
+  let qfi_order = foreign "qfi_order" (gen @-> gen @-> returning gen)
   let quadclassnof = foreign "quadclassnoF" (gen @-> ptr gen @-> returning gen)
 
   let quadclassnof_fact =
@@ -10403,6 +10537,10 @@ module F48 (F : Ctypes.FOREIGN) = struct
   let roots = foreign "roots" (gen @-> long @-> returning gen)
   let realroots = foreign "realroots" (gen @-> gen @-> long @-> returning gen)
   let zx_graeffe = foreign "ZX_graeffe" (gen @-> returning gen)
+end
+
+module F49 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let zx_realroots_irred =
     foreign "ZX_realroots_irred" (gen @-> long @-> returning gen)
@@ -10477,11 +10615,6 @@ module F48 (F : Ctypes.FOREIGN) = struct
   let pari_strchr = foreign "pari_strchr" (gen @-> returning gen)
   let strjoin = foreign "strjoin" (gen @-> gen @-> returning gen)
   let strntogenstr = foreign "strntoGENstr" (string @-> long @-> returning gen)
-end
-
-module F49 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let strsplit = foreign "strsplit" (gen @-> gen @-> returning gen)
   let strtogenstr = foreign "strtoGENstr" (string @-> returning gen)
   let type_name = foreign "type_name" (long @-> returning string)
@@ -10654,6 +10787,11 @@ module F49 (F : Ctypes.FOREIGN) = struct
   let gpowers0 = foreign "gpowers0" (gen @-> long @-> gen @-> returning gen)
   let gpowgs = foreign "gpowgs" (gen @-> long @-> returning gen)
   let grootsof1 = foreign "grootsof1" (long @-> long @-> returning gen)
+end
+
+module F50 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let gsin = foreign "gsin" (gen @-> long @-> returning gen)
   let gsinc = foreign "gsinc" (gen @-> long @-> returning gen)
 
@@ -10709,10 +10847,6 @@ module F49 (F : Ctypes.FOREIGN) = struct
 
   let rootsof1q_cx =
     foreign "rootsof1q_cx" (long @-> long @-> long @-> returning gen)
-end
-
-module F50 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let rootsof1powinit =
     foreign "rootsof1powinit" (long @-> long @-> long @-> returning gen)
@@ -10817,6 +10951,11 @@ module F50 (F : Ctypes.FOREIGN) = struct
   let jbessel = foreign "jbessel" (gen @-> gen @-> long @-> returning gen)
   let jbesselh = foreign "jbesselh" (gen @-> gen @-> long @-> returning gen)
   let jell = foreign "jell" (gen @-> long @-> returning gen)
+end
+
+module F51 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let kbessel = foreign "kbessel" (gen @-> gen @-> long @-> returning gen)
   let mpeint1 = foreign "mpeint1" (gen @-> gen @-> returning gen)
   let mpveceint1 = foreign "mpveceint1" (gen @-> gen @-> long @-> returning gen)
@@ -10878,11 +11017,6 @@ module F50 (F : Ctypes.FOREIGN) = struct
 
   let mfnumcuspsu = foreign "mfnumcuspsu" (pari_ulong @-> returning pari_ulong)
   let msfromcusp = foreign "msfromcusp" (gen @-> gen @-> returning gen)
-end
-
-module F51 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let msfromell = foreign "msfromell" (gen @-> long @-> returning gen)
   let msfromhecke = foreign "msfromhecke" (gen @-> gen @-> gen @-> returning gen)
   let msdim = foreign "msdim" (gen @-> returning long)
@@ -11032,6 +11166,11 @@ module F51 (F : Ctypes.FOREIGN) = struct
   let mod16 = foreign "Mod16" (gen @-> returning pari_ulong)
   let mod32 = foreign "Mod32" (gen @-> returning pari_ulong)
   let mod64 = foreign "Mod64" (gen @-> returning pari_ulong)
+end
+
+module F52 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let abscmpiu = foreign "abscmpiu" (gen @-> pari_ulong @-> returning int)
   let abscmpui = foreign "abscmpui" (pari_ulong @-> gen @-> returning int)
   let absequaliu = foreign "absequaliu" (gen @-> pari_ulong @-> returning int)
@@ -11068,11 +11207,6 @@ module F51 (F : Ctypes.FOREIGN) = struct
   let cgetg = foreign "cgetg" (long @-> long @-> returning gen)
   let cgetg_block = foreign "cgetg_block" (long @-> long @-> returning gen)
   let cgetg_copy = foreign "cgetg_copy" (gen @-> ptr long @-> returning gen)
-end
-
-module F52 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let cgeti = foreign "cgeti" (long @-> returning gen)
   let cgetineg = foreign "cgetineg" (long @-> returning gen)
   let cgetipos = foreign "cgetipos" (long @-> returning gen)
@@ -11160,11 +11294,22 @@ module F52 (F : Ctypes.FOREIGN) = struct
   let gc_bool = foreign "gc_bool" (pari_sp @-> int @-> returning int)
   let gc_const = foreign "gc_const" (pari_sp @-> gen @-> returning gen)
   let gc_double = foreign "gc_double" (pari_sp @-> double @-> returning double)
+end
+
+module F53 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let gc_int = foreign "gc_int" (pari_sp @-> int @-> returning int)
   let gc_long = foreign "gc_long" (pari_sp @-> long @-> returning long)
+  let gc_stoi = foreign "gc_stoi" (pari_sp @-> long @-> returning gen)
 
   let gc_ulong =
     foreign "gc_ulong" (pari_sp @-> pari_ulong @-> returning pari_ulong)
+
+  let gc_utoi = foreign "gc_utoi" (pari_sp @-> pari_ulong @-> returning gen)
+
+  let gc_utoipos =
+    foreign "gc_utoipos" (pari_sp @-> pari_ulong @-> returning gen)
 
   let gc_null = foreign "gc_NULL" (pari_sp @-> returning gen)
   let icopy = foreign "icopy" (gen @-> returning gen)
@@ -11199,11 +11344,6 @@ module F52 (F : Ctypes.FOREIGN) = struct
   let modssz = foreign "modssz" (long @-> long @-> gen @-> returning void)
   let mpabs = foreign "mpabs" (gen @-> returning gen)
   let mpabs_shallow = foreign "mpabs_shallow" (gen @-> returning gen)
-end
-
-module F53 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let mpadd = foreign "mpadd" (gen @-> gen @-> returning gen)
   let mpaddz = foreign "mpaddz" (gen @-> gen @-> gen @-> returning void)
   let mpaff = foreign "mpaff" (gen @-> gen @-> returning void)
@@ -11275,6 +11415,11 @@ module F53 (F : Ctypes.FOREIGN) = struct
     foreign "sdivss_rem" (long @-> long @-> ptr long @-> returning long)
 
   let get_avma = foreign "get_avma" (void @-> returning pari_ulong)
+end
+
+module F54 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let set_avma = foreign "set_avma" (pari_ulong @-> returning void)
 
   let uabsdiviu_rem =
@@ -11340,11 +11485,6 @@ module F53 (F : Ctypes.FOREIGN) = struct
   let subssz = foreign "subssz" (long @-> long @-> gen @-> returning void)
   let subuu = foreign "subuu" (pari_ulong @-> pari_ulong @-> returning gen)
   let togglesign = foreign "togglesign" (gen @-> returning void)
-end
-
-module F54 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let togglesign_safe = foreign "togglesign_safe" (ptr gen @-> returning void)
   let affectsign = foreign "affectsign" (gen @-> gen @-> returning void)
 
@@ -11419,6 +11559,11 @@ module F54 (F : Ctypes.FOREIGN) = struct
   let bnr_get_gen_nocheck = foreign "bnr_get_gen_nocheck" (gen @-> returning gen)
   let bnr_get_mod = foreign "bnr_get_mod" (gen @-> returning gen)
   let bnr_get_nf = foreign "bnr_get_nf" (gen @-> returning gen)
+end
+
+module F55 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let bnr_get_no = foreign "bnr_get_no" (gen @-> returning gen)
   let cyc_get_expo = foreign "cyc_get_expo" (gen @-> returning gen)
   let ellqp_get_p = foreign "ellQp_get_p" (gen @-> returning gen)
@@ -11464,11 +11609,6 @@ module F54 (F : Ctypes.FOREIGN) = struct
     foreign "nfV_to_scalar_or_alg" (gen @-> gen @-> returning gen)
 
   let nf_get_g = foreign "nf_get_G" (gen @-> returning gen)
-end
-
-module F55 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let nf_get_m = foreign "nf_get_M" (gen @-> returning gen)
   let nf_get_tr = foreign "nf_get_Tr" (gen @-> returning gen)
   let nf_get_diff = foreign "nf_get_diff" (gen @-> returning gen)
@@ -11541,6 +11681,11 @@ module F55 (F : Ctypes.FOREIGN) = struct
   let rnf_get_absdegree = foreign "rnf_get_absdegree" (gen @-> returning long)
   let rnf_get_degree = foreign "rnf_get_degree" (gen @-> returning long)
   let rnf_get_nfdegree = foreign "rnf_get_nfdegree" (gen @-> returning long)
+end
+
+module F56 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let rnf_get_nfvarn = foreign "rnf_get_nfvarn" (gen @-> returning long)
   let rnf_get_varn = foreign "rnf_get_varn" (gen @-> returning long)
   let hash_str = foreign "hash_str" (string @-> returning pari_ulong)
@@ -11616,6 +11761,8 @@ module F55 (F : Ctypes.FOREIGN) = struct
   let gener_fq_local =
     foreign "gener_Fq_local" (gen @-> gen @-> gen @-> returning gen)
 
+  let random_fq = foreign "random_Fq" (gen @-> gen @-> returning gen)
+
   let fpxy_fq_evaly =
     foreign "FpXY_Fq_evaly"
       (gen @-> gen @-> gen @-> gen @-> long @-> returning gen)
@@ -11627,11 +11774,6 @@ module F55 (F : Ctypes.FOREIGN) = struct
     foreign "FqX_Fq_mul" (gen @-> gen @-> gen @-> gen @-> returning gen)
 
   let fqx_add = foreign "FqX_add" (gen @-> gen @-> gen @-> gen @-> returning gen)
-end
-
-module F56 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let fqx_ddf = foreign "FqX_ddf" (gen @-> gen @-> gen @-> returning gen)
   let fqx_degfact = foreign "FqX_degfact" (gen @-> gen @-> gen @-> returning gen)
   let fqx_deriv = foreign "FqX_deriv" (gen @-> gen @-> gen @-> returning gen)
@@ -11746,6 +11888,11 @@ module F56 (F : Ctypes.FOREIGN) = struct
   let f2m_clear = foreign "F2m_clear" (gen @-> long @-> long @-> returning void)
   let f2m_flip = foreign "F2m_flip" (gen @-> long @-> long @-> returning void)
   let f2m_set = foreign "F2m_set" (gen @-> long @-> long @-> returning void)
+end
+
+module F57 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let f2v_clear = foreign "F2v_clear" (gen @-> long @-> returning void)
   let f2v_coeff = foreign "F2v_coeff" (gen @-> long @-> returning pari_ulong)
   let f2v_flip = foreign "F2v_flip" (gen @-> long @-> returning void)
@@ -11766,6 +11913,7 @@ module F56 (F : Ctypes.FOREIGN) = struct
   let f2v_copy = foreign "F2v_copy" (gen @-> returning gen)
   let f2x_copy = foreign "F2x_copy" (gen @-> returning gen)
   let f2v_ei = foreign "F2v_ei" (long @-> long @-> returning gen)
+  let f2xx_shift = foreign "F2xX_shift" (gen @-> long @-> long @-> returning gen)
 
   let f3m_coeff =
     foreign "F3m_coeff" (gen @-> long @-> long @-> returning pari_ulong)
@@ -11812,11 +11960,6 @@ module F56 (F : Ctypes.FOREIGN) = struct
   let fp_center = foreign "Fp_center" (gen @-> gen @-> gen @-> returning gen)
   let fp_center_i = foreign "Fp_center_i" (gen @-> gen @-> gen @-> returning gen)
   let fp_div = foreign "Fp_div" (gen @-> gen @-> gen @-> returning gen)
-end
-
-module F57 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let fp_halve = foreign "Fp_halve" (gen @-> gen @-> returning gen)
   let fp_inv = foreign "Fp_inv" (gen @-> gen @-> returning gen)
   let fp_invsafe = foreign "Fp_invsafe" (gen @-> gen @-> returning gen)
@@ -11884,6 +12027,11 @@ module F57 (F : Ctypes.FOREIGN) = struct
   let zx_equal1 = foreign "ZX_equal1" (gen @-> returning int)
   let zx_is_monic = foreign "ZX_is_monic" (gen @-> returning int)
   let zx_renormalize = foreign "ZX_renormalize" (gen @-> long @-> returning gen)
+end
+
+module F58 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let zxq_mul = foreign "ZXQ_mul" (gen @-> gen @-> gen @-> returning gen)
   let zxq_sqr = foreign "ZXQ_sqr" (gen @-> gen @-> returning gen)
   let z_ispower = foreign "Z_ispower" (gen @-> pari_ulong @-> returning long)
@@ -11931,10 +12079,6 @@ module F57 (F : Ctypes.FOREIGN) = struct
     foreign "gerepilecoeffs" (pari_sp @-> gen @-> int @-> returning void)
 
   let gerepilecopy = foreign "gerepilecopy" (pari_sp @-> gen @-> returning gen)
-end
-
-module F58 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let gerepilemany =
     foreign "gerepilemany" (pari_sp @-> ptr (ptr gen) @-> int @-> returning void)
@@ -12005,6 +12149,11 @@ module F58 (F : Ctypes.FOREIGN) = struct
   let lgcols = foreign "lgcols" (gen @-> returning long)
   let lgpol = foreign "lgpol" (gen @-> returning long)
   let div_content = foreign "div_content" (gen @-> gen @-> returning gen)
+end
+
+module F59 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let matpascal = foreign "matpascal" (long @-> returning gen)
 
   let matslice =
@@ -12067,11 +12216,6 @@ module F58 (F : Ctypes.FOREIGN) = struct
   let mkvec2s = foreign "mkvec2s" (long @-> long @-> returning gen)
   let mkvec3 = foreign "mkvec3" (gen @-> gen @-> gen @-> returning gen)
   let mkvec3s = foreign "mkvec3s" (long @-> long @-> long @-> returning gen)
-end
-
-module F59 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let mkvec4 = foreign "mkvec4" (gen @-> gen @-> gen @-> gen @-> returning gen)
 
   let mkvec4s =
@@ -12152,6 +12296,11 @@ module F59 (F : Ctypes.FOREIGN) = struct
   let quad_disc = foreign "quad_disc" (gen @-> returning gen)
   let qfb_disc = foreign "qfb_disc" (gen @-> returning gen)
   let qfb_disc3 = foreign "qfb_disc3" (gen @-> gen @-> gen @-> returning gen)
+end
+
+module F60 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let quadnorm = foreign "quadnorm" (gen @-> returning gen)
   let remsbil = foreign "remsBIL" (long @-> returning long)
   let row = foreign "row" (gen @-> long @-> returning gen)
@@ -12204,11 +12353,6 @@ module F59 (F : Ctypes.FOREIGN) = struct
   let vecsmall_concat = foreign "vecsmall_concat" (gen @-> gen @-> returning gen)
   let vecsmall_copy = foreign "vecsmall_copy" (gen @-> returning gen)
   let vecsmall_ei = foreign "vecsmall_ei" (long @-> long @-> returning gen)
-end
-
-module F60 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let vecsmall_indexmax = foreign "vecsmall_indexmax" (gen @-> returning long)
   let vecsmall_indexmin = foreign "vecsmall_indexmin" (gen @-> returning long)
   let vecsmall_isin = foreign "vecsmall_isin" (gen @-> long @-> returning long)
@@ -12304,6 +12448,10 @@ module F60 (F : Ctypes.FOREIGN) = struct
   let pari_err_domain =
     foreign "pari_err_DOMAIN"
       (string @-> string @-> string @-> gen @-> gen @-> returning void)
+end
+
+module F61 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let pari_err_file =
     foreign "pari_err_FILE" (string @-> string @-> returning void)
@@ -12383,11 +12531,6 @@ module F60 (F : Ctypes.FOREIGN) = struct
 
   let mkqfb = foreign "mkqfb" (gen @-> gen @-> gen @-> gen @-> returning gen)
   let mkvec = foreign "mkvec" (gen @-> returning gen)
-end
-
-module F61 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let mkvec2 = foreign "mkvec2" (gen @-> gen @-> returning gen)
   let mkvec3 = foreign "mkvec3" (gen @-> gen @-> gen @-> returning gen)
   let mkvec4 = foreign "mkvec4" (gen @-> gen @-> gen @-> gen @-> returning gen)
@@ -12471,6 +12614,11 @@ module F61 (F : Ctypes.FOREIGN) = struct
   let zero_f2m_copy = foreign "zero_F2m_copy" (long @-> long @-> returning gen)
   let zeromatcopy = foreign "zeromatcopy" (long @-> long @-> returning gen)
   let zerovec_block = foreign "zerovec_block" (long @-> returning gen)
+end
+
+module F62 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let col_ei = foreign "col_ei" (long @-> long @-> returning gen)
   let vec_ei = foreign "vec_ei" (long @-> long @-> returning gen)
   let f2v_ei = foreign "F2v_ei" (long @-> long @-> returning gen)
@@ -12544,11 +12692,6 @@ module F61 (F : Ctypes.FOREIGN) = struct
   let zv_isscalar = foreign "ZV_isscalar" (gen @-> returning int)
   let qv_isscalar = foreign "QV_isscalar" (gen @-> returning int)
   let rgv_isscalar = foreign "RgV_isscalar" (gen @-> returning int)
-end
-
-module F62 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let rgx_isscalar = foreign "RgX_isscalar" (gen @-> returning int)
   let rgx_equal_var = foreign "RgX_equal_var" (gen @-> gen @-> returning long)
   let rgx_to_rgv = foreign "RgX_to_RgV" (gen @-> long @-> returning gen)
@@ -12633,6 +12776,10 @@ module F62 (F : Ctypes.FOREIGN) = struct
   let genbinbase = foreign "GENbinbase" (ptr genbin @-> returning gen)
   let cgiv = foreign "cgiv" (gen @-> returning void)
   let killblock = foreign "killblock" (gen @-> returning void)
+end
+
+module F63 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let is_universal_constant =
     foreign "is_universal_constant" (gen @-> returning int)
@@ -12682,11 +12829,6 @@ module F62 (F : Ctypes.FOREIGN) = struct
 
   let bit_prec = foreign "bit_prec" (gen @-> returning long)
   let bit_accuracy = foreign "bit_accuracy" (long @-> returning long)
-end
-
-module F63 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let prec2ndec = foreign "prec2ndec" (long @-> returning long)
   let nbits2ndec = foreign "nbits2ndec" (long @-> returning long)
   let precdbl = foreign "precdbl" (long @-> returning long)
@@ -12763,6 +12905,11 @@ module F63 (F : Ctypes.FOREIGN) = struct
   let is_scalar_t = foreign "is_scalar_t" (long @-> returning int)
   let is_vec_t = foreign "is_vec_t" (long @-> returning int)
   let qfb_is_qfi = foreign "qfb_is_qfi" (gen @-> returning int)
+end
+
+module F64 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let sqrtr = foreign "sqrtr" (gen @-> returning gen)
   let cbrtr_abs = foreign "cbrtr_abs" (gen @-> returning gen)
   let cbrtr = foreign "cbrtr" (gen @-> returning gen)
@@ -12807,10 +12954,6 @@ module F63 (F : Ctypes.FOREIGN) = struct
   let rgxqx_rem = foreign "RgXQX_rem" (gen @-> gen @-> gen @-> returning gen)
   let fpx_div = foreign "FpX_div" (gen @-> gen @-> gen @-> returning gen)
   let flx_div = foreign "Flx_div" (gen @-> gen @-> pari_ulong @-> returning gen)
-end
-
-module F64 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let flx_div_pre =
     foreign "Flx_div_pre"
@@ -12853,6 +12996,7 @@ module F64 (F : Ctypes.FOREIGN) = struct
   let f2x_renormalize =
     foreign "F2x_renormalize" (gen @-> long @-> returning gen)
 
+  let f2xx_shift = foreign "F2xX_shift" (gen @-> long @-> long @-> returning gen)
   let f2v_to_f2x = foreign "F2v_to_F2x" (gen @-> long @-> returning gen)
   let sturm = foreign "sturm" (gen @-> returning long)
   let gval = foreign "gval" (gen @-> long @-> returning long)
@@ -12890,6 +13034,11 @@ module F64 (F : Ctypes.FOREIGN) = struct
   let zm_zv_mod = foreign "ZM_ZV_mod" (gen @-> gen @-> returning gen)
   let zv_zv_mod = foreign "ZV_ZV_mod" (gen @-> gen @-> returning gen)
   let vecmodii = foreign "vecmodii" (gen @-> gen @-> returning gen)
+end
+
+module F65 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let vecmoduu = foreign "vecmoduu" (gen @-> gen @-> returning gen)
   let fq_red = foreign "Fq_red" (gen @-> gen @-> gen @-> returning gen)
   let fq_to_fpxq = foreign "Fq_to_FpXQ" (gen @-> gen @-> gen @-> returning gen)
@@ -12897,6 +13046,8 @@ module F64 (F : Ctypes.FOREIGN) = struct
 
   let gener_fq_local =
     foreign "gener_Fq_local" (gen @-> gen @-> gen @-> returning gen)
+
+  let random_fq = foreign "random_Fq" (gen @-> gen @-> returning gen)
 
   let fpxqx_div =
     foreign "FpXQX_div" (gen @-> gen @-> gen @-> gen @-> returning gen)
@@ -12983,10 +13134,6 @@ module F64 (F : Ctypes.FOREIGN) = struct
 
   let fqxq_inv =
     foreign "FqXQ_inv" (gen @-> gen @-> gen @-> gen @-> returning gen)
-end
-
-module F65 (F : Ctypes.FOREIGN) = struct
-  open F
 
   let fqxq_invsafe =
     foreign "FqXQ_invsafe" (gen @-> gen @-> gen @-> gen @-> returning gen)
@@ -13079,6 +13226,11 @@ module F65 (F : Ctypes.FOREIGN) = struct
   let mpsinz = foreign "mpsinz" (gen @-> gen @-> returning void)
   let gnegz = foreign "gnegz" (gen @-> gen @-> returning void)
   let gabsz = foreign "gabsz" (gen @-> long @-> gen @-> returning void)
+end
+
+module F66 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let gaddz = foreign "gaddz" (gen @-> gen @-> gen @-> returning void)
   let gsubz = foreign "gsubz" (gen @-> gen @-> gen @-> returning void)
   let gmulz = foreign "gmulz" (gen @-> gen @-> gen @-> returning void)
@@ -13122,11 +13274,6 @@ module F65 (F : Ctypes.FOREIGN) = struct
   let pr_get_f = foreign "pr_get_f" (gen @-> returning long)
   let pr_get_tau = foreign "pr_get_tau" (gen @-> returning gen)
   let pr_is_inert = foreign "pr_is_inert" (gen @-> returning int)
-end
-
-module F66 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let pr_norm = foreign "pr_norm" (gen @-> returning gen)
   let upr_norm = foreign "upr_norm" (gen @-> returning pari_ulong)
   let nf_get_varn = foreign "nf_get_varn" (gen @-> returning long)
@@ -13193,6 +13340,11 @@ module F66 (F : Ctypes.FOREIGN) = struct
   let gchar_get_bnf = foreign "gchar_get_bnf" (gen @-> returning gen)
   let gchar_get_nf = foreign "gchar_get_nf" (gen @-> returning gen)
   let gchar_get_zm = foreign "gchar_get_zm" (gen @-> returning gen)
+end
+
+module F67 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let gchar_get_mod = foreign "gchar_get_mod" (gen @-> returning gen)
   let gchar_get_modp = foreign "gchar_get_modP" (gen @-> returning gen)
   let gchar_get_s = foreign "gchar_get_S" (gen @-> returning gen)
@@ -13255,11 +13407,6 @@ module F66 (F : Ctypes.FOREIGN) = struct
   let bid_get_fact = foreign "bid_get_fact" (gen @-> returning gen)
   let bid_get_fact2 = foreign "bid_get_fact2" (gen @-> returning gen)
   let bid_get_sprk = foreign "bid_get_sprk" (gen @-> returning gen)
-end
-
-module F67 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let bid_get_sarch = foreign "bid_get_sarch" (gen @-> returning gen)
   let bid_get_archp = foreign "bid_get_archp" (gen @-> returning gen)
   let bid_get_u = foreign "bid_get_U" (gen @-> returning gen)
@@ -13331,6 +13478,11 @@ module F67 (F : Ctypes.FOREIGN) = struct
   let closure_get_dbg = foreign "closure_get_dbg" (gen @-> returning gen)
   let closure_get_text = foreign "closure_get_text" (gen @-> returning gen)
   let closure_get_frame = foreign "closure_get_frame" (gen @-> returning gen)
+end
+
+module F68 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let err_get_num = foreign "err_get_num" (gen @-> returning long)
   let err_get_compo = foreign "err_get_compo" (gen @-> long @-> returning gen)
   let pari_err_bug = foreign "pari_err_BUG" (string @-> returning void)
@@ -13464,4 +13616,5 @@ module Functions (F : Ctypes.FOREIGN) = struct
   include F64 (F)
   include F65 (F)
   include F66 (F)
+  include F67 (F)
 end
