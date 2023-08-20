@@ -74,15 +74,12 @@ module Types (T : Ctypes.TYPE) = struct
   type pari_plot
   type genbin
   type pari_mainstack
-  type parifile
   type entree
   type pari_parsestate
   type pari_compilestate
   type pari_mtstate
   type pari_evalstate
   type pari_varstate
-  type pari_filestate
-  type gp_context
   type pari_global_state
   type pari_thread
   type mt_state
@@ -94,12 +91,8 @@ module Types (T : Ctypes.TYPE) = struct
   type parforvec_t
   type hashentry
   type hashtable
-  type gp_hist_cell
-  type gp_hist
-  type gp_pp
   type gp_path
   type pariout_t
-  type gp_data
   type nfmaxord_t
   type qfr_data
   type fp_chk_fun
@@ -205,7 +198,10 @@ module Types (T : Ctypes.TYPE) = struct
   let pari_timer_s = field pari_timer "s" long
   let pari_timer_us = field pari_timer "us" long
   let () = seal pari_timer
-  let pari_str : pari_str structure typ = structure "pari_str"
+
+  let pari_str : pari_str structure typ =
+    typedef (structure "pari_str") "pari_str"
+
   let pari_str_string = field pari_str "string" string
   let pari_str_end = field pari_str "end" string
   let pari_str_cur = field pari_str "cur" string
@@ -253,7 +249,10 @@ module Types (T : Ctypes.TYPE) = struct
   let forcomposite_t_p = field forcomposite_t "p" gen
   let forcomposite_t_T = field forcomposite_t "T" forprime_t
   let () = seal forcomposite_t
-  let forvec_t : forvec_t structure typ = structure "forvec_t"
+
+  let forvec_t : forvec_t structure typ =
+    typedef (structure "forvec_t") "forvec_t"
+
   let forvec_t_first = field forvec_t "first" long
   let forvec_t_a = field forvec_t "a" (ptr gen)
   let forvec_t_m = field forvec_t "m" (ptr gen)
@@ -294,7 +293,9 @@ module Types (T : Ctypes.TYPE) = struct
   let forsubset_t_first = field forsubset_t "first" long
   let forsubset_t_v = field forsubset_t "v" gen
   let () = seal forsubset_t
-  let pari_plot : pari_plot structure typ = structure "PARI_plot"
+
+  let pari_plot : pari_plot structure typ =
+    typedef (structure "PARI_plot") "PARI_plot"
 
   let pari_plot_draw =
     field pari_plot "draw"
@@ -310,7 +311,7 @@ module Types (T : Ctypes.TYPE) = struct
   let pari_plot_dwidth = field pari_plot "dwidth" long
   let pari_plot_dheight = field pari_plot "dheight" long
   let () = seal pari_plot
-  let genbin : genbin structure typ = structure "GENbin"
+  let genbin : genbin structure typ = typedef (structure "GENbin") "GENbin"
   let genbin_len = field genbin "len" int
   let genbin_x = field genbin "x" gen
   let genbin_base = field genbin "base" gen
@@ -328,14 +329,7 @@ module Types (T : Ctypes.TYPE) = struct
   let pari_mainstack_vsize = field pari_mainstack "vsize" int
   let pari_mainstack_memused = field pari_mainstack "memused" int
   let () = seal pari_mainstack
-  let parifile : parifile structure typ = structure "pariFILE"
-  let parifile_file = field parifile "file" (ptr int)
-  let parifile_type = field parifile "type" int
-  let parifile_name = field parifile "name" string
-  let parifile_prev = field parifile "prev" (ptr parifile)
-  let parifile_next = field parifile "next" (ptr parifile)
-  let () = seal parifile
-  let entree : entree structure typ = structure "entree"
+  let entree : entree structure typ = typedef (structure "entree") "entree"
   let entree_name = field entree "name" string
   let entree_valence = field entree "valence" pari_ulong
   let entree_value = field entree "value" (ptr void)
@@ -395,20 +389,6 @@ module Types (T : Ctypes.TYPE) = struct
   let pari_varstate_min_priority = field pari_varstate "min_priority" long
   let pari_varstate_max_priority = field pari_varstate "max_priority" long
   let () = seal pari_varstate
-  let pari_filestate : pari_filestate structure typ = structure "pari_filestate"
-  let pari_filestate_file = field pari_filestate "file" (ptr parifile)
-  let pari_filestate_serial = field pari_filestate "serial" long
-  let () = seal pari_filestate
-  let gp_context : gp_context structure typ = structure "gp_context"
-  let gp_context_listloc = field gp_context "listloc" long
-  let gp_context_prettyp = field gp_context "prettyp" long
-  let gp_context_var = field gp_context "var" pari_varstate
-  let gp_context_eval = field gp_context "eval" pari_evalstate
-  let gp_context_parse = field gp_context "parse" pari_parsestate
-  let gp_context_file = field gp_context "file" pari_filestate
-  let gp_context_iferr_env = field gp_context "iferr_env" (ptr int)
-  let gp_context_err_data = field gp_context "err_data" gen
-  let () = seal gp_context
 
   let pari_global_state : pari_global_state structure typ =
     structure "pari_global_state"
@@ -487,13 +467,19 @@ module Types (T : Ctypes.TYPE) = struct
   let parforvec_t_forvec = field parforvec_t "forvec" forvec_t
   let parforvec_t_iter = field parforvec_t "iter" parfor_iter
   let () = seal parforvec_t
-  let hashentry : hashentry structure typ = structure "hashentry"
+
+  let hashentry : hashentry structure typ =
+    typedef (structure "hashentry") "hashentry"
+
   let hashentry_key = field hashentry "key" (ptr void)
   let hashentry_val = field hashentry "val" (ptr void)
   let hashentry_hash = field hashentry "hash" pari_ulong
   let hashentry_next = field hashentry "next" (ptr hashentry)
   let () = seal hashentry
-  let hashtable : hashtable structure typ = structure "hashtable"
+
+  let hashtable : hashtable structure typ =
+    typedef (structure "hashtable") "hashtable"
+
   let hashtable_len = field hashtable "len" pari_ulong
   let hashtable_table = field hashtable "table" (ptr (ptr hashentry))
   let hashtable_nb = field hashtable "nb" pari_ulong
@@ -509,23 +495,6 @@ module Types (T : Ctypes.TYPE) = struct
 
   let hashtable_use_stack = field hashtable "use_stack" int
   let () = seal hashtable
-
-  let gp_hist_cell : gp_hist_cell structure typ =
-    typedef (structure "gp_hist_cell") "gp_hist_cell"
-
-  let gp_hist_cell_z = field gp_hist_cell "z" gen
-  let gp_hist_cell_t = field gp_hist_cell "t" int
-  let gp_hist_cell_r = field gp_hist_cell "r" int
-  let () = seal gp_hist_cell
-  let gp_hist : gp_hist structure typ = typedef (structure "gp_hist") "gp_hist"
-  let gp_hist_v = field gp_hist "v" (ptr gp_hist_cell)
-  let gp_hist_size = field gp_hist "size" int
-  let gp_hist_total = field gp_hist "total" pari_ulong
-  let () = seal gp_hist
-  let gp_pp : gp_pp structure typ = typedef (structure "gp_pp") "gp_pp"
-  let gp_pp_file = field gp_pp "file" (ptr parifile)
-  let gp_pp_cmd = field gp_pp "cmd" string
-  let () = seal gp_pp
   let gp_path : gp_path structure typ = typedef (structure "gp_path") "gp_path"
   let gp_path_PATH = field gp_path "PATH" string
   let gp_path_dirs = field gp_path "dirs" (ptr string)
@@ -540,39 +509,6 @@ module Types (T : Ctypes.TYPE) = struct
   let pariout_t_prettyp = field pariout_t "prettyp" int
   let pariout_t_TeXstyle = field pariout_t "TeXstyle" int
   let () = seal pariout_t
-  let gp_data : gp_data structure typ = typedef (structure "gp_data") "gp_data"
-  let gp_data_hist = field gp_data "hist" (ptr gp_hist)
-  let gp_data_pp = field gp_data "pp" (ptr gp_pp)
-  let gp_data_path = field gp_data "path" (ptr gp_path)
-  let gp_data_sopath = field gp_data "sopath" (ptr gp_path)
-  let gp_data_fmt = field gp_data "fmt" (ptr pariout_t)
-  let gp_data_lim_lines = field gp_data "lim_lines" pari_ulong
-  let gp_data_flags = field gp_data "flags" pari_ulong
-  let gp_data_linewrap = field gp_data "linewrap" pari_ulong
-  let gp_data_readline_state = field gp_data "readline_state" pari_ulong
-  let gp_data_echo = field gp_data "echo" pari_ulong
-  let gp_data_breakloop = field gp_data "breakloop" int
-  let gp_data_recover = field gp_data "recover" int
-  let gp_data_use_readline = field gp_data "use_readline" int
-  let gp_data_help = field gp_data "help" string
-  let gp_data_histfile = field gp_data "histfile" string
-  let gp_data_prompt = field gp_data "prompt" string
-  let gp_data_prompt_cont = field gp_data "prompt_cont" string
-  let gp_data_prompt_comment = field gp_data "prompt_comment" string
-  let gp_data_colormap = field gp_data "colormap" gen
-  let gp_data_graphcolors = field gp_data "graphcolors" gen
-  let gp_data_plothsizes = field gp_data "plothsizes" gen
-  let gp_data_secure = field gp_data "secure" int
-  let gp_data_simplify = field gp_data "simplify" int
-  let gp_data_strictmatch = field gp_data "strictmatch" int
-  let gp_data_strictargs = field gp_data "strictargs" int
-  let gp_data_chrono = field gp_data "chrono" int
-  let gp_data_T = field gp_data "T" (ptr pari_timer)
-  let gp_data_Tw = field gp_data "Tw" (ptr pari_timer)
-  let gp_data_primelimit = field gp_data "primelimit" pari_ulong
-  let gp_data_threadsizemax = field gp_data "threadsizemax" pari_ulong
-  let gp_data_threadsize = field gp_data "threadsize" pari_ulong
-  let () = seal gp_data
 
   let nfmaxord_t : nfmaxord_t structure typ =
     typedef (structure "nfmaxord_t") "nfmaxord_t"
@@ -597,7 +533,9 @@ module Types (T : Ctypes.TYPE) = struct
   let qfr_data_sqrtD = field qfr_data "sqrtD" gen
   let qfr_data_isqrtD = field qfr_data "isqrtD" gen
   let () = seal qfr_data
-  let fp_chk_fun : fp_chk_fun structure typ = structure "FP_chk_fun"
+
+  let fp_chk_fun : fp_chk_fun structure typ =
+    typedef (structure "FP_chk_fun") "FP_chk_fun"
 
   let fp_chk_fun_f =
     field fp_chk_fun "f" (static_funptr T.(ptr void @-> gen @-> returning gen))

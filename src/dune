@@ -6,7 +6,14 @@
  (deps
   (source_tree libpari))
  ; keep adding targets!
- (targets libpari.a dllpari.so paricfg.h parimt.h mpinl.h)
+ (targets
+  libpari.a
+  dllpari.so
+  paricfg.h
+  parimt.h
+  mpinl.h
+  parinf.h
+  paristio.h)
  (action
   (no-infer
    (progn
@@ -49,6 +56,14 @@
      (with-accepted-exit-codes
       (or 0 1)
       (run cp libpari/Olinux*/mpinl.h mpinl.h)))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/src/headers/parinf.h parinf.h)))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/src/headers/paristio.h paristio.h)))
     ; i-shiny objects
     (ignore-stderr
      (with-accepted-exit-codes
@@ -65,7 +80,15 @@
     (ignore-stderr
      (with-accepted-exit-codes
       (or 0 1)
-      (run cp libpari/Odarwin-x86_64/mpinl.h mpinl.h)))))))
+      (run cp libpari/Odarwin-x86_64/mpinl.h mpinl.h)))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/src/headers/parinf.h parinf.h)))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/src/headers/paristio.h paristio.h)))))))
 
 (library
  (name pari)
