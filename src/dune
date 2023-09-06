@@ -13,20 +13,59 @@
     (chdir
      libpari
      (run mkdir local))
-    (chdir
-     libpari
-     (run ./Configure --prefix=local))
-    (chdir
-     libpari
-     (run make gp))
-    (chdir
-     libpari
-     (run make install-lib-sta))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (chdir
+       libpari
+       (run ./Configure --prefix=local --with-gmp=/usr/local))))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (chdir
+       libpari
+       (run make gp))))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (chdir
+       libpari
+       (run make install-lib-sta))))
     (copy libpari/local/lib/libpari.a libpari.a)
-    (copy libpari/Olinux-x86_64/libpari.so dllpari.so)
-    (copy libpari/Olinux-x86_64/paricfg.h paricfg.h)
-    (copy libpari/Olinux-x86_64/parimt.h parimt.h)
-    (copy libpari/Olinux-x86_64/mpinl.h mpinl.h)))))
+    ; linux
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/Olinux*/libpari.so dllpari.so)))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/Olinux*/paricfg.h paricfg.h)))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/Olinux*/parimt.h parimt.h)))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/Olinux*/mpinl.h mpinl.h)))
+    ; i-shiny objects
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/Odarwin-x86_64/libpari.dylib dllpari.so)))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/Odarwin-x86_64/paricfg.h paricfg.h)))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/Odarwin-x86_64/parimt.h parimt.h)))
+    (ignore-stderr
+     (with-accepted-exit-codes
+      (or 0 1)
+      (run cp libpari/Odarwin-x86_64/mpinl.h mpinl.h)))))))
 
 (library
  (name pari)
