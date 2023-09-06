@@ -12,6 +12,8 @@ depends: [
   "core" {>= "v0.14.0"}
   "ctypes"
   "ctypes-foreign"
+  "conf-gmp"
+  "conf-bison"
   "odoc" {with-doc}
 ]
 build: [

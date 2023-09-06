@@ -20,12 +20,10 @@
     (chdir
      libpari
      (run mkdir local))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (chdir
-       libpari
-       (run ./Configure --prefix=local --with-gmp=/usr/local))))
+    (chdir
+     libpari
+     (system
+      "CC=$(find /usr/local/bin -name 'gcc-[0-9]*' 2>&1 | head -n 1) ./Configure --prefix=local --with-gmp=/usr/local"))
     (ignore-stderr
      (with-accepted-exit-codes
       (or 0 1)
@@ -39,56 +37,22 @@
        libpari
        (run make install-lib-sta))))
     (copy libpari/local/lib/libpari.a libpari.a)
+    (copy libpari/src/headers/parinf.h parinf.h)
+    (copy libpari/src/headers/paristio.h paristio.h)
+    (system "find . -type d -regex '.*O[linux|darwin].*' > target")
     ; linux
     (ignore-stderr
      (with-accepted-exit-codes
       (or 0 1)
-      (run cp libpari/Olinux*/libpari.so dllpari.so)))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (run cp libpari/Olinux*/paricfg.h paricfg.h)))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (run cp libpari/Olinux*/parimt.h parimt.h)))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (run cp libpari/Olinux*/mpinl.h mpinl.h)))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (run cp libpari/src/headers/parinf.h parinf.h)))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (run cp libpari/src/headers/paristio.h paristio.h)))
+      (system "cp $(cat target)/libpari.so dllpari.so")))
     ; i-shiny objects
     (ignore-stderr
      (with-accepted-exit-codes
       (or 0 1)
-      (run cp libpari/Odarwin-x86_64/libpari.dylib dllpari.so)))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (run cp libpari/Odarwin-x86_64/paricfg.h paricfg.h)))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (run cp libpari/Odarwin-x86_64/parimt.h parimt.h)))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (run cp libpari/Odarwin-x86_64/mpinl.h mpinl.h)))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (run cp libpari/src/headers/parinf.h parinf.h)))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (run cp libpari/src/headers/paristio.h paristio.h)))))))
+      (system "cp $(cat target)/libpari.dylib dllpari.so")))
+    (system "cp $(cat target)/paricfg.h paricfg.h")
+    (system "cp $(cat target)/parimt.h parimt.h")
+    (system "cp $(cat target)/mpinl.h mpinl.h")))))
 
 (library
  (name pari)
@@ -117,7 +81,7 @@
      (-I./_build/default/src)
      (-I../../../_build/default/src)
      (-I../../_build/default/src))
-    (c_library_flags :standard -lc -lm -ldl -lrt -fPIC -lpari)))
+    (c_library_flags :standard -fPIC -lpari)))
   (headers
    (include "pari.h"))
   (type_description

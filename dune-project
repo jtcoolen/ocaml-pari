@@ -18,4 +18,6 @@
   (dune (>= 3.7))
   (core (>= v0.14.0))
   ctypes
-  ctypes-foreign))
+  ctypes-foreign
+  conf-gmp
+  conf-bison))
