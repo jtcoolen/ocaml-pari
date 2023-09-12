@@ -1,0 +1,4 @@
+open Pari
+
+(* This line is mandatory to initialize the PARI stack, heap, table of primes... *)
+let () = pari_init 50_000_000 (Unsigned.ULong.of_int 500_000)

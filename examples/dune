@@ -1,9 +1,14 @@
 (executable
  (name elliptic_curves)
- (libraries core ctypes.stubs ctypes.foreign ctypes pari)
+ (libraries core ctypes.stubs ctypes.foreign ctypes pari-bindings)
  (modules elliptic_curves))
 
 (executable
  (name knapsack_lll)
  (libraries core ctypes.stubs ctypes.foreign ctypes pari)
  (modules knapsack_lll))
+
+(executable
+ (name number_fields)
+ (libraries core ctypes.stubs ctypes.foreign ctypes pari)
+ (modules number_fields))

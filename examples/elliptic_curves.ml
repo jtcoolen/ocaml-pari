@@ -1,4 +1,4 @@
-open Pari
+open Pari_bindings
 
 let int i = stoi (Signed.Long.of_int i)
 let randomprime n = randomprime (int n)

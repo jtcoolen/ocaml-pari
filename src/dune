@@ -2,94 +2,12 @@
 
 (include_subdirs unqualified)
 
-(rule
- (deps
-  (source_tree libpari))
- ; keep adding targets!
- (targets
-  libpari.a
-  dllpari.so
-  paricfg.h
-  parimt.h
-  mpinl.h
-  parinf.h
-  paristio.h)
- (action
-  (no-infer
-   (progn
-    (chdir
-     libpari
-     (run mkdir local))
-    (chdir
-     libpari
-     (system
-      "CC=$(find /usr/local/bin -name 'gcc-[0-9]*' 2>&1 | head -n 1) ./Configure --prefix=local --with-gmp=/usr/local"))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (chdir
-       libpari
-       (run make gp))))
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (chdir
-       libpari
-       (run make install-lib-sta))))
-    (copy libpari/local/lib/libpari.a libpari.a)
-    (copy libpari/src/headers/parinf.h parinf.h)
-    (copy libpari/src/headers/paristio.h paristio.h)
-    (system "find . -type d -regex '.*O[linux|darwin].*' > target")
-    ; linux
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (system "cp $(cat target)/libpari.so dllpari.so")))
-    ; i-shiny objects
-    (ignore-stderr
-     (with-accepted-exit-codes
-      (or 0 1)
-      (system "cp $(cat target)/libpari.dylib dllpari.so")))
-    (system "cp $(cat target)/paricfg.h paricfg.h")
-    (system "cp $(cat target)/parimt.h parimt.h")
-    (system "cp $(cat target)/mpinl.h mpinl.h")))))
+(mdx
+ (files :standard - *.mli)
+ (libraries pari pari-bindings core integers ctypes ctypes.foreign mdx)
+ (preludes prelude))
 
 (library
- (name pari)
+ (name Pari)
  (public_name pari)
- (libraries core ctypes.stubs ctypes.foreign ctypes)
- (foreign_archives pari)
- ; ctypes backward compatibility shims warn sometimes; suppress them
- (flags
-  (:standard -w -9-11-27-32))
- (c_library_flags
-  (:standard -fPIC -lgmp))
- (ctypes
-  (external_library_name libpari)
-  (build_flags_resolver
-   (vendored
-    (c_flags
-     (:standard
-      -O2
-      -Wall
-      -Wextra
-      -finline-functions
-      -ffast-math
-      -funroll-all-loops)
-     (-I./src/libpari/src/headers)
-     (-I../src/libpari/src/headers)
-     (-I./_build/default/src)
-     (-I../../../_build/default/src)
-     (-I../../_build/default/src))
-    (c_library_flags :standard -fPIC -lpari)))
-  (headers
-   (include "pari.h"))
-  (type_description
-   (instance Type)
-   (functor Type_description))
-  (function_description
-   (concurrency unlocked)
-   (instance Function)
-   (functor Function_description))
-  (generated_types Types_generated)
-  (generated_entry_point C)))
+ (libraries core ctypes.stubs ctypes.foreign ctypes integers pari-bindings))
