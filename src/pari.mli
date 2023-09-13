@@ -96,10 +96,12 @@ type bb_group
 type bb_field
 type bb_algebra
 type bb_ring
+type 'a ring
+type 'a field
 
 module rec Complex : sig
   type complex
-  type nonrec t = complex t
+  type nonrec t = complex field t
 
   val inv : t -> t
   val add : t -> t -> t
@@ -109,7 +111,7 @@ end
 
 and Real : sig
   type real
-  type nonrec t = real t
+  type nonrec t = real field t
 
   external inj_complex : t -> Complex.t = "%identity"
   (** {@ocaml[
@@ -133,8 +135,11 @@ end
 
 and Rational : sig
   type rational
-  type nonrec t = rational t
+  type 'a p := 'a t
+  type nonrec t = rational field t
+  type nonrec ring = rational ring p
 
+  external inj_ring : t -> ring = "%identity"
   external inj_real : t -> Real.t = "%identity"
   external inj_complex : t -> Complex.t = "%identity"
   val shift : t -> Signed.Long.t -> t
@@ -142,7 +147,7 @@ end
 
 and Integer : sig
   type integer
-  type nonrec t = integer t
+  type nonrec t = integer ring t
 
   external inj_rat : t -> Rational.t = "%identity"
   external inj_real : t -> Real.t = "%identity"
@@ -216,7 +221,7 @@ module Matrix : sig
   val id : Signed.Long.t -> Integer.t t
   val inv : 'a t -> 'a t
   val mul : 'a t -> 'a t -> 'a t
-  val qflll0 : 'a t -> Signed.Long.t -> 'a t
+  val lll : 'a t -> 'a t
   val ( .%[] ) : 'a t -> int -> ('a, [ `COL ]) Vector.t
   val ( .%[]<- ) : 'a t -> int -> ('a, [ `COL ]) Vector.t -> unit
   val ( .%[;..] ) : 'a t -> int array -> 'a t
@@ -226,7 +231,7 @@ end
 
 module Polynomial : sig
   type polynomial
-  type nonrec 'a t = polynomial t constraint 'a = 'b t
+  type nonrec 'a t = polynomial ring t constraint 'a = 'b ring t
 
   val to_string : 'a t -> string
   val one : 'a t
@@ -264,25 +269,34 @@ module Polynomial : sig
       val qmin : 'a t Polynomial.t = <abstr>
       # Polynomial.to_string qmin;;
       - : string = "x^3 - x^2 - 60*x - 364"
-      # NumberField.(are_isomorphic (create q) (create qmin));
+      # Number_field.(are_isomorphic (create q) (create qmin));
       - : bool = true
       ]} *)
 end
 
-module NumberField : sig
+module Number_field : sig
   type number_field
-  type nonrec t = number_field t
+  type 'a p := 'a t
+  type nonrec t = number_field field t
+  type elt
 
-  val create : Integer.t Polynomial.t -> t
+  val create : Rational.ring Polynomial.t -> t
   (** [create p] returns the number field Q(X)/(p) for a monic
       irreducible polynomial [p] over the field Q of the rationals. *)
 
   val are_isomorphic : t -> t -> bool
   (** [are_isomorphic a b] returns true if and only if number
-        fields [a] and [b] are isomorphic. *)
+      fields [a] and [b] are isomorphic. *)
 
   val sign : t -> Signed.Long.t * Signed.Long.t
   val discriminant : t -> Integer.t
+  val z_basis : t -> (elt p, [ `ROW ]) Vector.t
+  val elt : Rational.t array -> elt p
+  val add : t -> elt p -> elt p -> elt p
+  val mul : t -> elt p -> elt p -> elt p
+  val divrem : t -> elt p -> elt p -> elt p * elt p
+
+  val ideal_norm : t -> elt p -> Integer.t
 
   val splitting :
     [< `F of t | `P of Integer.t Polynomial.t ] -> Integer.t Polynomial.t
@@ -290,6 +304,56 @@ module NumberField : sig
       or polynomial [p], returns the polynomial over Q for the
       splitting field of [p], that is the smallest field over
       which [p] is totally split. *)
+
+  module Infix : sig
+    val ( = ) : elt p -> elt p -> bool
+  end
+end
+
+type 'a group
+
+type 'a group_structure = {
+  mul : 'a group t -> 'a group t -> 'a group t;
+  pow : 'a group t -> Integer.t -> 'a group t;
+  rand : unit -> 'a group t;
+  hash : 'a group t -> Unsigned.ULong.t;
+  equal : 'a group t -> 'a group t -> bool;
+  equal_identity : 'a group t -> bool;
+  bb_group : bb_group Ctypes.structure option;
+}
+
+module Fp : sig
+  type t = Integer.t
+
+  val add : t -> t -> modulo:t -> t
+  val pow : t -> exponent:t -> modulo:t -> t
+end
+
+module Finite_field : sig
+  type finite_field
+  type 'a p := 'a t
+  type nonrec t = finite_field field t
+  type nonrec ring = finite_field ring p
+
+  external inj_ring : t -> ring = "%identity"
+  val generator : order:int -> t
+
+  val create : p:int -> degree:int -> t
+  (** [create p degree] returns a monic irreducible polynomial of the
+      given [degree] over F_p[X]. *)
+
+  (*val extend : t -> [`Degree of int | `P of ring Polynomial.t] -> t
+    (** extend the field $K$ of definition of $a$ by a root of the polynomial
+     $P\in K[X]$ assumed to be irreducible over $K$.  Return $[r, m]$ where $r$
+     is a root of $P$ in the extension field $L$ and $m$ is a map from $K$ to $L$,
+     see \kbd{ffmap}.
+     If $v$ is given, the variable name is used to display the generator of $L$,
+     else the name of the variable of $P$ is used.
+     A generator of $L$ can be recovered using $b=ffgen(r)$.
+     The image of $P$ in $L[X]$ can be recovered using $PL=ffmap(m,P)$. *)*)
+
+  val fpxq_star :
+    p:pari_ulong -> quotient:Fp.t Polynomial.t -> finite_field group_structure
 end
 
 val logstyle_none : int64

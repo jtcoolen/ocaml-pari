@@ -226,8 +226,8 @@ let search_sol () =
            in the basis. *)
         Matrix.(
           basis.%[l; l] <-
-            Integer.(inj_real Infix.((c - (k1 * bit) + (n * of_int i)) * neg b)));
-        let reduced_basis = Matrix.(mul basis (qflll0 basis (Long.of_int 0))) in
+            Integer.(inj_real Infix.((c - (k1 * bit) + (n * of_int i)) * ~-b)));
+        let reduced_basis = Matrix.(mul basis (lll basis)) in
         (* Pick elements from the reduced basis and check if they are solutions
            to the knapsack problem. *)
         let rec loop ~bit j =

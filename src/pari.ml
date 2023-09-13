@@ -4,6 +4,9 @@ type _ t = gen
 
 let t = gen
 
+type 'a ring = gen
+type 'a field = gen
+
 let register_gc =
   Gc.finalise (fun v -> pari_free Ctypes.(coerce gen (ptr void) v))
 
@@ -38,7 +41,9 @@ end
 module Rational = struct
   type rational
   type t = gen
+  type ring = gen
 
+  external inj_ring : t -> ring = "%identity"
   external inj_real : t -> Real.t = "%identity"
   external inj_complex : t -> Complex.t = "%identity"
 
@@ -86,7 +91,7 @@ module Matrix = struct
 
   let inv = ginv
   let mul = gmul
-  let qflll0 = qflll0
+  let lll = lll
 
   (* Pointer dereference operator *)
   let ( !@ ) = Ctypes.( !@ )
@@ -140,7 +145,12 @@ module Vector = struct
   let transpose_row = gtrans
   let transpose_column = gtrans
   let to_set = gtoset
-  let singleton x = mkvec (Obj.magic x)
+
+  let singleton x =
+    let s = mkvec (Obj.magic x) in
+    register_gc s;
+    s
+
   let concat = gconcat
   let inj x ~inj:_ = x
   let to_string = gentostr
@@ -188,15 +198,17 @@ module Polynomial = struct
     (* TODO: support 32-bit arch *)
     let typ = gentostr (type0 (fst (List.nth p 0))) in
     let v =
-      if typ = "\"t_POL\"" then Signed.Long.succ (gvar (fst (List.nth p 0)))
+      if typ = "\"t_POL\"" then Signed.Long.(succ (gvar (fst (List.nth p 0))))
       else Signed.Long.zero
     in
-    Ctypes.(p' +@ 1 <-@ Signed.Long.(shift_left v Int.(sub 64 @@ sub 2 16)));
+    Ctypes.(p' +@ 1 <-@ Signed.Long.(shift_left v Stdlib.(64 - 2 - 16)));
     for i = 2 to Int.succ len do
       Ctypes.(p'' +@ i <-@ zero)
     done;
     List.iter (fun (c, idx) -> Ctypes.(p'' +@ Int.add idx 2 <-@ c)) p;
-    normalizepol_lg p' size
+    let p = normalizepol_lg p' size in
+    register_gc p;
+    p
 
   let var t = function Some var -> Signed.Long.(of_int var) | None -> gvar t
   let deriv ?indeterminate t = deriv t (var t indeterminate)
@@ -209,11 +221,17 @@ module Polynomial = struct
   let minimal p = polredbest p (Signed.Long.of_int 0)
 end
 
-module NumberField = struct
+module Number_field = struct
   type number_field
+  type 'a p = 'a t
   type nonrec t = number_field t
+  type elt
 
-  let create p = nfinit p Signed.Long.(of_int 4)
+  let create p =
+    let nf = nfinit p Signed.Long.(of_int 4) in
+    register_gc nf;
+    nf
+
   let are_isomorphic a b = gequal0 (nfisincl a b) <> 1
 
   let sign nf =
@@ -223,8 +241,82 @@ module NumberField = struct
     Ctypes.(!@a, !@b)
 
   let discriminant nf = nf_get_disc nf
+  let z_basis nf : (elt p, [ `ROW ]) Vector.t = nf_get_zk nf
+  let elt a : elt p = Vector.(transpose_row (of_array a))
+  let add nf a b = nfadd nf a b
+  let mul nf a b = nfmul nf a b
+
+  let divrem nf a b =
+    let qr = nfdivrem nf a b in
+    Vector.(qr.%[1], qr.%[2])
+
+  let ideal_norm nf a = idealnorm nf a
 
   let splitting = function
     | `F nf -> nfsplitting nf Ctypes.(coerce (ptr void) gen null)
     | `P p -> nfsplitting p Ctypes.(coerce (ptr void) gen null)
+
+  module Infix = struct
+    let ( = ) a b = gequal a b = 1
+  end
+end
+
+type 'a group
+
+type 'a group_structure = {
+  mul : 'a group t -> 'a group t -> 'a group t;
+  pow : 'a group t -> Integer.t -> 'a group t;
+  rand : unit -> 'a group t;
+  hash : 'a group t -> Unsigned.ULong.t;
+  equal : 'a group t -> 'a group t -> bool;
+  equal_identity : 'a group t -> bool;
+  bb_group : bb_group Ctypes.structure option;
+}
+
+module Fp = struct
+  type t = Integer.t
+
+  let add a b ~modulo = fp_add a b modulo
+  let pow x ~exponent ~modulo = fp_pow x exponent modulo
+end
+
+module Finite_field = struct
+  type finite_field
+  type ring = gen
+  type nonrec t = finite_field t
+
+  external inj_ring : t -> ring = "%identity"
+
+  let generator ~order =
+    ff_primroot
+      (ffgen (stoi (Signed.Long.of_int order)) (Signed.Long.of_int 0))
+      Ctypes.(coerce (ptr void) (ptr gen) null)
+
+  let create ~p ~degree =
+    ffinit (Integer.of_int p) (Signed.Long.of_int degree) Signed.Long.zero
+
+  let fpxq_star ~(p : pari_ulong) ~(quotient : Fp.t Polynomial.t) :
+      finite_field group_structure =
+    let open Ctypes in
+    let q =
+      powuu p
+        (Unsigned.ULong.of_int
+           (Signed.Long.to_int (Polynomial.degree quotient)))
+    in
+    let ret = allocate (ptr void) (from_voidp void null) in
+    let bb_group = !@(get_flxq_star ret quotient (itou q)) in
+    let get_fct field typ =
+      let fn = getf bb_group field in
+      coerce (static_funptr typ) (Foreign.funptr typ) fn
+    in
+    {
+      bb_group = Some bb_group;
+      mul = (fun a b -> flxq_mul a b quotient p);
+      pow = (fun x n -> flxq_pow x n quotient p);
+      rand =
+        (fun () -> (get_fct bb_group_rand (ptr void @-> returning gen)) null);
+      hash = hash_gen;
+      equal = (fun a b -> flx_equal a b = 1);
+      equal_identity = (fun a -> flx_equal1 a = 1);
+    }
 end
