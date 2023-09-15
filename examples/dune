@@ -1,6 +1,6 @@
 (executable
  (name elliptic_curves)
- (libraries core ctypes.stubs ctypes.foreign ctypes pari-bindings)
+ (libraries core ctypes.stubs ctypes.foreign ctypes pari)
  (modules elliptic_curves))
 
 (executable

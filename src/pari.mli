@@ -126,7 +126,7 @@ and Real : sig
     ]} *)
 
   val of_signed : Signed.long -> Signed.long -> t
-  val shift : t -> Signed.Long.t -> t
+  val shift : t -> int -> t
   val sqrt : t -> t
   val ceil : t -> Integer.t
   val add : t -> t -> t
@@ -142,7 +142,7 @@ and Rational : sig
   external inj_ring : t -> ring = "%identity"
   external inj_real : t -> Real.t = "%identity"
   external inj_complex : t -> Complex.t = "%identity"
-  val shift : t -> Signed.Long.t -> t
+  val shift : t -> int -> t
 end
 
 and Integer : sig
@@ -155,14 +155,18 @@ and Integer : sig
   val of_int : int -> t
   val of_signed : Signed.long -> t
   val equal : t -> t -> bool
-  val shift : t -> Signed.Long.t -> t
+  val shift : t -> int -> t
   val sqrt : t -> Real.t
+  val zero : t
   val mul : t -> t -> t
   val add : t -> t -> t
   val sub : t -> t -> t
   val neg : t -> t
+  val pow : t -> t -> t
   val modulo : t -> t -> t
   val of_string : string -> t option
+  val to_string : t -> string
+  val random_prime : bits_amount:int -> t
 
   module Infix : sig
     val ( * ) : t -> t -> t
@@ -174,6 +178,18 @@ and Integer : sig
   end
 end
 
+type 'a group
+
+type 'a group_structure = {
+  mul : 'a group t -> 'a group t -> 'a group t;
+  pow : 'a group t -> Integer.t -> 'a group t;
+  rand : unit -> 'a group t;
+  hash : 'a group t -> Unsigned.ULong.t;
+  equal : 'a group t -> 'a group t -> bool;
+  equal_identity : 'a group t -> bool;
+  bb_group : bb_group Ctypes.structure option;
+}
+
 module Set : sig
   type nonrec 'a t constraint 'a = 'b t
 
@@ -184,13 +200,10 @@ end
 module Vector : sig
   type nonrec ('a, 'b) t constraint 'a = 'c t constraint 'b = [< `COL | `ROW ]
 
-  val length : ('a, 'b) t -> Signed.Long.t
+  val length : ('a, 'b) t -> int
   val of_array : 'a array -> ('a, [ `ROW ]) t
   val equal : ('a, 'b) t -> ('a, 'b) t -> bool
-
-  val slice :
-    ('a, 'b) t -> start:Signed.Long.t -> stop:Signed.Long.t -> ('a, 'b) t
-
+  val slice : ('a, 'b) t -> start:int -> stop:int -> ('a, 'b) t
   val ( .%[] ) : ('a, 'b) t -> int -> 'a
   val ( .%[]<- ) : ('a, 'b) t -> int -> 'a -> unit
   val mul : ('a, [ `ROW ]) t -> ('a, [ `COL ]) t -> 'a
@@ -218,7 +231,7 @@ module Matrix : sig
   type matrix
   type nonrec 'a t = matrix t constraint 'a = 'b t
 
-  val id : Signed.Long.t -> Integer.t t
+  val id : int -> Integer.t t
   val inv : 'a t -> 'a t
   val mul : 'a t -> 'a t -> 'a t
   val lll : 'a t -> 'a t
@@ -229,20 +242,20 @@ module Matrix : sig
   val inj : 'a t -> inj:('a -> 'b) -> 'b t
 end
 
-module Polynomial : sig
+module rec Polynomial : sig
   type polynomial
-  type nonrec 'a t = polynomial ring t constraint 'a = 'b ring t
+  type 'a p := 'a t
+  type 'a t = polynomial ring p constraint 'a = 'b ring p
 
   val to_string : 'a t -> string
-  val one : 'a t
   val mul : 'a t -> 'a t -> 'a t
+  val div : 'a t -> 'a t -> 'a t
   val equal : 'a t -> 'a t -> bool
-  val zero : 'a t
   val add : 'a t -> 'a t -> 'a t
   val sub : 'a t -> 'a t -> 'a t
   val neg : 'a t -> 'a t
   val eval : 'a t -> 'a -> 'a
-  val degree : 'a t -> Signed.long
+  val degree : 'a t -> int
   val get_coeff : 'a t -> int -> 'a
   val create : ('a * int) list -> 'a t
   val deriv : ?indeterminate:int -> 'a t -> 'a t
@@ -266,94 +279,209 @@ module Polynomial : sig
       # Polynomial.to_string q;;
       - : string = "x^3 - 111*x^2 + 6064*x - 189804"
       # let qmin = Polynomial.minimal q;;
-      val qmin : 'a t Polynomial.t = <abstr>
+      val qmin : 'a ring t Polynomial.t = <abstr>
       # Polynomial.to_string qmin;;
       - : string = "x^3 - x^2 - 60*x - 364"
       # Number_field.(are_isomorphic (create q) (create qmin));
       - : bool = true
       ]} *)
+
+  val ( .%[] ) : 'a t -> int -> 'a
+
+  val roots_ff :
+    _ Finite_field.finite_field ring p t ->
+    (_ Finite_field.finite_field field p, [ `ROW ]) Vector.t
 end
 
-module Number_field : sig
-  type number_field
-  type 'a p := 'a t
-  type nonrec t = number_field field t
-  type elt
-
-  val create : Rational.ring Polynomial.t -> t
-  (** [create p] returns the number field Q(X)/(p) for a monic
-      irreducible polynomial [p] over the field Q of the rationals. *)
-
-  val are_isomorphic : t -> t -> bool
-  (** [are_isomorphic a b] returns true if and only if number
-      fields [a] and [b] are isomorphic. *)
-
-  val sign : t -> Signed.Long.t * Signed.Long.t
-  val discriminant : t -> Integer.t
-  val z_basis : t -> (elt p, [ `ROW ]) Vector.t
-  val elt : Rational.t array -> elt p
-  val add : t -> elt p -> elt p -> elt p
-  val mul : t -> elt p -> elt p -> elt p
-  val divrem : t -> elt p -> elt p -> elt p * elt p
-
-  val ideal_norm : t -> elt p -> Integer.t
-
-  val splitting :
-    [< `F of t | `P of Integer.t Polynomial.t ] -> Integer.t Polynomial.t
-  (** [splitting (nf|p)] given the number field [nf = Q(x)/(p)]
-      or polynomial [p], returns the polynomial over Q for the
-      splitting field of [p], that is the smallest field over
-      which [p] is totally split. *)
-
-  module Infix : sig
-    val ( = ) : elt p -> elt p -> bool
-  end
-end
-
-type 'a group
-
-type 'a group_structure = {
-  mul : 'a group t -> 'a group t -> 'a group t;
-  pow : 'a group t -> Integer.t -> 'a group t;
-  rand : unit -> 'a group t;
-  hash : 'a group t -> Unsigned.ULong.t;
-  equal : 'a group t -> 'a group t -> bool;
-  equal_identity : 'a group t -> bool;
-  bb_group : bb_group Ctypes.structure option;
-}
-
-module Fp : sig
+and Fp : sig
   type t = Integer.t
 
   val add : t -> t -> modulo:t -> t
   val pow : t -> exponent:t -> modulo:t -> t
 end
 
-module Finite_field : sig
-  type finite_field
+and Finite_field : sig
+  type 'a finite_field
   type 'a p := 'a t
-  type nonrec t = finite_field field t
-  type nonrec ring = finite_field ring p
+  type 'a t = 'a finite_field field p
+  type prime
+  type prime_field = prime finite_field field p
+  type nonrec 'a ring = 'a finite_field ring p
 
-  external inj_ring : t -> ring = "%identity"
-  val generator : order:int -> t
+  external inj_ring : _ t -> _ ring = "%identity"
+  external inj_field : _ ring -> _ t = "%identity"
+  val generator : order:Integer.t -> _ t
+  val prime_field_element : Integer.t -> p:Integer.t -> prime t
+  val finite_field_element : Integer.t array -> 'a t -> 'a t
 
-  val create : p:int -> degree:int -> t
+  val create : p:int -> degree:int -> _ ring Polynomial.t
   (** [create p degree] returns a monic irreducible polynomial of the
       given [degree] over F_p[X]. *)
 
-  (*val extend : t -> [`Degree of int | `P of ring Polynomial.t] -> t
-    (** extend the field $K$ of definition of $a$ by a root of the polynomial
+  val generator_from_irreducible_polynomial : _ ring Polynomial.t -> _ t
+  val residue_class : _ t -> Integer.t Polynomial.t
+  val residue_class_prime : prime t -> Integer.t
+  val equal : _ t -> _ t -> bool
+  val add : _ t -> _ t -> _ t
+  val mul : _ t -> _ t -> _ t
+  val pow : _ t -> Integer.t -> _ t
+  val random : _ t -> _ t
+  val zero : _ t -> _ t
+
+  val extend : 'a field t -> [< `Degree of int | `Quotient of 'a ring Polynomial.t ] -> 'a field t
+  (** extend the field $K$ of definition of $a$ by a root of the polynomial
      $P\in K[X]$ assumed to be irreducible over $K$.  Return $[r, m]$ where $r$
      is a root of $P$ in the extension field $L$ and $m$ is a map from $K$ to $L$,
      see \kbd{ffmap}.
      If $v$ is given, the variable name is used to display the generator of $L$,
      else the name of the variable of $P$ is used.
      A generator of $L$ can be recovered using $b=ffgen(r)$.
-     The image of $P$ in $L[X]$ can be recovered using $PL=ffmap(m,P)$. *)*)
+     The image of $P$ in $L[X]$ can be recovered using $PL=ffmap(m,P)$. *)
 
   val fpxq_star :
-    p:pari_ulong -> quotient:Fp.t Polynomial.t -> finite_field group_structure
+    p:pari_ulong -> quotient:Fp.t Polynomial.t -> _ finite_field group_structure
+
+  val to_string : _ t -> string
+
+  module Infix : sig
+    val ( ~- ) : _ t -> _ t
+    val ( + ) : _ t -> _ t -> _ t
+    val ( - ) : _ t -> _ t -> _ t
+    val ( * ) : _ t -> _ t -> _ t
+    val ( ^ ) : _ t -> Integer.t -> _ t
+  end
+end
+
+module Number_field : sig
+  type number_field
+  type structure
+  type nonrec t = number_field field t
+
+  val create : Rational.ring Polynomial.t -> structure
+  (** [create p] returns the number field Q(X)/(p) for a monic
+      irreducible polynomial [p] over the field Q of the rationals. *)
+
+  val are_isomorphic : structure -> structure -> bool
+  (** [are_isomorphic a b] returns true if and only if number
+      fields [a] and [b] are isomorphic. *)
+
+  val sign : structure -> Signed.Long.t * Signed.Long.t
+  val discriminant : structure -> Integer.t
+  val z_basis : structure -> (t, [ `ROW ]) Vector.t
+  val elt : Rational.t array -> t
+  val add : structure -> t -> t -> t
+  val mul : structure -> t -> t -> t
+  val equal : t -> t -> bool
+  val divrem : structure -> t -> t -> t * t
+  val ideal_norm : structure -> t -> Integer.t
+
+  val splitting :
+    [< `F of structure | `P of Integer.t Polynomial.t ] ->
+    Integer.t Polynomial.t
+  (** [splitting (nf|p)] given the number field [nf = Q(x)/(p)]
+      or polynomial [p], returns the polynomial over Q for the
+      splitting field of [p], that is the smallest field over
+      which [p] is totally split. *)
+
+  module Infix : sig
+    val ( = ) : t -> t -> bool
+  end
+end
+
+module Elliptic_curve : sig
+  type elliptic_curve
+  type 'a p := 'a t
+  type 'a structure constraint 'a = 'b field t
+  type nonrec 'a t = elliptic_curve group t constraint 'a = 'b field t
+
+  val create :
+    ?a1:'a ->
+    ?a2:'a ->
+    ?a3:'a ->
+    ?a4:'a ->
+    ?a6:'a ->
+    unit ->
+    'a structure option
+  (** [create ?a1 ?a2 ?a3 ?a4 ?a6] defines the curve
+        {%math: Y^2 + a_1 XY + a_3 Y = X^3 + a_2 X^2 + a_4 X + a_6%}.
+        Returns [None] if the input coefficients do not define an elliptic curve
+        over the field from the coefficients. *)
+
+  val get_a1 : 'a structure -> 'a
+  val get_a2 : 'a structure -> 'a
+  val get_a3 : 'a structure -> 'a
+  val get_a4 : 'a structure -> 'a
+  val get_a6 : 'a structure -> 'a
+  val of_coordinates : x:'a -> y:'a -> 'a t
+
+  val order : 'a structure -> Integer.t
+  (** {@ocaml[
+      # let g = Finite_field.generator ~order:(Integer.of_int 625) (* 5^4 *);;
+      val g : Finite_field.t = <abstr>
+      # let ell = Option.get (Elliptic_curve.create ~a4:(Finite_field.pow g (Integer.of_int 4)) ~a6:(Finite_field.pow g (Integer.of_int 6)) ());;
+      val ell : Finite_field.t Elliptic_curve.structure = <abstr>
+      # Integer.(to_string (Elliptic_curve.order ell));;
+      - : string = "675"
+      ]} *)
+
+  val discriminant : 'a structure -> 'a
+  val j_invariant : 'a structure -> 'a
+  val random : 'a structure -> 'a t
+
+  val weil_pairing_ff :
+    _ Finite_field.t structure ->
+    l:Integer.t ->
+    p:_ Finite_field.t t ->
+    q:_ Finite_field.t t ->
+    _ Finite_field.t
+  (** [weil_pairing_ff ell ~l ~p ~q] returns the Weil pairing of the two points
+      of [l]-torsion [p] and [q] on the elliptic curve [ell].
+
+      {@ocaml[
+      # let l = Integer.of_int 3;;
+      val l : Integer.t = <abstr>
+      # let ord = Integer.of_int 103;;
+      val ord : Integer.t = <abstr>
+      # let ell = Option.get (Elliptic_curve.create ~a3:(Finite_field.prime_field_element (Integer.of_int 1) ~p:ord) ());;
+      val ell : Finite_field.t Elliptic_curve.structure = <abstr>
+      # let (p, q) = Elliptic_curve.(of_coordinates ~x:(Finite_field.prime_field_element (Integer.of_int 0) ~p:ord) ~y:(Finite_field.prime_field_element (Integer.of_int 0) ~p:ord), of_coordinates ~x:(Finite_field.prime_field_element (Integer.of_int 57) ~p:ord) ~y:(Finite_field.prime_field_element (Integer.of_int 46) ~p:ord));;
+      val p : Finite_field.t Elliptic_curve.t = <abstr>
+      val q : Finite_field.t Elliptic_curve.t = <abstr>
+      # let scalar = (Elliptic_curve.weil_pairing_ff ell ~l ~p ~q);;
+      val scalar : Finite_field.t = <abstr>
+      # Finite_field.to_string scalar (* 56 mod 103 *);;
+      - : string = "56"
+      # Finite_field.(to_string (pow scalar l));;
+      - : string = "1"
+      ]}
+      *)
+
+  val l_division_polynomial :
+    'a field p structure -> l:Signed.Long.t -> 'a ring p Polynomial.t
+  (** {@ocaml[
+      # let g = Finite_field.generator ~order:(Integer.of_int 625) (* 5^4 *);;
+      val g : Finite_field.t = <abstr>
+      # let ell = Option.get (Elliptic_curve.create ~a6:(Finite_field.pow g (Integer.of_int 6)) ());;
+      val ell : Finite_field.t Elliptic_curve.structure = <abstr>
+      # let pdiv7 = (Elliptic_curve.l_division_polynomial ell ~l:(Signed.Long.of_int 7));;
+      val pdiv7 : Finite_field.finite_field ring t Polynomial.t = <abstr>
+      # Polynomial.to_string pdiv7;;
+      - : string =
+      "2*x^24 + (3*x^3 + x + 2)*x^21 + (x^3 + x^2 + x + 2)*x^18 + (2*x^3 + 2*x^2 + 4*x)*x^15 + (2*x^3 + 4*x^2 + 4*x + 1)*x^12 + (3*x^3 + 4*x^2 + 1)*x^9 + (4*x^3 + x^2 + 4)*x^6 + (2*x^3 + 3*x^2 + 3*x + 4)*x^3 + (x^3 + x^2)"
+      # Polynomial.degree pdiv7 = Signed.Long.of_int ((7 * 7 - 1) / 2);;
+      - : bool = true
+      ]} *)
+
+  val to_string : 'a t -> string
+  val add : 'a structure -> 'a t -> 'a t -> 'a t
+  val sub : 'a structure -> 'a t -> 'a t -> 'a t
+  val mul : 'a structure -> n:Integer.t -> p:'a t -> 'a t
+  val equal : 'a t -> 'a t -> bool
+
+  val generators_ff :
+    _ Finite_field.t structure -> (_ Finite_field.t t, [ `ROW ]) Vector.t
+
+  val zero : 'a structure -> 'a t
 end
 
 val logstyle_none : int64
@@ -7569,7 +7697,6 @@ val zxm_init_crt : _ t -> Signed.long -> pari_ulong -> _ t
 val zxq_minpoly : _ t -> _ t -> Signed.long -> pari_ulong -> _ t
 val zxq_charpoly : _ t -> _ t -> Signed.long -> _ t
 val characteristic : _ t -> _ t
-val ffinit : _ t -> Signed.long -> Signed.long -> _ t
 val ffnbirred : _ t -> Signed.long -> _ t
 val ffnbirred0 : _ t -> Signed.long -> Signed.long -> _ t
 val ffsumnbirred : _ t -> Signed.long -> _ t

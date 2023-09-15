@@ -172,19 +172,17 @@ let c : Integer.t =
     (Integer.of_string "1767340387062422074966517854316675617102166991")
 
 let k1 : Integer.t = Vector.(k.%[1])
-let l : long = Vector.length k
+let l = Vector.length k
 
 (* We consider the key without its first weight *)
-let kred : (Integer.t, _) Vector.t =
-  Vector.slice k ~start:(Long.of_int 2) ~stop:l
+let kred : (Integer.t, _) Vector.t = Vector.slice k ~start:2 ~stop:l
 
 let b : Integer.t =
-  Real.ceil (Integer.sqrt (Integer.shift (Integer.of_signed l) l))
+  Real.ceil (Integer.sqrt (Integer.shift (Integer.of_int l) l))
 
 (* Build lattice basis *)
 let basis : Real.t Matrix.t =
   let basis = Matrix.(inj ~inj:Integer.inj_real (id l)) in
-  let l = Long.to_int l in
   Matrix.(basis.%[l; l] <- Integer.(inj_real (mul c (neg b))));
   for i = 1 to l - 1 do
     Matrix.(basis.%[l; i] <- Integer.(inj_real (mul b Vector.(kred.%[i]))));
@@ -206,7 +204,7 @@ let check_knapsack_equation col =
 (* shift vector v by constant 1/2 *)
 let shift_vec_inplace (v : (Real.t, _) Vector.t) : unit =
   let open Vector in
-  for i = 1 to Long.to_int (length v) do
+  for i = 1 to length v do
     v.%[i] <- Real.add (Real.inv (Integer.inj_real (Integer.of_int 2))) v.%[i]
   done
 
@@ -218,7 +216,6 @@ let check_column (col : (Real.t, _) Vector.t) : bool =
   && Long.(Set.search s Integer.(inj_real (of_int 0)) zero = one)
 
 let search_sol () =
-  let l = Long.to_int l in
   let rec search_sol_aux i =
     match
       let aux ~bit =
@@ -234,11 +231,7 @@ let search_sol () =
           if j = l then None
           else
             let col =
-              Vector.(
-                slice
-                  Matrix.(reduced_basis.%[j])
-                  ~start:Long.one
-                  ~stop:Long.(sub (of_int l) one))
+              Vector.(slice Matrix.(reduced_basis.%[j]) ~start:1 ~stop:(l - 1))
             in
             shift_vec_inplace col;
             let candidate =

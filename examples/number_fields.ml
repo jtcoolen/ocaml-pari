@@ -44,5 +44,4 @@ let q, r = Number_field.divrem gaussian_integers a b
 
 let () =
   Printf.eprintf "%b\n"
-    Number_field.Infix.(
-      a = nfadd gaussian_integers (nfmul gaussian_integers b q) r)
+    Number_field.( equal a (add gaussian_integers (mul gaussian_integers b q) r))
