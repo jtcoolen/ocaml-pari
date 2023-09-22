@@ -252,7 +252,10 @@ let c =
   let secret = Finite_field.random g in
   let curve =
     Elliptic_curve.create
-      ~a6:(Finite_field.finite_field_element [|(Integer.of_int 3)|] BLS.quad_ext_p)
+      ~a6:
+        (Finite_field.finite_field_element
+           [| Integer.of_int 3 |]
+           BLS.quad_ext_p)
       ()
     |> Option.get
   in

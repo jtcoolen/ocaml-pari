@@ -5502,7 +5502,7 @@ val listinsert : gen -> gen -> Signed.long -> gen
 val listpop : gen -> Signed.long -> unit
 val listpop0 : gen -> Signed.long -> unit
 val listput : gen -> gen -> Signed.long -> gen
-val listput0 : gen -> gen -> Signed.long -> gen
+val listput0 : gen -> gen -> Signed.long -> unit
 val listsort : gen -> Signed.long -> unit
 val matsize : gen -> gen
 val mklist : unit -> gen

@@ -393,6 +393,7 @@ module Types (T : Ctypes.TYPE) = struct
   let pari_global_state : pari_global_state structure typ =
     structure "pari_global_state"
 
+  let pari_global_state_debugvar = field pari_global_state "debugvar" long
   let pari_global_state_bitprec = field pari_global_state "bitprec" long
   let pari_global_state_primetab = field pari_global_state "primetab" gen
   let pari_global_state_seadata = field pari_global_state "seadata" gen

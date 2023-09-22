@@ -328,7 +328,10 @@ and Finite_field : sig
   val random : _ t -> _ t
   val zero : _ t -> _ t
 
-  val extend : 'a field t -> [< `Degree of int | `Quotient of 'a ring Polynomial.t ] -> 'a field t
+  val extend :
+    'a field t ->
+    [< `Degree of int | `Quotient of 'a ring Polynomial.t ] ->
+    'a field t
   (** extend the field $K$ of definition of $a$ by a root of the polynomial
      $P\in K[X]$ assumed to be irreducible over $K$.  Return $[r, m]$ where $r$
      is a root of $P$ in the extension field $L$ and $m$ is a map from $K$ to $L$,
@@ -5889,7 +5892,7 @@ val listinsert : _ t -> _ t -> Signed.long -> _ t
 val listpop : _ t -> Signed.long -> unit
 val listpop0 : _ t -> Signed.long -> unit
 val listput : _ t -> _ t -> Signed.long -> _ t
-val listput0 : _ t -> _ t -> Signed.long -> _ t
+val listput0 : _ t -> _ t -> Signed.long -> unit
 val listsort : _ t -> Signed.long -> unit
 val matsize : _ t -> _ t
 val mklist : unit -> _ t
