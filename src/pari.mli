@@ -100,7 +100,7 @@ type 'a ring
 type 'a field
 
 module rec Complex : sig
-  type complex
+  type complex = private Complex
   type nonrec t = complex field t
 
   val inv : t -> t
@@ -110,7 +110,7 @@ module rec Complex : sig
 end
 
 and Real : sig
-  type real
+  type real = private Real
   type nonrec t = real field t
 
   external inj_complex : t -> Complex.t = "%identity"
@@ -134,7 +134,7 @@ and Real : sig
 end
 
 and Rational : sig
-  type rational
+  type rational = private Rational
   type 'a p := 'a t
   type nonrec t = rational field t
   type nonrec ring = rational ring p
@@ -146,7 +146,7 @@ and Rational : sig
 end
 
 and Integer : sig
-  type integer
+  type integer = private Integer
   type nonrec t = integer ring t
 
   external inj_rat : t -> Rational.t = "%identity"
@@ -228,7 +228,7 @@ module Vector : sig
 end
 
 module Matrix : sig
-  type matrix
+  type matrix = private Matrix
   type nonrec 'a t = matrix t constraint 'a = 'b t
 
   val id : int -> Integer.t t
@@ -332,14 +332,14 @@ and Finite_field : sig
     'a field t ->
     [< `Degree of int | `Quotient of 'a ring Polynomial.t ] ->
     'a field t
-  (** extend the field $K$ of definition of $a$ by a root of the polynomial
-     $P\in K[X]$ assumed to be irreducible over $K$.  Return $[r, m]$ where $r$
-     is a root of $P$ in the extension field $L$ and $m$ is a map from $K$ to $L$,
-     see \kbd{ffmap}.
-     If $v$ is given, the variable name is used to display the generator of $L$,
-     else the name of the variable of $P$ is used.
-     A generator of $L$ can be recovered using $b=ffgen(r)$.
-     The image of $P$ in $L[X]$ can be recovered using $PL=ffmap(m,P)$. *)
+  (** extend the field {m K} of definition of {m a} by a root of the polynomial
+     {m P\in K[X]} assumed to be irreducible over {m K}.  Return {m [r, m]} where {m r}
+     is a root of {m P} in the extension field {m L} and {m m} is a map from {m K} to {m L},
+     see [ffmap].
+     If {m v} is given, the variable name is used to display the generator of {m L},
+     else the name of the variable of {m P} is used.
+     A generator of {m L} can be recovered using [b=ffgen(r)].
+     The image of {m P} in {m L[X]} can be recovered using [PL=ffmap(m,P)]. *)
 
   val fpxq_star :
     p:pari_ulong -> quotient:Fp.t Polynomial.t -> _ finite_field group_structure

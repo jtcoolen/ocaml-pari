@@ -11,7 +11,7 @@ let register_gc =
   Gc.finalise (fun v -> pari_free Ctypes.(coerce gen (ptr void) v))
 
 module Complex = struct
-  type complex
+  type complex = private Complex
   type t = gen
 
   let create ~re ~im =
@@ -25,7 +25,7 @@ module Complex = struct
 end
 
 module Real = struct
-  type real
+  type real = private Real
   type t = gen
 
   external inj_complex : t -> Complex.t = "%identity"
@@ -39,7 +39,7 @@ module Real = struct
 end
 
 module Rational = struct
-  type rational
+  type rational = private Rational
   type t = gen
   type ring = gen
 
@@ -51,7 +51,7 @@ module Rational = struct
 end
 
 module Integer = struct
-  type integer
+  type integer = private Integer
   type t = gen
 
   external inj_rat : t -> Rational.t = "%identity"
@@ -87,7 +87,7 @@ module Integer = struct
 end
 
 module Matrix = struct
-  type matrix
+  type matrix = private Matrix
   type nonrec 'a t = gen constraint 'a = gen
 
   let id n =
@@ -150,12 +150,7 @@ module Vector = struct
   let transpose_row = gtrans
   let transpose_column = gtrans
   let to_set = gtoset
-
-  let singleton x =
-    let s = mkvec x in
-    register_gc s;
-    s
-
+  let singleton x = mkvec x
   let concat = gconcat
   let inj x ~inj:_ = x
   let to_string = gentostr
