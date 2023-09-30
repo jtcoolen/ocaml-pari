@@ -283,7 +283,7 @@ module Finite_field = struct
   type 'a finite_field
   type _ ring = gen
   type nonrec 'a t = 'a finite_field t
-  type prime
+  type prime = private Prime
   type prime_field = gen
 
   external inj_ring : _ t -> _ ring = "%identity"

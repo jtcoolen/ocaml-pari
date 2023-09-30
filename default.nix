@@ -1,5 +1,9 @@
-{ pkgs ? import <nixpkgs> { } }:
-let ocamlPackages = pkgs.ocaml-ng.ocamlPackages;
+{ system ? builtins.currentSystem, pkgs ? import <nixpkgs> { inherit system; } }:
+let pkgs = import (fetchTarball {
+  url = "https://github.com/NixOS/nixpkgs/archive/1f0e8ac1f9a783c4cfa0515483094eeff4315fe2.tar.gz";
+  sha256 = "1mdnn0fj81pgvhzmzxh0g54g6yqxfqd2fim4h4c7cf7yskcp8g48";
+}) {inherit system; }; in
+let ocamlPackages = pkgs.ocaml-ng.ocamlPackages_5_0;
 in pkgs.fastStdenv.mkDerivation {
   name = "ocaml_pari";
   nativeBuildInputs =
@@ -8,7 +12,6 @@ in pkgs.fastStdenv.mkDerivation {
       bison
       gnumake
       pkg-config
-      pkgconfig
       gcc
       gmp
       gmpxx
@@ -19,6 +22,6 @@ in pkgs.fastStdenv.mkDerivation {
       ocamlformat
     ]);
   buildInputs = (with ocamlPackages; [ core ppx_expect ctypes odoc ]);
-#  LD_LIBRARY_PATH = "${pkgs.glibc}/lib:${pkgs.glibc.static}/lib";
+  LD_LIBRARY_PATH = "${pkgs.glibc}/lib:${pkgs.glibc.static}/lib";
   NIX_LDFLAGS = "-lc -lm";
 }

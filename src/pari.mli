@@ -304,7 +304,7 @@ and Finite_field : sig
   type 'a finite_field
   type 'a p := 'a t
   type 'a t = 'a finite_field field p
-  type prime
+  type prime = private Prime
   type prime_field = prime finite_field field p
   type nonrec 'a ring = 'a finite_field ring p
 
@@ -471,7 +471,7 @@ module Elliptic_curve : sig
       # Polynomial.to_string pdiv7;;
       - : string =
       "2*x^24 + (3*x^3 + x + 2)*x^21 + (x^3 + x^2 + x + 2)*x^18 + (2*x^3 + 2*x^2 + 4*x)*x^15 + (2*x^3 + 4*x^2 + 4*x + 1)*x^12 + (3*x^3 + 4*x^2 + 1)*x^9 + (4*x^3 + x^2 + 4)*x^6 + (2*x^3 + 3*x^2 + 3*x + 4)*x^3 + (x^3 + x^2)"
-      # Polynomial.degree pdiv7 = Signed.Long.of_int ((7 * 7 - 1) / 2);;
+      # Polynomial.degree pdiv7 = ((7 * 7 - 1) / 2);;
       - : bool = true
       ]} *)
 

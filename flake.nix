@@ -8,7 +8,7 @@
       (system:
         let pkgs = nixpkgs.legacyPackages.${system}; in
         {
-          devShells.default = import ./default.nix { inherit pkgs; };
+          devShells.default = import ./default.nix { inherit pkgs system; };
         }
       );
 }

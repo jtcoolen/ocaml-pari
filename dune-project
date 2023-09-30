@@ -1,5 +1,5 @@
 (lang dune 3.7)
-(using ctypes 0.1)
+(using ctypes 0.3)
 (using mdx 0.3)
 
 (name pari)
