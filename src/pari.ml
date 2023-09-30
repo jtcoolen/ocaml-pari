@@ -1,14 +1,14 @@
 include Pari_bindings
 
-type _ t = gen
+type ('kind, 'structure) t = gen
 
 let t = gen
 
-type 'a ring = gen
-type 'a field = gen
+type ring = gen
+type field = gen
 
-let register_gc =
-  Gc.finalise (fun v -> pari_free Ctypes.(coerce gen (ptr void) v))
+let register_gc v =
+  Gc.finalise_last (fun () -> pari_free Ctypes.(coerce gen (ptr void) v)) v
 
 module Complex = struct
   type complex = private Complex
@@ -87,7 +87,6 @@ module Integer = struct
 end
 
 module Matrix = struct
-  type matrix = private Matrix
   type nonrec 'a t = gen constraint 'a = gen
 
   let id n =
@@ -180,29 +179,25 @@ module Polynomial = struct
   let neg = gneg
   let eval p x = poleval p x
   let degree t = degree t |> Signed.Long.to_int
-  let get_coeff t i = Ctypes.(!@(coerce gen (ptr gen) t +@ Int.add i 2))
 
-  let create (p : ('a * int) list) : 'a t =
-    let len =
-      succ
-        (List.fold_left
-           (fun acc (_, i) -> if i > acc then i else acc)
-           (Int.neg 1) p)
-    in
+  let get_coeff t i =
+    gcopy @@ Ctypes.(!@(coerce gen (ptr gen) t +@ Int.add i 2))
+
+  let create (p : 'a array) : 'a t =
+    let len = Array.length p in
     let size = Signed.Long.of_int (Int.add len 2) in
     let p' = cgetg size (Signed.Long.of_int 10 (* t_POL *)) in
     let p'' = Ctypes.(coerce gen (ptr gen) p') in
     (* TODO: support 32-bit arch *)
-    let typ = gentostr (type0 (fst (List.nth p 0))) in
+    let typ = gentostr (type0 p.(0)) in
     let v =
-      if typ = "\"t_POL\"" then Signed.Long.(succ (gvar (fst (List.nth p 0))))
+      if typ = "\"t_POL\"" then Signed.Long.(succ (gvar p.(0)))
       else Signed.Long.zero
     in
     Ctypes.(p' +@ 1 <-@ Signed.Long.(shift_left v Stdlib.(64 - 2 - 16)));
-    for i = 2 to Int.succ len do
-      Ctypes.(p'' +@ i <-@ stoi (Signed.Long.of_int 0))
+    for i = 0 to len - 1 do
+      Ctypes.(p'' +@ (i + 2) <-@ p.(len - 1 - i))
     done;
-    List.iter (fun (c, idx) -> Ctypes.(p'' +@ Int.add idx 2 <-@ c)) p;
     let p = normalizepol_lg p' size in
     register_gc p;
     p
@@ -216,13 +211,13 @@ module Polynomial = struct
   let cyclotomic n = polcyclo n (Signed.Long.of_int 0)
   let is_irreducible p = polisirreducible p = Signed.Long.one
   let minimal p = polredbest p (Signed.Long.of_int 0)
-  let ( .%[] ) m i = truecoef m (Signed.Long.of_int i)
+  let ( .%[] ) m i = gcopy @@ truecoef m (Signed.Long.of_int i)
   let roots_ff p = polrootsmod p Ctypes.(coerce (ptr void) t null)
 end
 
 module Number_field = struct
-  type number_field
-  type nonrec t = number_field t
+  type number_field = private Number_field
+  type nonrec t = (number_field, field) t
   type structure = gen
 
   let create p =
@@ -260,15 +255,15 @@ module Number_field = struct
   end
 end
 
-type 'a group
+type group
 
 type 'a group_structure = {
-  mul : 'a group t -> 'a group t -> 'a group t;
-  pow : 'a group t -> Integer.t -> 'a group t;
-  rand : unit -> 'a group t;
-  hash : 'a group t -> Unsigned.ULong.t;
-  equal : 'a group t -> 'a group t -> bool;
-  equal_identity : 'a group t -> bool;
+  mul : ('a, group) t -> ('a, group) t -> ('a, group) t;
+  pow : ('a, group) t -> Integer.t -> ('a, group) t;
+  rand : unit -> ('a, group) t;
+  hash : ('a, group) t -> Unsigned.ULong.t;
+  equal : ('a, group) t -> ('a, group) t -> bool;
+  equal_identity : ('a, group) t -> bool;
   bb_group : bb_group Ctypes.structure option;
 }
 
@@ -279,15 +274,14 @@ module Fp = struct
   let pow x ~exponent ~modulo = fp_pow x exponent modulo
 end
 
-module Finite_field = struct
-  type 'a finite_field
-  type _ ring = gen
-  type nonrec 'a t = 'a finite_field t
-  type prime = private Prime
-  type prime_field = gen
+type finite_field = private Finite_field
 
-  external inj_ring : _ t -> _ ring = "%identity"
-  external inj_field : _ ring -> _ t = "%identity"
+module Finite_field = struct
+  type ('a, 'b) p = ('a, 'b) t
+  type t = (finite_field, field) p
+
+  external inj_ring : t -> (finite_field, ring) p = "%identity"
+  external inj_field : (finite_field, ring) p -> t = "%identity"
 
   let generator ~order =
     ff_primroot
@@ -297,14 +291,16 @@ module Finite_field = struct
   let prime_field_element x ~p = ff_z_mul (ff_1 (generator ~order:p)) x
 
   let finite_field_element coeffs a =
-    let coeffs =
-      Polynomial.create List.(mapi (fun i e -> (e, i)) (Array.to_list coeffs))
-    in
-    rg_to_fpxq coeffs (ff_mod a) (ff_p a)
+    let len = Array.length coeffs in
+    fst
+      (Array.fold_left
+         (fun (acc, i) e ->
+           (gadd (gmul e (ff_pow a (Integer.of_int (len - i - 1)))) acc, i + 1))
+         (ff_zero a, 0)
+         coeffs)
 
   let generator_from_irreducible_polynomial p = ffgen p Signed.Long.zero
   let residue_class x = ff_to_fpxq_i x
-  let residue_class_prime x = gp_read_str (gentostr x)
 
   let create ~p ~degree =
     ffinit (Integer.of_int p) (Signed.Long.of_int degree) Signed.Long.zero
@@ -315,6 +311,7 @@ module Finite_field = struct
   let pow x n = ff_pow x n
   let random = genrand
   let zero g = ff_zero g
+  let one e = ff_1 e
 
   let extend base_field_elt = function
     | `Degree degree ->
@@ -328,7 +325,7 @@ module Finite_field = struct
         Vector.((ffextend base_field_elt modulo Signed.Long.zero).%[1])
 
   let fpxq_star ~(p : pari_ulong) ~(quotient : Fp.t Polynomial.t) :
-      _ finite_field group_structure =
+      finite_field group_structure =
     let open Ctypes in
     let q = powuu p (Unsigned.ULong.of_int (Polynomial.degree quotient)) in
     let ret = allocate (ptr void) (from_voidp void null) in
@@ -361,17 +358,17 @@ end
 
 module Elliptic_curve = struct
   type elliptic_curve
-  type nonrec 'a t = elliptic_curve group t constraint 'a = gen
+  type nonrec 'a t = (elliptic_curve, group) t constraint 'a = gen
   type 'a structure = gen constraint 'a = gen
 
-  let create ?a1 ?a2 ?a3 ?a4 ?a6 () =
+  let create ?a1 ?a2 ?a3 ?a4 ?a6 ?(dom = Ctypes.(coerce (ptr void) gen null)) ()
+      =
     let to_coeff = function Some c -> c | None -> stoi Signed.Long.zero in
     let ell =
       ellinit
         (mkvec5 (to_coeff a1) (to_coeff a2) (to_coeff a3) (to_coeff a4)
            (to_coeff a6))
-        Ctypes.(coerce (ptr void) gen null)
-        (Signed.Long.of_int 38)
+        dom (Signed.Long.of_int 38)
     in
     if Vector.length ell = 0 then None
     else (

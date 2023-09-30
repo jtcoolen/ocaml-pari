@@ -2,21 +2,22 @@ open Pari
 
 (* This line is mandatory to initialize the PARI stack;heap;table of primes... *)
 let () = pari_init 500_000_000 (Unsigned.ULong.of_int 500_000)
-let p = Polynomial.create [ (Integer.of_int 1, 1) ]
+let p = Polynomial.create [| Integer.of_int 1; Integer.of_int 0 |]
 let () = Printf.eprintf "%s\n" (Polynomial.to_string p)
 let p' = Polynomial.cyclotomic (Signed.Long.of_int 8)
 let () = Printf.eprintf "%s\n" (Polynomial.to_string p')
 
 let q =
   Polynomial.create
-    [
-      (Integer.of_int 1, 3);
-      (Integer.of_int (-111), 2);
-      (Integer.of_int 6064, 1);
-      (Integer.of_int (-189804), 0);
-    ]
+    [|
+      Integer.of_int 1;
+      Integer.of_int (-111);
+      Integer.of_int 6064;
+      Integer.of_int (-189804);
+    |]
 
-let qq = Polynomial.create [ (q, 3); (q, 2) ]
+let zero = Polynomial.create [| Integer.of_int 0 |]
+let qq = Polynomial.create [| q; q; zero; zero |]
 let () = Printf.eprintf "%s\n" (Polynomial.to_string qq)
 let () = Printf.eprintf "%b\n" (Polynomial.is_irreducible q)
 let qmin : Integer.t Polynomial.t = Polynomial.minimal q
@@ -29,7 +30,8 @@ let () =
 let gaussian_integers =
   (* Q(i) = Q[X]/(X^2+1) *)
   Number_field.create
-    (Polynomial.create [ (Integer.of_int 1, 2); (Integer.of_int 1, 0) ])
+    (Polynomial.create
+       [| Integer.of_int 1; Integer.of_int 0; Integer.of_int 1 |])
 
 (* Euclidean division of 6 + 8i by 1 + 5i. *)
 let a =
