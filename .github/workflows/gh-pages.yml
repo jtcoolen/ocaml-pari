@@ -1,0 +1,33 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - main  # Set a branch name to trigger deployment
+
+jobs:
+  deploy:
+    name: Deploy doc
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Use OCaml
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: '5.0'
+          dune-cache: false
+
+      - run: git submodule update --recursive --remote --init
+      - run: opam install . --deps-only --with-doc
+      - run: opam depext --install odoc
+      - run: opam exec -- dune build @doc
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_build/default/_doc/_html/
+          enable_jekyll: true
