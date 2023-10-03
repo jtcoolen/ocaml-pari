@@ -2,10 +2,10 @@
 
 (include_subdirs unqualified)
 
-(mdx
- (files :standard - *.mli)
- (libraries pari pari-bindings core integers ctypes ctypes.foreign mdx)
- (preludes prelude))
+;(mdx
+; (files :standard - *.mli)
+; (libraries pari-bindings core integers ctypes ctypes.foreign mdx)
+; (preludes prelude))
 
 (library
  (name Pari)

@@ -18,12 +18,13 @@
   (ocaml (>= 4.10))
   (dune (>= 3.7))
   (core (>= v0.14.0))
-  ctypes
-  ctypes-foreign
+  (ctypes (>= 0.13.0))
+  (ctypes-foreign (>= 0.13.0))
   conf-gmp
   conf-bison
+  conf-perl
   odoc
-  mdx))
+  (mdx (>= 2.0.0))))
 
 (package
  (name pari)
@@ -33,9 +34,10 @@
   (dune (>= 3.7))
   (core (>= v0.14.0))
   (pari-bindings (= :version))
-  ctypes
-  ctypes-foreign
+  (ctypes (>= 0.13.0))
+  (ctypes-foreign (>= 0.13.0))
   conf-gmp
   conf-bison
+  conf-perl
   odoc
-  mdx))
+  (mdx (>= 2.0.0))))

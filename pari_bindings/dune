@@ -23,7 +23,7 @@
     (chdir
      libpari
      (system
-      "if [ \"$(uname)\" = \"Darwin\" ]; then CC=$(find /usr/local/bin -name \"gcc-[0-9]*\" 2>&1 | head -n 1) ./Configure --prefix=local --with-gmp=/usr/local; else ./Configure --prefix=local --with-gmp=/usr/local; fi;"))
+       "if [ \"$(uname)\" = \"Darwin\" ]; then CC=$(find /usr/local/bin -name \"gcc-[0-9]*\" 2>&1 | head -n 1) ./Configure --prefix=local --with-gmp-lib=/opt/homebrew/lib --with-gmp-include=/opt/homebrew/include; elif [ \"$(uname)\" = \"FreeBSD\" ]; then ./Configure --prefix=local --with-gmp-lib=/usr/local/lib --with-gmp-include=/usr/local/include; else ./Configure --prefix=local; fi;"))
     (ignore-stderr
      (with-accepted-exit-codes
       (or 0 1)
@@ -39,7 +39,7 @@
     (copy libpari/local/lib/libpari.a libpari.a)
     (copy libpari/src/headers/parinf.h parinf.h)
     (copy libpari/src/headers/paristio.h paristio.h)
-    (system "find . -type d -regex '.*O[linux|darwin].*' > target")
+    (system "find . -type d -regex '.*O[linux|darwin|freebsd].*' > target")
     ; linux
     (ignore-stderr
      (with-accepted-exit-codes
@@ -63,7 +63,7 @@
  (flags
   (:standard -w -9-11-27-32))
  (c_library_flags
-  (:standard -fPIC -lgmp))
+  (:standard -fPIC -L/opt/homebrew/lib -L/usr/local/lib -lgmp))
  (ctypes
   (external_library_name libpari)
   (build_flags_resolver
@@ -71,8 +71,6 @@
     (c_flags
      (:standard
       -Ofast
-      -Wall
-      -Wextra
       -finline-functions
       -ffast-math
       -funroll-all-loops)
