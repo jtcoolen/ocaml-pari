@@ -9,7 +9,7 @@
 (source (github jtcoolen/ocaml-pari))
 (authors "Julien Coolen")
 (maintainers "Julien Coolen <jtcoolen@pm.me>")
-(license GPL-2.0+)
+(license GPL-2.0-or-later)
 
 (package
  (name pari-bindings)

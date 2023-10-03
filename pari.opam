@@ -3,7 +3,7 @@ opam-version: "2.0"
 synopsis: "Type-safe wrapper over the PARI library"
 maintainer: ["Julien Coolen <jtcoolen@pm.me>"]
 authors: ["Julien Coolen"]
-license: "GPL-2.0+"
+license: "GPL-2.0-or-later"
 homepage: "https://github.com/jtcoolen/ocaml-pari"
 bug-reports: "https://github.com/jtcoolen/ocaml-pari/issues"
 depends: [
