@@ -1,0 +1,82 @@
+Function: lfuncheckfeq
+Section: l_functions
+C-Name: lfuncheckfeq
+Prototype: lGDGb
+Help: lfuncheckfeq(L,{t}): given an L-function (Lmath, Ldata or Linit),
+ check whether the functional equation is satisfied. If the function has
+ poles, the polar part must be specified. The program returns a bit accuracy
+ which should be a large negative value close to the current bit accuracy.
+ If t is given, it checks the functional equation for the theta function
+ at t and 1/t.
+
+Doc: Given the data attached to an $L$-function (\kbd{Lmath}, \kbd{Ldata}
+ or \kbd{Linit}), check whether the functional equation is satisfied.
+ This is most useful for an \kbd{Ldata} constructed ``by hand'', via
+ \kbd{lfuncreate}, to detect mistakes.
+
+ If the function has poles, the polar part must be specified. The routine
+ returns a bit accuracy $b$ such that $|w - \hat{w}| < 2^b$, where $w$ is
+ the root number contained in \kbd{data}, and
+ $$\hat{w} = \theta(1/t) t^{-k} / \overline{\theta}(t)$$ is a computed value
+ derived from the assumed functional equation.
+ Of course, the expected result is a large negative value of the order of
+ \kbd{realbitprecision}. But if $\overline{\theta}$ is very small
+ at $t$, you should first increase \kbd{realbitprecision} by
+ $-\log_2 |\overline{\theta}(t)|$, which is
+ positive if $\theta$ is small, to get a meaningful result.
+ Note that $t$ should be close to the unit disc for efficiency and such that
+ $\overline{\theta}(t) \neq 0$. If the parameter $t$ is omitted, we check the
+ functional equation at the ``random'' complex number $t = 335/339 + I/7$.
+ \bprog
+ ? \pb 128       \\ 128 bits of accuracy
+ ? default(realbitprecision)
+ %1 = 128
+ ? L = lfuncreate(1);  \\ Riemann zeta
+ ? lfuncheckfeq(L)
+ %3 = -124
+ @eprog\noindent i.e. the given data is consistent to within 4 bits for the
+ particular check consisting of estimating the root number from all other
+ given quantities. Checking away from the unit disc will either fail with
+ a precision error, or give disappointing results (if $\theta(1/t)$ is
+ large it will be computed with a large absolute error)
+ \bprog
+ ? lfuncheckfeq(L, 2+I)
+ %4 = -115
+ ? lfuncheckfeq(L,10)
+  ***   at top-level: lfuncheckfeq(L,10)
+  ***                 ^------------------
+  *** lfuncheckfeq: precision too low in lfuncheckfeq.
+ @eprog
+ \misctitle{The case of Dedekind zeta functions} Dedekind zeta function for
+ a number field $K = \Q[X]/(T)$ is in general computed
+ (assuming Artin conjecture) as $(\zeta_K/\zeta_k) \times$, where $k$ is a
+ maximal subfield, applied recursively if possible. When $K/\Q$ is Galois,
+ the zeta function is directly decomposed as a product of Artin
+ $L$-functions.
+
+ These decompositions are computed when \kbd{lfuninit} is called. The
+ behavior of \kbd{lfuncheckfeq} is then different depending of its argument
+
+ \item the artificial query \kbd{lfuncheckfeq}$(T)$ serves little purpose
+ since we already know that the technical parameters are theoretically
+ correct; we just obtain an estimate on the accuracy they allow. This is
+ computed directly, without using the above decomposition. And is likely to
+ be very costly if the degree of $T$ is large, possibly overflowing the
+ possibilities of the implementation.
+
+ \item a query \kbd{L = lfuninit(T, ...); lfuncheckfeq(L)} on the other hand
+ returns the maximum of the \kbd{lfuncheckfeq} values for all involved
+ $L$-functions, giving a general consistency check and again an estimate
+ for the accuracy of computed values.
+
+ At the default accuracy of 128 bits:
+ \bprog
+ ? T = polcyclo(43);
+ ? lfuncheckfeq(T);
+  ***   at top-level: lfuncheckfeq(T)
+  ***                 ^---------------
+  *** lfuncheckfeq: overflow in lfunthetacost.
+ ? lfuncheckfeq(lfuninit(T, [2]))
+ time = 107 ms.
+ %2 = -122
+ @eprog

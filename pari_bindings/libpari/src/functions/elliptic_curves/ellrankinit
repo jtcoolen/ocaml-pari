@@ -1,0 +1,16 @@
+Function: ellrankinit
+Section: elliptic_curves
+C-Name: ellrankinit
+Prototype: Gp
+Help: ellrankinit(E): if E is an elliptic curve over Q,
+ initialize data for further calls to ellrank.
+Doc: if $E$ is an elliptic curve over $\Q$, initialize data to speed up further
+ calls to \kbd{ellrank}.
+ \bprog
+ ? E = ellinit([0,2429469980725060,0,275130703388172136833647756388,0]);
+ ? rk = ellrankinit(E);
+ ? [r, R, s, P] = ellrank(rk)
+ %3 = [12, 14, 0, [...]]
+ ? [r, R, s, P] = ellrank(rk, 1, P) \\ more effort, using known points
+ %4 = [14, 14, 0, [...]] \\ this time all points are found
+ @eprog

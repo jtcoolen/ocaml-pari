@@ -1,0 +1,19 @@
+Function: lfuneuler
+Section: l_functions
+C-Name: lfuneuler
+Prototype: GGp
+Help: lfuneuler(L,p): return the Euler factor at p
+  of the L-function given by L (Lmath, Ldata or Linit) assuming the L-function
+  admits an Euler product factorization and that it can be determined.
+Doc:  return the Euler factor at $p$ of the
+  $L$-function given by \kbd{L} (\kbd{Lmath}, \kbd{Ldata} or \kbd{Linit}),
+  assuming the $L$-function admits an Euler product factorization and that it
+  can be determined.
+  \bprog
+  ? E=ellinit([1,3]);
+  ? lfuneuler(E,7)
+  %2 = 1/(7*x^2-2*x+1)
+  ? L=lfunsympow(E,2);
+  ? lfuneuler(L,11)
+  %4 = 1/(-1331*x^3+275*x^2-25*x+1)
+  @eprog

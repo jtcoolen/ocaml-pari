@@ -1,0 +1,66 @@
+do(name, test) = {
+ setrand(1);
+ print(name,": ", iferr(test(), E, E));
+}
+gusuite(name, tests) = print("Suite: ", name); tests();
+
+nfcompo() = gusuite("compositum of relative extensions", ()->{
+  my(nf, pol, ii);
+  pol = y^2+1;
+  nf = nfinit(pol);
+  ii = Mod(y,pol);
+
+  do("compositum of degrees 2 and 3 over quadratic field", (()->my(L=nfcompositum(nf,x^2-ii,x^3-5,3), a=Mod(L[2],L[1]), b=Mod(L[3],L[1])); polisirreducible(L[1]) && a^2-ii==0 && b^3-5==0 && b+L[4]*a==Mod(x,L[1])));
+  do("compositum of degrees 2 and 4 over quadratic field", (()->my(L=nfcompositum(nf,x^2-ii,x^4-5,3), a=Mod(L[2],L[1]), b=Mod(L[3],L[1])); polisirreducible(L[1]) && a^2-ii==0 && b^4-5==0 && b+L[4]*a==Mod(x,L[1])));
+  do("compositum of degrees 5 and 7 over quadratic field", (()->my(L=nfcompositum(nf,x^5+ii*x+1,x^7-5*x+ii,3), a=Mod(L[2],L[1]), b=Mod(L[3],L[1])); polisirreducible(L[1]) && a^5+ii*a+1==0 && b^7-5*b+ii==0 && b+L[4]*a==Mod(x,L[1])));
+
+  pol = y^5-2;
+  nf = nfinit(pol);
+  ii = Mod(y,pol);
+
+  do("compositum of degrees 2 and 3 over degree 5 field", (()->my(L=nfcompositum(nf,x^2-ii,x^3-5,3), a=Mod(L[2],L[1]), b=Mod(L[3],L[1])); polisirreducible(L[1]) && a^2-ii==0 && b^3-5==0 && b+L[4]*a==Mod(x,L[1])));
+  do("compositum of degrees 2 and 4 over degree 5 field", (()->my(L=nfcompositum(nf,x^2-ii,x^4-5,3), a=Mod(L[2],L[1]), b=Mod(L[3],L[1])); polisirreducible(L[1]) && a^2-ii==0 && b^4-5==0 && b+L[4]*a==Mod(x,L[1])));
+  do("compositum of degrees 5 and 4 over degree 5 field", (()->my(L=nfcompositum(nf,x^5+ii*x+1,x^4-5*x+ii,3), a=Mod(L[2],L[1]), b=Mod(L[3],L[1])); polisirreducible(L[1]) && a^5+ii*a+1==0 && b^4-5*b+ii==0 && b+L[4]*a==Mod(x,L[1])));
+});
+
+nfcompo();
+
+K = nfinit(y^2-5);
+L = nfcompositum(K, x^5-y, polcyclo(5))
+L = nfcompositum(K, x^5-y, polcyclo(5), 1);
+[R,a,b,k] = L[1]
+a^5 - y
+liftall(b^5)
+L = nfcompositum(K, x^5-y, x^5-y)
+L = nfcompositum(K, x^5-y, x^5-y,2)
+L = nfcompositum(K, x^5-y, polcyclo(3),2)
+L = nfcompositum(K, x^5-y, polcyclo(3),3)
+
+nfcompositum(nfinit(y),x,x^2+x+1,3)
+
+\\#1777
+nfcompositum(nfinit(y-1),x^3-2,x^3-1)
+
+\\#1796
+nfcompositum(bnfinit(y),x^3-2,x^3-1)
+
+\\#2461
+nf = nfinit(y^3-41*y^2+426*y-184);
+P = 4*x^3+4*x+(-6/23*y^2+146/23*y-16);
+Q = x^2+(-17280/23*y^2+314496/23*y+70144);
+
+{
+  foreach([P,Q],p,
+    foreach([P,Q],q,
+      foreach([0,2],k,
+        my(C=nfcompositum(nf,p,q,k),L=if(k==0,apply(pollead,C),pollead(C)));
+        print(k,":",L))))
+}
+
+\\bad input
+nfcompositum(nfinit(x),w^2+1,w^2+1)
+nfcompositum(x,w^2+1,w^2+1)
+nfcompositum(nfinit(x-1),x^3-2,x^3-1)
+nfcompositum(nfinit(x^2+1),x^3-2,x^3-1)
+nfcompositum(nfinit(x-1),y^3-2,y^3-1)
+nfcompositum(bnfinit(x),x^3-2,x^3-1)

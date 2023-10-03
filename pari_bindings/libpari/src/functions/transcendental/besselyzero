@@ -1,0 +1,22 @@
+Function: besselyzero
+Section: transcendental
+C-Name: besselyzero
+Prototype: GD1,L,b
+Help: besselyzero(nu,{k=1}): k-th zero of the Y-bessel function of index nu. Works for real and complex ordrers but the result is guaranteed only if nu is nonnegative.
+Doc: $k$-th zero of the $Y$-Bessel function of index \var{nu}, close
+ to $\pi(\nu/2 + k - 3/4)$, usually noted $y_{\nu,k}$.
+ \bprog
+ ? besselyzero(0) \\ @com{first zero of $Y_0$}
+ %1 = 0.89357696627916752158488710205833824123
+ ? bessely(0, %)
+ %2 = 1.8708573650996561952 E-39
+ ? besselyzero(0, 2) \\ @com{second zero}
+ %3 = 3.9576784193148578683756771869174012814
+ ? besselyzero(I) \\ @com{also works for complex orders, here $Y_i$}
+ %4 = 1.03930... + 1.3266...*I
+ @eprog\noindent The function uses a Newton iteration due to Temme.
+ If $\nu$ is real and nonnegative, the result is guaranteed and the function really
+ returns the $k$-th positive zero of $Y_\nu$. For general $\nu$, the result
+ is not well defined, given by Newton iteration with $\pi(\nu/2 + k - 3/4)$
+ as a starting value. (N.B. Using this method for large real $\nu$ would give
+ completely different results than the $y_{\nu,k}$ unless $k$ is large enough.)

@@ -1,0 +1,77 @@
+Function: bnrisprincipal
+Section: number_fields
+C-Name: bnrisprincipal
+Prototype: GGD1,L,
+Help: bnrisprincipal(bnr,x,{flag=1}): bnr being output by bnrinit and x
+ being an ideal coprime to bnr.mod, returns [v,alpha], where v is the vector
+ of exponents on the ray class group generators and alpha is the generator of
+ the resulting principal ideal. If (optional) flag is set to 0, output only v.
+Doc: let \var{bnr} be the ray class group data output by
+ \kbd{bnrinit}$(,,1)$ and let $x$ be an ideal in any form, coprime
+ to the modulus $f = \kbd{bnr.mod}$. Solves the discrete logarithm problem
+ in the ray class group, with respect to the generators \kbd{bnr.gen},
+ in a way similar to \tet{bnfisprincipal}. If $x$ is not coprime to the
+ modulus of \var{bnr} the result is undefined. Note that \var{bnr} need not
+ contain the ray class group generators, i.e.~it may be created with
+ \kbd{bnrinit}$(,,0)$; in that case, although \kbd{bnr.gen} is undefined, we
+ can still fix natural generators for the ray class group (in terms of the
+ generators in \kbd{bnr.bnf.gen} and \kbd{bnr.bid.gen}) and compute with
+ respect to them.
+
+ The binary digits of $\fl$ (default $\fl = 1$) mean:
+
+ \item $1$: If set returns a 2-component vector $[e,\alpha]$ where $e$
+ is the vector of components of $x$ on the ray class group generators,
+ $\alpha$ is an element congruent to $1~\text{mod}^* f$ such that
+ $x = \alpha \prod_i g_i^{e_i}$. If unset, returns only $e$.
+
+ \item $4$: If set, returns $[e,\alpha]$ where $\alpha$ is given in factored
+ form (compact representation). This is orders of magnitude faster.
+
+ \bprog
+ ? K = bnfinit(x^2 - 30); bnr = bnrinit(K, [4, [1,1]]);
+ ? bnr.clgp \\ ray class group is isomorphic to Z/4 x Z/2 x Z/2
+ %2 = [16, [4, 2, 2]]
+ ? P = idealprimedec(K, 3)[1]; \\ the ramified prime ideal above 3
+ ? bnrisprincipal(bnr,P) \\ bnr.gen undefined !
+ %5 = [[3, 0, 0]~, 9]
+ ? bnrisprincipal(bnr,P, 0) \\ omit principal part
+ %5 = [3, 0, 0]~
+ ? bnr = bnrinit(bnr, bnr.bid, 1); \\ include explicit generators
+ ? bnrisprincipal(bnr,P) \\ ... alpha is different !
+ %7 = [[3, 0, 0]~, 1/128625]
+ @eprog It may be surprising that the generator $\alpha$ is different
+ although the underlying \var{bnf} and \var{bid} are the same. This defines
+ unique generators for the ray class group as ideal \emph{classes}, whether
+ we use \kbd{bnrinit(,0)} or \kbd{bnrinit(,1)}. But the actual ideal
+ representatives (implicit if the flag is $0$, computed and stored in the
+ \var{bnr} if the flag is $1$) are in general different and this is what
+ happens here. Indeed, the implicit generators are naturally expressed
+ in terms of \kbd{bnr.bnf.gen} and \kbd{bnr.bid.gen} and \emph{then}
+ expanded and simplified (in the same ideal class) so that we obtain ideal
+ representatives for \kbd{bnr.gen} which are as simple as possible.
+ And indeed the quotient of the two $\alpha$ found is $1$ modulo the
+ conductor (and positive at the infinite places it contains), and this is the
+ only guaranteed property.
+
+ Beware that, when \kbd{bnr} is generated using \kbd{bnrinit(, cycmod)}, the
+ results are given in $\text{Cl}_f$ modulo \kbd{cycmod}-th powers:
+ \bprog
+ ? bnr2 = bnrinit(K, bnr.mod,, 2);  \\ modulo squares
+ ? bnr2.clgp
+ %9 = [8, [2, 2, 2]]  \\ bnr.clgp tensored by Z/2Z
+ ? bnrisprincipal(bnr2,P, 0)
+ %10 = [1, 0, 0]~
+ @eprog
+
+Variant: Instead of hardcoded  numerical flags,  one should rather use
+ \fun{GEN}{isprincipalray}{GEN bnr, GEN x} for $\kbd{flag} = 0$, and if you
+ want generators:
+ \bprog
+   bnrisprincipal(bnr, x, nf_GEN)
+ @eprog
+ Also available is
+ \fun{GEN}{bnrisprincipalmod}{GEN bnr, GEN x, GEN mod, long flag}
+ that returns the discrete logarithm of~$x$ modulo the~\typ{INT}
+ \kbd{mod}; the value~$\kbd{mod = NULL}$ is treated as~$0$ (full discrete
+ logarithm), and~$\kbd{flag}=1$ is not allowed if~\kbd{mod} is set.

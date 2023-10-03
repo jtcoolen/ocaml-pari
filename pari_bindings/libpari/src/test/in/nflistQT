@@ -1,0 +1,33 @@
+default(new_galois_format,1);
+
+tst(n,k)=
+{
+  P = nflist([n,k],'t); V = List();
+  for(a=1,20,
+    Q = subst(P,t,a);
+    if (polisirreducible(Q),
+      if (n > 11 || polgalois(Q)[3] == k, listput(~V,Q))));
+  if (!#V, error(k));
+  #V;
+}
+
+L=[1,1,2,5,5,16,7];
+S = vector(#L,i,[1..L[i]]);
+for(n=1,#S,print1(n,": ");print([tst(n,k) | k<-S[n]]))
+
+nflist("S25",'t)
+nflist("A25",'t)
+nflist("A24",'t)
+nflist("A23",'t)
+nflist("A22",'t)
+
+nflist([47,6],'t)
+nflist([47,5],'t)
+
+nflist("C1",'t)
+nflist("C2",'t)
+nflist("C3",'t)
+
+\\ ERRORS
+nflist([4,6])
+nflist([18,100000])

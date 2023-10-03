@@ -1,0 +1,78 @@
+Function: gcharinit
+Section: number_fields
+C-Name: gcharinit
+Prototype: GGp
+Help: gcharinit(bnf,f): given a bnf as output by bnfinit and a modulus f, initializes data
+ related to the group of Grossencharacters of conductor dividing this modulus.
+Doc: $\var{bnf}$ being a number field output by \kbd{bnfinit} (including
+ fundamental units), $f$ a modulus, initializes a structure (\kbd{gc})
+ describing the group of Hecke Grossencharacters of modulus $f$.
+ (As in \tet{idealstar}, the finite part of the conductor may be given
+ by a factorization into prime ideals, as produced by \tet{idealfactor}.)
+
+ The following member functions are available
+ on the result: \kbd{.bnf} is the underlying \var{bnf},
+ \kbd{.mod} the modulus, \kbd{.cyc} its elementary divisors.
+
+ The internal representation uses a logarithm map on ideals
+ ${\cal L}: I \to \R^n$,
+ so that a Hecke Grossencharacter $\chi$ can be described by a $n$
+ components vector $v$ via
+ $\chi: a\in I \mapsto \exp(2i\pi v\cdot{{\cal L}(a)})$.
+
+ See \kbd{gcharlog} for more details on the map ${\cal L}$.
+
+ \bprog
+ ? bnf = bnfinit(polcyclo(5),1); \\ @com initialize number field $\Q(\zeta_5)$
+ ? pr = idealprimedec(bnf,5)[1]; \\ @com prime $\goth{p}=(1-\zeta_5)$ above 5
+ ? gc = gcharinit(bnf,idealpow(bnf,pr,2)); \\ @com characters of modulus dividing $\goth{p}^2$
+ ? gc.cyc \\ @com structure as an abelian group
+ % = [0,0,0,0.E-57]
+ ? chi = [1,1,-1,0]~; \\ @com a character
+ ? gcharconductor(gc,chi)[1]
+ % =
+ [5 4 4 4]
+ [0 1 0 0]
+ [0 0 1 0]
+ [0 0 0 1]
+ @eprog
+
+ Currently, \kbd{gc} is a row vector with 11 components:
+
+ $\var{gc}[1]$ is a matrix whose rows describe a system of generators
+ of the characters as vectors of $\R^n$, under the above description.
+
+ $\var{gc}[2]$ contains the underlying number field \var{bnf}
+ (\kbd{\var{gc}.bnf}).
+
+ $\var{gc}[3]$ contains the underlying number field \var{nf}
+ (\kbd{\var{gc}.nf}), possibly stored at higher precision than \var{bnf}.
+
+ $\var{gc}[4]$ contains data for computing in $(\Z_K/f)^\times$.
+
+ $\var{gc}[5]$ is a vector $S$ of prime ideals which generate the class group.
+
+ $\var{gc}[6]$ contains data to compute discrete logarithms with respect to $S$
+ in the class group.
+
+ $\var{gc}[7]$ is a vector \kbd{[Sunits,m]}, where \kbd{Sunits} describes
+ the $S$-units of $\var{bnf}$ and $m$ is a relation matrix for internal usage.
+
+ $\var{gc}[8]$ is
+ \kbd{[Vecsmall([evalprec,prec,nfprec]), Vecsmall([ntors,nfree,nalg])]}
+ caching precisions and various dimensions.
+
+ $\var{gc}[9]$ is a vector describing $\var{gc}$ as a $\Z$-module
+ via its SNF invariants (\kbd{\var{gc}.cyc}), the last component
+ representing the norm character.
+
+ $\var{gc}[10]$ is a vector \kbd{[R,U,Ui]} allowing to convert characters
+ from SNF basis to internal combination of generators.
+
+ Specifically, a character \kbd{chi} in SNF basis has coordinates
+ \kbd{chi*Ui} in internal basis (the rows of $\var{gc}[1]$).
+
+ $\var{gc}[11]=m$ is the matrix of ${\cal L}(v)$ for all $S$-units $v$.
+
+ $\var{gc}[12]=u$ is an integral base change matrix such that $\var{gc}[1]$
+ corresponds to $(mu)^{-1}$.

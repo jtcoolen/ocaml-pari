@@ -1,0 +1,17 @@
+Function: hgmcyclo
+Section: hypergeometric_motives
+C-Name: hgmcyclo
+Prototype: G
+Help: hgmcyclo(H): returns the cyclotomic parameters (D,E) of the
+ hypergeometric motive template H.
+
+Doc: returns the cyclotomic parameters $(D,E)$ of the
+ hypergeometric motive template $H$.
+ \bprog
+ \\ template given by alpha (implied beta is [0,0,0,0])
+ ? H = hgminit([1/5, 2/5, 3/5, 4/5]);
+ ? hgmcyclo(H)
+ %3 = [Vecsmall([5]), Vecsmall([1, 1, 1, 1])]
+ ? apply(Vec, %) \\ for readability
+ %4 = [[5], [1, 1, 1, 1]]
+ @eprog

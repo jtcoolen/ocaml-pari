@@ -1,0 +1,14 @@
+lfun(8,-7)
+LD=[-3,-4,-7,5,8,13,-20,-24,-51,-56,101,104,105,-103,-107,-116];
+{
+for(i=1, #LD,
+  D=LD[i]; print1(D," ");
+  for(k=2,20, print(lfun(D,1-k)));
+  forstep(k=100+(D<0),300+(D<0),100, print(lfun(D,1-k))));
+}
+for (k=0,3,print(lfun(-3,k)))
+for (k=0,3,print(lfun(-4,k)))
+for (k=0,3,print(lfun(5,k)))
+for (k=0,3,print(lfun(8,k)))
+lfun(10^6+1, 1-80)
+eulerfrac(448)

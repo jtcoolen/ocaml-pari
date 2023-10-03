@@ -1,0 +1,28 @@
+Function: quadunit
+Section: number_theoretical
+C-Name: quadunit0
+Prototype: GDn
+Help: quadunit(D,{v = 'w}): fundamental unit u of the quadratic order of
+ discriminant D where D must be positive.
+ If v is given, the variable name is used to display u, else 'w' is used.
+Doc: a fundamental unit\sidx{fundamental units} $u$ of the real quadratic order
+ of discriminant $D$. The integer $D$ must be congruent to 0 or 1 modulo 4
+ and not a square; the result is a quadratic number (see \secref{se:quadgen}).
+ If $D$ is not a fundamental discriminant, the algorithm is wasteful: if $D =
+ df^2$ with $d$ fundamental, it will be faster to compute \kbd{quadunit}$(d)$
+ then raise it to the power \kbd{quadunitindex}$(d,f)$; or keep it in
+ factored form.
+
+ If \var{v} is given, the variable name is used to display $u$
+ else 'w' is used. The algorithm computes the continued fraction
+ of $(1 + \sqrt{D}) / 2$ or $\sqrt{D}/2$ (see GTM 138, algorithm 5.7.2).
+ Although the continued fraction length is only $O(\sqrt{D})$,
+ the function still runs in time $\tilde{O}(D)$, in part because the
+ output size is not polynomially bounded in terms of $\log D$.
+ See \kbd{bnfinit} and \kbd{bnfunits} for a better alternative for large
+ $D$, running in time subexponential in $\log D$ and returning the
+ fundamental units in compact form (as a short list of $S$-units of size
+ $O(\log D)^3$ raised to possibly large exponents).
+Variant:
+ When \var{v} does not matter, the function
+ \fun{GEN}{quadunit}{GEN D} is also available.

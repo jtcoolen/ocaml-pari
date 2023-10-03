@@ -1,0 +1,13 @@
+Function: polcoeff
+Section: polynomials
+C-Name: polcoef
+Prototype: GLDn
+Help: polcoeff(x,n,{v}): deprecated alias for polcoef.
+Description:
+ (pol, 0):gen:copy       constant_coeff($1)
+ (pol, 0,):gen:copy      constant_coeff($1)
+ (pol, small):gen:copy   RgX_coeff($1, $2)
+ (pol, small,):gen:copy  RgX_coeff($1, $2)
+ (gen, small, ?var):gen  polcoef($1, $2, $3)
+Obsolete: 2018-05-14
+Doc: Deprecated alias for polcoef.

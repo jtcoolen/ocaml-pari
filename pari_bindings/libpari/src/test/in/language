@@ -1,0 +1,34 @@
+g(v, f) = v;
+f(n) = g([1], x->0);
+f(1)
+foo = vectorsmall(1);
+for(i=1,1, foo[1]);
+
+L=List(); W=[L,L]; V=[0,0]; M=[1,1;1,1]; N=List([1]);
+f(~x,a)=listput(~x,2*a);
+h(~x,a)=listput(x[1],a+1);
+g(~x,a)=x[1]+=a;
+k(~x,a,b)=x[,1]*=a;x[1,]*=b;
+l(x,a) = f(~x,a);x;
+
+f(~L,5); [L,W]
+h(~W,3); [L,W]
+g(~V,2); V
+k(~M,2,3); M
+NN=l(N,2); [N, NN]
+
+{
+  my(L=List(), W=[L,L], V=[0,0], M=[1,1;1,1], N = List([1]), NN);
+  f(~L,5);
+  g(~V,2);
+  h(~W,3);
+  k(~M,2,3);
+  NN=l(N,2);
+  [L,W,V,M,N,NN]
+}
+
+x.inc=x[1]++
+
+[3].inc
+z=[3];[z.inc,z]
+my(z=[3]);[z.inc,z]

@@ -1,0 +1,54 @@
+Function: gcharlog
+Section: number_fields
+C-Name: gcharlog
+Prototype: GGp
+Help: gcharlog(gc,x): returns the internal representation (logarithm) of the
+ ideal x suitable for computations in gc, as a column vector.
+Doc: Return the internal (logarithmic) representation of the ideal $x$ suitable
+ for computations in $gc$, as a \typ{COL} in $\R^n$.
+
+ Its $n = \kbd{ns+nc}+(r_1+r_2)+r_2+1$ components correspond to a
+ logarithm map on the group of fractional ideals~${\cal L}: I \to \R^n$, see
+ \kbd{gcharinit}.
+
+ More precisely, let $x = (\alpha) \prod \goth{p}_i^{a_i}$ a
+ principalization of $x$ on a set $S$ of primes generating
+ the class group (see \kbd{bnfisprincipal}),
+ then the logarithm of $x$ is the \typ{COL}
+ $$
+  {\cal L}(x) = \left[ (a_i), \log_f(\alpha), \dfrac{\log|x/\alpha|_\tau}{2\pi},
+ \dfrac{\arg(x/\alpha)_\tau}{2\pi}, \dfrac{\log N(x)}{2\pi}\cdot i \right]
+ $$
+ where
+
+ \item the exponent vector $(a_i)$ has \kbd{ns} components, where
+ $\kbd{ns}=\#S$ is the number of prime ideals used to generate the class group,
+
+ \item $\log_f(\alpha)$ is a discrete logarithm of
+ $\alpha$ in the \kbd{idealstar} group $(\Z_K/f)^\times$, with \kbd{nc} components,
+
+ \item $\log|x/\alpha|_\tau$ has $r_1+r_2$ components, one for each
+ real embedding and pair of complex embeddings $\tau\colon K\to\C$
+ (and $|z|_\tau=|z|^2$ for complex $\tau$).
+
+ \item $\arg{(x/\alpha)_\tau}$ has $r_2$ components, one for each
+ pair of complex embeddings $\tau\colon K\to\C$.
+
+ \item $N(x)$ is the norm of the ideal~$x$.
+
+ \bprog
+ ? bnf = bnfinit(x^3-x^2+5*x+1,1);
+ ? gc = gcharinit(bnf,3);
+ ? gc.cyc
+ % = [3, 0, 0, 0.E-57]
+ ? chi = [1,1,0,-1]~;
+ ? f = gcharduallog(gc,chi);
+ ? pr = idealprimedec(bnf,5)[1];
+ ? v = gcharlog(gc,pr)
+ % = [2, -5, -1, 0.0188115475004995312411, -0.0188115475004995312411,
+      -0.840176314833856764413, 0.256149999363388073738*I]~
+ ? exp(2*I*Pi*f*v)
+ % = -4.5285995080704456583673312 + 2.1193835177957097598574507*I
+ ? gchareval(gc,chi,pr)
+ % = -4.5285995080704456583673312 + 2.1193835177957097598574507*I
+ @eprog

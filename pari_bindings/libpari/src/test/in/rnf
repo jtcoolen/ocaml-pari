@@ -1,0 +1,267 @@
+nf=nfinit(y^2+1);
+rnfidealmul(rnfinit(nf,x^4-x-1),2,3)
+rnfidealmul(rnfinit(nf,[x^4-x-1,10^3]),2,3)
+rnfidealup(rnfinit(nf,x),[;])
+nf=nfinit(quadpoly(1129,y));ord=rnfpseudobasis(nf,quadray(1129,1));rnfsteinitz(nf,ord)
+rnflllgram(nf,x^3+2,rnfpseudobasis(nf,x^3+2))
+nf=nfinit(y^2-y-4);T=x^11-11*x^10+31*x^9-26*x^8+36*x^7+7*x^6+15*x^5-27*x^4+26*x^3+20*x^2-33*x+42;
+rnfpseudobasis(nf,T)
+rnfpseudobasis(nf,[T,10^3])
+rnfpseudobasis(nf,[T, [3, 79, 269, 1361, 2789]])
+T = x^2+1009^3*(10^6+3)^2*y;
+rnfpseudobasis(nf,T)
+rnfpseudobasis(nf,[T,100])
+rnfpseudobasis(nf,[T,1010])
+rnfpseudobasis(nf,[T, [idealprimedec(nf,2)[1], 1009]])
+rnfdisc(nf,T)
+rnfdisc(nf,[T,100])
+rnfdisc(nf,[T,1010])
+rnfpseudobasis(nf,[T, [idealprimedec(nf,2)[1], 1009]])
+rnfpseudobasis(nf,[T, [2, 1009]])
+Q = bnfinit(y); T=x^4+x^3-71*x^2+72*x+5184;
+rnfconductor(Q,T)
+rnfconductor(Q,T,2)
+rnfconductor(Q,[T,10^3],2)
+rnfconductor(Q,[T, [2,3,7,41]],2)
+rnfconductor(Q,galoissubcyclo(117,116),2)
+K=bnfinit(quadpoly(1596,y),1); rnfbasis(K,rnfsteinitz(K,rnfpseudobasis(K,quadray(K,1))));
+
+\\#2353
+M=[[1,0;0,3],[1,1],[1,1]];
+nfsnf(Q,M)
+nfsnf(Q,M,1)
+M=[[2,0;0,2],[2,2],[1,1]];
+nfsnf(Q,M)
+nfsnf(Q,M,1)
+
+\\ oo loop after bnrmod commit 2b72fbfbf
+rnfconductor(bnfinit(a^3-a^2-6*a+7),x^3-a*x^2+(5*a^2-35)*x+(8*a^2+6*a-35))[3]
+
+K = nfinit(x^2-x+2); M = [1, 0, x; 0, x, 0; 0,0,2+x]; N = [1, 1, 1];
+nfsnf(K, [M, N, N])
+rnfisabelian(nfinit(y),x)
+rnfisabelian(nfinit(y^2+23),x^3+x^2-1)
+T = polcyclo(7, x+Mod(y, nf.pol));
+rnfisabelian(nf, T)
+rnfisabelian(nfinit(a^2+1),5*x^3+2)
+rnfisabelian(nfinit(y^4+2),polsubcyclo(13,6))
+rnfisabelian(nfinit(y^4+2),subst(polsubcyclo(13,6),x,7/6*x))
+
+T=rnfisnorminit(bnfinit(y^3+y^2-2*y-1), x^3-y);
+[a,b]=rnfisnorm(T,y);
+[b,liftpol(norm(a)*b)]
+[a,b]=rnfisnorm(T,2,100);
+[b,liftpol(norm(a)*b)]
+[a,b]=rnfisnorm(T,2,-2*3*5*7);
+[b,liftpol(norm(a)*b)]
+
+do(T,u,flag=0)=liftpol(rnfisnorm(T,u,flag));
+T=rnfisnorminit(y^2+23, x^2-y);
+do(T,y)
+do(T,2,100)
+
+\\#1157
+rnfisnorminit(y,x^2-Mod(2+y,y));
+
+\\#1778
+K = bnfinit(x^4-2*x^3-27*x^2+28*x+53);
+t = varhigher("t");
+L = rnfisnorminit(K,t^2-310*x^3+465*x^2+11005*x-274660);
+[a,b]=rnfisnorm(L,-28124/93*x^3+14062/31*x^2+562480/93*x+166769/31);
+liftpol(norm(a)*b)
+
+\\#1255
+K = nfinit(z^3+z^2-2*z-1); rnf = rnfinit(K, x^2+Mod(-z,z^3+z^2-2*z-1)*x+1);
+a = rnfeltup(rnf,z^2)
+rnfeltdown(rnf, a)
+
+setrand(1);a=matrix(3,4,j,k,vectorv(3,l,random(21)));
+idx=idealprimedec(K,3)[1];
+aid=[idx,1,1,1];
+[A,U]=nfhnf(K,[a,aid],1);
+A
+U
+lift(matbasistoalg(K,a)*matbasistoalg(K,U))
+
+a=a[,1..3];
+[A,U,V]=nfsnf(K,[a, aid[1..3], [1,1,1]],1);
+A
+U
+V
+lift(matbasistoalg(K,U)*matbasistoalg(K,a)*matbasistoalg(K,V))
+
+nf=nfinit(y); A = [[1,1/2;0,1],[1,1]];
+nfhnfmod(nf, A, nfdetint(nf,A))
+
+K=bnfinit(y^2-40);
+bnfisnorm(K,2, 0)
+bnfisnorm(K,6, 0)
+
+K=bnfinit(y^3-21);
+bnfisnorm(K,2)
+bnfisnorm(K,6)
+L=rnfinit(K,x^2-y);
+
+v = [2,1/2,x+y,Mod(1,K.pol),Mod(1/2,K.pol),Mod(y,K.pol),Mod(1,L.polabs),Mod(1/2,L.polabs),Mod(x,L.polabs),Mod(x+y/2,L.pol),y,z,Mod(y+1/2,y^2+1),[1]~,[1,2]~,[1,y]~,[1,I]~, y+I,x^2];
+f=[rnfalgtobasis,rnfbasistoalg,rnfeltabstorel,rnfeltreltoabs,rnfeltup,rnfeltdown,rnfelttrace,rnfeltnorm];
+
+test(L,v) =
+{
+  for (i=1,#v,
+    for (j=1,#f, print([i,j], ": ", iferr(f[j](L,v[i]), E,E)))
+  );
+  my (K = L.nf);
+  for (i=1,#v,
+    print(i, ": ", iferr(rnfcharpoly(K,x^2-y,v[i]),E,E))
+  );
+}
+test(L,v);
+KQ = nfinit(y+1);
+LQ = rnfinit(KQ, x^2-y);
+vQ = [2,1/2,x+y, Mod(1/2,KQ.pol), y, Mod(Mod(x/2+1,KQ.pol),LQ.pol), Mod(x,LQ.pol), Mod(x,LQ.polabs), Mod(x+y/2,x^2-y), x, [1]~,[1,2]~,[y]~];
+test(LQ, vQ);
+
+nf = nfinit(y);
+rnf = rnfinit(nf,x^2-2);
+rel = Mod(Mod(1,y)+0*y,x^2-2);
+a = rnfeltreltoabs(rnf,rel)
+variable(lift(a))
+
+Labs = nfinit(L);
+idL = idealhnf(Labs, x^3+x^2+10);
+idK = idealhnf(K, y^2+10*y+5);
+id = rnfidealabstorel(L,Labs.zk*idL)
+rnfidealnormabs(L,id) == idealnorm(Labs, idL)
+m = rnfidealreltoabs(L, id)
+mathnf(matalgtobasis(Labs,m)) == idL
+
+P3 = idealprimedec(K,3);
+\\ pr[5] depends on 32/64-bit arch
+strip5(pr)=pr[1..4];
+apply(strip5, rnfidealprimedec(L, P3[1]))
+my(v=rnfidealprimedec(L,7)); [apply(strip5, v[1]), apply(strip5, v[2][1])]
+
+k=nfinit(y^3-y^2+1); rnfidealprimedec(rnfinit(k,x),idealprimedec(k,89)[1])
+
+rnffa(rnf,id)=my(fa=rnfidealfactor(rnf,id)); fa[,1] = apply(strip5,fa[,1]); fa;
+rnffa(L,7)
+rnffa(L,x)
+rnffa(L,y)
+rnfidealfactor(L,id) == rnfidealfactor(L,idL)
+
+m = rnfidealup(L, idK)
+mabs = rnfidealup(L, idK, 1);
+mathnf( Mat(apply(x->nfalgtobasis(Labs,x), m)) ) == mabs
+rnfidealdown(L, m) == idK
+rnfidealdown(L, mabs) == idK
+m = rnfidealdown(L, Labs.zk*idL)
+M=rnfidealup(L, m)
+mathnf(matalgtobasis(Labs,M)) == rnfidealup(L, m, 1)
+\\
+V=concat(v, [[;], [], 0, [[;],[]], idealprimedec(K,2)[1], idK, idL, Labs.zk*idL, id]);
+f=[rnfidealhnf,rnfidealreltoabs,rnfidealabstorel,rnfidealdown,rnfidealup,rnfidealnormrel,rnfidealnormabs,rnfidealtwoelt];
+{
+for (i=1,#V,
+  print(i,":");
+  for (j=1, #f,
+    print(iferr(f[j](L,V[i]),E,E))
+  )
+)
+}
+rnfidealmul(L, 0,1)
+rnfidealmul(L, 1,0)
+rnfidealmul(L, x,y)
+rnfidealmul(L, y,x)
+rnfidealmul(L, id,x)
+rnfidealmul(L, x,id)
+rnfdet(K,[[;],[]])
+rnfdet(K,id)
+rnfbasis(bnfinit(y^2-1105),x^2-y)
+\\#1508
+K=nfinit(y); L=rnfinit(K,x^3-2); rnfeltdown(L,Mod(Mod(1,K.pol),L.polabs))
+
+rnf=rnfinit(nfinit(y^2+1),x^2-2); rnfidealup(rnf, matid(2)/2)
+
+k1=bnfinit(y^3+y^2-2*y-1);
+u=x^3+y*x^2+(y-2)*x+(y^2-y-1);
+rnfconductor(k1,u)
+rnfconductor(k1,u / Mod(y,k1.pol))[^2] \\ wrong: not Abelian
+rnfconductor(k1, y*x^2+(y-2)*x+(y^2-y-1))[^2]
+rnfconductor(k1,u,2)
+
+K = bnfinit(y^4+10*y^2+17);
+rnfconductor(K, x + 1/2*y^3 - 1/2*y^2 + 9/2*y - 13/2)[1]
+
+K = nfinit(y^2+y+1);
+rnfislocalcyclo(rnfinit(K, x^3-2))
+rnfislocalcyclo(rnfinit(K, x))
+rnfislocalcyclo(rnfinit(K, x^3 - y))
+rnfislocalcyclo(rnfinit(K, x^3 - y + 3^6))
+
+nf=nfinit(y^2+9); \\ 3 divides index
+P=idealprimedec(nf,3)[1];
+rnfdedekind(nf, (x+y/3)^3+3*y, P)
+
+nf = nfinit(y^2-3); P = x^3 - 2*y;
+pr3 = idealprimedec(nf,3)[1];
+pr2 = idealprimedec(nf,2)[1];
+
+rnfdedekind(nf, P, pr2)
+rnfdedekind(nf, P, pr3)
+rnfdedekind(nf, P, pr2, 1)
+rnfdedekind(nf, P, pr3, 1)
+rnfdedekind(nf, P)
+rnfdedekind(nf, P, [pr2,pr3])
+
+P = (y+1)*x^4 + x^2 + x + 2;
+rnfdedekind(nf, P, pr3, 1)
+
+t = 't; T = polcyclo(9,t);
+pol = y^2 + Mod(t^5+t^2+t-1, T)*y + Mod(1-t, T);
+Qchi=nfinit([T,10^6]);
+rnfinit(Qchi,[pol,10^6]); \\ segv in 2.11
+
+k = nfinit(y^4 + 10*y^2 + 17);
+rnfdisc(k, x^2 - x + 1/Mod(y,k.pol))
+rnfdisc(k, x^2 - x + 1/2)
+
+k = nfinit(y^4 - 10*y^2 + 1);
+rnfdisc(k,x^2-(y^3/2+y^2-5*y/2+1))
+
+default(parisize,"12M"); \\ 10M overflows on 64bit
+pol=x^2+(-4*y^60+2*y^58-4*y^56+7*y^54-5*y^52+y^48+3*y^46-3*y^44-2*y^42+3*y^40+y^38-2*y^36-3*y^34+6*y^32-3*y^30-y^28-2*y^26+5*y^24-y^22-4*y^20+2*y^18+2*y^16-y^14-3*y^12+3*y^10+2*y^8-2*y^6-4*y^4+5*y^2+5);
+rnfdisc(nfinit(y^62-y^2-1),pol)
+
+\\ #2453
+A=nfinit(t^2-2);
+B=rnfinit(A, y^2-3);
+C=nfinit(B);
+D=rnfinit(C, x^2-11);
+E=nfinit(D);
+
+\\ ERRORS, keep at end of file
+rnfdedekind(nf, P, pr2, 1)
+rnfdedekind(nf, P)
+rnfdedekind(nf, P, [pr2,pr3])
+rnfdedekind(nf, x^2)
+
+rnfconductor(nf, x^2);
+rnfconductor(nf, [x^2,1]);
+
+rnfpseudobasis(nf, x^2/2 + 1);
+rnfpseudobasis(nf, x^2 + 1/2);
+rnfpseudobasis(nf, x^2);
+
+rnfeltnorm(x,x)
+rnfelttrace(x,x)
+
+rnfislocalcyclo(rnfinit(K, x^6-y+1))
+\\#1530
+L=rnfinit(nfinit(y^2-3),x^2+23);
+rnfidealtwoelt(L, [[1;0], [1/104]])
+
+\\#2093
+nf = nfinit(y);
+rnf = rnfinit(nf,x^2+5);
+rnfidealup(rnf,Mat(3),1);
+bnfinit(rnf)

@@ -1,0 +1,10 @@
+idealaddtoone(nfinit(x),[1,[;]]);
+K=nfinit(x^2+23); A=idealhnf(K,x/2);
+idealtwoelt(K, 3, 6)
+idealtwoelt(K, A)
+idealtwoelt(K, A, x)
+idealtwoelt(K, [;])
+idealtwoelt(K, [;], 1)
+idealtwoelt(K, [;], 0)
+nf=nfinit(t^3-t^2-383270*t+54978000);
+idealtwoelt(nf, [2748900,0,1086775;0,2,1;0,0,5]) \\ #2437

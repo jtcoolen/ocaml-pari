@@ -1,0 +1,6 @@
+Function: fibonacci
+Section: combinatorics
+C-Name: fibo
+Prototype: L
+Help: fibonacci(x): Fibonacci number of index x.
+Doc: $x^{\text{th}}$ Fibonacci number.

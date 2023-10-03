@@ -1,0 +1,13 @@
+Function: hgmgamma
+Section: hypergeometric_motives
+C-Name: hgmgamma
+Prototype: G
+Help: hgmgamma(H): returns the gamma vector of the hypergeometric motive
+ template H.
+Doc:  returns the gamma vector of the hypergeometric motive
+ template $H$.
+ \bprog
+ ? H = hgminit([5]);
+ ? hgmgamma(H)
+ %2 = Vecsmall([-5, 0, 0, 0, 1])
+ @eprog

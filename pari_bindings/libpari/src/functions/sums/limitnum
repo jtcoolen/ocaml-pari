@@ -1,0 +1,163 @@
+Function: limitnum
+Section: sums
+C-Name: limitnum0
+Prototype: GDGp
+Help: limitnum(expr,{alpha=1}): numerical limit of sequence expr
+ using Lagrange-Zagier extrapolation; assume u(n) ~ sum a_i n^(-alpha*i).
+Doc: Lagrange-Zagier numerical extrapolation of \var{expr}, corresponding to
+ a sequence $u_n$, either given by a closure \kbd{n->u(n)}. I.e., assuming
+ that $u_n$ tends to a finite limit $\ell$, try to determine $\ell$.
+
+ The routine assume that $u_n$ has an asymptotic expansion in $n^{-\alpha}$ :
+ $$u_n = \ell + \sum_{i\geq 1} a_i n^{-i\alpha}$$
+ for some $a_i$. It is purely numerical and heuristic, thus may or may not
+ work on your examples. The expression will be evaluated for $n = 1, 2,
+ \dots, N$ for an $N = O(B)$ at a bit accuracy bounded by $1.612 B$.
+
+ \bprog
+ ? limitnum(n -> n*sin(1/n))
+ %1 = 1.0000000000000000000000000000000000000
+
+ ? limitnum(n -> (1+1/n)^n) - exp(1)
+ %2 = 0.E-37
+
+ ? limitnum(n -> 2^(4*n+1)*(n!)^4 / (2*n)! /(2*n+1)! ) - Pi
+ %3 = 0.E -37
+ @eprog\noindent
+ It is not mandatory to specify $\alpha$ when the $u_n$ have an asymptotic
+ expansion in $n^{-1}$. However, if the series in $n^{-1}$ is lacunary,
+ specifying $\alpha$ allows faster computation:
+ \bprog
+ ? \p1000
+ ? limitnum(n->(1+1/n^2)^(n^2)) - exp(1)
+ time = 1min, 44,681 ms.
+ %4 = 0.E-1001
+ ? limitnum(n->(1+1/n^2)^(n^2), 2) - exp(1)
+ time = 27,271 ms.
+ %5 = 0.E-1001 \\ still perfect, 4 times faster
+ @eprog\noindent
+ When $u_n$ has an asymptotic expansion in $n^{-\alpha}$ with $\alpha$ not an
+ integer, leaving $\alpha$ unspecified will bring an inexact limit. Giving a
+ satisfying optional argument improves precision; the program runs faster when
+ the optional argument gives non lacunary series.
+ \bprog
+ ? \p50
+ ? limitnum(n->(1+1/n^(7/2))^(n^(7/2))) - exp(1)
+ time = 982 ms.
+ %6 = 4.13[...] E-12
+ ? limitnum(n->(1+1/n^(7/2))^(n^(7/2)), 1/2) - exp(1)
+ time = 16,745 ms.
+ %7 = 0.E-57
+ ? limitnum(n->(1+1/n^(7/2))^(n^(7/2)), 7/2) - exp(1)
+ time = 105 ms.
+ %8 = 0.E-57
+ @eprog\noindent
+ Alternatively, $u_n$ may be given by a closure $N\mapsto [u_1,\dots, u_N]$
+ which can often be programmed in a more efficient way, for instance
+ when $u_{n+1}$ is a simple function of the preceding terms:
+ \bprog
+ ? \p2000
+ ? limitnum(n -> 2^(4*n+1)*(n!)^4 / (2*n)! /(2*n+1)! ) - Pi
+ time = 1,755 ms.
+ %9 = 0.E-2003
+ ? vu(N) = \\ exploit hypergeometric property
+   { my(v = vector(N)); v[1] = 8./3;\
+     for (n=2, N, my(q = 4*n^2); v[n] = v[n-1]*q/(q-1));\
+     return(v);
+   }
+ ? limitnum(vu) - Pi \\ much faster
+ time = 106 ms.
+ %11 = 0.E-2003
+ @eprog\noindent All sums and recursions can be handled in the same way.
+ In the above it is essential that $u_n$ be defined as a closure because
+ it must be evaluated at a higher precision than the one expected for the
+ limit. Make sure that the closure does not depend on a global variable which
+ would be computed at a priori fixed accuracy. For instance, precomputing
+ \kbd{v1 = 8.0/3} first and using \kbd{v1} in \kbd{vu} above would be wrong
+ because the resulting vector of values will use the accuracy of \kbd{v1}
+ instead of the ambient accuracy at which \kbd{limitnum} will call it.
+
+ Alternatively, and more clumsily, $u_n$ may be given by a vector of values:
+ it must be long and precise enough for the extrapolation
+ to make sense. Let $B$ be the current \kbd{realbitprecision}, the vector
+ length must be at least $1.102 B$ and the values computed with bit accuracy
+ $1.612 B$.
+ \bprog
+ ? limitnum(vector(10,n,(1+1/n)^n))
+  ***                 ^--------------------
+  *** limitnum: nonexistent component in limitnum: index < 43
+ \\ at this accuracy, we must have at least 43 values
+ ? limitnum(vector(43,n,(1+1/n)^n)) - exp(1)
+ %12 = 0.E-37
+
+ ? v = vector(43);
+ ? s = 0; for(i=1,#v, s += 1/i; v[i]= s - log(i));
+ ? limitnum(v) - Euler
+ %15 = -1.57[...] E-16
+
+ ? v = vector(43);
+ \\ ~ 128 bit * 1.612
+ ? localbitprec(207);\
+   s = 0; for(i=1,#v, s += 1/i; v[i]= s - log(i));
+ ? limitnum(v) - Euler
+ %18 = 0.E-38
+ @eprog
+
+ Because of the above problems, the preferred format is thus a closure,
+ given either a single value or the vector of values $[u_1,\dots,u_N]$. The
+ function distinguishes between the two formats by evaluating the closure
+ at $N\neq 1$ and $1$ and checking whether it yields vectors of respective
+ length $N$ and $1$ or not.
+
+ \misctitle{Warning} The expression is evaluated for $n = 1, 2, \dots, N$
+ for an $N = O(B)$ if the current bit accuracy is $B$. If it is not defined
+ for one of these values, translate or rescale accordingly:
+ \bprog
+ ? limitnum(n->log(1-1/n))  \\ can't evaluate at n = 1 !
+  ***   at top-level: limitnum(n->log(1-1/n))
+  ***                 ^-----------------------
+  ***   in function limitnum: log(1-1/n)
+  ***                         ^----------
+  *** log: domain error in log: argument = 0
+ ? limitnum(n->-log(1-1/(2*n)))
+ %19 = -6.11[...] E-58
+ @eprog
+
+ We conclude with a complicated example. Since the function is heuristic,
+ it is advisable to check whether it produces the same limit for
+ $u_n, u_{2n}, \dots u_{km}$ for a suitable small multiplier $k$.
+ The following function implements the recursion for the Motzkin numbers
+ $M_n$ which count the number of ways to draw non intersecting chords between
+ $n$ points on a circle:
+ $$ M_n = M_{n-1} + \sum_{i < n-1} M_i M_{n-2-i}
+        = ((n+1)M_{n-1}+(3n-3)M_{n-2}) / (n+2).$$
+ It is known that $M_n \sim \dfrac{3^{n+1}}{\sqrt{12\pi n^3}}$.
+ \bprog
+ \\ [M_k, M_{k*2}, ..., M_{k*N}] / (3^n / n^(3/2))
+ vM(N, k = 1) =
+ { my(q = k*N, V);
+    if (q == 1, return ([1/3]));
+    V = vector(q); V[1] = V[2] = 1;
+    for(n = 2, q - 1,
+      V[n+1] = ((2*n + 1)*V[n] + 3*(n - 1)*V[n-1]) / (n + 2));
+    f = (n -> 3^n / n^(3/2));
+    return (vector(N, n, V[n*k] / f(n*k)));
+ }
+ ? limitnum(vM) - 3/sqrt(12*Pi) \\ complete junk
+ %1 = 35540390.753542730306762369615276452646
+ ? limitnum(N->vM(N,5)) - 3/sqrt(12*Pi) \\ M_{5n}: better
+ %2 = 4.130710262178469860 E-25
+ ? limitnum(N->vM(N,10)) - 3/sqrt(12*Pi) \\ M_{10n}: perfect
+ %3 = 0.E-38
+ ? \p2000
+ ? limitnum(N->vM(N,10)) - 3/sqrt(12*Pi) \\ also at high accuracy
+ time = 409 ms.
+ %4 = 1.1048895470044788191 E-2004
+ @eprog\noindent In difficult cases such as the above a multiplier of 5 to 10
+ is usually sufficient. The above example is typical: a good multiplier usually
+ remains sufficient when the requested precision increases!
+
+ \synt{limitnum}{void *E, GEN (*u)(void *,GEN,long), GEN alpha, long prec}, where \kbd{u(E, n, prec)} must return $u(n)$ in precision \kbd{prec}.
+ Also available is
+ \fun{GEN}{limitnum0}{GEN u, GEN alpha, long prec}, where $u$
+ must be a vector of sufficient length as above.

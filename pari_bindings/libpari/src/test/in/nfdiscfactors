@@ -1,0 +1,3 @@
+nfdiscfactors(nfinit([x^2+1,[1,x]]))
+nfdiscfactors(x^2+3)
+nfdiscfactors(x^7+3*(2^30+3)^3*(2^31+11)^7)

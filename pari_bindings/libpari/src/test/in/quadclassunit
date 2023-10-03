@@ -1,0 +1,65 @@
+default(parisize, "72M"); \\ overflows 70M
+test(D) =
+{
+  for (d = D, D+10^3,
+    if (!isfundamental(d),next);
+    print(d, " ", quadclassunit(d).cyc)
+  );
+}
+setrand(1); test(10^15); test(-10^15)
+
+{
+  for(i=1,10000,
+    my(D=2*i-(i%2));
+    if(issquare(D),next());
+    my(w=quadunit(D), N=norm(w));
+    if(denominator(w)>1 || abs(N)!=1 || quadunitnorm(D) != N, error(D)))
+}
+quadunit(2^48+21) * Mod(1,2^64-59)
+quadunitindex(157,3)
+quadunitindex(157,11)
+quadunitindex(-3,1)
+quadunitindex(-3,2)
+quadunitindex(-4,2)
+quadunitindex(-8,2)
+quadunitnorm(17345)
+quadunitindex(17345, 10)
+quadunitindex(5, [100, [2,2;5,2]])
+quadunitindex(5, 100)
+quadunitindex(5, [2,2;5,2])
+quadunitindex(5, 2^32)
+quadunitindex(28, 2^32)
+quadunitindex(8461,2)
+quadunit(74881)
+quadunit(511681)
+quadunitindex(76,3) \\ #2491
+
+default(echo,1);
+
+\\#1180
+setrand(1);quadclassunit(572).no
+
+\\ #1195
+setrand(11);quadclassunit(-8419588).cyc
+setrand(2);quadclassunit(-1459008).cyc
+setrand(7);quadclassunit(-3799812).cyc
+setrand(1); quadclassunit(-13163208).cyc
+
+\\ #1195 with non-fundamental discriminants [oo loop]
+setrand(38);quadclassunit(-29920).cyc
+
+quadclassunit(-13163208,,[0.1]).cyc
+setrand(1); quadclassunit((2^70+25)).cyc
+setrand(1); quadclassunit(8*3*5*7).cyc
+
+\\ #1700
+setrand(1);quadclassunit(-612556842419).cyc
+
+\\ #2015
+setrand(2); quadclassunit(-699,,[6,6]).cyc
+
+\\ ERRORS
+quadunit(1.)
+quadunitindex(1.,2)
+quadunitindex(5,1.)
+quadunitnorm(1.)

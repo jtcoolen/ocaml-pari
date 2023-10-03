@@ -1,0 +1,35 @@
+Function: zetamult
+Section: transcendental
+C-Name: zetamult_interpolate
+Prototype: GDGp
+Help: zetamult(s,{t=0}): multiple zeta value at integral s = [s1,...,sk];
+ more generally, return Yamamoto's t-MZV interpolation (star value for t = 1).
+Doc: For $s$ a vector of positive integers such that $s[1] \geq 2$,
+ returns the multiple zeta value (MZV)
+ $$\zeta(s_1,\dots, s_k) = \sum_{n_1>\dots>n_k>0} n_1^{-s_1}\dots n_k^{-s_k}$$
+ of length $k$ and weight $\sum_i s_i$.
+ More generally, return Yamamoto's $t$-MZV interpolation evaluated at $t$:
+ for $t = 0$, this is the ordinary MZV; for $t = 1$, we obtain the MZSV
+ star value, with $\geq$ instead of strict inequalities;
+ and of course, for $t = \kbd{'x}$ we obtain Yamamoto's one-variable polynomial.
+ \bprog
+ ? zetamult([2,1]) - zeta(3) \\ Euler's identity
+ %1 = 0.E-38
+ ? zetamult([2,1], 1)   \\ star value
+ %2 = 2.4041138063191885707994763230228999815
+ ? zetamult([2,1], 'x)
+ %3 = 1.20205[...]*x + 1.20205[...]
+ @eprog\noindent
+ If the bit precision is $B$, this function runs in time $\tilde{O}(k(B+k)^2)$
+ if $t = 0$, and $\tilde{O}(kB^3)$ otherwise.
+
+ In addition to the above format (\kbd{avec}), the function
+ also accepts a binary word format \kbd{evec} (each $s_i$ is replaced
+ by $s_i$ bits, all of them 0 but the last one) giving the MZV
+ representation as an iterated integral, and an \kbd{index} format
+ (if $e$ is the positive integer attached the \kbd{evec} vector of
+ bits, the index is the integer $e + 2^{k-2}$). The function
+ \kbd{zetamultconvert} allows to pass from one format to the other; the
+ function \kbd{zetamultall} computes simultaneously all MZVs of weight
+ $\sum_{i\leq k} s_i$ up to $n$.
+Variant: Also available is \fun{GEN}{zetamult}{GEN s, long prec} for $t = 0$.

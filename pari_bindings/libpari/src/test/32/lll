@@ -1,0 +1,100 @@
+
+[1 0]
+
+[0 1]
+
+
+[  0  0 -8   5]
+
+[  8 -5 26 -16]
+
+[ 13 -8 -5   3]
+
+[-21 13  8  -5]
+
+
+[1126210459758 1822246802353  438668626759   709780747796]
+
+[   5645342155    9134355499 3372346191216  5456570759107]
+
+[1148588801119 -709866918189 2349699119200 -1452193919001]
+
+[-965010535345  596409310345 3157022227130 -1951147039605]
+
+[;]
+[;]
+[;]
+[[;], [;]]
+[[;], [;]]
+[;]
+Mat(1)
+Mat(1)
+Mat(1)
+[[;], Mat(1)]
+[[;], Mat(1)]
+Mat(1)
+[;]
+[;]
+Mat(1)
+[Mat(1), [;]]
+[Mat(1), [;]]
+[;]
+[1; 0]
+[1; 0]
+error("impossible inverse in dvmdii: 0.")
+[[-2; 1], [1; 0]]
+[[-2; 1], [1; 0]]
+[1; 0]
+error("incorrect type in rescale_to_int (t_POL).")
+error("incorrect type in qflll [integer matrix] (t_MAT).")
+error("incorrect type in qflll [integer matrix] (t_MAT).")
+error("incorrect type in qflll [integer matrix] (t_MAT).")
+[[x + 1; -x], [-1; 1]]
+[-1; 1]
+error("incorrect type in rescale_to_int (t_POL).")
+error("incorrect type in qflll [integer matrix] (t_MAT).")
+error("incorrect type in qflll [integer matrix] (t_MAT).")
+error("incorrect type in qflll [integer matrix] (t_MAT).")
+[[;], [-x^2 + 852*x + 833561, x^5 + 1052503*x^4 - 898292021*x^3 - 8780356471
+55*x^2 + 1; 1, -x^3 - 1053355*x^2]]
+[-x^2 + 852*x + 833561, x^5 + 1052503*x^4 - 898292021*x^3 - 878035647155*x^2
+ + 1; 1, -x^3 - 1053355*x^2]
+[;]
+[;]
+[[;], [;]]
+[[;], [;]]
+[;]
+Mat(1)
+Mat(1)
+[[;], Mat(1)]
+[[;], Mat(1)]
+Mat(1)
+[;]
+[;]
+[Mat(1), [;]]
+[Mat(1), [;]]
+[;]
+[1; 0]
+[1; 0]
+[[-2; 1], [1; 0]]
+[[-2; 1], [1; 0]]
+[1; 0]
+error("incorrect type in rescale_to_int (t_POL).")
+error("incorrect type in qflllgram [integer matrix] (t_MAT).")
+error("incorrect type in qflllgram [integer matrix] (t_MAT).")
+[[x + 1; -x], [-1; 1]]
+[-1; 1]
+error("incorrect type in rescale_to_int (t_POL).")
+error("incorrect type in qflllgram [integer matrix] (t_MAT).")
+error("incorrect type in qflllgram [integer matrix] (t_MAT).")
+[[;], [-x^2 + 852*x + 833561, x^5 + 1052503*x^4 - 898292021*x^3 - 8780356471
+55*x^2 + 1; 1, -x^3 - 1053355*x^2]]
+[-x^2 + 852*x + 833561, x^5 + 1052503*x^4 - 898292021*x^3 - 878035647155*x^2
+ + 1; 1, -x^3 - 1053355*x^2]
+  ***   at top-level: qflllgram([1,2,3;4,5,6])
+  ***                 ^------------------------
+  *** qflllgram: inconsistent dimensions in qflllgram.
+  ***   at top-level: qfminim([1,2,3;4,5,6],,,2)
+  ***                 ^--------------------------
+  *** qfminim: inconsistent dimensions in qflllgram.
+Total time spent: 1

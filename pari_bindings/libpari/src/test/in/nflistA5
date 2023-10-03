@@ -1,0 +1,29 @@
+\\ package: nflistdata
+G = "A5";
+nflist(G)
+nflist(G,,-2)
+nflist(G,,1)
+nflist(G,[100,18000])
+nflist(G,18496)
+nflist(G,42849)
+nflist(G,[18497,10^5])
+nflist(G,[18497,10^5],-2)
+
+G = "A5cond";
+nflist(G)
+nflist(G,,-2)
+nflist(G,,1)
+nflist(G,[100,500])
+nflist(G,633)
+nflist(G,[634, 1000])
+
+G = [6,12];
+nflist(G)
+nflist(G,,-2)
+nflist(G,,2)
+nflist(G,[100,280000])
+nflist(G,287296)
+nflist(G,[287297,10^6])
+nflist(G,[287297,10^6],-2)
+
+nfresolvent(x^6-2*x^5+3*x^4-4*x^3+2*x^2-2*x-1,3)

@@ -1,0 +1,68 @@
+default(parisize,"46M"); \\ overflows 44M
+subcyclopclgp(22220,3)
+subcyclopclgp(22220,nextprime(2^64))
+subcyclopclgp(23,3)
+subcyclopclgp(81,5)
+subcyclopclgp(132,[3,7,11],)
+subcyclopclgp([8*53^2,[16855,1009]],107)  /* 107 | h(106) */
+Q = bnfinit(y);
+bnr1 = bnrinit(Q, 8); H1 = Mat(2);
+bnr2 = bnrinit(Q, [53^2, [1]]); H2 = Mat(53);
+[bnr,H] = bnrcompositum([bnr1, H1], [bnr2, H2]); subcyclopclgp([bnr,H], 107)
+subcyclopclgp(521,3,1)
+subcyclopclgp(10220,[7,13,19,37],1)
+
+{
+L = [[5,1111], [5,7523], [5,36227], [5,36293], [5,36322], [5,42853], [5,-5657], [5,-14606], [3,853], [3,9546], [3,11703], [3,13767], [3,13894], [3,15338]];
+for (i = 1, #L,
+  [p,m] = L[i];
+  f = abs( if (m%4 == 1, 5*m, 20*m) );
+  H = [a | a<-[1..f], a % 5 == 1 && gcd(a,f) == 1 && kronecker(m,a) == 1];
+  print(subcyclopclgp([f,H],p))
+);
+}
+
+subcyclohminus(997)
+subcyclohminus(998)
+subcyclohminus(999)
+
+/* p : prime s.t. 2^e*l^f || (p-1); relative class numbers of subfields of
+ * Q(zeta_p) with degree 2^e*l^t (0 <= t <= f) */
+test_pl(p,l)=
+{ my(q = 2^valuation(p-1,2), H = znprimroot(p)^q);
+  printf("(%d,%d,%d) ",p,q,l);
+  for(t = 0, valuation(p-1,l),
+    printf("%d ", subcyclohminus([p, H], l));
+    H = H^l; \\ g^(q*l^t)
+  );
+  printf("\n");
+}
+
+test_pl(131707,3)
+test_pl(363043,3)
+
+subcycloiwasawa(22220, 41)
+subcycloiwasawa(10220, 13)
+subcycloiwasawa([1152328, [3, 7, 19]], 3, 3) /* F=Q(sqrt(-458),sqrt(-629)) */
+H=[2,0,1,1,0;0,2,0,1,1;0,0,1,0,0;0,0,0,1,0;0,0,0,0,1];
+subcycloiwasawa([znstar(1152328, 1), H],3,3) /* same */
+subcycloiwasawa(polcompositum(x^2+458,x^2+629,2),3,3)
+subcycloiwasawa(x^2+1501391,3)
+subcycloiwasawa(x^2+956238,3)
+subcycloiwasawa(x^2+239,3,9)
+T = polcompositum(x^2 - 42853, polcyclo(5))[1];
+subcycloiwasawa(T, 5)
+subcycloiwasawa(T, 5, 4)
+subcycloiwasawa(x^2+239, 3, 10)
+subcycloiwasawa(x^2-17, 2, 10)
+subcycloiwasawa(x^2-101, 2, 10)
+subcycloiwasawa(x^2+239,3) \\ #2390
+
+\\ errors, keep at end of file
+subcyclopclgp([7, [1]], 3)
+subcyclopclgp([7, [1,7]], 11)
+subcyclopclgp([7, [1]], 2)
+subcyclopclgp([7, [1]], [2,5])
+subcyclopclgp([7, [1]], [3,11])
+subcyclopclgp([7, [1]], 4)
+subcyclopclgp([7], 5, 64)

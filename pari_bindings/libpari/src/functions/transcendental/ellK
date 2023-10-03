@@ -1,0 +1,9 @@
+Function: ellK
+Section: transcendental
+C-Name: ellK
+Prototype: Gp
+Help: ellK(k): Complete elliptic integral of the first kind for the
+ complex parameter k using the agm.
+Doc: Complete elliptic integral of the first kind
+ $$K(k)=\int_0^{\pi/2}(1-k^2\sin(t)^2)^{-1/2}\,dt$$ for the
+ complex parameter $k$ using the agm.

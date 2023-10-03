@@ -1,0 +1,15 @@
+Function: ellweilpairing
+Section: elliptic_curves
+C-Name: ellweilpairing
+Prototype: GGGG
+Help: ellweilpairing(E, P, Q, m): computes the Weil pairing of the two points
+ of m-torsion P and Q on the elliptic curve E.
+Doc: Let $E$ be an elliptic curve defined over a finite field and $m \geq 1$
+ be an integer. This function computes the Weil pairing of the two $m$-torsion
+ points $P$ and $Q$ on $E$, which is an alternating bilinear map.
+ More precisely, let $f_{m,R}$ denote a Miller function with
+ divisor $m[R] - m[O_E]$; the algorithm returns the $m$-th root of unity
+ $$\varepsilon(P,Q)^m \cdot f_{m,P}(Q) / f_{m,Q}(P),$$
+ where $f(R)$ is the extended evaluation of $f$ at the divisor $[R] - [O_E]$
+ and $\varepsilon(P,Q)\in \{\pm1\}$ is given by Weil reciprocity:
+ $\varepsilon(P,Q) = 1$ if and only if $P, Q, O_E$ are not pairwise distinct.

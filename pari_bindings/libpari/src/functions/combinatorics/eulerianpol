@@ -1,0 +1,13 @@
+Function: eulerianpol
+Section: combinatorics
+C-Name: eulerianpol
+Prototype: LDn
+Help: eulerianpol(n, {v = 'x}): Eulerian polynomial A_n, in variable v.
+Doc: \idx{Eulerian polynomial} $A_n$ in variable $v$.
+ \bprog
+ ? eulerianpol(2)
+ %1 = x + 1
+ ? eulerianpol(5, 't)
+ %2 = t^4 + 26*t^3 + 66*t^2 + 26*t + 1
+
+ @eprog

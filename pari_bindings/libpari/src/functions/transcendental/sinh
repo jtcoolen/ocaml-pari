@@ -1,0 +1,9 @@
+Function: sinh
+Section: transcendental
+C-Name: gsinh
+Prototype: Gp
+Description:
+ (mp):real:prec      gsinh($1, $prec)
+ (gen):gen:prec      gsinh($1, $prec)
+Help: sinh(x): hyperbolic sine of x.
+Doc: hyperbolic sine of $x$.

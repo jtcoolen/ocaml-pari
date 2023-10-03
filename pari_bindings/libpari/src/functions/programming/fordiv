@@ -1,0 +1,31 @@
+Function: fordiv
+Section: programming/control
+C-Name: fordiv
+Prototype: vGVI
+Help: fordiv(n,X,seq): the sequence is evaluated, X running over the
+ divisors of n.
+Doc: evaluates \var{seq}, where
+ the formal variable $X$ ranges through the divisors of $n$
+ (see \tet{divisors}, which is used as a subroutine). It is assumed that
+ \kbd{factor} can handle $n$, without negative exponents. Instead of $n$,
+ it is possible to input a factorization matrix, i.e. the output of
+ \kbd{factor(n)}.
+
+ This routine uses \kbd{divisors} as a subroutine, then loops over the
+ divisors. In particular, if $n$ is an integer, divisors are sorted by
+ increasing size.
+
+ To avoid storing all divisors, possibly using a lot of memory, the following
+ (slower) routine loops over the divisors using essentially constant space:
+ \bprog
+ FORDIV(N)=
+ { my(F = factor(N), P = F[,1], E = F[,2]);
+
+   forvec(v = vector(#E, i, [0,E[i]]), X = factorback(P, v));
+ }
+ ? for(i=1, 10^6, FORDIV(i))
+ time = 11,180 ms.
+ ? for(i=1, 10^6, fordiv(i, d, ))
+ time = 2,667 ms.
+ @eprog\noindent Of course, the divisors are no longer sorted by inreasing
+ size.

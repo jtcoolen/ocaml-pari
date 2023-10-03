@@ -1,0 +1,50 @@
+Function: randomprime
+Section: number_theoretical
+C-Name: randomprime0
+Prototype: DGDG
+Help: randomprime({N = 2^31}, {q}): returns a strong pseudo prime in [2, N-1].
+ If q is an integer, return a prime = 1 mod q; if q is an intmod, return
+ a prime in the given congruence class.
+Doc: returns a strong pseudo prime (see \tet{ispseudoprime}) in $[2,N-1]$.
+ A \typ{VEC} $N = [a,b]$ is also allowed, with $a \leq b$ in which case a
+ pseudo prime $a \leq p \leq b$ is returned; if no prime exists in the
+ interval, the function will run into an infinite loop. If the upper bound
+ is less than $2^{64}$ the pseudo prime returned is a proven prime.
+
+ \bprog
+ ? randomprime(100)
+ %1 = 71
+ ? randomprime([3,100])
+ %2 = 61
+ ? randomprime([1,1])
+  ***   at top-level: randomprime([1,1])
+  ***                 ^------------------
+  *** randomprime: domain error in randomprime:
+  ***   floor(b) - max(ceil(a),2) < 0
+ ? randomprime([24,28]) \\ infinite loop
+ @eprog
+
+ If the optional parameter $q$ is an integer, return a prime congruent to $1
+ \mod q$; if $q$ is an intmod, return a prime in the given congruence class.
+ If the class contains no prime in the given interval, the function will raise
+ an exception if the class is not invertible, else  run into an infinite loop
+
+ \bprog
+ ? randomprime(100, 4)  \\ 1 mod 4
+ %1 = 71
+ ? randomprime(100, 4)
+ %2 = 13
+ ? randomprime([10,100], Mod(2,5))
+ %3 = 47
+ ? randomprime(100, Mod(0,2)) \\ silly but works
+ %4 = 2
+ ? randomprime([3,100], Mod(0,2)) \\ not invertible
+  ***   at top-level: randomprime([3,100],Mod(0,2))
+  ***                 ^-----------------------------
+  *** randomprime: elements not coprime in randomprime:
+    0
+    2
+ ? randomprime(100, 97) \\ infinite loop
+ @eprog
+Variant: Also available is \fun{GEN}{randomprime}{GEN N = NULL}.
+

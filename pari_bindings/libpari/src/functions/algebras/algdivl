@@ -1,0 +1,21 @@
+Function: algdivl
+Section: algebras
+C-Name: algdivl
+Prototype: DGGG
+Help: algdivl({al},x,y): element x\y in al (Hamilton quaternions if omitted).
+Doc: Given two elements $x$ and $y$ in \var{al} (Hamilton quaternions if
+ omitted), computes their left quotient $x\backslash y$ in the algebra \var{al}:
+ an element $z$ such that $xz=y$ (such an element is not unique when $x$ is a
+ zerodivisor). If~$x$ is invertible, this is the same as $x^{-1}y$. Assumes that
+ $y$ is left divisible by $x$ (i.e. that $z$ exists). Also accepts square
+ matrices with coefficients in~\var{al}.
+
+ \bprog
+ ? A = alginit(nfinit(y),[-1,1]);
+ ? x = [1,1]~; algisinv(A,x)
+ % = 0
+ ? z = algmul(A,x,algrandom(A,2))
+ % = [0, 0, 0, 8]~
+ ? algdivl(A,x,z)
+ % = [4, 4, 0, 0]~
+ @eprog

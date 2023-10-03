@@ -1,0 +1,24 @@
+Function: gchareval
+Section: number_fields
+C-Name: gchareval
+Prototype: GGGD1,L,
+Help: gchareval(gc,chi,x,{flag=1}): compute the evaluation chi(x) in C* if
+ flag=1 and in C/Z if flag=0.
+Doc: \var{gc} being the structure returned by \kbd{gcharinit}, \var{chi} a
+ character in \var{gc}, and \var{x} an ideal of the base field, return the
+ value~$\chi(x)$. If~$\fl=1$ (default), return a value in~$\C^\times$;
+ if~$\fl=0$, return a value in~$\C/\Z$, normalized so that the real part is
+ between~$-1/2$ and~$1/2$.
+
+ \bprog
+ ? bnf = bnfinit(x^2-5);
+ ? gc = gcharinit(bnf,1);
+ ? chi = [1]~;
+ ? pr = idealprimedec(bnf,11)[1];
+ ? a = gchareval(gc,chi,pr)
+ % = -0.3804107379142448929315340886 - 0.9248176417432464199580504588*I
+ ? b = gchareval(gc,chi,pr,0)
+ % = -0.3121086861831031476247589216
+ ? a == exp(2*Pi*I*b)
+ %7 = 1
+ @eprog

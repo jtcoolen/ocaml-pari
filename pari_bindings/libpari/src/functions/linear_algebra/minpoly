@@ -1,0 +1,14 @@
+Function: minpoly
+Section: linear_algebra
+C-Name: minpoly
+Prototype: GDn
+Help: minpoly(A,{v='x}): minimal polynomial of the matrix or polmod A.
+Doc: \idx{minimal polynomial}
+ of $A$ with respect to the variable $v$., i.e. the monic polynomial $P$
+ of minimal degree (in the variable $v$) such that $P(A) = 0$.
+
+Function: _ZXQ_minpoly_worker
+C-Name: ZXQ_minpoly_worker
+Prototype: GGGL
+Section: programming/internals
+Help: worker for ZXQ_minpoly

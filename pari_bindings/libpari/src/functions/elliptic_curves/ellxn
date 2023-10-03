@@ -1,0 +1,23 @@
+Function: ellxn
+Section: elliptic_curves
+C-Name: ellxn
+Prototype: GLDn
+Help: ellxn(E,n,{v='x}): return polynomials [A,B] in the variable v such that
+ x([n]P) = (A/B)(t) for any P = [t,u] on E outside of n-torsion.
+Doc: For any affine point $P = (t,u)$ on the curve $E$, we have
+ $$[n]P = (\phi_n(P)\psi_n(P) : \omega_n(P) : \psi_n(P)^3)$$
+ for some $\phi_n,\omega_n,\psi_n$ in $\Z[a_1,a_2,a_3,a_4,a_6][t,u]$
+ modulo the curve equation. This function returns a pair $[A,B]$ of polynomials
+ in $\Z[a_1,a_2,a_3,a_4,a_6][v]$ such that $[A(t),B(t)]
+ = [\phi_n(P),\psi_n(P)^2]$ in the function field of $E$,
+ whose quotient give the abscissa of $[n]P$. If $P$ is an $n$-torsion point,
+ then $B(t) = 0$.
+ \bprog
+ ? E = ellinit([17,42]); [t,u] = [114,1218];
+ ? T = ellxn(E, 2, 'X)
+ %2 = [X^4 - 34*X^2 - 336*X + 289, 4*X^3 + 68*X + 168]
+ ? [a,b] = subst(T,'X,t);
+ %3 = [168416137, 5934096]
+ ? a / b == ellmul(E, [t,u], 2)[1]
+ %4 = 1
+ @eprog

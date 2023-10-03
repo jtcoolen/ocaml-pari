@@ -1,0 +1,29 @@
+Function: eulervec
+Section: combinatorics
+C-Name: eulervec
+Prototype: L
+Help: eulervec(n): returns a vector containing
+ the nonzero Euler numbers E_0, E_2, ..., E_{2n}.
+Doc: returns a vector containing the nonzero \idx{Euler numbers} $E_0$,
+ $E_2$,\dots, $E_{2n}$:
+ \bprog
+ ? eulervec(5) \\ E_0, E_2..., E_10
+ %1 = [1, -1, 5, -61, 1385, -50521]
+ ? eulerfrac(10)
+ %2 = -50521
+ @eprog\noindent This routine uses more memory but is faster than
+ repeated calls to \kbd{eulerfrac}:
+ \bprog
+ ? forstep(n = 2, 8000, 2, eulerfrac(n))
+ time = 27,3801ms.
+ ? eulervec(4000);
+ time = 8,430 ms.
+ @eprog
+ The computed Euler numbers are stored in an incremental
+ cache which makes later calls to \kbd{eulerfrac} and \kbd{eulerreal}
+ instantaneous in the cache range: re-running the same previous \kbd{eulerfrac}s
+ after the \kbd{eulervec} call gives:
+ \bprog
+ ? forstep(n = 2, 10000, 2, eulerfrac(n))
+ time = 0 ms.
+ @eprog

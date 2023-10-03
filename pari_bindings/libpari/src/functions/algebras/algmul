@@ -1,0 +1,16 @@
+Function: algmul
+Section: algebras
+C-Name: algmul
+Prototype: DGGG
+Help: algmul({al},x,y): element x*y in al (Hamilton quaternions if omitted).
+Doc: Given two elements $x$ and $y$ in \var{al} (Hamilton quaternions if
+ omitted), computes their product $xy$ in the algebra~\var{al}.
+ \bprog
+ ? A = alginit(nfinit(y), [-1,-1]);
+ ? algmul(A,[1,1,0,0]~,[0,0,2,1]~)
+ % = [2, 3, 5, -4]~
+ ? algmul(,[1,2,3,4]~,sqrt(I)) \\Hamilton quaternions
+ % = [-0.7071067811, 2.1213203435, 4.9497474683, 0.7071067811]~
+ @eprog
+
+ Also accepts matrices with coefficients in \var{al}.

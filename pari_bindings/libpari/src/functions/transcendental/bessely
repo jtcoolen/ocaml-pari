@@ -1,0 +1,6 @@
+Function: bessely
+Section: transcendental
+C-Name: ybessel
+Prototype: GGp
+Help: bessely(nu,x): Y-bessel function of index nu and argument x.
+Doc: $Y$-Bessel function of index \var{nu} and argument $x$.

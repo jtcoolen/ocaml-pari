@@ -1,0 +1,38 @@
+Function: nfdiscfactors
+Section: number_fields
+C-Name: nfdiscfactors
+Prototype: G
+Help: nfdiscfactors(T): [D, faD], where D = nfdisc(T), and faD is the
+ factorization of |D|.
+Doc: given a polynomial $T$ with integer coefficients, return
+ $[D, \var{faD}]$ where $D$ is \kbd{nfdisc}$(T)$ and
+ \var{faD} is the factorization of $|D|$. All the variants \kbd{[T,listP]}
+ are allowed (see \kbd{??nfdisc}), in which case \var{faD} is the
+ factorization of the discriminant underlying order (which need not be maximal
+ at the primes not specified by \kbd{listP}) and the factorization may
+ contain large composites.
+ \bprog
+ ? T = x^3 - 6021021*x^2 + 12072210077769*x - 8092423140177664432;
+ ? [D,faD] = nfdiscfactors(T); print(faD); D
+ [3, 3; 500009, 2]
+ %2 = -6750243002187]
+
+ ? T = x^3 + 9*x^2 + 27*x - 125014250689643346789780229390526092263790263725;
+ ? [D,faD] = nfdiscfactors(T); print(faD); D
+ [3, 3; 1000003, 2]
+ %4 = -27000162000243
+
+ ? [D,faD] = nfdiscfactors([T, 10^3]); print(faD)
+ [3, 3; 125007125141751093502187, 2]
+ @eprog\noindent In the final example, we only get a partial factorization,
+ which is only guaranteed correct at primes $\leq 10^3$.
+
+ The function also accept number field structures, for instance as output by
+ \kbd{nfinit}, and returns the field discriminant and its factorization:
+ \bprog
+ ? T = x^3 + 9*x^2 + 27*x - 125014250689643346789780229390526092263790263725;
+ ? nf = nfinit(T); [D,faD] = nfdiscfactors(T); print(faD); D
+ %2 = -27000162000243
+ ? nf.disc
+ %3 = -27000162000243
+ @eprog

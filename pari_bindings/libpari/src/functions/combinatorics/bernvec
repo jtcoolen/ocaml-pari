@@ -1,0 +1,30 @@
+Function: bernvec
+Section: combinatorics
+C-Name: bernvec
+Prototype: L
+Help: bernvec(n): returns a vector containing, as rational numbers,
+ the Bernoulli numbers B_0, B_2, ..., B_{2n}.
+Doc: returns a vector containing, as rational numbers,
+ the \idx{Bernoulli numbers} $B_0$, $B_2$,\dots, $B_{2n}$:
+ \bprog
+ ? bernvec(5) \\ B_0, B_2..., B_10
+ %1 = [1, 1/6, -1/30, 1/42, -1/30, 5/66]
+ ? bernfrac(10)
+ %2 = 5/66
+ @eprog\noindent This routine uses a lot of memory but is much faster than
+ repeated calls to \kbd{bernfrac}:
+ \bprog
+ ? forstep(n = 2, 10000, 2, bernfrac(n))
+ time = 18,245 ms.
+ ? bernvec(5000);
+ time = 1,338 ms.
+ @eprog\noindent The computed Bernoulli numbers are stored in an incremental
+ cache which makes later calls to \kbd{bernfrac} and \kbd{bernreal}
+ instantaneous in the cache range: re-running the same previous \kbd{bernfrac}s
+ after the \kbd{bernvec} call gives:
+ \bprog
+ ? forstep(n = 2, 10000, 2, bernfrac(n))
+ time = 1 ms.
+ @eprog\noindent The time and space complexity of this function are
+ $\tilde{O}(n^2)$; in the feasible range $n \leq 10^5$ (requires about two
+ hours), the practical time complexity is closer to $\tilde{O}(n^{\log_2 6})$.

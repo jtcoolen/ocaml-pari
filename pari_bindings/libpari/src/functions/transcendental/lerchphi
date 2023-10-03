@@ -1,0 +1,8 @@
+Function: lerchphi
+Section: transcendental
+C-Name: lerchphi
+Prototype: GGGp
+Help: lerchphi(z, s, a): Lerch transcendent equal to sum for n >= 0 of
+ z^n / (n+a)^s for reasonable values of the arguments.
+Doc: Lerch transcendent $\Phi(z,s,a)=\sum_{n\ge0}z^n(n+a)^{-s}$ and
+ analytically continued, for reasonable values of the arguments.

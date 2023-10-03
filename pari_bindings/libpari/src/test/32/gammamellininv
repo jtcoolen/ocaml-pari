@@ -1,0 +1,26 @@
+2.9297691204814688720898602967358431836 E-19976
+2.0000000000000000000000000000000000000
+-115
+-131
+-192
+-189
+-192
+-184
+-188
+[1]
+[1, -3/64, 105/8192, -3465/524288, 675675/134217728, -43648605/8589934592, 7
+027425405/1099511627776, -677644592625/70368744177664, 609202488769875/36028
+797018963968, -78180986058800625/2305843009213693952]
+[1]
+0.086427836527544499548835474343456022551
+0.086427836527544499548835474343456022551
+  ***   at top-level: gammamellininvasymp([])
+  ***                 ^-----------------------
+  *** gammamellininvasymp: incorrect type in gammamellininvasymp (t_VEC).
+  ***   at top-level: gammamellininvinit([])
+  ***                 ^----------------------
+  *** gammamellininvinit: incorrect type in gammamellininvinit (t_VEC).
+  ***   at top-level: gammamellininvinit(x,-2)
+  ***                 ^------------------------
+  *** gammamellininvinit: domain error in gammamellininvinit: derivation order < 0
+Total time spent: 1870

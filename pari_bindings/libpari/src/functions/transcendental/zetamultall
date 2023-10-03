@@ -1,0 +1,65 @@
+Function: zetamultall
+Section: transcendental
+C-Name: zetamultall
+Prototype: LD0,L,p
+Help: zetamultall(k,{flag=0}): list of all multiple zeta values for weight
+ up to k. Binary digits of flag mean: 0 = zetastar values if set,
+ 1 = values up to duality if set, 2 = values of weight k if set
+ (else all values up to weight k), 3 = return the 2-component vector
+ [Z, M], where M is the vector of the corresponding indices m, i.e., such that
+ zetamult(M[i]) = Z[i].
+Doc: list of all multiple zeta values (MZVs) for weight $s_1 + \dots + s_r$
+ up to $k$. Binary digits of $\fl$ mean : 0 = star values if set;
+ 1 = values up to to duality if set (see \kbd{zetamultdual}, ignored if
+ star values); 2 = values of weight $k$ if set (else all values up to weight
+ $k$); 3 = return the 2-component vector \kbd{[Z, M]}, where $M$ is the vector
+ of the corresponding indices $m$, i.e., such that
+ \kbd{zetamult(M[i])} = \kbd{Z[i]}. Note that it is necessary to use
+ \kbd{zetamultconvert} to have the corresponding \kbd{avec} $(s_1,\dots, s_r)$.
+
+ With default flag $\fl = 0$, the function returns a vector with $2^{k-1}-1$
+ components whose $i$-th entry is the MZV of \kbd{index} $i$ (see
+ \kbd{zetamult}). If the bit precision is $B$, this function runs in time
+ $O(2^k k B^2)$ for an output of size $O(2^k B)$.
+
+ \bprog
+ ? Z = zetamultall(5); #Z \\ 2^4 - 1 MZVs of weight <= 5
+ %1 = 15
+ ? Z[10]
+ %2 = 0.22881039760335375976874614894168879193
+ ? zetamultconvert(10)
+ %3 = Vecsmall([3, 2]) \\ @com{index $10$ corresponds to $\zeta(3,2)$}
+ ? zetamult(%)  \\ double check
+ %4 = 0.22881039760335375976874614894168879193
+ ? zetamult(10) \\ we can use the index directly
+ %5 = 0.22881039760335375976874614894168879193
+ @eprog\noindent If we use flag bits 1 and 2, we avoid unnecessary
+ computations and copying, saving a potential factor 4: half the values
+ are in lower weight and computing up to duality save another rough factor 2.
+ Unfortunately, the indexing now no longer corresponds to the new shorter
+ vector of MZVs:
+ \bprog
+ ? Z = zetamultall(5, 2); #Z \\ up to duality
+ %6 = 9
+ ? Z = zetamultall(5, 2); #Z \\ only weight 5
+ %7 = 8
+ ? Z = zetamultall(5, 2 + 4); #Z \\ both
+ %8 = 4
+ @eprog\noindent So how to recover the value attached to index 10 ? Flag
+ bit 3 returns the actual indices used:
+ \bprog
+ ? [Z, M] = zetamultall(5, 2 + 8); M \\ other indices were not included
+ %9 = Vecsmall([1, 2, 4, 5, 6, 8, 9, 10, 12])
+ ? Z[8] \\ index m = 10 is now in M[8]
+ %10 = 0.22881039760335375976874614894168879193
+ ? [Z, M] = zetamultall(5, 2 + 4 + 8); M
+ %11 = Vecsmall([8, 9, 10, 12])
+ ? Z[3] \\ index m = 10 is now in M[3]
+ %12 = 0.22881039760335375976874614894168879193
+ @eprog\noindent The following construction automates the above
+ programmatically, looking up the MZVs of index $10$ ($=\zeta(3,2)$) in all
+ cases, without inspecting the various index sets $M$ visually:
+ \bprog
+ ? Z[vecsearch(M, 10)] \\ works in all the above settings
+ %13 = 0.22881039760335375976874614894168879193
+ @eprog

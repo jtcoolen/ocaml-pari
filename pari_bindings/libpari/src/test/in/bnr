@@ -1,0 +1,168 @@
+default(parisize,"160M");
+K=bnfinit(x^3-x-1);
+subgrouplist(bnrinit(K,10))
+K=bnrinit(K,20);
+default(realprecision,77);
+nfnewprec(K);
+default(realprecision,38);
+subgrouplist(K)
+subgrouplist(K, 2)
+subgrouplist(K, 2, 1)
+bnrconductor(bnfinit(K),4,Mat(3))
+subgrouplist(bnrinit(bnfinit(x),22))
+
+Qi = bnfinit(x^2+1);
+bnrL1(bnrinit(Qi,10),1);
+bnrisconductor(bnrinit(Qi,x-5),[1])
+setrand(5);bnrL1(bnrinit(bnfinit(y^2+6),1));
+bnrL1(bnrinit(bnfinit(x),[5,[1]]));
+\\ #1399
+bnrdisc(bnfinit(y^2+1), 12)
+
+setrand(1);bnf=bnfinit(x^2-x-57);
+test(m)=
+{
+  print(bnrisconductor(bnf,m), ", ", bnrclassno(bnf,m), ", ", bnrdisc(bnf,m));
+}
+test([[25,13;0,1],[1,1]])
+test([[25,13;0,1],[1,0]])
+test([[5,3;0,1],[1,0]])
+test([5,3;0,1])
+
+m=[idealfactor(bnf,[5,3;0,1]),[1,0]];
+H=Mat(2);
+bnr=bnrinit(bnf, idealstar(bnf,m,2));
+f=[bnrclassno,bnrdisc,bnrconductor];
+{
+for (i=1,#f,
+  print(f[i](bnr));
+  print(f[i](bnr,H));
+  print(f[i](bnf,m));
+  print(f[i](bnf,m,H));
+)
+}
+bnrdisc(bnf,m,H,1)
+bnrdisc(bnf,m,H,2)
+bnrdisc(bnf,m,H,3)
+bnrdisc(bnf,[5,3;0,1],H,2)
+bnrdisc(bnf,[5,3;0,1],H,3)
+bnrclassno(bnf, idealprimedec(bnf,5)[1])
+
+bnr=bnrinit(bnf,[7,[1,1]]);
+bnrclassno(bnf,[7,Vecsmall([1,2])])
+bnrclassno(bnf,[7,Vecsmall([1])])
+bnrclassno(bnf,[7,Vecsmall([2])])
+bnrclassno(bnf,[7,Vecsmall([])])
+bnrclassno(bnf,[7,Vecsmall([1,2,3])])
+bnrrootnumber(bnr, [2,1])
+bnrrootnumber(bnr, [0,0])
+bnrconductor(bnr,[0,0])
+chi=[1,0];
+bnrconductor(bnr,chi)
+charorder(bnf,[1])
+chareval(bnf,[1], idealprimedec(bnf,3)[1])
+charorder(bnr,chi)
+chareval(bnr,chi,2)
+chareval(bnr,chi,1/7)
+chareval(bnr,chi,x+1)
+chareval(1,chi,1)
+L=idealprimedec(bnf,3);
+bnr=bnrinit(bnf,[L[1],[1,1]]);
+chi=[3];
+chareval(bnr,chi,1)
+chareval(bnr,chi,L[1].gen[2])
+chareval(bnr,chi,L[2].gen[2])
+
+bnr=bnrinit(bnfinit(x^2-97),1); bnrrootnumber(bnr,[])
+
+narrow(T)=bnfnarrow(bnfinit(T));
+narrow(x^2-460)
+narrow(x^6-x^5-12*x^4+5*x^3+23*x^2-6*x-9)
+narrow(x^2-9004)
+narrow(x^2-7980)
+
+\\#1804
+K=bnfinit(y^2-5);
+bnr = bnrinit(K,[1,[1,1]]);
+bnrdisc(bnr)
+bnrdisc(bnr,,,1)
+bnrdisc(bnr,,,2)
+bnrdisc(K,[1,[1,0]],,2)
+bnrdisc(K,[1,[0,0]],,2)
+ideallog(K,1/2,idealstar(K,[1,[1,1]]))
+
+setrand(1);
+F = bnfinit(x^3-3);
+f = idealmul(F, idealprimedec(F,3)[1], 5);
+bnr = bnrinit(F, [f, [1]]);
+C = bnr.cyc;
+forvec(c = vector(#C,i,[0,C[i]-1]), print(bnrrootnumber(bnr,c)))
+
+bnf=bnfinit(x^2+69);
+id = [9,0;0,3];
+bnrinit(bnf,id,1).clgp
+bnrinit(bnf,1,1,5).clgp
+bnrinit(bnf,1,0,5).clgp
+
+bnf=bnfinit(x^2-x+6);bnr=bnrinit(bnf,[29,18;0,1]);
+bnrisprincipal(bnr,1)
+bnrinit(bnf,idealfactor(bnf,1)).no \\ #1890
+
+\\ #2275
+bnr=bnrinit(bnfinit(quadpoly(1546508,y)),9);
+bnrisprincipal(bnr,idealprimedec(bnr,43)[1]);
+
+bnf=bnfinit(x^2-486);
+P2 = idealprimedec(bnf,2)[1];
+P3 = idealprimedec(bnf,3)[1];
+bnrinit(bnf, [[P2,1;P3,15],[1,1]], 1);
+
+\\ slow
+p = 1932251269128214818974844517133; N = p*5;
+bnf=bnfinit('y); bnr = bnrinit(bnf,N);
+pol = bnrclassfield(bnr,[2,0;0,1],1);
+rnfnormgroup(bnr,pol)
+
+\\ slow
+p=277619787333362637441898246271;
+bnf=bnfinit(a^3 - 6544*a - 7375129,1);
+bnrinit(bnf,p,,2).cyc
+
+\\ slow
+bnf=bnfinit(a^2+3321607);
+bnr=bnrinit(bnf,1,,3); bnr.cyc
+bnrisprincipal(bnr,idealprimedec(bnr,13)[1],0)
+
+bnr=bnrinit(bnf,3,,3); bnr.cyc
+bnrisprincipal(bnr,idealprimedec(bnr,13)[1],0)
+
+\\ wrong relations => bug in rnfkummer
+setrand(1); bnr=bnrinit(bnfinit(y^4-y^3+16*y^2-16*y+61),5,,5);
+#bnrclassfield(bnr,5)
+\\ wrong generators => bug in rnfkummer
+setrand(1); bnr=bnrinit(bnfinit(y^4+30*y^2+18),5);
+#bnrclassfield(bnr,5)
+
+K=bnfinit(x^2-30); bnr=bnrinit(K,[4,[1,1]]);
+P=idealprimedec(K,3)[1];
+bnrisprincipal(bnr,P,4)
+bnrisprincipal(bnr,P,1)
+bnrisprincipal(bnr,P,0)
+bnr = bnrinit(bnr,bnr.mod,1);
+bnrisprincipal(bnr,P,4)
+bnrisprincipal(bnr,P,1)
+bnrisprincipal(bnr,P,0)
+
+Q = bnfinit(y);
+bnr1 = bnrinit(Q, [7, [1]]);
+bnr2 = bnrinit(Q, [13, [1]]);
+H1 = Mat(2); H2 = Mat(2);
+[bnr,H] = bnrcompositum([bnr1, H1], [bnr2,H2]);
+bnrclassfield(bnr,H)
+
+\\ #2474
+bnf=bnfinit(x^10-5*x^9-1917*x^8-220484*x^7+1861684*x^6+179215404*x^5+7592279335*x^4-103008837215*x^3-4729077708495*x^2-100465756135620*x+46969787343312,1);
+c=-87960936842121514526026936210077449/20478587125920981732510068909405420355936908475*x^9 + 20694070332091021276793475810169961563/163828697007367853860080551275243362847495267800*x^8 + 722596578529617191421551065927082530211/81914348503683926930040275637621681423747633900*x^7 + 925677949019226006362057400402541633039/1365239141728065448834004593960361357062460565*x^6 - 2499909911735778294890847390465998764973849/81914348503683926930040275637621681423747633900*x^5 - 56665720721729079138715368953267342193693143/81914348503683926930040275637621681423747633900*x^4 - 98200368131235052206306228461784391914157537/20478587125920981732510068909405420355936908475*x^3 + 46102732902489970280764495888340637157740495173/54609565669122617953360183758414454282498422600*x^2 + 70266180209134341308704477651177994629370824031/6826195708640327244170022969801806785312302825*x - 25791090363471214251680822888336444894841557666/758466189848925249352224774422422976145811425; m=idealhnf(bnf,3,c); bnr=bnrinit(bnf,[m,[1,0]]);
+id=idealhnf(bnf, 97, x^2 - 43*x - 414);
+bnrisprincipal(bnr,id,0)
+

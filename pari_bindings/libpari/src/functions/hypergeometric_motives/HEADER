@@ -1,0 +1,148 @@
+Function: _header_hypergeometric_motives
+Class: header
+Section: hypergeometric_motives
+Doc:
+ \section{Hypergeometric Motives}
+
+ \subsec{Templates} %GPHELPskip
+
+ A \emph{hypergeometric template} is a pair of multisets (i.e., sets with
+ possibly repeated elements) of rational numbers $(\alpha_1,\dots,\alpha_d)$
+ and $(\beta_1,\dots,\beta_d)$ having the same number of elements, and we set
+ $$A(x)=\prod_{1\le j\le d}(x-e^{2\pi i\alpha_j}),\quad
+ B(x)=\prod_{1\le k\le d}(x-e^{2\pi i\beta_k})\;.$$
+ We make the following assumptions:
+
+ \item $\alpha_j-\beta_k\notin\Z$ for all $j$ and $k$, or
+ equivalently $\gcd(A,B)=1$.
+
+ \item $\alpha_j\notin\Z$ for all $j$, or equivalently $A(1)\ne0$.
+
+ \item our template is \emph{defined over $\Q$}, in other words
+ $A,B\in\Z[x]$, or equivalently if some $a/D$ with $\gcd(a,D)=1$ occurs
+ in the $\alpha_j$ or $\beta_k$, then all the $b/D$ modulo $1$ with
+ $\gcd(b,D)=1$ also occur.
+
+ The last assumption allows to abbreviate $[a_1/D,\dots,a_{\phi(D)}/D]$
+ (where the $a_i$ range in $(\Z/D\Z)^*$) to $[D]$. We thus have two possible
+ ways of giving a hypergeometric template: either by the two vectors
+ $[\alpha_1,\dots,\alpha_d]$ and $[\beta_1,\dots,\beta_d]$, or by their
+ denominators $[D_1,\dots,D_m]$ and $[E_1,\dots,E_n]$ , which are called the
+ \emph{cyclotomic parameters}; note that $\sum_j\phi(D_j) = \sum_k\phi(E_k)=d$.
+ A third way is to give the \emph{gamma vector} $(\gamma_n)$
+ defined by $A(X)/B(X)=\prod_n(X^n-1)^{\gamma_n}$, which satisfies
+ $\sum_n n\gamma_n=0$. To any such data we associate a hypergeometric template
+ using the function \kbd{hgminit}; then the $\alpha_j$ and $\beta_k$
+ are obtained using \kbd{hgmalpha}, cyclotomic parameters
+ using \kbd{hgmcyclo} and the gamma vectors using \kbd{hgmgamma}.
+
+ To such a hypergeometric template is associated a number of additional
+ parameters, for which we do not give the definition but refer to the survey
+ \emph{Hypergeometric Motives} by Roberts and Villegas,
+ \kbd{https://arxiv.org/abs/2109.00027}:
+ the degree $d$, the \emph{weight} $w$, a \emph{Hodge polynomial}~$P$,
+ a \emph{Tate twist} $T$, and a normalizing M-factor
+ $M = \prod_n n^{n\gamma_n}$. The \kbd{hgmparams} function returns
+ $$[d,w,[P,T],M]\;.$$
+ Example with cyclotomic parameters $[5],[1,1,1,1]$:
+ \bprog
+ ? H = hgminit([5]); \\ [1,1,1,1] can be omitted
+ ? hgmparams(H)
+ %2 = [4, 3, [x^3+x^2+x+1,0], 3125]
+ ? hgmalpha(H)
+ %3 = [[1/5, 2/5, 3/5, 4/5], [0, 0, 0, 0]]
+ ? hgmcyclo(H)
+ %4 = [Vecsmall([5]), Vecsmall([1, 1, 1, 1])]
+ ? hgmgamma(H)
+ %5 = Vecsmall([-5,0,0,0,1]) \\ A/B = (x^5-1) / (x-1)^5
+ @eprog
+
+ \subsec{Motives} %GPHELPskip
+
+ A \emph{hypergeometric motive} (HGM for short) is a pair $(H,t)$, where
+ $H$ is a hypergeometric template and $t\in\Q^*$. To such a motive and a
+ finite field $\F_q$ one can associate via an explicit but
+ complicated formula an \emph{integer} $N_q(H,t)$, see Beukers, Cohen and
+ Mellit, \emph{Finite hypergeometric functions} Pure and Applied Math
+ Quarterly 11 (2015), pp 559 - 589, \kbd{https://arxiv.org/abs/1505.02900}.
+
+ \misctitle{Warning} Depending on the authors, $t$ may have to be replaced
+  with $1/t$. The \kbd{Pari/GP} convention is the same as the one in
+ \kbd{Magma}, but is the inverse of the one in the last reference.
+
+ This formula does not make sense and is not valid for \emph{bad
+ primes}~$p$: a \emph{wild prime} is a prime which divides a denominator of
+ the $\alpha_j$ or $\beta_i$. If a prime $p$ is not wild, it can be
+ \emph{good} if $v_p(t)=v_p(t-1)=0$, or \emph{tame} otherwise.
+ The \emph{local Euler factor} at a good prime $p$ is then given by the
+ (inverse of the) usual formula
+ $$P_p(T)=\exp\left(-\sum_{f\ge1}\dfrac{N_{p^f}(H,t)}{f}T^f\right)\;,$$
+ and in the case of HGM's it is always a polynomial (note that the Euler factor
+ used in the global $L$-function is $1/P_p(p^{-s})$). At a tame prime $p$ it
+ is necessary to modify the above formula, and usually (but not always) the
+ degree of the local Euler factor decreases. Wild primes are currently not
+ implemented by a formula but can be guessed via the global functional
+ equation (see the next section). Continuing the previous example, we find
+ \bprog
+ ? hgmeulerfactor(H, -1, 3) \\ good prime
+ %4 = 729*x^4 + 135*x^3 + 45*x^2 + 5*x + 1
+ ? hgmeulerfactor(H, -1, 2) \\ tame prime
+ %5 = 16*x^3 + 6*x^2 + x + 1
+ ? hgmeulerfactor(H, -1, 5) \\ wild primes not implemented
+ %6 = 0
+ @eprog\noindent
+ To obtain the Euler factor at wild primes, use \kbd{lfuneuler} once
+ the global $L$-function is computed.
+
+ \subsec{The Global $L$-function} %GPHELPskip
+
+ A theorem of Katz tells us that if one suitably defines $P_p(T)$ for
+ all primes $p$ including the wild ones, then the $L$-function defined
+ by $L(H,s)=\prod_p P_p(p^{-s})^{-1}$ is motivic,
+ with analytic continuation and functional equation,
+ as used in the $L$-function package of \kbd{Pari/GP}. The command
+ \kbd{L = lfunhgm(H,t)} creates such an $L$-function. In particular it must
+ guess the local Euler factors at wild primes, which can be very expensive
+ when the conductor \kbd{lfunparams}$(L)[1]$ is large.
+
+ In our example, \kbd{L = lfunhgm(H,1/64)} finishes in about 20 seconds
+ (the conductor is only 525000);
+ this $L$-function can then be used with all the functions of the
+ \kbd{lfun} package. For instance we can now obtain the global conductor and
+ check the Euler factors at all bad primes:
+ \bprog
+ ? [N] = lfunparams(L); N \\ the conductor
+ %7 = 525000
+ ? factor(N)
+ %8 =
+ [2 3]
+
+ [3 1]
+
+ [5 5]
+
+ [7 1]
+
+ ? lfuneuler(L,2)
+ %9 = 1/(-x + 1)
+ ? lfuneuler(L,3)
+ %10 = 1/(81*x^3 + 6*x^2 - 4*x + 1)
+ ? lfuneuler(L,5)
+ %11 = 1
+ ? lfuneuler(L,7)
+ %12 = 1/(2401*x^3 + 301*x^2 + x + 1)
+ @eprog
+
+ Two additional functions related to the global $L$-function are available
+ which do \emph{not} require its full initialization:
+ \kbd{hgmcoefs(H,t,n)} computes
+ the first $n$ coefficients of the $L$-function by setting all wild Euler
+ factors to $1$; this will be identical to \kbd{lfunan(L,n)} when this is
+ indeed the case (as in the above example: only $5$ is wild), otherwise all
+ coefficients divisible by a wild prime will be wrong.
+
+ The second is the function \kbd{hgmcoef(H,t,n)} which only computes the
+ $n$th coefficient of the global $L$-function. It gives an error if $n$
+ is divisible by a wild prime. Compare \kbd{hgmcoefs(H,1/64,7\^{}6)[7\^{}6]}
+ which requires more than 1 minute (it computes more than 100000 coefficients),
+ with \kbd{hgmcoef(H,1/64,7\^{}6)} which outputs $-25290600$ instantaneously.

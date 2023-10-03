@@ -1,0 +1,103 @@
+default(parisize,"14M"); \\ overflows 12M
+X;Y;
+eq(E) = Y^2+E.a1*X*Y+E.a3*Y - (X^3 + E.a2*X^2 + E.a4*X + E.a6);
+checkiso(E1,E2,iso)=
+{
+  my(EE1 = eq(E1));
+  my([x,y,z]=substvec(iso,['x,'y],Mod([X,Y], EE1)));
+  my(z2=sqr(z),z4=sqr(z2),z6=z2*z4);
+  lift(y^2+E2.a1*x*y*z+E2.a3*y*z*z2 - (x^3+E2.a2*x^2*z2+E2.a4*x*z4+E2.a6*z^6));
+}
+checkisov(E,V)=
+{
+  apply(v->my(E2=ellinit(v[1]));
+    checkiso(E,E2,v[2]), V);
+}
+check(V)=
+{
+  for(i=1,#V,
+    my(E=ellinit([V[i]]));
+    my(Et=ellminimalmodel(elltwist(E,ellminimaltwist(E,1))));
+    my([L,M]=ellisomat(Et), [L2, M2] = ellisomat(Et,, 1));
+    if (M!=M2, error("ellisomat:",i));
+    print(V[i],":",M,":",checkisov(Et,L)));
+}
+
+check([-2^15,-11^2,-11*131^3,-17^2*101^3/2,-17*373^3*2^-17,-96^3,-7*11^3,-7*137^3*2083^3,-960^3,-5280^3,-640320^3])
+check([0,1728,-3375, 8000, 54000, 287496, -12288000, 16581375])
+check([9938375/21952, 111284641/50625, -10218313/17576, -25/2]);
+ellisomat(ellinit([0,-1,1,-10,-20]))
+ellisomat(ellinit([1,0,1,4,-6]),2)
+ellisomat(ellinit([1,0,1,4,-6]),3)
+chk(E)=
+{
+  my([L,M]=ellisomat(E));print(M);apply(l->checkiso(E,ellinit(l[1]),l[2]),L);
+}
+nf=nfinit(phi^2-phi-1);
+chk(ellinit([0,1,phi,-47*phi+31,560*phi-803],nf))
+chk(ellinit([phi+1,1,phi+1,6*phi-1,13*phi+2],nf))
+nf=nfinit(a^2-2);
+chk(ellinit([a,-1,0,18,46],nf))
+ellisomat(ellinit([-824740032823875,9115932407325507114750],nfinit(y-16581375)),1)[2]
+
+E=ellinit([-1880854563/4225,6682049310818/274625]);
+ellisomat(E,,1)[2]
+E=ellinit([-1880854563/4225,6682049310818/274625],nfinit(a^2+1));
+ellisomat(E,,1)[2]
+my(s=7,t=(48*s^2+32)/(s^2-2));E=ellinit(ellfromj(t^3/(t+16)),bnfinit(a^2-2));
+ellisomat(E,,1)[2]
+E=ellinit([1,a-1,a+1,2510*a-4889,87171*a-107201],nfinit(a^2-a+3));
+ellisomat(E,,1)[2]
+
+\\ From Barinder Banwait:
+nf=nfinit(w^2-5);
+E=ellinit([95673435586560*w - 213932305612800],nf);
+ellisomat(E,,1)[2]
+E=ellinit([184068066743177379840*w - 411588709724712960000],nf);
+ellisomat(E,,1)[2]
+
+E=ellinit([1,0,1,4,-6]);
+ellisotree(E)
+ellisotree(ellisomat(E,2,1))
+ellisotree(ellisomat(E,2))
+ellisotree(ellisomat(E,3,1))
+ellisotree(ellisomat(E,,1))
+
+\\ CM case
+E=ellinit([8000],nfinit(a^2+2));
+ellisomat(E)
+ellisomat(E,2)[2]
+
+\\ hard cases
+K = bnfinit(t^4+20*t^2+16,1);
+E = ellinit([-567/16*t^3-1377/8*t^2+81/4*t-324,1215/2*t^3-3726*t^2+972*t-3726],K);
+ellisomat(E,,1)[2]
+
+\\ https://www.lmfdb.org/EllipticCurve/4.4.1600.1/1.1/a/1
+K = nfinit(Polrev([4, 0, -6, 0, 1],t));
+E = ellinit([Polrev([0,-1,0,1/2],t),Polrev([-1,-1,0,0],t),Polrev([-1,-2,1/2,1/2],t),Polrev([-304,-284,51/2,85/2],t),Polrev([-2650,-2911,589/2,951/2],t)], K);
+ellisomat(E,,1)[2]
+
+\\ https://www.lmfdb.org/EllipticCurve/4.4.1600.1/16.1/a/1
+K = nfinit(Polrev([4, 0, -6, 0, 1],t));
+E = ellinit([Polrev([0,-2,0,1/2],t),Polrev([-2,-1,1/2,1/2],t),Polrev([0,0,0,0],t),Polrev([60,-72,-12,14],t),Polrev([-34,44,8,-9],t)], K);
+ellisomat(E,,1)[2]
+
+\\ https://www.lmfdb.org/EllipticCurve/4.4.1600.1/81.1/a/1
+K = nfinit(Polrev([4, 0, -6, 0, 1],t));
+E = ellinit([Polrev([0,-2,0,1/2],t),Polrev([-2,-1,1/2,1/2],t),Polrev([1,-1,0,1/2],t),Polrev([3,1,-7/2,-3/2],t),Polrev([13,6,-35/2,-15/2],t)], K);
+ellisomat(E,,1)[2]
+
+\\ https://www.lmfdb.org/EllipticCurve/4.4.1600.1/81.2/b/2
+K = nfinit(Polrev([4, 0, -6, 0, 1],t));
+E = ellinit([Polrev([0,-1,0,1/2],t),Polrev([1,1,0,-1/2],t),Polrev([-1,1,1/2,0],t),Polrev([5,6,-3/2,-3/2],t),Polrev([6,7,-3/2,-3/2],t)], K);
+ellisomat(E,,1)[2]
+
+\\ https://www.lmfdb.org/EllipticCurve/4.4.2304.1/9.1/a/1
+K = nfinit(Polrev([1, 0, -4, 0, 1],t));
+E = ellinit([Polrev([-2,-4,1,1],t),Polrev([0,1,0,0],t),Polrev([0,1,0,0],t),Polrev([-4780,9170,1265,-2463],t),Polrev([163923,-316598,-43876,84852],t)], K);
+ellisomat(E,,1)[2]
+
+\\ ERRORS
+ellisomat(ellinit([-824740032823875,9115932407325507114750],nfinit(x-16581375)))
+ellisomat(ellinit([-824740032823875,9115932407325507114750],nfinit(y-16581375)))

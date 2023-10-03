@@ -1,0 +1,7 @@
+Function: unexportall
+Section: programming/specific
+C-Name: unexportall
+Prototype: v
+Help: unexportall(): empty the list of variables exported to the parallel
+ world.
+Doc: empty the list of variables exported to the parallel world.

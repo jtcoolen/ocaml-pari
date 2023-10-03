@@ -1,0 +1,13 @@
+Function: hgmalpha
+Section: hypergeometric_motives
+C-Name: hgmalpha
+Prototype: G
+Help: hgmalpha(H): returns the alpha and beta parameters of the hypergeometric
+ motive template H.
+Doc:  returns the alpha and beta parameters of the hypergeometric motive
+ template $H$.
+ \bprog
+ ? H = hgminit([5]); \\ template given by cyclotomic parameters
+ ? hgmalpha(H)
+ %2 = [[1/5, 2/5, 3/5, 4/5], [0, 0, 0, 0]]
+ @eprog

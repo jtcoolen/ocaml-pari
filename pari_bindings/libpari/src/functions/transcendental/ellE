@@ -1,0 +1,16 @@
+Function: ellE
+Section: transcendental
+C-Name: ellE
+Prototype: Gp
+Help: ellE(k): Complete elliptic integral of the second kind for the
+ complex parameter k using the agm.
+Doc: Complete elliptic integral of the second kind
+ $$E(k)=\int_0^{\pi/2}(1-k^2\sin(t)^2)^{1/2}\,dt$$ for the
+ complex parameter $k$ using the agm.
+
+ In particular, the perimeter of an ellipse of semi-major and semi-minor axes
+ $a$ and $b$ is given by
+ \bprog
+   e = sqrt(1 - (b/a)^2); \\ eccentricity
+   4 * a * ellE(e)  \\ perimeter
+ @eprog

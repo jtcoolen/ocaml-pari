@@ -1,0 +1,120 @@
+Function: polinterpolate
+Section: polynomials
+C-Name: polint
+Prototype: GDGDGD&
+Help: polinterpolate(X,{Y},{t = 'x},{&e}): polynomial interpolation at t
+ according to data vectors X, Y, i.e., given P of minimal degree
+ such that P(X[i]) = Y[i] for all i, return P(t). If Y is omitted,
+ take P such that P(i) = X[i]. If present and t is numeric, e will contain an
+ error estimate on the returned value (Neville's algorithm).
+Doc: given the data vectors $X$ and $Y$ of the same length $n$
+ ($X$ containing the $x$-coordinates, and $Y$ the corresponding
+ $y$-coordinates), this function finds the \idx{interpolating polynomial}
+ $P$ of minimal degree passing through these points and evaluates it at~$t$.
+ If $Y$ is omitted, the polynomial $P$ interpolates the $(i,X[i])$.
+
+ \bprog
+ ? v = [1, 2, 4, 8, 11, 13];
+ ? P = polinterpolate(v) \\ formal interpolation
+ %1 = 7/120*x^5 - 25/24*x^4 + 163/24*x^3 - 467/24*x^2 + 513/20*x - 11
+ ? [ subst(P,'x,a) | a <- [1..6] ]
+ %2 = [1, 2, 4, 8, 11, 13]
+ ? polinterpolate(v,, 10) \\ evaluate at 10
+ %3 = 508
+ ? subst(P, x, 10)
+ %4 = 508
+
+ ? P = polinterpolate([1,2,4], [9,8,7])
+ %5 = 1/6*x^2 - 3/2*x + 31/3
+ ? [subst(P, 'x, a) | a <- [1,2,4]]
+ %6 = [9, 8, 7]
+ ? P = polinterpolate([1,2,4], [9,8,7], 0)
+ %7 = 31/3
+ @eprog\noindent If the goal is to extrapolate a function at a unique point,
+ it is more efficient to use the $t$ argument rather than interpolate formally
+ then evaluate:
+ \bprog
+ ? x0 = 1.5;
+ ? v = vector(20, i,random([-10,10]));
+ ? for(i=1,10^3, subst(polinterpolate(v),'x, x0))
+ time = 352 ms.
+ ? for(i=1,10^3, polinterpolate(v,,x0))
+ time = 111 ms.
+
+ ? v = vector(40, i,random([-10,10]));
+ ? for(i=1,10^3, subst(polinterpolate(v), 'x, x0))
+ time = 3,035 ms.
+ ? for(i=1,10^3, polinterpolate(v,, x0))
+ time = 436 ms.
+ @eprog\noindent The threshold depends on the base field. Over small prime
+ finite fields, interpolating formally first is more efficient
+ \bprog
+ ? bench(p, N, T = 10^3) =
+   { my (v = vector(N, i, random(Mod(0,p))));
+     my (x0 = Mod(3, p), t1, t2);
+     gettime();
+     for(i=1, T, subst(polinterpolate(v), 'x, x0));
+     t1 = gettime();
+     for(i=1, T, polinterpolate(v,, x0));
+     t2 = gettime(); [t1, t2];
+   }
+ ? p = 101;
+ ? bench(p, 4, 10^4) \\ both methods are equivalent
+ %3 = [39, 40]
+ ? bench(p, 40) \\ with 40 points formal is much faster
+ %4 = [45, 355]
+ @eprog\noindent As the cardinality increases, formal interpolation requires
+ more points to become interesting:
+ \bprog
+ ? p = nextprime(2^128);
+ ? bench(p, 4) \\ formal is slower
+ %3 = [16, 9]
+ ? bench(p, 10) \\ formal has become faster
+ %4 = [61, 70]
+ ? bench(p, 100) \\ formal is much faster
+ %5 = [1682, 9081]
+
+ ? p = nextprime(10^500);
+ ? bench(p, 4) \\ formal is slower
+ %7 = [72, 354]
+ ? bench(p, 20) \\ formal is still slower
+ %8 = [1287, 962]
+ ? bench(p, 40) \\ formal has become faster
+ %9 = [3717, 4227]
+ ? bench(p, 100) \\ faster but relatively less impressive
+ %10 = [16237, 32335]
+ @eprog
+
+ If $t$ is a complex numeric value and $e$ is present, $e$ will contain an
+ error estimate on the returned value. More precisely, let $P$ be the
+ interpolation polynomial on the given $n$ points; there exist a subset
+ of $n-1$ points and $Q$ the attached interpolation polynomial
+ such that $e = \kbd{exponent}(P(t) - Q(t))$ (Neville's algorithm).
+ \bprog
+ ? f(x) = 1 / (1 + 25*x^2);
+ ? x0 = 975/1000;
+ ? test(X) =
+   { my (P, e);
+     P = polinterpolate(X, [f(x) | x <- X], x0, &e);
+     [ exponent(P - f(x0)), e ];
+   }
+ \\ equidistant nodes vs. Chebyshev nodes
+ ? test( [-10..10] / 10 )
+ %4 = [6, 5]
+ ? test( polrootsreal(polchebyshev(21)) )
+ %5 = [-15, -10]
+
+ ? test( [-100..100] / 100 )
+ %7 = [93, 97] \\ P(x0) is way different from f(x0)
+ ? test( polrootsreal(polchebyshev(201)) )
+ %8 = [-60, -55]
+ @eprog\noindent This is an example of Runge's phenomenon: increasing the
+ number of equidistant nodes makes extrapolation much worse. Note that the
+ error estimate is not a guaranteed upper bound (cf \%4), but is reasonably
+ tight in practice.
+
+ \misctitle{Numerical stability} The interpolation is performed in
+ a numerically stable way using $\prod_{j\neq i} (X[i] - X[j])$ instead of
+ $Q'(X[i])$ with $Q = \prod_i (x - X[i])$. Centering the interpolation
+ points $X[i]$ around $0$, thereby reconstructing $P(x - m)$, for a suitable
+ $m$ will further reduce the numerical error.

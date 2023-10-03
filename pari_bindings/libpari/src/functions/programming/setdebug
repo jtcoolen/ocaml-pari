@@ -1,0 +1,29 @@
+Function: setdebug
+Section: programming/control
+C-Name: setdebug
+Prototype: DsD-1,L,
+Help: setdebug({D},{n}):
+ set debug level for domain D to n (n must be between 0 and 20).
+ If n is omitted, return the current level for domain D.
+ if D is omitted, return a two-column matrix which lists the available domains
+ with their levels.
+Doc: set debug level for domain $D$ to $n$ ($0 \leq n \leq 20$).
+ The domain $D$ is a character string describing a Pari feature or code
+ module, such as \kbd{"bnf"}, \kbd{"qflll"} or \kbd{"polgalois"}. This allows
+ to selectively increase or decrease the diagnostics attached to a particular
+ feature.
+ If $n$ is omitted, return the current level for domain $D$.
+ If $D$ is omitted, return a two-column matrix which lists the available
+ domains with their levels. The \kbd{debug} default allows to reset all debug
+ levels to a given value.
+ \bprog
+ ? setdebug()[,1] \\ list of all domains
+ ["alg", "arith", "bern", "bnf", "bnr", "bnrclassfield", ..., "zetamult"]
+
+ ? \g 1   \\ set all debug levels to 1
+   debug = 1
+ ? setdebug("bnf", 0); \\ kill messages related to bnfinit and bnfisrincipal
+ @eprog
+
+Variant: Also available is
+  \fun{void}{setalldebug(long n): set all debug domains to level \var{n}.

@@ -1,0 +1,48 @@
+Function: matreduce
+Section: linear_algebra
+C-Name: matreduce
+Prototype: G
+Help: matreduce(m): reduce the factorization matrix m to canonical form
+ (sorted first row with unique elements)
+ matrix.
+Doc: let $m$ be a factorization matrix, i.e., a 2-column matrix whose
+ columns contains arbitrary ``generators'' and integer ``exponents''
+ respectively. Returns the canonical form of $m$: the
+ first column is sorted with unique elements and the second one contains the
+ merged ``exponents'' (exponents of identical entries in the first column  of
+ $m$ are added, rows attached to $0$ exponents are deleted). The generators are
+ sorted with respect to the universal \kbd{cmp} routine; in particular, this
+ function is the identity on true integer factorization matrices, but not on
+ other factorizations (in products of polynomials or maximal ideals, say). It
+ is idempotent.
+
+ For convenience, this function also allows a vector $m$, which is handled as a
+ factorization with all exponents equal to $1$, as in \kbd{factorback}.
+
+ \bprog
+ ? A=[x,2;y,4]; B=[x,-2; y,3; 3, 4]; C=matconcat([A,B]~)
+ %1 =
+ [x  2]
+
+ [y  4]
+
+ [x -2]
+
+ [y  3]
+
+ [3  4]
+
+ ? matreduce(C)
+ %2 =
+ [3 4]
+
+ [y 7]
+
+ ? matreduce([x,x,y,x,z,x,y]) \\ vector argument
+ %3 =
+ [x 4]
+
+ [y 2]
+
+ [z 1]
+ @eprog

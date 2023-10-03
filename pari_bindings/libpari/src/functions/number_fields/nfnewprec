@@ -1,0 +1,17 @@
+Function: nfnewprec
+Section: number_fields
+C-Name: nfnewprec
+Prototype: Gp
+Help: nfnewprec(nf): transform the number field data nf into new data using
+ the current (usually larger) precision.
+Doc: transforms the number field $\var{nf}$
+ into the corresponding data using current (usually larger) precision. This
+ function works as expected if \var{nf} is in fact a \var{bnf} or a \var{bnr}
+ (update structure to current precision). \emph{If} the original
+ \var{bnf} structure was \emph{not} computed by \kbd{bnfinit(,1)}, then
+ this may be quite slow and even fail: many
+ generators of principal ideals have to be computed and the algorithm may
+ fail because the accuracy is not sufficient to bootstrap the
+ required generators and fundamental units.
+Variant: See also \fun{GEN}{bnfnewprec}{GEN bnf, long prec} and
+ \fun{GEN}{bnrnewprec}{GEN bnr, long prec}.

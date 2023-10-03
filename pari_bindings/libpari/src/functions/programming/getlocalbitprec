@@ -1,0 +1,7 @@
+Function: getlocalbitprec
+Section: programming/specific
+C-Name: getlocalbitprec
+Prototype: lb
+Help: getlocalbitprec(): returns the current dynamic bit precision.
+Doc: returns the current dynamic bit precision.
+ %\syn{NO}

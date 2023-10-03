@@ -1,0 +1,76 @@
+This file lists the things that ought to be implemented / fixed.  Most
+items require major work, and some may not be that desireable after all.
+If you intend to work on any of these things, have a look at
+README-git and drop an email to pari-dev.
+
+Priority classification (first column): [subjective and debatable]
+3    as soon as possible
+2    nice to have
+1    probably not
+0    no
+-    unclassified
+
+***************************    BUGS    ***********************************
+
+1  O(x) * y --> O(x)
+   O(y) * x --> O(y) * x
+   [ design flaw in the current model for multivariate power series. Some work
+   to change it, no application for this in the current PARI code... ]
+
+***************************  DOCUMENTATION    ****************************
+
+2  document the innards of PARI (entree, pariFILE, bloc, ...)
+
+***************************   ALGORITHMS      ****************************
+
+Kernel:
+=======
+2  implement Jebelean-Krandick diviiexact
+
+2  implement Mulders/Hanrot-Zimmermann Karatsuba short product t_REAL * t_REAL
+
+2  inline level0 routines should operate on _limbs_, not on words.
+
+2  FFT for basic types and polynomials (say in A[X], for A = Z, F_q, ...)
+
+Misc:
+=====
+2  nfsubfields [use known subfields to discard blocs right away]
+
+2  merge quadclassunit and bnfinit
+
+***************************   LIBRARY DESIGN   ****************************
+
+2  rename library functions following GP names
+
+2  introduce "special" types for objects which are really containers and
+   should be defined by a secondary type (e.g number fields, finite fields,
+   p-adic fields, elliptic curves, ...). Would keep list of types small
+   (and fast)
+
+2  sparse representations for multivariate polynomials and matrices.
+
+1  type "element in" ([number|finite] field...), "point" on elliptic curve
+
+2  find a way to deal (generically) with "integral object + its content"
+   [ rational arithmetic would be much more efficient, when polynomials or
+     matrices are involved. Currently, the content is being recomputed all
+     the time, removed, then multiplied back in ]
+
+1  have some header magic (transparently) prepend some prefix (e.g "pari_")
+   before all exported functions to prevent name conflicts. Build alias
+   files for debuggers
+
+***************************   GP DESIGN       ****************************
+
+2  Allow GP to trap an OS signal. Suppose that gp runs, say in nohup mode, and
+   it takes several days to complete the program. In meantime several things
+   can happen resulting in shutdown of the machine. On shutdown all programs
+   receive SIGTERM signal. I would like gp to be able to trap this signal and
+   when it receives one, to execute some gp command, e.g saving all settings
+   with full accuracy (e.g writebin).
+
+2  write an analog of the 'echo' default which would print code as it is
+   _executed_, not as it is read
+
+2  possibility to save and load a session (variables, functions, defaults)

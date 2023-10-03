@@ -1,0 +1,48 @@
+Function: _parforeach_init
+Class: gp2c_internal
+Help: Initializes parameters for parforeach.
+Description:
+ (parforeach,gen,gen):void    parforeach_init(&$1, $2, $3)
+
+Function: _parforeach_next
+Class: gp2c_internal
+Help: Next value for parforeach.
+Description:
+ (parforeach):gen    parforeach_next(&$1)
+
+Function: _parforeach_stop
+Class: gp2c_internal
+Help: Stop function for parforeach.
+Description:
+ (parforeach):void    parforeach_stop(&$1)
+
+Function: parforeach
+Section: programming/parallel
+C-Name: parforeach0
+Prototype: vGVJDVDI
+Iterator:
+ (gen,gen,closure,?notype) (parforeach, _parforeach_init, _parforeach_next, _parforeach_stop)
+Help: parforeach(V,x,expr1,{r},{expr2}): evaluates in parallel the expression
+ expr1 for all components x of V. If the formal variables r and expr2 are
+ present, evaluate sequentially expr2, in which x and r are replaced by the
+ successive arguments and corresponding values.
+Doc: evaluates in parallel the expression \kbd{expr1} in the formal
+ argument $x$, where $x$ runs through all components of $V$.
+ If $r$ and \kbd{expr2} are present, evaluate sequentially the expression
+ \kbd{expr2}, in which the formal variables $x$ and $r$ are replaced
+ by the successive arguments and corresponding values. The sequential
+ evaluation ordering is not specified:
+ \bprog
+ ? parforeach([50..100], x,isprime(x), r, if(r,print(x)))
+ 53
+ 67
+ 71
+ 79
+ 83
+ 89
+ 97
+ 73
+ 59
+ 61
+ @eprog
+ %\syn{NO}

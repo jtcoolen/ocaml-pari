@@ -1,0 +1,63 @@
+Function: bnrinit
+Section: number_fields
+C-Name: bnrinitmod
+Prototype: GGD0,L,DG
+Help: bnrinit(bnf,f,{flag=0},{cycmod}): given a bnf as output by
+ bnfinit and a modulus f, initializes data
+ linked to the ray class group structure corresponding to this module. flag
+ is optional, and can be 0: default, 1: compute also the generators. If
+ the positive integer cycmod is present, only compute the ray class group
+ modulo cycmod-th powers.
+Description:
+ (gen,gen,?small):bnr       bnrinit0($1, $2, $3)
+Doc: $\var{bnf}$ is as
+ output by \kbd{bnfinit} (including fundamental units), $f$ is a modulus,
+ initializes data linked to the ray class group structure corresponding to
+ this module, a so-called \kbd{bnr} structure. One can input the attached
+ \var{bid} with generators for $f$ instead of the module itself, saving some
+ time. (As in \tet{idealstar}, the finite part of the conductor may be given
+ by a factorization into prime ideals, as produced by \tet{idealfactor}.)
+
+ If the positive integer \kbd{cycmod} is present, only compute the ray class
+ group modulo \kbd{cycmod}, which may save a lot of time when some maximal
+ ideals in $f$ have a huge residue field. In applications, we are given
+ a congruence subgroup $H$ and study the class field attached to
+ $\text{Cl}_f/H$. If that finite Abelian group has an exponent which divides
+ \kbd{cycmod}, then we have changed nothing theoretically, while trivializing
+ expensive discrete logs in residue fields (since computations can be
+ made modulo \kbd{cycmod}-th powers). This is useful in \kbd{bnrclassfield},
+ for instance when computing $p$-elementary extensions.
+
+ The following member functions are available
+ on the result: \kbd{.bnf} is the underlying \var{bnf},
+ \kbd{.mod} the modulus, \kbd{.bid} the \kbd{bid} structure attached to the
+ modulus; finally, \kbd{.clgp}, \kbd{.no}, \kbd{.cyc}, \kbd{.gen} refer to the
+ ray class group (as a finite abelian group), its cardinality, its elementary
+ divisors, its generators (only computed if $\fl = 1$).
+
+ The last group of functions are different from the members of the underlying
+ \var{bnf}, which refer to the class group; use \kbd{\var{bnr}.bnf.\var{xxx}}
+ to access these, e.g.~\kbd{\var{bnr}.bnf.cyc} to get the cyclic decomposition
+ of the class group.
+
+ They are also different from the members of the underlying \var{bid}, which
+ refer to $(\Z_K/f)^*$; use \kbd{\var{bnr}.bid.\var{xxx}} to access these,
+ e.g.~\kbd{\var{bnr}.bid.no} to get $\phi(f)$.
+
+ If $\fl=0$ (default), the generators of the ray class group are not
+ explicitly computed, which saves time. Hence \kbd{\var{bnr}.gen} would
+ produce an error. Note that implicit generators are still fixed and stored
+ in the \var{bnr} (and guaranteed to be the same for fixed \var{bnf} and
+ \var{bid} inputs), in terms of \kbd{bnr.bnf.gen} and \kbd{bnr.bid.gen}.
+ The computation which is not performed is the expansion of such products
+ in the ray class group so as to fix eplicit ideal representatives.
+
+ If $\fl=1$, as the default, except that generators are computed.
+Variant: Instead of the above hardcoded  numerical flags,  one should rather use
+ \fun{GEN}{Buchraymod}{GEN bnf, GEN module, long flag, GEN cycmod}
+ where an omitted \kbd{cycmod} is coded as \kbd{NULL} and flag is an or-ed
+ combination of \kbd{nf\_GEN} (include generators) and \kbd{nf\_INIT} (if
+ omitted, return just the cardinality of the ray class group and its structure),
+ possibly 0. Or simply
+   \fun{GEN}{Buchray}{GEN bnf, GEN module, long flag}
+ when \kbd{cycmod} is \kbd{NULL}.

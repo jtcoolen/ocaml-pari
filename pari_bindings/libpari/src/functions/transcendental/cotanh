@@ -1,0 +1,9 @@
+Function: cotanh
+Section: transcendental
+C-Name: gcotanh
+Prototype: Gp
+Description:
+ (mp):real:prec      gcotanh($1, $prec)
+ (gen):gen:prec      gcotanh($1, $prec)
+Help: cotanh(x): hyperbolic cotangent of x.
+Doc: hyperbolic cotangent of $x$.

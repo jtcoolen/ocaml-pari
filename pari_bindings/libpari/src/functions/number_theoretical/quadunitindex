@@ -1,0 +1,39 @@
+Function: quadunitindex
+Section: number_theoretical
+C-Name: quadunitindex
+Prototype: GG
+Help: quadunitindex(D, f): given a fundamental discriminant D, return the
+ index of the unit group of the order of conductor f.
+Doc: given a fundamental discriminant $D$, return the index of the unit group
+ of the order of conductor $f$ in the units of $\Q(\sqrt{D})$. This function
+ uses the continued fraction algorithm and has $O(D^{1/2 + \varepsilon}
+ f^\varepsilon)$ complexity; \kbd{quadclassunit} is asymptotically faster but
+ depends on the GRH.
+ \bprog
+ ? quadunitindex(-3, 2)
+ %1 = 3
+ ? quadunitindex(5, 2^32) \\ instantaneous
+ %2 = 3221225472
+ ? quadregulator(5 * 2^64) / quadregulator(5)
+ time = 3min, 1,488 ms.
+ %3 = 3221225472.0000000000000000000000000000
+ @eprog\noindent The conductor $f$ can be given in factored form or as
+ $[f, \kbd{factor}(f)]$:
+ \bprog
+ ? quadunitindex(5, [100, [2,2;5,2]])
+ %4 = 150
+ ? quadunitindex(5, 100)
+ %5 = 150
+ ? quadunitindex(5, [2,2;5,2])
+ %6 = 150
+ @eprog
+ If $D$ is not fundamental, the result is undefined; you may use the
+ following script instead:
+ \bprog
+ index(d, f) =
+ { my([D,F] = coredisc(d, 1));
+   quadunitindex(D, f * F) / quadunitindex(D, F)
+ }
+ ? index(5 * 10^2, 10)
+ %7 = 10
+ @eprog

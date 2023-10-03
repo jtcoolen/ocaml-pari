@@ -1,0 +1,30 @@
+logint(2^99,2)
+logint(2^100,2,&z)
+z
+logint(5^100,2,&z)
+z
+logint(5^100,3)
+logint(5^100,4)
+logint(5^100,5)
+logint(2^64-1, 2^32)
+logint(2^64-1, 2^16)
+x=Pi^1000;
+logint(x, 2)
+logint(x, 2, &z)
+z
+logint(x, 3)
+logint(x, 3, &z)
+z
+x=quadgen(5)^100;
+logint(x, 2)
+logint(x, 2, &z)
+z
+x=(3/2)^10;
+logint(x, 2)
+logint(x, 2, &z)
+z
+
+\\ ERRORS
+logint(-Pi, 2)
+logint(-quadgen(5), 2)
+logint(-1/2, 2)

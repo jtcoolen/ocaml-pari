@@ -1,0 +1,225 @@
+Function: nfinit
+Section: number_fields
+C-Name: nfinit0
+Prototype: GD0,L,p
+Help: nfinit(pol,{flag=0}): pol being a nonconstant irreducible polynomial in
+ Q[X], returns an nf structure attached to the number field Q[X] / (pol).
+ Binary digits of flag mean
+ 1: two-element vector [nf,Mod(a,P)], where Mod(a,P) is a polmod equal to
+ Mod(x,pol) and P=nf.pol; 2: first use polredbest to find a simpler
+ polynomial P; 4: do not LLL-reduce the maximal order basis nf.zk.
+Description:
+ (gen, ?0):nf:prec       nfinit0($1, 0, $prec)
+ (gen, 1):nf:prec        nfinit0($1, nf_ORIG, $prec)
+ (gen, 2):nf:prec        nfinit0($1, nf_RED, $prec)
+ (gen, 3):gen:prec       nfinit0($1, nf_ORIG|nf_RED, $prec)
+ (gen, 4):gen:prec       nfinit0($1, nf_NOLLL, $prec)
+ (gen, #small):void      $"incorrect flag in nfinit"
+ (gen, small):gen:prec   nfinit0($1, $2, $prec)
+Doc: \var{pol} being a nonconstant irreducible polynomial in $\Q[X]$,
+ preferably monic and integral, initializes a
+ \emph{number field} (or \var{nf}) structure  attached to the field $K$ defined
+ by \var{pol}. As such, it's a technical object passed as the first argument
+ to most \kbd{nf}\var{xxx} functions, but it contains some information which
+ may be directly useful. Access to this information via \emph{member
+ functions} is preferred since the specific data organization given below
+ may change in the future. Currently, \kbd{nf} is a row vector with 9
+ components:
+
+ $\var{nf}[1]$ contains the polynomial \var{pol} (\kbd{\var{nf}.pol}).
+
+ $\var{nf}[2]$ contains $[r1,r2]$ (\kbd{\var{nf}.sign}, \kbd{\var{nf}.r1},
+ \kbd{\var{nf}.r2}), the number of real and complex places of $K$.
+
+ $\var{nf}[3]$ contains the discriminant $d(K)$ (\kbd{\var{nf}.disc}) of $K$.
+
+ $\var{nf}[4]$ contains the index of $\var{nf}[1]$ (\kbd{\var{nf}.index}),
+ i.e.~$[\Z_K : \Z[\theta]]$, where $\theta$ is any root of $\var{nf}[1]$.
+
+ $\var{nf}[5]$ is a vector containing 7 matrices $M$, $G$, \var{roundG}, $T$,
+ \var{MD}, \var{TI}, \var{MDI} and a vector \var{vP} defined as follows:
+
+ \quad\item $M$ is the $(r1+r2)\times n$ matrix whose columns represent
+ the numerical values of the conjugates of the elements of the integral
+ basis.
+
+ \quad\item $G$ is an $n\times n$ matrix such that $T2 = {}^t G G$,
+ where $T2$ is the quadratic form $T_2(x) = \sum |\sigma(x)|^2$, $\sigma$
+ running over the embeddings of $K$ into $\C$.
+
+ \quad\item \var{roundG} is a rescaled copy of $G$, rounded to nearest
+ integers.
+
+ \quad\item $T$ is the $n\times n$ matrix whose coefficients are
+ $\text{Tr}(\omega_i\omega_j)$ where the $\omega_i$ are the elements of the
+ integral basis. Note also that $\det(T)$ is equal to the discriminant of the
+ field $K$. Also, when understood as an ideal, the matrix $T^{-1}$
+ generates the codifferent ideal.
+
+ \quad\item The columns of $MD$ (\kbd{\var{nf}.diff}) express a $\Z$-basis
+ of the different of $K$ on the integral basis.
+
+ \quad\item \var{TI} is equal to the primitive part of $T^{-1}$, which has
+ integral coefficients.
+
+ \quad\item \var{MDI} is a two-element representation (for faster
+ ideal product) of $d(K)$ times the codifferent ideal
+ (\kbd{\var{nf}.disc$*$\var{nf}.codiff}, which is an integral ideal). This is
+ used in \tet{idealinv}.
+
+ \quad\item \var{vP} is the list of prime divisors of the field discriminant,
+ i.e, the ramified primes (\kbd{\var{nf}.p}); \kbd{nfdiscfactors(nf)} is the
+ preferred way to access that information.
+
+ $\var{nf}[6]$ is the vector containing the $r1+r2$ roots
+ (\kbd{\var{nf}.roots}) of $\var{nf}[1]$ corresponding to the $r1+r2$
+ embeddings of the number field into $\C$ (the first $r1$ components are real,
+ the next $r2$ have positive imaginary part).
+
+ $\var{nf}[7]$ is a $\Z$-basis for $d\Z_K$, where $d = [\Z_K:\Z(\theta)]$,
+ expressed on the powers of $\theta$. The multiplication by
+ $d$ ensures that all polynomials have integral coefficients
+ and $\var{nf}[7] / d$ (\kbd{\var{nf}.zk}) is an integral basis for $\Z_K$.
+ Its first element is guaranteed to be $1$. This basis is LLL-reduced with
+ respect to $T_2$ (strictly speaking, it is a permutation of such a basis, due
+ to the condition that the first element be $1$).
+
+ $\var{nf}[8]$ is the $n\times n$ integral matrix expressing the power
+ basis in terms of the integral basis, and finally
+
+ $\var{nf}[9]$ is the $n\times n^2$ matrix giving the multiplication table
+ of the integral basis.
+
+ If a non monic or non integral polynomial is input, \kbd{nfinit} will
+ transform it, and return a structure attached to the new (monic integral)
+ polynomial together with the attached change of variables, see $\fl=3$.
+ It is allowed, though not very useful given the existence of
+ \tet{nfnewprec}, to input a \var{nf} or a \var{bnf} instead of a polynomial.
+ It is also allowed to input a \var{rnf}, in which case an \kbd{nf} structure
+ attached to the absolute defining polynomial \kbd{polabs} is returned (\fl is
+ then ignored).
+
+ \bprog
+ ? nf = nfinit(x^3 - 12); \\ initialize number field Q[X] / (X^3 - 12)
+ ? nf.pol   \\ defining polynomial
+ %2 = x^3 - 12
+ ? nf.disc  \\ field discriminant
+ %3 = -972
+ ? nf.index \\ index of power basis order in maximal order
+ %4 = 2
+ ? nf.zk    \\ integer basis, lifted to Q[X]
+ %5 = [1, x, 1/2*x^2]
+ ? nf.sign  \\ signature
+ %6 = [1, 1]
+ ? factor(abs(nf.disc ))  \\ determines ramified primes
+ %7 =
+ [2 2]
+
+ [3 5]
+ ? idealfactor(nf, 2)
+ %8 =
+ [[2, [0, 0, -1]~, 3, 1, [0, 1, 0]~] 3]  \\ @com $\goth{p}_2^3$
+ @eprog
+
+ \misctitle{Huge discriminants, helping nfdisc}
+
+ In case \var{pol} has a huge discriminant which is difficult to factor,
+ it is hard to compute from scratch the maximal order. The following
+ special input formats are also accepted:
+
+ \item $[\var{pol}, B]$ where \var{pol} is a monic integral polynomial and
+ $B$ is the lift of an integer basis, as would be computed by \tet{nfbasis}:
+ a vector of polynomials with first element $1$ (implicitly modulo \var{pol}).
+ This is useful if the maximal order is known in advance.
+
+ \item $[\var{pol}, B, P]$ where \var{pol} and $B$ are as above
+ (a monic integral polynomial and the lift of an integer basis), and $P$ is
+ the list of ramified primes in the extension.
+
+ \item $[\var{pol}, \kbd{listP}]$ where \var{pol} is a rational polynomial and
+ \kbd{listP} specifies a list of primes as in \tet{nfbasis}. Instead of the
+ maximal order, \kbd{nfinit} then computes
+ an order which is maximal at these particular primes as well as the primes
+ contained in the private prime table, see \tet{addprimes}. The result has
+ a good chance of being correct when the discriminant \kbd{nf.disc} factors
+ completely over this set of primes but this is not guaranteed. The function
+ \tet{nfcertify} automates this:
+ \bprog
+ ? pol = polcompositum(x^5 - 101, polcyclo(7))[1];
+ ? nf = nfinit( [pol, 10^3] );
+ ? nfcertify(nf)
+ %3 = []
+ @eprog\noindent A priori, \kbd{nf.zk} defines an order which is only known
+ to be maximal at all primes $\leq 10^3$ (no prime $\leq 10^3$ divides
+ \kbd{nf.index}). The certification step proves the correctness of the
+ computation. Had it failed, that particular \kbd{nf} structure could
+ not have been trusted and may have caused routines using it to fail randomly.
+ One particular function that remains trustworthy in all cases is
+ \kbd{idealprimedec} when applied to a prime included in the above list
+ of primes or, more generally, a prime not dividing any entry in
+ \kbd{nfcertify} output.
+ \medskip
+ In order to explain the meaning of $\fl$, let $P =
+ \kbd{polredbest}(\var{pol})$, a polynomial defining the same number field
+ obtained using the LLL algorithm on the lattice $(\Z_K, T_2)$, which may be
+ equal to \var{pol} but is usually different and simpler. Binary digits of
+ $\fl$ mean:
+
+ \item $1$: return $[\var{nf},\kbd{Mod}(a,P)]$, where $\var{nf}$ is
+ \kbd{nfinit}$(P)$ and $\kbd{Mod}(a,P)=\kbd{Mod}(x,\var{pol})$ gives the
+ change of variables. If only this bit is set, the behaviour is useless since
+ we have $P = \var{pol}$.
+
+ \item $2$: return \kbd{nfinit}$(P)$.
+
+ Both flags are set automatically when \var{pol} is not monic or not
+ integral: first a linear change of variables is performed, to get a monic
+ integral polynomial, then \kbd{polredbest}.
+
+ \item $4$: do not LLL-reduce \kbd{nf.zk}, which saves time in large degrees,
+ you may expect to gain a factor $2$ or so in degree $n\geq 100$ or more, at
+ the expense of \emph{possibly} slowing down later uses of the \var{nf}
+ structure. Use this flag if you only need basic arithmetic
+ (the \kbd{nfelt*}, \kbd{nfmodpr*} and \kbd{ideal*} functions); or if you
+ expect the natural basis of the maximal order to contain small elements, this
+ will be the case for cyclotomic fields for instance. On the other hand,
+ functions involving LLL reduction of rank
+ $n$ lattices should be avoided since each call will be about as costly as the
+ initial LLL reduction that the flag prevents and may become more costly
+ because of this missing initial reduction. In particular it is silly to use
+ this flag in addition to the first two, although GP will not protest.
+
+ \bprog
+ ? T = polcyclo(307);
+ ? K = nfinit(T);
+ time = 19,390 ms.
+ ? a = idealhnf(K,1-x);
+ time = 477ms
+ ? idealfactor(K, a)
+ time = 294ms
+
+ ? Kno = nfinit(T, 4);
+ time = 11,256 ms.
+ ? ano = idealhnf(Kno,1-x); \\ no slowdown, even sligthly faster
+ time = 460ms
+ ? idealfactor(Kno, ano)
+ time = 264ms
+
+ ? nfinit(T, 2); \\ polredbest is very slow in high degree
+ time = 4min, 34,870 ms.
+ ? norml2(%.pol) == norml2(T) \\ and gains nothing here
+ %9 = 1
+ @eprog
+
+Variant: Also available are
+ \fun{GEN}{nfinit}{GEN x, long prec} ($\fl = 0$),
+ \fun{GEN}{nfinitred}{GEN x, long prec} ($\fl = 2$),
+ \fun{GEN}{nfinitred2}{GEN x, long prec} ($\fl = 3$).
+ Instead of the above hardcoded numerical flags in \kbd{nfinit0}, one should
+ rather use an or-ed combination of
+
+ \item \tet{nf_RED}: find a simpler defining polynomial,
+
+ \item \tet{nf_ORIG}: also return the change of variable,
+
+ \item \tet{nf_NOLLL}: do not LLL-reduce the maximal order $\Z$-basis.

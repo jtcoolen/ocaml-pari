@@ -1,0 +1,50 @@
+binary(0)
+digits(0)
+fromdigits([])
+fromdigits(Vecsmall([]))
+digits(5^100)
+fromdigits(vector(100,i,i%7))
+fromdigits(vectorsmall(100,i,i%7))
+fromdigits([1,0,-1],2)
+fromdigits(Vecsmall([1,0,-1]),2)
+fromdigits([1,1,0,1],-2)
+fromdigits(Vecsmall([1,1,0,1]),-2)
+fromdigits([1,2^65+2^130,2^64+2^131],2^160)
+check(a,b)=my(v=digits(a,b));if(subst(Pol(v),'x,b)!=a || vecmax(v)>=b || fromdigits(v,b)!=a,error([a,b]));
+check(5^100,2)
+check(5^100,3)
+check(3^100,2^64-1)
+check(3^100,2^128+1)
+sumdigits(0)
+sumdigits(129)
+sumdigits(123456789123456789123456789)
+sumdigits(100000!)
+binary(0.)
+binary(0.005)
+binary(1.1)
+binary([0,1])
+binary(I)
+vector(10, i, sumdigits(123456789, i+1))
+digits(2^128+3, 2^64)
+digits(999999999999999,4294967295)
+sumdigits(2^128+3, 2^64)
+sumdigits(-3,3)
+sumdigits(-3,10)
+sumdigits(-3,2)
+
+digits(O(2^4))
+digits(O(3^4))
+digits(1+O(3^4))
+digits(1234+O(3^4))
+
+0x12345
+0x1234567890ABCDEF987654321
+0x0000000000000000012345
+0b11011011
+0b1011011101111011111011111101111111011111111011111111101111111111
+0b000000000000000000000000000000000000000000000000000000000000000011011011
+x->x+0x1234
+x->x+0b1011
+
+\\ Errors
+digits(2+O(3),2)

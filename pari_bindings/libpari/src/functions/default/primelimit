@@ -1,0 +1,57 @@
+Function: _def_primelimit
+Class: default
+Section: default
+C-Name: sd_primelimit
+Prototype:
+Help:
+Doc: \kbd{gp} precomputes a list of
+ all primes less than \kbd{primelimit} at initialization time, and can build
+ fast sieves on demand to quickly iterate over primes up to the \emph{square}
+ of \kbd{primelimit}. These are used by many arithmetic functions, usually for
+ trial division purposes.
+
+ Since almost all arithmetic functions eventually require some table of prime
+ numbers, PARI guarantees that the first 6547 primes, up to and
+ including 65557, are precomputed, even if \kbd{primelimit} is $1$.
+
+ The maximal value for practical purposes is $436273289$ (the largest prime
+ such that all prime gaps below the threshold are < 255), but values beyond
+ $10^8$, allowing to iterate over primes up to $10^{16}$, do not seem useful.
+
+ The default can be set to a higher value, up to $2^{64}-2049$ on
+ a 64-bit machine ! But the precomputed prime table will be truncated at the
+ maximal value given above. This allows to use \kbd{primelimit} as an
+ indication of how far one might want to trial divide by default, even if the
+ missing primes must be computed on the spot. Note this is of dubious value
+ since the function will soon get \emph{very} slow without precomputations
+ and better factoring algorithms are used internally. (See also the
+ Deprecated feature below.)
+
+ This default is only used on startup: changing it will not recompute a new
+ table. On startup, a product tree of all primes in the table is also
+ computed to speed up trial division of large integers up to
+ \kbd{primelimit}. This takes some time, so \kbd{primelimit} should not
+ been taken too large; here are sample timings for startup using increasing
+ values:
+ \bprog
+ 2^20:      40 ms
+ 2^23:     190 ms
+ 2^26:   1,980 ms
+ max:   18,071 ms
+ @eprog\noindent (The maximal value 436273289 is about $2^{28.7}$.)
+
+ \misctitle{Deprecated feature} \kbd{primelimit} was used in some
+ situations by algebraic number theory functions using the
+ \tet{nf_PARTIALFACT} flag (\tet{nfbasis}, \tet{nfdisc}, \tet{nfinit}, \dots):
+ this assumes that all primes $p > \kbd{primelimit}$ have a certain
+ property (the equation order is $p$-maximal). This is never done by default,
+ and must be explicitly set by the user of such functions. Nevertheless,
+ these functions now provide a more flexible interface, and their use
+ of the global default \kbd{primelimit} is deprecated.
+
+ \misctitle{Deprecated feature} \kbd{factor(N, 0)} was used to partially
+ factor integers by removing all prime factors $\leq$ \kbd{primelimit}.
+ Don't use this, supply an explicit bound: \kbd{factor(N, bound)},
+ which avoids relying on an unpredictable global variable.
+
+ The default value is $2^{20} = 1048576$.

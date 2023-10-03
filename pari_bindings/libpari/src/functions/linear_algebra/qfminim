@@ -1,0 +1,111 @@
+Function: qfminim
+Section: linear_algebra
+C-Name: qfminim0
+Prototype: GDGDGD0,L,p
+Help: qfminim(x,{B},{m},{flag=0}): x being a square and symmetric
+ matrix representing a positive definite quadratic form, this function
+ deals with the vectors of x whose norm is less than or equal to B,
+ enumerated using the Fincke-Pohst algorithm, storing at most m vectors (no
+ limit if m is omitted). The function searches for
+ the minimal nonzero vectors if B is omitted. The precise behavior
+ depends on flag. 0: returns at most 2m vectors (unless m omitted), returns
+ [N,M,V] where N is the number of vectors enumerated, M the maximum norm among
+ these, and V lists half the vectors (the other half is given by -V). 1:
+ ignores m and returns the first vector whose norm is less than B. 2: as 0
+ but uses a more robust, slower implementation
+Doc: $x$ being a square and symmetric matrix of dimension $d$ representing
+ a positive definite quadratic form, this function deals with the vectors of
+ $x$ whose norm is less than or equal to $B$, enumerated using the
+ Fincke-Pohst algorithm, storing at most $m$ pairs of vectors: only one
+ vector is given for each pair $\pm v$. There is no limit if $m$ is omitted:
+ beware that this may be a huge vector! The vectors are returned in no
+ particular order.
+
+ The function searches for the minimal nonzero vectors if $B$ is omitted.
+ The behavior is undefined if $x$ is not positive definite (a ``precision too
+ low'' error is most likely, although more precise error messages are
+ possible). The precise behavior depends on $\fl$.
+
+ \item If $\fl=0$ (default), return $[N, M, V]$, where $N$ is the number of
+ vectors enumerated (an even number, possibly larger than $2m$), $M \leq B$
+ is the maximum norm found, and $V$ is a matrix whose columns are found
+ vectors.
+
+ \item If $\fl=1$, ignore $m$ and return $[M,v]$, where $v$ is a nonzero
+ vector of length $M \leq B$. If no nonzero vector has length $\leq B$,
+ return $[]$. If no explicit $B$ is provided, return a vector of smallish
+ norm, namely the vector of smallest length (usually the first one but not
+ always) in an LLL-reduced basis for $x$.
+
+ In these two cases, $x$ must have integral \emph{small} entries: more
+ precisely, we definitely must have $d\cdot \|x\|_\infty^2 < 2^{53}$ but
+ even that may not be enough. The implementation uses low precision floating
+ point computations for maximal speed and gives incorrect results when $x$
+ has large entries. That condition is checked in the code and the routine
+ raises an error if large rounding errors occur. A more robust, but much
+ slower, implementation is chosen if the following flag is used:
+
+ \item If $\fl=2$, $x$ can have non integral real entries, but this is also
+ useful when $x$ has large integral entries. Return $[N, M, V]$ as in case
+ $\fl = 0$, where $M$ is returned as a floating point number. If $x$ is
+ inexact and $B$ is omitted, the ``minimal'' vectors in $V$ only have
+ approximately the same norm (up to the internal working accuracy).
+ This version is very robust but still offers no hard and fast guarantee
+ about the result: it involves floating point operations performed at a high
+ floating point precision depending on your input, but done without rigorous
+ tracking of roundoff errors (as would be provided by interval arithmetic for
+ instance). No example is known where the input is exact but the function
+ returns a wrong result.
+
+ \bprog
+ ? x = matid(2);
+ ? qfminim(x)  \\@com 4 minimal vectors of norm 1: $\pm[0,1]$, $\pm[1,0]$
+ %2 = [4, 1, [0, 1; 1, 0]]
+ ? { x = \\ The Leech lattice
+ [4, 2, 0, 0, 0,-2, 0, 0, 0, 0, 0, 0, 1,-1, 0, 0, 0, 1, 0,-1, 0, 0, 0,-2;
+  2, 4,-2,-2, 0,-2, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0, 0, 0,-1, 0, 1,-1,-1;
+  0,-2, 4, 0,-2, 0, 0, 0, 0, 0, 0, 0,-1, 1, 0, 0, 1, 0, 0, 1,-1,-1, 0, 0;
+  0,-2, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1,-1, 0, 0, 0, 1,-1, 0, 1,-1, 1, 0;
+  0, 0,-2, 0, 4, 0, 0, 0, 1,-1, 0, 0, 1, 0, 0, 0,-2, 0, 0,-1, 1, 1, 0, 0;
+ -2, -2,0, 0, 0, 4,-2, 0,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,-1, 1, 1;
+  0, 0, 0, 0, 0,-2, 4,-2, 0, 0, 0, 0, 0, 1, 0, 0, 0,-1, 0, 0, 0, 1,-1, 0;
+  0, 0, 0, 0, 0, 0,-2, 4, 0, 0, 0, 0,-1, 0, 0, 0, 0, 0,-1,-1,-1, 0, 1, 0;
+  0, 0, 0, 0, 1,-1, 0, 0, 4, 0,-2, 0, 1, 1, 0,-1, 0, 1, 0, 0, 0, 0, 0, 0;
+  0, 0, 0, 0,-1, 0, 0, 0, 0, 4, 0, 0, 1, 1,-1, 1, 0, 0, 0, 1, 0, 0, 1, 0;
+  0, 0, 0, 0, 0, 0, 0, 0,-2, 0, 4,-2, 0,-1, 0, 0, 0,-1, 0,-1, 0, 0, 0, 0;
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-2, 4,-1, 1, 0, 0,-1, 1, 0, 1, 1, 1,-1, 0;
+  1, 0,-1, 1, 1, 0, 0,-1, 1, 1, 0,-1, 4, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1,-1;
+ -1,-1, 1,-1, 0, 0, 1, 0, 1, 1,-1, 1, 0, 4, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1;
+  0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0, 1, 4, 0, 0, 0, 1, 0, 0, 0, 0, 0;
+  0, 0, 0, 0, 0, 0, 0, 0,-1, 1, 0, 0, 1, 1, 0, 4, 0, 0, 0, 0, 1, 1, 0, 0;
+  0, 0, 1, 0,-2, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0, 0, 4, 1, 1, 1, 0, 0, 1, 1;
+  1, 0, 0, 1, 0, 0,-1, 0, 1, 0,-1, 1, 1, 0, 0, 0, 1, 4, 0, 1, 1, 0, 1, 0;
+  0, 0, 0,-1, 0, 1, 0,-1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 4, 0, 1, 1, 0, 1;
+ -1, -1,1, 0,-1, 1, 0,-1, 0, 1,-1, 1, 0, 1, 0, 0, 1, 1, 0, 4, 0, 0, 1, 1;
+  0, 0,-1, 1, 1, 0, 0,-1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 4, 1, 0, 1;
+  0, 1,-1,-1, 1,-1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 4, 0, 1;
+  0,-1, 0, 1, 0, 1,-1, 1, 0, 1, 0,-1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 4, 1;
+ -2,-1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,-1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 4]; }
+ ? qfminim(x,,0)  \\ 0: don't store minimal vectors
+ time = 121 ms.
+ %4 = [196560, 4, [;]] \\ 196560 minimal vectors of norm 4
+ ? qfminim(x)  \\ store all minimal vectors !
+ time = 821 ms.
+ ? qfminim(x,,0,2); \\ safe algorithm. Slower and unnecessary here.
+ time = 5,540 ms.
+ %6 = [196560, 4.000061035156250000, [;]]
+ ? qfminim(x,,,2); \\ safe algorithm; store all minimal vectors
+ time = 6,602 ms.
+ @eprog\noindent\sidx{Leech lattice}\sidx{minimal vector}
+ In this example, storing 0 vectors limits memory use; storing all of them
+ requires a \kbd{parisize} about 50MB. All minimal vectors are nevertheless
+ enumerated in both cases of course, which means the speedup is likely to be
+ marginal.
+
+Variant: Also available are
+ \fun{GEN}{minim}{GEN x, GEN B = NULL, GEN m = NULL} ($\fl=0$),
+ \fun{GEN}{minim2}{GEN x, GEN B = NULL, GEN m = NULL} ($\fl=1$).
+ \fun{GEN}{minim_raw}{GEN x, GEN B = NULL, GEN m = NULL} (do not perform LLL
+ reduction on x and return \kbd{NULL} on accuracy error).
+ \fun{GEN}{minim_zm}{GEN x, GEN B = NULL, GEN m = NULL} ($\fl=0$, return vectors as
+ \typ{VECSMALL} to save memory)

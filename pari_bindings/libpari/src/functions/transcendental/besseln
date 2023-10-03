@@ -1,0 +1,7 @@
+Function: besseln
+Section: transcendental
+C-Name: ybessel
+Prototype: GGp
+Obsolete: 2018-12-10
+Help: besseln(nu,x): deprecated alias for bessely.
+Doc: deprecated alias for \kbd{bessely}.

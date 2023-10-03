@@ -1,0 +1,31 @@
+Function: nfmodpr
+Section: number_fields
+C-Name: nfmodpr
+Prototype: GGG
+Help: nfmodpr(nf,x,pr): map x to the residue field mod pr.
+Doc: map $x$ to a \typ{FFELT} in the residue field modulo \var{pr}.
+ The argument \var{pr} is either a maximal ideal in \kbd{idealprimedec}
+ format or, preferably, a \var{modpr} structure from \tet{nfmodprinit}. The
+ function \tet{nfmodprlift} allows to lift back to $\Z_K$.
+
+ Note that the function applies to number field elements and not to
+ vector / matrices / polynomials of such. Use \kbd{apply} to convert
+ recursive structures.
+ \bprog
+ ? K = nfinit(y^3-250);
+ ? P = idealprimedec(K, 5)[2];
+ ? modP = nfmodprinit(K, P, 't);
+ ? K.zk
+ %4 = [1, 1/5*y, 1/25*y^2]
+ ? apply(t->nfmodpr(K,t,modP), K.zk)
+ %5 = [1, t, 2*t + 1]
+ ? %[1].mod
+ %6 = t^2 + 3*t + 4
+ ? K.index
+ %7 = 125
+ @eprog\noindent For clarity, we represent elements in the residue
+ field $\F_5[t]/(T)$ as polynomials in the variable $t$. Whenever the
+ underlying rational prime does not divide \kbd{K.index}, it is actually
+ the case that $t$ is the reduction of $y$ in $\Q[y]/(\kbd{K.pol})$
+ modulo an irreducible factor of \kbd{K.pol} over $\F_p$. In the above
+ example, $5$ divides the index and $t$ is actually the reduction of $y/5$.

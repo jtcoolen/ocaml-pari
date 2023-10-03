@@ -1,0 +1,12 @@
+Function: _def_debugfiles
+Class: default
+Section: default
+C-Name: sd_debugfiles
+Obsolete: 2021-06-14
+Prototype:
+Help:
+Doc: This is a deprecated alias for \kbd{setdebug("io",)}. If nonzero,
+ \kbd{gp} will print information on file descriptors in use and I/O
+ operations (see~\b{gf}).
+
+ The default value is \kbd{0} (no debugging messages).

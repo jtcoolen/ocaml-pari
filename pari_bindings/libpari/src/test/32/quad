@@ -1,0 +1,59 @@
+1
+2.6180339887498948482045868343656381177
+1.6180339887498948482045868343656381177 + I
+1.6180339887498948482045868343656381177
+0.E-38 + 1.6180339887498948482045868343656381177*I
+-1
+  ***   at top-level: norml2(w)
+  ***                 ^---------
+  *** norml2: incorrect type in gnorml2 (t_QUAD).
+1
+2
+1
+0
+2
+1
+2
+1
+0
+0
+1
+0
+1
+0
+1
+0
+1
+1
+0
+  ***   at top-level: quadgen(-8)<1
+  ***                            ^--
+  *** _<_: incorrect type in gsigne (t_QUAD).
+0.70710678118654752440084436210484903928
+2.5825756949558400065880471937280084890
+(a)->[sign(z)|z<-[a,a-1,a-2,1-a,2-a]]
+[1, 1, -1, -1, 1]
+[1, 1, -1, -1, 1]
+I
+w
+2147483648.5000000000582076609134674072
+4294967297
+-4294967298
+4294967298
+-4294967297
+4294967297
+-4294967297
+2.2847006554165615148712535010323047844
+  ***   at top-level: floor(w8)
+  ***                 ^---------
+  *** floor: incorrect type in gfloor (t_QUAD).
+  ***   at top-level: ceil(w8)
+  ***                 ^--------
+  *** ceil: incorrect type in gceil (t_QUAD).
+  ***   at top-level: sign(w8)
+  ***                 ^--------
+  *** sign: incorrect type in gsigne (t_QUAD).
+  ***   at top-level: floor(Mod(0,3)*quadgen(5))
+  ***                 ^--------------------------
+  *** floor: incorrect type in gfloor (t_QUAD).
+Total time spent: 1

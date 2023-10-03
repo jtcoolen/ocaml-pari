@@ -1,0 +1,81 @@
+Function: asympnum
+Section: sums
+C-Name: asympnum0
+Prototype: GDGp
+Help: asympnum(expr,{alpha = 1}): asymptotic expansion of expr
+ assuming it has rational coefficients with reasonable height; alpha is
+ as in limitnum.
+Doc: Asymptotic expansion of \var{expr}, corresponding to a sequence $u(n)$,
+ assuming it has the shape
+ $$u(n) \approx \sum_{i \geq 0} a_i n^{-i\alpha}$$
+ with rational coefficients $a_i$ with reasonable height; the algorithm
+ is heuristic and performs repeated calls to limitnum, with
+ \kbd{alpha} as in \kbd{limitnum}. As in \kbd{limitnum}, $u(n)$ may be
+ given either by a closure $n\mapsto u(n)$ or as a closure $N\mapsto
+ [u(1),\dots,u(N)]$, the latter being often more efficient.
+ \bprog
+ ? f(n) = n! / (n^n*exp(-n)*sqrt(n));
+ ? asympnum(f)
+ %2 = []   \\ failure !
+ ? localprec(57); l = limitnum(f)
+ %3 = 2.5066282746310005024157652848110452530
+ ? asympnum(n->f(n)/l) \\ normalize
+ %4 =  [1, 1/12, 1/288, -139/51840, -571/2488320, 163879/209018880,
+        5246819/75246796800]
+ @eprog\noindent and we indeed get a few terms of Stirling's expansion. Note
+ that it definitely helps to normalize with a limit computed to higher
+ accuracy (as a rule of thumb, multiply the bit accuracy by $1.612$):
+ \bprog
+ ? l = limitnum(f)
+ ? asympnum(n->f(n) / l) \\ failure again !!!
+ %6 = []
+ @eprog\noindent We treat again the example of the Motzkin numbers $M_n$ given
+ in \kbd{limitnum}:
+ \bprog
+ \\ [M_k, M_{k*2}, ..., M_{k*N}] / (3^n / n^(3/2))
+ ? vM(N, k = 1) =
+ { my(q = k*N, V);
+    if (q == 1, return ([1/3]));
+    V = vector(q); V[1] = V[2] = 1;
+    for(n = 2, q - 1,
+      V[n+1] = ((2*n + 1)*V[n] + 3*(n - 1)*V[n-1]) / (n + 2));
+    f = (n -> 3^n / n^(3/2));
+    return (vector(N, n, V[n*k] / f(n*k)));
+ }
+ ? localprec(100); l = limitnum(n->vM(n,10)); \\ 3/sqrt(12*Pi)
+ ? \p38
+ ? asympnum(n->vM(n,10)/l)
+ %2 = [1, -3/32, 101/10240, -1617/1638400, 505659/5242880000, ...]
+ @eprog
+
+ If \kbd{alpha} is not a rational number, loss of accuracy is
+ expected, so it should be precomputed to double accuracy, say:
+ \bprog
+ ? \p38
+ ? asympnum(n->log(1+1/n^Pi),Pi)
+ %1 = [0, 1, -1/2, 1/3, -1/4, 1/5]
+ ? localprec(76); a = Pi;
+ ? asympnum(n->log(1+1/n^Pi), a) \\ more terms
+ %3 = [0, 1, -1/2, 1/3, -1/4, 1/5, -1/6, 1/7, -1/8, 1/9, -1/10, 1/11, -1/12]
+ ? asympnum(n->log(1+1/sqrt(n)),1/2) \\ many more terms
+ %4 = 49
+ @eprog The expression is evaluated for $n = 1, 2, \dots, N$
+ for an $N = O(B)$ if the current bit accuracy is $B$. If it is not defined
+ for one of these values, translate or rescale accordingly:
+ \bprog
+ ? asympnum(n->log(1-1/n))  \\ can't evaluate at n = 1 !
+  ***   at top-level: asympnum(n->log(1-1/n))
+  ***                 ^-----------------------
+  ***   in function asympnum: log(1-1/n)
+  ***                         ^----------
+  *** log: domain error in log: argument = 0
+ ? asympnum(n->-log(1-1/(2*n)))
+ %5 = [0, 1/2, 1/8, 1/24, ...]
+ ? asympnum(n->-log(1-1/(n+1)))
+ %6 = [0, 1, -1/2, 1/3, -1/4, ...]
+ @eprog\noindent
+
+ \synt{asympnum}{void *E, GEN (*u)(void *,GEN,long), GEN alpha, long prec}, where \kbd{u(E, n, prec)} must return either $u(n)$ or $[u(1),\dots,u(n)]$
+ in precision \kbd{prec}. Also available is
+ \fun{GEN}{asympnum0}{GEN u, GEN alpha, long prec}, where $u$ is a closure
+ as above or a vector of sufficient length.

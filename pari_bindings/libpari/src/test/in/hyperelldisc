@@ -1,0 +1,71 @@
+hyperelldisc([x^3,1])
+hyperelldisc(x^5+1)
+hyperelldisc(3*x^5+7)
+
+hyperellisoncurve([2*x^6+3*x^5+x^4+x^3-x,x^3+1],[1/3,-14/27])
+hyperellisoncurve([2*x^6+3*x^5+x^4+x^3-x,x^3+1],[1/3,14/27])
+
+genus(W)=
+{
+  my([P,Q] = W);
+  my(R = 4*P+Q^2); (poldegree(R)+1)\2-1;
+}
+
+pointchange(Po,C)=
+{
+  my([x,y]=Po);
+  my(g=genus(W), [e,M,H] = C);
+  my([a,c]=M[,1],[b,d]=M[,2]);
+  if(c*x+d==0,return([0]));
+  my(X=(a*x+b)/(c*x+d));
+  my(Y=(e*y+subst(H,'x,x))/(c*x+d)^(g+1));
+  [X,Y];
+}
+
+W=[subst(polrecip(2176782336*x^6+60466176*x^5+1296*x^2+1),x,81*x+3)-x^6,2*x^3];
+W2 = hyperellminimalmodel(W, &C);
+P=[241/771,-3207473/458314011];
+Q=pointchange(P,C)
+hyperellisoncurve(W,Q)
+hyperellminimaldisc(W)
+W=1593*x^6+6750*x^5+11817*x^4+10952*x^3+5672*x^2+1560*x+180;
+[hyperellminimalmodel(W,&C),C]
+hyperellminimaldisc(W)
+W=[subst(x^6+2*x^5+x^4+2*x^3+6*x^2+4*x+1,x,(9*x+19)/(3*x+27))*(3*x+27)^6,0];
+WC=hyperellminimalmodel(W,&C); hyperellchangecurve(W,C)==WC
+
+test(g,pp=3,u=2,B1=10,B2=B1) =
+{
+  my(W = pp^u*[random(-B1*x^(2*g+2)),random(-B2*x^(g+1))]);
+  if(hyperelldisc(W)==0 || genus(W)!=g,return);
+  my(M = matrix(2,2,i,j,random(-B1)), de=matdet(M));
+  if(de==0,return);
+  my(F=factor(2*pp*abs(de))[,1]);
+  my(Wt = hyperellchangecurve(W,[1,M,random(-B*x^(g+1))]));
+  my(C,R = hyperellminimalmodel(W,&C, F));
+  if(denominator(content(apply(content,R)))>1,error([W,R]));
+  my(Ct,Rt = hyperellminimalmodel(Wt,&Ct,F));
+  if(denominator(content(apply(content,Rt)))>1,error([Wt,Rt]));
+  if (hyperellchangecurve(W,C)!=R,error("basis change",[W]));
+  if (hyperellchangecurve(Wt,Ct)!=Rt,error("basis change",[Wt]));
+  my(D1 = hyperelldisc(R));
+  my(Dt = hyperelldisc(Rt));
+  if(D1 != Dt,error("bad disc:",[W,Wt,R,Rt,D1,Dt]));
+}
+
+for(g=1,2, for(u=0,3, for(i=1,200,test(g,3,u,10,10);test(g,3,u,10,1))));
+
+Q=3254970343038012341524172854446838425023065603322913691574585048043114585293181679254547*x^10+33800276476042018693016760875356135186204584220861792256285249020038281364520918787141*x^9+157945036745175622258322114356626710153773848689934730039281029149926268846410374446*x^8+437368934061034056405076582738875725638756989295437727587277434342233019817359259*x^7+794802450922474530538930245393951491008877497334838937989252320203330150784568*x^6+990406907115776184058530684983249675764756088320969293058409575137878307692*x^5+857048957857534031865836424000784216261689141405786336930764753734221161*x^4+508558361540808033391345602789721912959021860389315102234368788750072*x^3+198036518916159104098971223461808211923666349711869043250644599512*x^2+45698925276170974360066148647971952363526378982195194455592407*x+4745469685449988616659186902678739797214235093067916047144;
+hyperellred(Q,&M)
+M
+hyperellchangecurve(Q,M)
+
+\\ ERRORS, KEEP AT END OF FILE
+hyperellred(1)
+hyperellred(Pol(1))
+hyperellred(x)
+hyperellred(x^2+1)
+hyperellchangecurve(x^3+1,[[1,2],0])
+hyperellchangecurve(x^3+1,[1,Mat(1),0])
+hyperellchangecurve([],[1,Mat(1),0])
+hyperellchangecurve(x^0,[1,matid(2),0])

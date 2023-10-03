@@ -1,0 +1,16 @@
+Function: _'_
+Section: symbolic_operators
+C-Name: derivn
+Prototype: GLDn
+Help: x': derivative of x with respect to the main variable.
+Description:
+ (gen,1):gen                      deriv($1, -1)
+
+ (FpX,1):FpX                      FpX_deriv($1, p)
+ (FqX,1):FqX                      FqX_deriv($1, T, p)
+
+Function: _'
+Section: symbolic_operators
+C-Name: deriv
+Prototype: GDn
+Help: x': derivative of x with respect to the main variable.

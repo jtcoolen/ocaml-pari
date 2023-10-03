@@ -1,0 +1,43 @@
+Function: lfunhgm
+Section: hypergeometric_motives
+C-Name: lfunhgm
+Prototype: GGDGb
+Help: lfunhgm(H,t,{hint}): (H,t) being a hypergeometric motive, returns the
+ corresponding lfuncreate data for use with the L function package.
+Doc: $(H,t)$ being a hypergeometric motive, returns the corresponding
+ \kbd{lfuncreate} data for use with the $L$-function package. This function
+ needs to guess local conductors and euler factors at wild primes and
+ will be very costly if there are many such primes: the complexity is roughly
+ proportional to the conductor. The optional parameter \kbd{hint}
+ allows to speed up the function by making various assumptions:
+
+ \item $\kbd{hint} = \var{lim}$ a \typ{INT}: assume that Euler factors at wild
+ primes have degree less than \var{lim}, which may speed it up a little.
+
+ \item $\kbd{hint} = [N]$: guess that the conductor is $N$.
+
+ \item $\kbd{hint} = [N, \var{lim}]$: initial guess $N$ for the conductor
+ and limit degrees to \var{lim}.
+
+ If your guess for \var{lim} is wrong, the function will enter an infinite loop.
+ If your guess for an initial $N$ is wrong, the function silently restarts
+ (it will not enter an infinite loop unless a simultaneous failed guess for
+ \var{lim} is made).
+
+ \bprog
+ ? H = hgminit([5]);
+ ? L = lfunhgm(H, 1/64);
+ time = 23,113 ms.
+ ? L=lfunhgm(H,1/64,0); \\ assume Euler factors at wild primes are trivial
+ time = 19,721 ms. \\ a little faster
+ ? L=lfunhgm(H,1/64,[525000]); \\ initial guess N = 525000
+ time = 15,486 ms. \\ a little faster
+ ? L=lfunhgm(H,1/64,[525000, 0]);
+ time = 15,293 ms. \\ marginally faster with both assumptions
+ @eprog
+
+Function: _dirhgm_worker
+Section: programming/internals
+C-Name: dirhgm_worker
+Prototype: GUGG
+Help: worker for hgmcoefs

@@ -1,0 +1,23 @@
+Function: lambertw
+Section: transcendental
+C-Name: glambertW
+Prototype: GD0,L,p
+Help: lambertw(y,{branch=0}): solution of the implicit equation x*exp(x)=y.
+ In the p-adic case, give a solution of x*exp(x)=y if x has positive
+ valuation, of x+log(x)=log(y) otherwise.
+Doc: Lambert $W$ function, solution of the implicit equation $xe^x=y$.
+
+ \item For real inputs $y$:
+ If \kbd{branch = 0}, principal branch $W_0$ defined for $y\ge-\exp(-1)$.
+ If \kbd{branch = -1}, branch $W_{-1}$ defined for $-\exp(-1)\le y<0$.
+
+ \item For $p$-adic inputs: give a solution of $x\exp(x)=y$ if $x$ has
+ positive valuation, of $x+\log(x)=\log(y)$ otherwise.
+
+ \misctitle{Caveat}
+ Complex values of $y$ are also supported but experimental. The other
+ branches $W_k$ for $k$ not equal to $0$ or $-1$ (set \kbd{branch} to $k$)
+ are also experimental.
+
+ For $k\ge1$, $W_{-1-k}(x)=\overline{W_k(x)}$, and $\Im(W_k(x))$ is
+ close to $(\pi/2)(4k-\text{sign}(x))$.

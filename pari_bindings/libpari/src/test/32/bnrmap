@@ -1,0 +1,38 @@
+[Mat([4, 3]), [12, 4], [6]]
+[3]
+
+[2]
+
+
+[2]
+
+[4]~
+[Mat(6), Mat(2), Mat(6), Mat(2), Mat(6), Mat(2), Mat(6), Mat(2), Mat(3), Mat
+(1), Mat(6), Mat(2), Mat(3), Mat(1), Mat(6), Mat(2), Mat(3), Mat(1), Mat(3),
+ Mat(1), Mat(6), Mat(2), Mat(3), Mat(1), Mat(6), Mat(2), Mat(3), Mat(1), Mat
+(3), Mat(1)]
+  ***   at top-level: bnrmap(1,2)
+  ***                 ^-----------
+  *** bnrmap: incorrect type in bnrmap [not a map] (t_INT).
+  ***   at top-level: bnrmap(bnr,bnrinit(x,1))
+  ***                            ^-------------
+  *** bnrinit: incorrect type in checkbnf [please apply bnfinit()] (t_POL).
+  ***   at top-level: bnrmap(S,[1,2,3])
+  ***                 ^-----------------
+  *** bnrmap: incorrect type in bnrmap [not a character mod mA] (t_VEC).
+  ***   at top-level: bnrmap(S,[1,2]/2)
+  ***                 ^-----------------
+  *** bnrmap: incorrect type in bnrmap [not a character mod mA] (t_VEC).
+  ***   at top-level: bnrmap(S,[1,2,3]~)
+  ***                 ^------------------
+  *** bnrmap: incorrect type in bnrmap [not a discrete log] (t_COL).
+  ***   at top-level: bnrmap(S,[1,2]~/2)
+  ***                 ^------------------
+  *** bnrmap: incorrect type in bnrmap [not a discrete log] (t_COL).
+  ***   at top-level: bnrmap(S,matid(3))
+  ***                 ^------------------
+  *** bnrmap: inconsistent dimensions in ZM_hnfmod.
+  ***   at top-level: bnrmap(S,matid(2)/2)
+  ***                 ^--------------------
+  *** bnrmap: incorrect type in bnrmap [not a subgroup] (t_MAT).
+Total time spent: 1

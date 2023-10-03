@@ -1,0 +1,13 @@
+Function: dirpowers
+Section: linear_algebra
+C-Name: dirpowers
+Prototype: LGp
+Help: dirpowers(n,x): return the vector [1^x,2^x,...,n^x].
+Doc: for nonnegative $n$ and complex number $x$, return the vector with $n$
+ components $[1^x,2^x,\dots,n^x]$.
+ \bprog
+ ? dirpowers(5, 2)
+ %1 = [1, 4, 9, 16, 25]
+ ? dirpowers(5, 1/2)
+ %2 = [1, 1.414..., 1.732..., 2.000..., 2.236...]
+ @eprog\noindent When $n \le 0$, the function returns the empty vector \kbd{[]}.

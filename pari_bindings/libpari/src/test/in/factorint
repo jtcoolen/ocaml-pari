@@ -1,0 +1,16 @@
+factorint(-33623546348886051018593728804851,1)
+factorint(691160558642,1)
+/* MPQS */
+factorint(10^120+1,14)
+p = 10^7+19; q = 10^10+19; r = 10^11+3;
+factorint(p^2*q*r,14)
+factorint(p*q^2*r,14)
+factorint(p*q*r^2,14)
+factorint(p^3*r,14)
+factorint(p^4*r,14)
+factorint(p^5*r,14)
+
+\\ #2165
+factor(78857659^4 * 59571877)
+\\ #2469
+factor(2^2203-1)

@@ -1,0 +1,40 @@
+-27
+800000
+1400263200000
+1
+0
+[-149/108, 852292983271/629856]
+1
+-22876928
+[[398*x^6 + 1687*x^5 + 2954*x^4 + 2738*x^3 + 1418*x^2 + 390*x + 45, x^3 + x^
+2], [2, [1, 0; 0, 1], x^3 + x^2]]
+7222041363087360
+1
+[2*x^10 + 9*x^9 + 8*x^8 + x^6 + 8*x^5 + 6*x^4 + 5*x^3 + 7*x + 3, 0]
+[1, [524494, -909; -505088299, 875368], 0]
+[2*x^10 + 9*x^9 + 8*x^8 + x^6 + 8*x^5 + 6*x^4 + 5*x^3 + 7*x + 3, 0]
+  ***   at top-level: hyperellred(1)
+  ***                 ^--------------
+  *** hyperellred: incorrect type in hyperellred (t_INT).
+  ***   at top-level: hyperellred(Pol(1))
+  ***                 ^-------------------
+  *** hyperellred: domain error in hyperellred: disc(W) == 0
+  ***   at top-level: hyperellred(x)
+  ***                 ^--------------
+  *** hyperellred: domain error in hyperellred: genus = 0
+  ***   at top-level: hyperellred(x^2+1)
+  ***                 ^------------------
+  *** hyperellred: domain error in hyperellred: genus = 0
+  ***   at top-level: hyperellchangecurve(x^3+1,[[1,2],0])
+  ***                 ^------------------------------------
+  *** hyperellchangecurve: incorrect type in hyperellchangecurve (t_VEC).
+  ***   at top-level: hyperellchangecurve(x^3+1,[1,Mat(1),0])
+  ***                 ^---------------------------------------
+  *** hyperellchangecurve: incorrect type in hyperellchangecurve (t_VEC).
+  ***   at top-level: hyperellchangecurve([],[1,Mat(1),0])
+  ***                 ^------------------------------------
+  *** hyperellchangecurve: incorrect type in hyperellchangecurve (t_VEC).
+  ***   at top-level: hyperellchangecurve(x^0,[1,matid(2),0])
+  ***                 ^---------------------------------------
+  *** hyperellchangecurve: constant polynomial in hyperellchangecurve.
+Total time spent: 346

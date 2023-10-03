@@ -1,0 +1,195 @@
+Function: subcyclopclgp
+Section: number_fields
+C-Name: subcyclopclgp
+Prototype: GGD0,L,
+Help: subcyclopclgp(fH, p, {flag=0}): Let F be the abelian
+ number field contained in Q(zeta_f) corresponding to the subgroup H of
+ (Z/fZ)^*. Returns the minus part of Iwasawa polynomials attached to the
+ ideal class group of F.
+Doc: Let $F$ be the abelian number field contained in $\Q(\zeta_f)$
+ corresponding to the subgroup $H$ of $(\Z/f\Z)^*$, let $p > 2$ be an odd
+ prime not dividing $[F:\Q]$. Computes the $p$-Sylow subgroup $A_F$ of the
+ ideal class group using an unconditional algorithm of M.~Aoki and T.~Fukuda
+ (LNCS. vol.4076, pp.56--71, 2006).
+
+ The argument \kbd{fH} encodes the data $[f,H]$ as follows:
+
+ \item $\kbd{fH} = [f, H]$, where $H$ is given by a vector of
+ integral generators,
+
+ \item $\kbd{fH} = [\var{bnr}, H]$, where \var{bnr} is attached to
+ $\Cl_f(\Q)$ and $H$ is a congruence subgroup,
+
+ \item $\kbd{fH} = [G, H]$, where $G$ is \kbd{idealstar}$(f,1)$, and $H$ is
+ a subgroup of $(\Z/f\Z)^\times$,
+
+ \item $\kbd{fH} = f$, where we assume that $H = \{1\}$, i.e., $F =
+ \Q(\zeta_f)$,
+
+ \item an irreducible integral polynomial defining a primitive element for
+ $F$.
+
+ \noindent The result is a 6-component vector $v$, and components $2$ or $3$
+ can be left empty or only partially computed to save time (see \fl\ below):
+
+ $v[1]$ is $p$.
+
+ $v[2]$ contains $[E, [e_1,\dots,e_k]]$ with $E = \sum_i e_i$, meaning that
+ the order of $A_F^+$ is $p^E$ and its cyclic structure is $\Z/p^{e_1}\Z \times
+ \dots \Z/p^{e_k}\Z$
+
+ $v[3]$ similarly describes the order and the structure of $A_F^-$.
+
+ $v[4]$ contains the structure of $\text{Gal}(F/\Q)$ as a product of cyclic
+ groups (elementary divisors).
+
+ $v[5]$ is the number of cyclic subfields $K$ of $F$ except for $\Q$.
+
+ $v[6]$ is the number of $\Q_p$-conjugacy classes of injective
+ characters $\chi:\text{Gal}(K/\Q)\rightarrow\overline{\Q}_p^{\times}$.
+
+ \noindent A vector of primes $p$ is also accepted and the result is then a
+ vector of vectors as above, in the same order as the primes.
+
+ The group $A_F$ is the direct sum of $A_F^+$ and $A_F^-$; each of $A_F^+$
+ and $A_F^-$ is decomposed into $\chi$-parts $A_\chi$.
+ By default, the function computes only $|A_F^-|$ and an upper bound
+ for $|A_F^+|$ (expected to be equal to $|A_F^+|$) separately with
+ different algorithms. This is expected to be fast. The behavior is controled
+ by the binary digits of \fl:
+
+ 1: if $|A_F^+|$ or $|A_F^-|$ is computed, also determines its group structure
+ and guarantees informations about $A_F^+$. This last part is usually
+ costly.
+
+ 2: do not compute quantities related to $A_F^+$ (the corresponding $(e_i)$
+ in $v[2]$ is replaced with a dummy empty vector).
+
+ 4: do not compute quantities related to $A_F^-$ (the corresponding $(e_i)$
+ in $v[3]$ is replaced with a dummy empty vector).
+
+ 8: ignores proper subfields of $F$. This is motivated by the following kind
+ of problems: let $\Q(p^k)$ be the $k$-th layer of the cyclotomic
+ $\Z_p$-extenson of $\Q$ and define $\Q(n)=\Q(p_1^{e_1})\cdots\Q(p_r^{e_r})$
+ when $n$ factors as $n=p_1^{e_1}\cdots p_r^{e_r}$, which is a real cyclic
+ field of degree $n$ satisfying $\Q(n) \subset \Q(m)$ when $n\mid m$. What are
+ the prime factors of the class number $h(n)$ of $\Q(n)$ ? The new prime
+ factors of $h(n)$, not occurring in a lower level, will all be present
+ when using this \fl.
+
+ The other value are technical and only useful when bit 1 (certification and
+ structure) is set; do not set them unless you run into difficulties with
+ default parameters.
+
+ 16: when this bit is set, the function tries to save memory, sacrificing
+ speed; this typically uses half the memory for a slowdown of a factor $2$.
+
+ 32: likely to speed up the algorithm when the rank of $A_\chi$ is large and
+ to create a minor slowdown otherwise. Though the effect is restricted, the
+ $3$-class group of $\Q(\sqrt{15338}, \zeta_5)$ is computed 4 times faster
+ when this bit is set (see below).
+
+ \misctitle{Examples} With default $\fl=0$, the function (quickly)
+ determines the exact value of $|A_F^-|$ and a rigorous upper bound of $|A_F^+|$
+ which is expected to be equal to $|A_F^+|$; of course, when the upper bound
+ is $0$, we know for sure that $A_F^+$ is trivial. With $\fl=1$ we obtain the
+ group structure of $A_F$ completely and guarantee the informations about
+ $A_F^+$ (slow).
+
+ \bprog
+ ? subcyclopclgp(22220, 101)
+ time = 113 ms.
+ %1 = [101, [0, []], [41, [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]],
+ [100, 20, 2, 2], 479, 7999]
+ @eprog\noindent
+ This computes the 101-part $A_F$ of the ideal class group of
+ $F=\Q(\zeta_{22220})$.
+ The output says that $A_F^+=0$, which is rigorous (since trivial),
+ and $|A_F^-|=101^{41}$, more precisely $A_F^-$ is isomorphic to
+ $(\Z/101\Z)^{41}$ which is also rigorous
+ (since the description of $A_F^-$ is always rigorous). The Galois group
+ $\text{Gal}(F/\Q)$ is $\Z/100\Z\oplus\Z/20\Z\oplus\Z/2\Z\oplus\Z/2\Z$.
+ The field $F$ has 479 cyclic subfields different from $\Q$ and
+ there are 7999 $\Q_{101}$-conjugacy classes of injective characters
+ $\chi:\text{Gal}(K/\Q)\rightarrow\overline{\Q}_{101}^{\times}$.
+
+ \bprog
+ ? subcyclopclgp(22220, 11)
+ time = 83 ms.
+ %2 = [11, [2, [1, 1]], [16, []], [100, 20, 2, 2], 479, 1799]
+ @eprog\noindent
+ This computes the 11-part $A_F$ for the same $F$. The result says that
+ $|A_F^+|=11^2$, $A^+_F$ is isomorphic to $(\Z/11\Z)^2$ which is not rigorous
+ and is only an upper bound, and $|A_F^-|=11^{16}$ which is rigorous. The
+ group structure of $A_F^-$ is unknown.
+
+ \bprog
+ ? subcyclopclgp(22220, 11, 1)
+ time = 185 ms.
+ %3 = [11, [2, [1, 1]], [16, [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]],
+ [100, 20, 2, 2], 479, 1799]
+ @eprog\noindent now guarantees that $A^+_F$ is isomorphic to $(\Z/11\Z)^2$
+ and determines that $A_F^-$ is isomorphic to $\Z/11^2\Z\oplus(\Z/11\Z)^{14}$,
+ at the expense of slightly increasing the running time.
+
+ We now try a much harder example: $F=\Q(\sqrt{36322},\zeta_5)$, which
+ we could define using $f = 726440$ and $H = [41, 61, 111, 131]$ (prove it!).
+ We will use a defining polynomial instead:
+ \bprog
+ ? T = polcompositum(x^2-36322, polcyclo(5), 2);
+ ? subcyclopclgp(T, 5) \\ fast when non rigorous for A^+
+ time = 82 ms.
+ %4 = [5, [1, [1]], [4, []], [4, 2], 5, 7]
+ \\ try to certify; requires about 2GB of memory
+ ? subcyclopclgp(T, 5, 1)
+ *** subcyclopclgp: the PARI stack overflows !
+  current stack size: 1000003072 (1907.352 Mbytes)
+ ? default(parisizemax,"2G");
+ ? subcyclopclgp(T, 5, 1) \\ with more memory, we get an answer
+ time = 36,201 ms.
+ %6 = [5, [1, [1]], [4, [3, 1]], [4, 2], 5, 7]
+ \\ trying to reduce memory use does not work (still need 2GB); slower
+ ? subcyclopclgp(T, 5, 1+16)
+ time = 39,450 ms.
+ @eprog\noindent This shows that $A_F^+$ is isomorphic to $\Z/5\Z$ and
+ $A_F^-$ is isomorphic to $\Z/5^3\Z\oplus\Z/5\Z$ for $p=5$. For this example,
+ trying to reduce memory use with $\fl = 1+16$ fails: the computation becomes
+ slower and still needs 2GB; $\fl = 1+16+32$ is a disaster: it requires about
+ 8GB and 9 minutes of computation.
+
+ Here's a situation where the technical flags make a difference:
+ let $F = \Q(\sqrt{15338}, \zeta_5)$.
+ \bprog
+ ? T = polcompositum(x^2-15338, polcyclo(5), 2);
+ ? subcyclopclgp(T, 3)
+ time = 123 ms.
+ %2 = [3, [1, [1]], [4, []], [4, 2], 5, 5]
+ ? subcyclopclgp(T, 3, 1) \\ requires a stack of 8GB
+ time = 4min, 47,822 ms.
+ %3 = [3, [1, [1]], [4, [1, 1, 1, 1]], [4, 2], 5, 5]
+ ? subcyclopclgp(T, 3, 1+16);
+ time = 7min, 20,876 ms. \\ works with 5GB, but slower
+ ? subcyclopclgp(T, 3, 1+32);
+ time = 1min, 11,424 ms. \\ also works with 5GB, 4 times faster than original
+ ? subcyclopclgp(T, 3, 1+16+32);
+ time = 1min, 47,285 ms. \\ now works with 2.5GB
+ @eprog
+
+ Let $F = \Q(106)$ defined as above; namely, $F$ is the composite field
+ of $\Q(\sqrt{2})$ and the subfield of $\Q(\zeta_{53^2})$ with degree 53.
+ This time we shall build the compositum using class field theory:
+ \bprog
+ ? Q = bnfinit(y);
+ ? bnr1 = bnrinit(Q, 8); H1 = Mat(2);
+ ? bnr2 = bnrinit(Q, [53^2, [1]]); H2 = Mat(53);
+ ? [bnr,H] = bnrcompositum([bnr1, H1], [bnr2, H2]);
+ ? subcyclopclgp([bnr,H], 107)
+ time = 10 ms.
+ %5 = [107, [1, [1]], [0, []], [106], 3, 105]
+ ? subcyclopclgp([bnr,H], 107, 1) \\ requires 2.5GB
+ time = 15min, 13,537 ms.
+ %6 = [107, [1, [1]], [0, []], [106], 3, 105]
+ @eprog\noindent Both results are identical (and they were expected to be),
+ but only the second is rigorous. Flag bit 32 has a minor impact in this case
+ (reduces timings by 20 s.)

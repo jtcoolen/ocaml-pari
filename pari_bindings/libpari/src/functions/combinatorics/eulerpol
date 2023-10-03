@@ -1,0 +1,12 @@
+Function: eulerpol
+Section: combinatorics
+C-Name: eulerpol
+Prototype: LDn
+Help: eulerpol(n, {v = 'x}): Euler polynomial E_n, in variable v.
+Doc: \idx{Euler polynomial} $E_n$ in variable $v$.
+ \bprog
+ ? eulerpol(1)
+ %1 = x - 1/2
+ ? eulerpol(3)
+ %2 = x^3 - 3/2*x^2 + 1/4
+ @eprog

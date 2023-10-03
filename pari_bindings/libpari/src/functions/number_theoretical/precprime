@@ -1,0 +1,23 @@
+Function: precprime
+Section: number_theoretical
+C-Name: precprime
+Prototype: G
+Help: precprime(x): largest pseudoprime <= x, 0 if x<=1.
+Description:
+ (gen):int        precprime($1)
+Doc: finds the largest pseudoprime (see \tet{ispseudoprime}) less than or equal
+ to $x$; the input $x$ can be of any real type.
+ Returns 0 if $x\le1$. Note that if $x$ is a prime, this function returns $x$
+ and not the largest prime strictly smaller than $x$.
+ \bprog
+ ? precprime(2)
+ %1 = 2
+ ? precprime(Pi)
+ %2 = 3
+ ? precprime(-10)
+ %3 = 0 \\ primes are positive
+ @eprog\noindent The function name comes from \emph{prec}eding \emph{prime}.
+ Despite the name, please note that the function is not guaranteed to return
+ a prime number (although no counter-example is known at present); the return
+ value \emph{is} a guaranteed prime if $x \leq 2^{64}$. To rigorously prove
+ that the result is prime in all cases, use \kbd{isprime}.

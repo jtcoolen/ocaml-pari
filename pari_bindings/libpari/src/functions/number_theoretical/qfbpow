@@ -1,0 +1,8 @@
+Function: qfbpow
+Section: number_theoretical
+C-Name: qfbpow
+Prototype: GG
+Help: qfbpow(x,n): n-th power with reduction of the binary quadratic
+ form x.
+Doc: $n$-th power of the binary quadratic form
+ $x$, computed with \idx{reduction} (i.e.~using \kbd{qfbcomp}).

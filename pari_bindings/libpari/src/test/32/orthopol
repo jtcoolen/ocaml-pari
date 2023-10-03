@@ -1,0 +1,40 @@
+U
+T
+L
+H
+LA
+1
+1
+1
+1
+1
+1
+1
+1
+0
+-1
+209
+1
+1
+1
+1
+1
+  ***   at top-level: polhermite(-1)
+  ***                 ^--------------
+  *** polhermite: domain error in polhermite: degree < 0
+  ***   at top-level: polhermite(0,,1)
+  ***                 ^----------------
+  *** polhermite: domain error in polhermite: degree < 0
+  ***   at top-level: polhermite(0,1,1)
+  ***                 ^-----------------
+  *** polhermite: domain error in polhermite: degree < 0
+  ***   at top-level: pollaguerre(-1)
+  ***                 ^---------------
+  *** pollaguerre: domain error in pollaguerre: degree < 0
+  ***   at top-level: pollaguerre(0,,,1)
+  ***                 ^------------------
+  *** pollaguerre: domain error in pollaguerre: degree < 0
+  ***   at top-level: pollaguerre(0,,1,1)
+  ***                 ^-------------------
+  *** pollaguerre: domain error in pollaguerre: degree < 0
+Total time spent: 88

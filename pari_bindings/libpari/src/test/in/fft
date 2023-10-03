@@ -1,0 +1,33 @@
+w = rootsof1(2)
+g = fft(w, x+1)
+fftinv(w, g)
+
+w = rootsof1(4)
+g = fft(w, x^3+I*x+1)
+fftinv(w, g)
+
+W = conj(rootsof1(4))
+g = fft(W, x^3+I*x+1)
+fftinv(W, g)
+
+N = 512; w = rootsof1(N); T = random(1000 * x^(N-1));
+U = fft(w, T);
+V = vector(N, i, subst(T, 'x, w[i]));
+exponent(V - U)
+round(Polrev(fftinv(w,U) / N)) == T
+
+w=powers(znprimroot(17),15);
+g=random(x^15*Mod(1,17));
+U=fft(w,g);
+V=fftinv(w,U)/#w;
+V==Vecrev(g)
+
+fft([1]~,[2]~)
+fftinv([1],[x])
+
+\\ Errors
+
+fft(rootsof1(3), x^2+x+1)
+fftinv(rootsof1(3), x^2+x+1)
+fft([],[])
+fftinv([],[])

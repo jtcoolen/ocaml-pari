@@ -1,0 +1,60 @@
+Function: quadunitnorm
+Section: number_theoretical
+C-Name: quadunitnorm
+Prototype: lG
+Help: quadunitnorm(D): return the norm of the fundamental unit of the
+ quadratic order of discriminant D.
+Doc: return the norm ($1$ or $-1$) of the fundamental unit of the quadratic
+ order of discriminant $D$. The integer $D$ must be congruent to $0$ or $1$
+ modulo $4$ and not a square. This is of course equal to \kbd{norm(quadunit(D))}
+ but faster.
+ \bprog
+ ? quadunitnorm(-3) \\ the result is always 1 in the imaginary case
+ %1 = 1
+ ? quadunitnorm(5)
+ %2 = -1
+ ? quadunitnorm(17345)
+ %3 = -1
+ ? u = quadunit(17345)
+ %4 = 299685042291 + 4585831442*w
+ ? norm(u)
+ %5 = -1
+ @eprog\noindent This function computes the parity of the continued fraction
+ expansion and runs in time $\tilde{O}(D^{1/2})$. If $D$ is fundamental,
+ the function \kbd{bnfinit} is asymptotically faster but depends of the GRH.
+ If $D = df^2$ is not fundamental, it will usually be faster to first compute
+ \kbd{quadunitindex}$(d, f)$. If it is even, the result is $1$, else the result
+ is \kbd{quadunitnorm}$(d)$. The narrow class number of the order of
+ discriminant $D$ is equal to the class number if the unit norm is $1$ and to
+ twice the class number otherwise.
+
+ \misctitle{Important remark} Assuming GRH, using \kbd{bnfinit} is \emph{much}
+ faster, running in time subexponential in $\log D$ (instead of exponential
+ for \kbd{quadunitnorm}). We give examples for the maximal order:
+ \bprog
+ ? GRHunitnorm(bnf) = vecprod(bnfsignunit(bnf)[,1])
+ ? bnf = bnfinit(x^2 - 17345, 1); GRHunitnorm(bnf)
+ %2 = -1
+ ? bnf = bnfinit(x^2 - nextprime(2^60), 1); GRHunitnorm(bnf)
+ time = 119 ms.
+ %3 = -1
+ ? quadunitnorm(nextprime(2^60))
+ time = 24,086 ms.
+ %4 = -1
+ @eprog\noindent Note that if the result is $-1$, it is unconditional because
+ (if GRH is false) it could happen that our tentative fundamental unit in
+ \var{bnf} is actually a power $u^k$ of the true fundamental unit, but we
+ would still have $\text{Norm}(u) = -1$ (and $k$ odd). We can also remove the
+ GRH assumption when the result is $1$ with a little more work:
+ \bprog
+ ? v = bnfunits(bnf)[1][1] \\ a unit in factored form
+ ? v[,2] %= 2;
+ ? nfeltissquare(bnf, nffactorback(bnf, v))
+ %7 = 0
+ @eprog\noindent Under GRH, we know that $v$ is the fundamental unit, but as
+ above it can be a power $u^k$ of the true fundamental unit $u$. But the
+ final two lines prove that $v$ is not a square, hence $k$ is odd and
+ $\text{Norm}(u)$ must also be $1$. We modified the factorization matrix
+ giving $v$ by reducing all exponents modulo $2$: this allows to computed
+ \kbd{nffactorback} even when the factorization involves huge exponents.
+ And of course the new $v$ is a square if and only if the original one was.

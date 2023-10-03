@@ -1,0 +1,28 @@
+Function: bnfsignunit
+Section: number_fields
+C-Name: signunits
+Prototype: G
+Help: bnfsignunit(bnf): matrix of signs of the real embeddings of the system
+ of fundamental units found by bnfinit.
+Doc: $\var{bnf}$ being as output by
+ \kbd{bnfinit}, this computes an $r_1\times(r_1+r_2-1)$ matrix having $\pm1$
+ components, giving the signs of the real embeddings of the fundamental units.
+ The following functions compute generators for the totally positive units:
+ \bprog
+ /* exponents of totally positive units generators on K.tu, K.fu */
+ tpuexpo(K)=
+ { my(M, S = bnfsignunit(K), [m,n] = matsize(S));
+   \\ m = K.r1, n = r1+r2-1
+   S = matrix(m,n, i,j, if (S[i,j] < 0, 1,0));
+   S = concat(vectorv(m,i,1), S);   \\ add sign(-1)
+   M = matkermod(S, 2);
+   if (M, mathnfmodid(M, 2), 2*matid(n+1))
+ }
+
+ /* totally positive fundamental units of bnf K */
+ tpu(K)=
+ { my(ex = tpuexpo(K)[,^1]); \\ remove ex[,1], corresponds to 1 or -1
+   my(v = concat(K.tu[2], K.fu));
+   [ nffactorback(K, v, c) | c <- ex];
+ }
+ @eprog

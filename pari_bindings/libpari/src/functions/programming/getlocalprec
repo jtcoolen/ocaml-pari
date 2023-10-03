@@ -1,0 +1,8 @@
+Function: getlocalprec
+Section: programming/specific
+C-Name: getlocalprec
+Prototype: lp
+Help: getlocalprec(): returns the current dynamic precision, in decimal
+ digits.
+Doc: returns the current dynamic precision, in decimal digits.
+ %\syn{NO}

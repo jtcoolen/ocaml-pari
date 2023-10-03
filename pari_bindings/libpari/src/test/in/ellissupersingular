@@ -1,0 +1,45 @@
+forprime(p=2,1000,if(!ellissupersingular(ellsupersingularj(p)),error(p)))
+
+p = 7; e = 5; g = ffprimroot(ffgen([p,e]));
+S = [g^n | n <- [1 .. p^e - 1], ellissupersingular(g^n)];
+if (S != [6] || ellissupersingular(0 * g^0), error("Bad result"));
+
+p = 7; e = 4; g = ffprimroot(ffgen([p,e]));
+S = [g^n | n <- [1 .. p^e - 1], ellissupersingular(g^n)];
+if (S != [6] || ellissupersingular(0 * g^0), error("Bad result"));
+S = [g^n | n <- [1 .. p^e - 1], ellissupersingular(ellinit([g^n]))];
+if (S != [6], error("Bad result"));
+if(!ellissupersingular(ellsupersingularj(g)),error("Bad result"));
+
+p = 43;
+S = [j | j <- [0 .. p - 1], ellissupersingular(Mod(j,p))];
+if (S != [8, 41], error("Bad result"));
+if(!ellissupersingular(ellsupersingularj(p)),error("Bad result"));
+
+e = 2; T = ffgen([p,2], 't);
+g = (28*T + 6); \\ Fix primitive root: always get the same ordering in S
+S = [g^n | n <- [1 .. p^e - 1], ellissupersingular(g^n)];
+if (S != [41, 8, 38*T + 31, 5*T + 36], error("Bad result"));
+if(!ellissupersingular(ellsupersingularj(T)),error("Bad result"));
+
+if([j | p<-primes(5);j<-[0..p-1],ellissupersingular(Mod(j,p))]!=[0,0,0,6,0,1],\
+  error("Bad result"));
+
+E=ellinit([1,0,1,-6,4]);
+if([ellissupersingular(E,p)|p<-primes(5)]!=[0,0,1,0,0], error("Bad result"));
+
+a4 = 66769864309396989186219319899455305602854066404762376449738762528262768931769607684129276313553;
+a6 = 348116536806166027198165409499561123661407423910749290282025451118909597813412918432599467486475;
+p  = 512458910477613158057639788896927028629704334700832943238108853005887899986044384024365532075481;
+E = ellinit([a4,a6],p);
+if(ellissupersingular(E),error("Bad result"));
+if(!ellissupersingular(ellsupersingularj(p)),error("Bad result"));
+
+iferr(ellissupersingular(""), err, Vec(err));
+
+K = nfinit(y^3-2);
+f(E,p) = [ ellissupersingular(E, P) | P <- idealprimedec(E.nf,p) ];
+
+P = [2,3,5,47,53,59]
+E = ellinit([y,1],K); [f(E,p) | p <- P]
+E = ellinit([1,y,1,y,y+1],K); [f(E,p) | p <- P]

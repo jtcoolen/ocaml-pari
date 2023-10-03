@@ -1,0 +1,8 @@
+Function: algdivr
+Section: algebras
+C-Name: algdivr
+Prototype: DGGG
+Help: algdivr({al},x,y): element x/y in al (Hamilton quaternions if omitted).
+Doc: Given two elements $x$ and $y$ in \var{al} (Hamilton quaternions if
+ omitted), returns $xy^{-1}$. Also accepts square matrices with coefficients in
+ \var{al}.

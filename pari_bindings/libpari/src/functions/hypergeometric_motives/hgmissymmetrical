@@ -1,0 +1,23 @@
+Function: hgmissymmetrical
+Section: hypergeometric_motives
+C-Name: hgmissymmetrical
+Prototype: lG
+Help: hgmissymmetrical(H): is the hypergeometric motive template H symmetrical
+ at t=1?
+Doc:  is the hypergeometric motive template $H$ symmetrical
+ at $t=1$? This means that the $\alpha_j$ and $\beta_k$ defining the template
+ are obtained from one another by adding $1/2$ (modulo $1$), see
+ \kbd{hgmtwist}.
+ \bprog
+ ? H = hgminit([2,2]);
+ ? hgmalpha(H)
+ %2 = [[1/2, 1/2], [0, 0]]
+ ? hgmissymmetrical(H)
+ %3 = 1 \\ this template is symmetrical
+
+ ? H = hgminit([5]);
+ ? hgmalpha(H)
+ %5 = [[1/5, 2/5, 3/5, 4/5], [0, 0, 0, 0]]
+ ? hgmissymmetrical(H)
+ %6 = 1 \\ this one is not
+ @eprog

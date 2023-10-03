@@ -1,0 +1,10 @@
+/O*
+/Makefile*
+/data
+/.pc
+/patches
+/gp
+/gp.dbg
+/gp.prf
+/gp.gcov
+/tune

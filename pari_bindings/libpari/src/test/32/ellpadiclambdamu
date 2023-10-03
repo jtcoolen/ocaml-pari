@@ -1,0 +1,68 @@
+  ***   Warning: new stack size = 12000000 (11.444 Mbytes).
+[[8, 4], [0, 0]]
+[[2, 4], [0, 0]]
+[[8, 4], [0, 0]]
+[[8, 6], [0, 0]]
+[[8, 4], [0, 0]]
+[[10, 4], [0, 0]]
+[[3, 1], [0, 0]]
+[[2, 4], [0, 0]]
+[[4, 2], [0, 0]]
+[[2, 6], [0, 0]]
+[[7, 1], [0, 0]]
+[[3, 1], [0, 0]]
+[[1, 1], [0, 0]]
+[[1, 9], [0, 0]]
+[[7, 5], [0, 0]]
+[[8, 4], [0, 0]]
+[[2, 2], [0, 0]]
+[[3, 3], [0, 0]]
+[[9, 3], [0, 0]]
+[[3, 11], [0, 0]]
+[[2, 2], [0, 0]]
+[[7, 5], [0, 0]]
+[[3, 1], [0, 0]]
+[[1, 3], [0, 0]]
+[[6, 2], [0, 0]]
+[[2, 5], [0, 0]]
+[[0, 0], [0, 0]]
+[[0, 0], [0, 0]]
+[[1, 3], [0, 0]]
+[[0, 7], [0, 0]]
+[2, 0]
+[0, 0]
+[1, 0]
+[0, 1]
+[0, 0]
+[2, 0]
+[1, 0]
+[1, 0]
+[4, 0]
+[0, 0]
+[1, 0]
+[1, 0]
+[2, 0]
+[4, 0]
+[2, 0]
+[0, 0]
+[2, 0]
+[0, 0]
+[0, 1]
+[0, 2]
+[0, 0]
+  ***   at top-level: lambdamu(E20a1,2)
+  ***                 ^-----------------
+  ***   in function lambdamu: ellpadiclambdamu(e,p,d,i)
+  ***                         ^-------------------------
+  *** ellpadiclambdamu: sorry, additive reduction in ellpadiclambdamu is not yet implemented.
+  ***   at top-level: lambdamu(E20a1,3,2)
+  ***                 ^-------------------
+  ***   in function lambdamu: ellpadiclambdamu(e,p,d,i)
+  ***                         ^-------------------------
+  *** ellpadiclambdamu: domain error in ellpadiclambdamu: isfundamental(D) = 0
+  ***   at top-level: lambdamu(ellinit([1,1],5),5)
+  ***                 ^----------------------------
+  ***   in function lambdamu: ellpadiclambdamu(e,p,d,i)
+  ***                         ^-------------------------
+  *** ellpadiclambdamu: incorrect type in ellpadiclambdamu (t_VEC).
+Total time spent: 843

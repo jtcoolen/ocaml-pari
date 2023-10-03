@@ -1,0 +1,16 @@
+Function: plot
+Section: graphic
+C-Name: pariplot0
+Prototype: vV=GGEDGDGp
+Wrapper: (,,G)
+Description:
+  (gen,gen,gen,?gen,?gen):void:prec pariplot(${3 cookie}, ${3 wrapper}, $1, $2, $4, $5, $prec)
+Help: plot(X=a,b,expr,{Ymin},{Ymax}): crude plot of expression expr, X goes
+ from a to b, with Y ranging from Ymin to Ymax. If Ymin (resp. Ymax) is not
+ given, the minimum (resp. the maximum) of the expression is used instead.
+Doc: crude ASCII plot of the function represented by expression \var{expr}
+ from $a$ to $b$, with \var{Y} ranging from \var{Ymin} to \var{Ymax}. If
+ \var{Ymin} (resp. \var{Ymax}) is not given, the minimum (resp. the maximum)
+ of the computed values of the expression is used instead.
+
+ \synt{pariplot}{void *E, GEN (*eval)(void*, GEN), GEN a, GEN b, GEN ymin, GEN ymax, long prec}

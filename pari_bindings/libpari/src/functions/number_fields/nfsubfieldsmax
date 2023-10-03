@@ -1,0 +1,12 @@
+Function: nfsubfieldsmax
+Section: number_fields
+C-Name: nfsubfieldsmax
+Prototype: GD0,L,
+Help: nfsubfieldsmax(nf,{fl=0}): compute the list of maximal subfields of nf.
+ Result is as in nfsubfields.
+Doc: Compute the list of maximal subfields of \var{nf}. The result is a vector
+ as in \tet{nfsubfields}.
+
+ An input of the form~\kbd{[nf, fa]} is also allowed, where~\kbd{fa} is the
+ factorisation of~\var{nf.pol} over~\var{nf}, and~\var{nf} is also allowed to
+ be a monic defining polynomial for the number field.

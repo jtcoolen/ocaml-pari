@@ -1,0 +1,54 @@
+Function: factormodcyclo
+Section: number_theoretical
+C-Name: factormodcyclo
+Prototype: LGD0,L,Dn
+Help: factormodcyclo(n, p, {single=0}, {v='x}): factor n-th
+ cyclotomic polynomial mod p.
+Doc: Factors $n$-th cyclotomic polynomial $\Phi_n(x)$ mod $p$,
+ where $p$ is a prime number not dividing $n$.
+ Much faster than \kbd{factormod(polcyclo(n), p)}; the irreducible
+ factors should be identical and given in the same order.
+ If \var{single} is set, return a single irreducible factor; else (default)
+ return all the irreducible factors. Note that repeated calls of this
+ function with the \var{single} flag set may return different results because
+ the algorithm is probabilistic. Algorithms used are as follows.
+
+ Let $F=\Q(\zeta_n)$. Let $K$ be the splitting field of $p$ in $F$ and $e$ the
+ conductor of $K$. Then $\Phi_n(x)$ and $\Phi_e(x)$ have the same
+ number of irreducible factors mod $p$ and there is a simple algorithm
+ constructing irreducible factors of $\Phi_n(x)$ from irreducible
+ factors of $\Phi_e(x)$. So we may assume $n$ is equal to the
+ conductor of $K$.
+ Let $d$ be the order of $p$ in $(\Z/n\Z)^{\times}$ and $\varphi(n)=df$.
+ Then $\Phi_n(x)$ has $f$ irreducible factors $g_i(x)\;(1\leq i\leq f)$
+ of degree $d$ over $\F_p$ or $\Z_p$.
+
+ \item If $d$ is small, then we factor $g_i(x)$ into
+ $d$ linear factors $g_{ij}(x)$, $1\leq j\leq d$ in $\F_q[x]\;(q=p^d)$ and
+ construct $G_i(x)=\prod_{j=1}^d g_{ij}(x)\in \F_q[x]$.
+ Then $G_i(x)\in\F_p[x]$ and $g_i(x)=G_i(x)$.
+
+ \item If $f$ is small, then we work in $K$, which is a Galois extension of
+ degree $f$ over $\Q$. The Gaussian period
+ $\theta_k=\text{Tr}_{F/K}(\zeta_n^{k})$ is a sum of $k$-th power of roots of
+ $g_i(x)$ and $K=\Q(\theta_1)$.
+
+ Now, for each $k$, there is a polynomial $T_k(x)\in\Q[x]$ satisfying
+ $\theta_k=T_k(\theta_1)$ because all $\theta_k$ are in $K$. Let $T(x)\in\Z[x]$
+ be the minimal polynomial of $\theta_1$ over $\Q$. We get $\theta_1$ mod $p$
+ from $T(x)$ and construct $\theta_1,\cdots,\theta_d$ mod $p$ using $T_k(x)$.
+ Finally we recover $g_i(x)$ from $\theta_1,\cdots,\theta_d$ by Newton's
+ formula.
+
+ \bprog
+ ? lift(factormodcyclo(15, 11))
+ %1 = [x^2 + 9*x + 4, x^2 + 4*x + 5, x^2 + 3*x + 9, x^2 + 5*x + 3]
+ ? factormodcyclo(15, 11, 1) \\ single
+ %2 = Mod(1, 11)*x^2 + Mod(5, 11)*x + Mod(3, 11)
+ ? z1 = lift(factormod(polcyclo(12345),11311)[,1]);
+ time = 32,498 ms.
+ ? z2 = factormodcyclo(12345,11311);
+ time = 47 ms.
+ ? z1 == z2
+ %4 = 1
+ @eprog

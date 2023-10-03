@@ -1,0 +1,14 @@
+\p115
+bestappr(intnumosc(x=0,sinc(x),Pi,1)/Pi,10^8)
+vector(10,n,bestappr(intnumosc(x=0,sinc(x)^n,Pi)/Pi,10^8))
+vector(8,n,bestappr(intnumosc(x=0,sinc(x)^(n+2),Pi,2)/Pi,10^8))
+
+print("1:");
+exponent(intnumosc(x=0,besselj(0,x)*sin(2*x),Pi)-1/sqrt(3))
+exponent(intnumosc(x=0,besselj(0,x)*sin(2*x),Pi,2)-1/sqrt(3))
+
+print("2:");
+exponent(intnumosc(x=0,besselj(0,x)*sin(3*x),Pi)-1/sqrt(8))
+
+print("3:");
+exponent(intnumosc(t=1,frac(t)^2/t^2,1)-(log(2*Pi)-Euler-1))

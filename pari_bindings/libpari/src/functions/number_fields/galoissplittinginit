@@ -1,0 +1,9 @@
+Function: galoissplittinginit
+Section: number_fields
+C-Name: galoissplittinginit
+Prototype: GDG
+Help: galoissplittinginit(P,{d}): Galois group over Q of the splitting field of
+ P, for P integral, monic and irreducible or given by a nf structure. If d is given, it must be a multiple of the splitting field degree. The output is compatible with functions expecting a galoisinit structure.
+Doc: compute the Galois group over $Q$ of the splitting field of $P$, that is the smallest field over which $P$ is totally split. $P$ is assumed to be integral, monic and irreducible; it can also be given by a \kbd{nf} structure. If $d$ is given, it must be a multiple of
+ the splitting field degree. The output is compatible with functions expecting
+ a \kbd{galoisinit} structure.

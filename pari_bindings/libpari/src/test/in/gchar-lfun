@@ -1,0 +1,350 @@
+default(parisize,"78M"); \\ overflows 76M
+lfunrobustcheckfeq(ldata) = {
+  my(bit = getlocalbitprec(), extrabit = 0);
+  while(1,
+    localbitprec(bit + extrabit);
+    my(t = lfuntheta(ldata, 3/Pi));
+    if (exponent(t) + extrabit >= 0,
+      return (lfuncheckfeq(ldata, 3/Pi)));
+    extrabit = -exponent(t)+5);
+}
+
+print("Watkins 6.3");
+bnf = bnfinit(polcyclo(5),1);
+pr = idealadd(bnf,5,x-1);
+gc1 = gcharinit(bnf,idealpow(bnf,pr,2));
+{c = gcharidentify(gc1,[1,2],[
+  [4,172.18925621407521183008840153751455639],
+  [3,-172.18925621407521183008840153751455639]
+])};
+gcharconductor(gc1,c)
+gcharconductor(gc1,5*c)
+gcharconductor(gc1,20*c)
+J = idealprimedec(bnf,163)[1];
+bestappr(gchareval(gc1,c,J),10^6)
+dec = idealprimedec(bnf,11);
+t1 = dec[3];
+t2 = dec[4];
+t3 = dec[2];
+t4 = dec[1];
+exponent(nfeltembed(bnf,x) - [exp(2*I*Pi*2/5),exp(2*I*Pi/5)]) < -100
+[chi] = gcharalgebraic(gc1,[[1,2],[3,0]]);
+chi[#chi]
+round(10^10*gchareval(gc1,chi,t1))
+round(10^10*gchareval(gc1,chi,t3))
+exponent(gchareval(gc1,chi,t4)/conj(gchareval(gc1,chi,t1)) - 1) < -100
+exponent(gchareval(gc1,chi,t3)/conj(gchareval(gc1,chi,t2)) - 1) < -100
+L = lfuncreate([gc1,chi]);
+lfunparams(L)
+lfunrootres(L)[3] == 1
+{exponent(lfun(L,2) -
+  gamma(1/5)^3*gamma(2/5)^3/(5^(7/2)*gamma(3/5)^2*gamma(4/5)^2))
+  < -100}
+gcharalgebraic(gcharinit(bnf,1),[[2,1],[3,0]])
+gc = gcharinit(bnf,pr);
+[chi] = gcharalgebraic(gc,[[2,1],[3,0]]);
+chi[#chi]
+L = lfuncreate([gc,chi]);
+lfunparams(L)
+lfunrootres(L)[3] == 1
+{exponent(lfun(L,2) -
+  Pi*gamma(1/5)^(7/2)*gamma(3/5)^(1/2)/
+  (5^(15/4)*gamma(4/5)^(7/2)*gamma(2/5)^(1/2)))
+  < -100}
+gc2 = gcharinit(bnf,idealpow(bnf,pr,2));
+c = gcharidentify(gc2,[1,2],[[-1,0],[3,0]]);
+c=concat(c,-3/2);
+gcharconductor(gc2,c)
+t = idealadd(bnf,11,x-5);
+bestappr(gchareval(gc2,c,t),10^6)
+LL = lfuncreate([gc2,c]);
+lfuncheckfeq(LL) + 110 < 0
+{c = gcharidentify(gc2,[1,2],[
+  [0,-1.6321256513182484533657668392181474539],
+  [0,1.6321256513182484533657668392181474539]
+])};
+gcharconductor(gc2,c)
+gcharconductor(gc2,4*c)
+
+print("Watkins 3.7 & 6.1");
+bnf = bnfinit(x^2+23);
+gc = gcharinit(bnf,1);
+pr = idealprimedec(bnf,31)[2];
+c0 = gcharidentify(gc,[1,pr],[[0,0],1/3]); /* class group char, order 3 */
+J = idealprimedec(bnf,23)[1];
+bestappr(gchareval(gc,c0,J),10^6)
+p = nextprime(1010);
+J = idealadd(bnf,p,x-459);
+bestappr(gchareval(gc,c0,J),10^6)
+bestappr(gchareval(gc,c0,J)^3,10^6)
+l0=lfuncreate([gc,c0]);
+lfuncheckfeq(l0) + 110 < 0
+gcharconductor(gc,c0)
+round(10^10*lfun(l0,1))
+
+print("c of infinity type (2,0)");
+c1 = gcharidentify(gc,[1,pr],[[2,0],0.32447859496968861348669094505138887338]);
+c2 = c1+c0;
+c3 = c1+2*c0;
+J = idealadd(bnf, 1013, x-459);
+bestappr(gchareval(gc,c1,J),10^6)
+bestappr(gchareval(gc,c2,J),10^6)
+bestappr(gchareval(gc,c3,J),10^6)
+J = idealprimedec(bnf,23)[1];
+bestappr(gchareval(gc,c1,J),10^6)
+bestappr(gchareval(gc,c2,J),10^6)
+bestappr(gchareval(gc,c3,J),10^6)
+J = idealadd(bnf, 10007, x-4917);
+bestappr(gchareval(gc,c1,J),10^6)
+bestappr(gchareval(gc,c2,J),10^6)
+bestappr(gchareval(gc,c3,J),10^6)
+l1=lfuncreate([gc,c1]);
+lfuncheckfeq(l1) + 110 < 0
+l2=lfuncreate([gc,c2]);
+l3=lfuncreate([gc,c3]);
+lfun(l1,1)*lfun(l2,1)*lfun(l3,1);
+gcharconductor(gc,c1)
+gcharconductor(gc,c2)
+gcharconductor(gc,c3)
+[chi] = gcharalgebraic(gc,[[2,0]])
+ps = [1,0,0]~;
+v1 = lfun([gc,chi+2*ps],2); round(10^10*v1)
+v2 = lfun([gc,chi],2); round(10^10*v2)
+v3 = lfun([gc,chi+ps],2); round(10^10*v3)
+{exponent(v1*v2*v3 -
+  Pi^3/(23^3*3*sqrt(23))*prod(i=1,22,gamma(i/23)^kronecker(i,23)))
+  < -100
+}
+exponent(v1*v2*v3 - Pi^2/5*lfun([gc,3*chi],4)) < -100
+p23 = idealprimedec(bnf,23)[1];
+round(10^10*gchareval(gc,chi,p23))
+lfunrootres(lfuncreate([gc,chi]))[3] == 1
+
+print("Watkins examples 6.2");
+bnf = bnfinit(x^2+59);
+p59 = idealprimedec(bnf,59)[1];
+p3 = idealismaximal(bnf,idealadd(bnf,3,(x+1)/2));
+gc = gcharinit(bnf,p59);
+chi0 = gcharidentify(gc,[1,p3],[[-3,0],-0.36762114624267865716245886781141036535]);
+chi = concat(chi0,-3/2);
+gcharisalgebraic(gc,chi,&pq)
+pq
+L = lfuncreate([gc,chi]);
+lfunparams(L)
+lfunrootres(L)[3] == 1
+round(10^30*lfun(L,2)) == 0
+round(10^30*lfun(L,2,1)) == 0
+round(10^20*lfun(L,2,2))
+
+print("S intersects mod");
+pol = x^3 + 4*x - 1;
+K = bnfinit(pol);
+pr2 = idealprimedec(K, 2)[1];
+N1 = idealpow(K,pr2,2);
+gc1 = gcharinit(K,N1);
+pr = idealprimedec(K, 31)[1];
+c1 = gcharidentify(gc1,[2,pr],[[0,0],1/2]);
+{c3 = gcharidentify(gc1,[2,pr],[
+  [0,2.2418452596254755362005770232711966272],
+  -0.45978232175146932821099066000626766106
+])};
+{c4 = gcharidentify(gc1,[2,pr],[
+  [1,-0.58227723543626532811523658572496519901],
+  0.16449709689005690003280624571231977687
+])};
+J = idealhnf(K,29);
+bestappr(gchareval(gc1,c1,J),10^6)
+bestappr(gchareval(gc1,c3,J),10^6)
+bestappr(gchareval(gc1,c4,J),10^6)
+J = idealadd(K, 31, x+7);
+bestappr(gchareval(gc1,c1,J),10^6)
+bestappr(gchareval(gc1,c3,J),10^6)
+bestappr(gchareval(gc1,c4,J),10^6)
+J = idealadd(K, 37, x^2+7*x+16);
+bestappr(gchareval(gc1,c1,J),10^6)
+bestappr(gchareval(gc1,c3,J),10^6)
+bestappr(gchareval(gc1,c4,J),10^6)
+lfuncheckfeq(lfuncreate([gc1,c1])) + 110 < 0
+lfuncheckfeq(lfuncreate([gc1,c3])) + 100 < 0
+lfuncheckfeq(lfuncreate([gc1,c4])) + 100 < 0
+gcharconductor(gc1,c1)
+gcharconductor(gc1,c3)
+gcharconductor(gc1,c4)
+gcharconductor(gc1,2*c4)
+
+print("billtest");
+K = bnfinit(x^3 - x^2 - 2*x + 1,1);
+gc1 = gcharinit(K,1);
+{chi1 = gcharidentify(gc1,[1,2],[
+  [0,-1.4673521224309881879754400022419048262],
+  [0,-4.1066886637013372713813245582861326619]
+])};
+gcharconductor(gc1,chi1)
+L1 = lfuncreate([gc1,chi1]);
+lfuncheckfeq(L1) + 100 < 0
+gc2 = gcharinit(K, [1, [1,1,0]]);
+{chi2 = gcharidentify(gc2,[1,2],[
+  [1,0.73367606121549409398772000112095241311],
+  [1,2.0533443318506686356906622791430663310]
+])};
+L2 = lfuncreate([gc2,chi2]);
+gcharconductor(gc2,chi2)
+gcharconductor(gc2,2*chi2)
+lfuncheckfeq(L2) + 100 < 0
+L2 = lfuncreate([gc2,2*chi2]);
+lfuncheckfeq(L2) + 100 < 0
+gc3 = gcharinit(K,[4,[1,1,1]]);
+{chi3 = gcharidentify(gc3,[1,2,3],[
+  [1,2.0533443318506686356906622791430663310],
+  [1,-2.7870203930661627296783822802640187441],
+  [1,0.73367606121549409398772000112095241312]
+])};
+L3 = lfuncreate([gc3,chi3]);
+gcharconductor(gc3,chi3)
+gcharconductor(gc3,2*chi3)
+lfuncheckfeq(L3) + 100 < 0
+L3b = lfuncreate([gc3,concat(chi3,[1])]);
+lfuncheckfeq(L3b) + 100 < 0
+{chi4 = gcharidentify(gc3,[1,2,3],[
+  [1,4.1066886637013372713813245582861326619],
+  [1,-5.5740407861323254593567645605280374882],
+  [1,1.4673521224309881879754400022419048262]
+])};
+gcharconductor(gc3,chi4)
+gcharconductor(gc3,2*chi4)
+L4 = lfuncreate([gc3,chi4]);
+lfunrobustcheckfeq(L4) + 120 < 0
+
+print("L function with imaginary shifts");
+\\[gc,chi]=gcharfromlabel("4.2.507.1/1.1/3/1.0.0")
+gc = gcharinit(x^4 - x^3 - x^2 - x + 1,[1,[1,1]]);
+round(gc.cyc)
+{chi1 = gcharidentify(gc,[1,3],[
+  [1,-1.3147344210693290321693125780535053706],
+  [0,1.3147344210693290321693125780535053706]
+])};
+lfuncheckfeq([gc,chi1]) < -100
+{chi2 = gcharidentify(gc,[1,3],[
+  [0,-7.0946607083506471720248332314490400999],
+  [0,1.3147344210693290321693125780535053706]
+])};
+lfunrobustcheckfeq([gc,chi2]) < -105
+{chi3 = gcharidentify(gc,[1,3],[
+  [0,2.7549396985213395830142521579776520629],
+  [1,-0.65736721053466451608465628902675268531]
+])};
+lfuncheckfeq([gc,chi3]) < -100
+lfunrobustcheckfeq([gc,10*chi1-chi2]) < -90 /* FIXME: precision loss */
+
+
+print("need to increase prec II");
+pol = x^4 - 2*x^3 + 5*x^2 - 2*x - 1;
+bnf = bnfinit(pol);
+N = (2*5)^2;
+gc = gcharinit(bnf,N);
+pr1 = idealprimedec(bnf,101)[1];
+pr2 = idealprimedec(bnf,103)[1];
+pr3 = idealprimedec(bnf,107)[1];
+{chi = gcharidentify(gc,[1,2,3,pr1,pr2,pr3],[
+  [0,-0.35297367876409751322089068292993762448],
+  [0,-0.041073660200364481585974033215524566169],
+  [0,0.39404733896446199480686471614546219065],
+  -0.40535854092646927907556107107771780521,
+  0.24130145922641757913465361319347185751,
+  0.49348754119067815440785147793690542365
+])};
+pr4 = idealadd(bnf, 127, x-53);
+bestappr(gchareval(gc,chi,pr4,0),10^6)
+gcharconductor(gc,chi)
+L=lfuncreate([gc,chi]); \\L[3..5]
+lfuncheckfeq(L) < -100
+
+
+print("bug");
+bnf = bnfinit(y,1);
+gc = gcharinit(bnf,2^5*3^2);
+/* FIXME workaround bug 2335 */
+localbitprec(gc[8][1][2]*64);gc[2][7][6] = [0.];
+p1 = idealprimedec(bnf,101)[1];
+p2 = idealprimedec(bnf,127)[1];
+c = gcharidentify(gc,[p1,p2],[1/4,0]);
+print(gcharconductor(gc,c));
+L = lfuncreate([gc,c]);
+lfunrobustcheckfeq(L)+120<0
+c = gcharidentify(gc,[p1,p2],[3/8,0]);
+print(gcharconductor(gc,c));
+L = lfuncreate([gc,c]);
+lfunrobustcheckfeq(L)+120 < 0
+c = gcharidentify(gc,[p1,p2],[1/24,-1/2]);
+print(gcharconductor(gc,c));
+L = lfuncreate([gc,c]);
+lfunrobustcheckfeq(L)+120<0
+
+bnf = bnfinit(y^2-5);
+N = idealadd(bnf, 10, y+5);
+gc = gcharinit(bnf,N);
+c = gcharidentify(gc,[1],[[0,-1.0880837675454989689105112261454316359]]);
+L = lfuncreate([gc,c]);
+round(gchareval(gc,c,3))
+lfunrobustcheckfeq(L)+120<0
+N = idealadd(bnf, 142, y+125);
+gc = gcharinit(bnf,N);
+
+print("bug from Atelier demo");
+bnf = bnfinit(x^2+5,1);
+gc = gcharinit(bnf,1);
+chi = [1,0,-1]~;
+L = lfuncreate([gc,chi]);
+round(lfunan(L,5))
+
+print("norm component fix");
+bnf = bnfinit(x^2-5);
+gc = gcharinit(bnf,1);
+chi = [1,-1]~;
+L = lfuncreate([gc,chi]);
+round(10^6*lfunparams(L))
+round(lfunan(L,10))
+
+print("over Q");
+bnf = bnfinit(y,1);
+gc = gcharinit(bnf,1);
+chi = [1]~;
+L = lfuncreate([gc,chi]);
+lfunparams(L)
+lfunan(L,10)
+lfuncheckfeq(L) < -100
+gc = gcharinit(bnf,4);
+chi = [1]~;
+L = lfuncreate([gc,chi]);
+lfunparams(L)
+lfunan(L,10)
+lfuncheckfeq(L) < -100
+gc = gcharinit(bnf,60);
+chi = [0,0,1]~;
+L = lfuncreate([gc,chi]);
+lfunparams(L)
+lfunan(L,10)
+lfuncheckfeq(L) < -100
+
+print("shifted zeta_K");
+bnf = bnfinit(x^2-5,1);
+gc = gcharinit(bnf,1);
+chi = [0,1]~;
+L = lfuncreate([gc,chi]);
+lfunparams(L)
+lfunan(L,10)
+lfuncheckfeq(L) < -100
+gc = gcharinit(bnf,60);
+chi = [0,0,0,1]~;
+L = lfuncreate([gc,chi]);
+lfunparams(L)
+lfunan(L,10)
+lfuncheckfeq(L) < -100
+
+print("bad inputs");
+bnf = bnfinit(x^4 - x^3 + 3*x^2 + 2*x + 1, 1);
+gc = gcharinit(bnf, 1);
+lfuncreate([gc,[1]~]);
+lfuncreate([gc,[1,0,0,'x]~]);
+lfuncreate([gc,[1,0,0,0,I]~]);
+\\don't put tests after the errors

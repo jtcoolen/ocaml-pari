@@ -1,0 +1,24 @@
+Function: strchr
+Section: programming/specific
+C-Name: pari_strchr
+Prototype: G
+Help: strchr(x): converts integer or vector of integers x to a string,
+ translating each integer into a character using ASCII encoding.
+Doc: converts integer or vector of integers $x$ to a string, translating each
+ integer (in the range $[1,255]$) into a character using ASCII encoding.
+ \bprog
+ ? strchr(97)
+ %1 = "a"
+ ? Vecsmall("hello world")
+ %2 = Vecsmall([104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100])
+ ? strchr(%)
+ %3 = "hello world"
+ @eprog
+
+Function: Strchr
+Section: programming/specific
+C-Name: pari_strchr
+Prototype: G
+Obsolete: 2018-10-01
+Help: Strchr(x): deprecated alias for strchr.
+Doc: deprecated alias for strchr.

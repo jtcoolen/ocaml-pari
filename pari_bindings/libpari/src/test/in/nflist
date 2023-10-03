@@ -1,0 +1,130 @@
+default(parisize,"22M"); \\ overflows 20M
+
+do(G, lim)=
+{ my(B = [1, 10^lim], field, D, v, T);
+  print("group = ",G);
+  nflist(G,1);
+  nflist(G,1,0);
+  nflist(G,1,1);
+  nflist(G,1,2);
+  nflist(G,1,-2);
+  v = nflist(G,B,-2);
+  print(apply(length,v));
+  print(vector(#v, i, #nflist(G,B,i-1)));
+  v = concat(v); if (!#v, return);
+  T = v[1];
+  print([field,cond]=nfresolvent(T,1));
+  print(nfresolvent(T,2));
+  v = nflist(G,B,,field);
+  if (G == "D4", v = apply(polredabs,v)); \\ avoid 32 bit difference
+  print(if (#v > 10, #v, v));
+  print(D = abs(nfdisc(T)));
+  print(nflist(G,D));
+  print(nflist(G,D,,field));
+}
+
+{ vG=[
+  ["C1",1],
+  ["C2",4],
+  ["C3",10],["S3",4],
+  ["C4",8],["V4",8],["D4",3],["A4",5],["S4",3.85],
+  ["C5",10],["D5",4],["F5",5],
+  ["C6",10],[[6,2],8],[[6,3],5],[[6,4],7],[[6,5],5],[[6,6],6],[[6,7],5],
+     [[6,8],6],[[6,9],5.5],[[6,10],6],[[6,11],5],[[6,13],4.5],
+  ["C7",15],["D7",6],["M21",9],["M42",6],
+  ["C9",12],[[9,2],12],["D9",9],
+  ["C11",17],["D11",10]
+];}
+
+for(i=1,#vG,my([GP,lim]=vG[i]); do(GP,lim));
+nflist([11,1], 41426511213649)
+
+nfresolvent(x)
+T=x^5-x^4+2*x^2-2*x+2; nfresolvent(T)
+T=polsubcyclo(53,13); nfresolvent(T,1)
+T=x^13-x^12-50*x^11+25*x^10+722*x^9-226*x^8-4207*x^7+1158*x^6+10465*x^5-2535*x^4-9399*x^3+1079*x^2+1316*x-49; nfresolvent(T,1)
+T=x^4+14*x^2+1; nfresolvent(T,3)
+T=x^7-8*x^5-2*x^4+16*x^3+6*x^2-6*x-2;nfresolvent(T,3)
+T=x^7-2;nfresolvent(T,3)
+T=x^7-2*x^6-2*x^5+x^4+6*x^3-x-4;nfresolvent(T,3)
+T=x^6+2*x^5-9*x^4-14*x^3+10*x^2+8*x+1;nfresolvent(T)
+nfresolvent(T,3)
+T=x^6-3*x^5+7*x^4-9*x^3+7*x^2-3*x+1;nfresolvent(T,3)
+T=x^9-15*x^7-4*x^6+54*x^5+12*x^4-38*x^3-9*x^2+6*x+1;nfresolvent(T,3)
+nfresolvent(x^5-x-1)
+nfresolvent(x^9-6669*x^7-40014*x^6+13304655*x^5+124923708*x^4-7296039387*x^3-42603746094*x^2+931129781400*x+6414841742400)
+
+\\ regression tests
+nflist("C2",[3.5,4.5])
+nflist("D5",10^6)
+nflist("D5",[717000,717409],2)
+nflist("D5",6250000)
+#nflist("D4",[201,1000])
+#nflist("C6",[1,10^10],,x^2-2)
+nflist("C6",16807,-2)
+nflist("C2",125,-2)
+nflist("C4",8000,-2)
+nflist("S3",756,-2)
+nflist("S3",,-2)
+nflist("S4",193)
+nflist("F5",2382032,-2)
+nflist([6,3],91125,-2)
+nflist("C9",31381059609,-2)
+nflist("D9",775511104,-2)
+nflist("D9",6740083091889)
+#nflist([6,6],[100000,150000])
+#nflist([6,11],[20000,30000])
+#nflist([6,11],[1,100])
+#nflist([6,10],[802816, 2175624])
+nflist("D2")
+nflist("D3")
+#nflist("C4", [5000,10000], 0)
+nflist("C4",0)
+nflist("C4",[0,0])
+nflist("C2",2^64+1)
+nflist("C2",2^64+3)
+nflist("C2",2^64)
+nflist("C2",2^64+4)
+nflist("C2",2^64+8)
+nflist("C2",2^64+12)
+nflist("C4",(2^64+1)^3)
+nflist("C4",(2^64+8)^3)
+nflist("C4",2^192)
+nflist("D4",100,,x^2+1)
+nflist("D4",21^2,,x^2+x+1)
+nflist("A4",[1,10^4],,x^3-x-1)
+nflist("C6",1229312,,x^3-x^2-2*x+1)
+nflist("C6",[1229312,2*10^6],,x^3-x^2-2*x+1)
+nflist([6,2],29791,,x^2-x+8)
+nflist([6,2],[29791,30000],,x^2-x+8)
+nflist([6,3],[1,10^5],,x^3+x-1)
+nflist([6,7],[52441,52442])
+nflist("S4",404*(37*43*97)^2,,x^3-x^2-5*x-1)
+nflist("S4",404*(11*43*97)^2,,x^3-x^2-5*x-1)
+nflist("S4",7537*(13*37*79)^2,,x^3-7*x^2-8*x+1)
+nflist("S3",2673)
+
+nflist("C11",,-2)
+nflist([5,3],,-2)
+nflist("C1")
+nflist("C3")
+nflist("C4")
+nflist("V4")
+#nflist("D4")
+nflist("A4")
+nflist("S4")
+nflist("C5")
+nflist("D5")
+nflist("F5")
+
+\\ ERRORS
+nflist("S3",-1)
+nflist("S3",[-1,2])
+nflist("S3",[1,-2])
+nflist("S5")
+nflist([10,1])
+nflist([9,9])
+nflist([11,3])
+nflist("M21",[1,10^4],,x)
+nflist("C3",x)
+nflist("C3",[x])

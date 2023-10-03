@@ -1,0 +1,16 @@
+Function: algpow
+Section: algebras
+C-Name: algpow
+Prototype: DGGG
+Help: algpow({al},x,n): element x^n in al (Hamilton quaternions if omitted).
+Doc: Given an element $x$ in \var{al} (Hamilton quaternions if omitted) and an
+ integer $n$, computes the power $x^n$ in the algebra \var{al}.
+ \bprog
+ ? A = alginit(nfinit(y), [-1,-1]);
+ ? algpow(A,[1,1,0,0]~,7)
+ %2 = [8, -8, 0, 0]~
+ ? algpow(,[1,2,3,sqrt(3)]~,-3) \\Hamilton quaternions
+ % = [-0.0095664563, 0.0052920822, 0.0079381233, 0.0045830776]~
+ @eprog
+
+ Also accepts a square matrix with coefficients in \var{al}.

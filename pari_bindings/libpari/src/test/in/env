@@ -1,0 +1,5 @@
+strexpand("~root")
+#strexpand("~") > 1
+strexpand("$AAA, $BBB, $AAA")
+getenv("AAA")
+getenv("__DOES_NOT_EXIST__")

@@ -1,0 +1,64 @@
+Function: ellisomat
+Section: elliptic_curves
+C-Name: ellisomat
+Prototype: GD0,L,D0,L,
+Help: ellisomat(E, {p=0}, {fl=0}): E being an elliptic curve over a number
+ field K, return a list of representatives of the isomorphism classes of
+ elliptic curves defined over K and K-isogenous to E, with the corresponding
+ isogenies from E and their dual, and the matrix of the isogeny degrees between
+ the curves. If the flag fl is 1, the isogenies are not computed, which saves
+ time. If p is set, it must be a prime number: in this case only isogenies of
+ degree a power of p are considered.
+Doc:
+ Given an elliptic curve $E$ defined over a number field $K$, compute
+ representatives of the isomorphism classes of elliptic curves defined over
+ $K$ and $K$-isogenous to $E$, assuming it is finite (see below).
+ For any such curve $E_i$, let $f_i: E \to E_i$ be a rational isogeny
+ of minimal degree and let $g_i: E_i \to E$ be the dual isogeny; and let $M$
+ be the matrix such that $M_{i,j}$ is the minimal degree for an isogeny $E_i
+ \to E_j$.
+
+ The function returns a vector $[L,M]$ where $L$ is a list of triples
+ $[E_i, f_i, g_i]$ ($\fl = 0$), or simply the list of $E_i$ ($\fl = 1$,
+ which saves time). The curves $E_i$ are given in $[a_4,a_6]$ form and the
+ first curve $E_1$ is isomorphic to $E$ by $f_1$.
+
+ The set of isomorphism classes is finite except when $E$ has CM over an
+ quadratic order contained in $K$. In that case the function only returns the
+ discriminant of the quadratic order.
+
+ If $p$ is set, it must be a prime number; in this which case only isogenies of
+ degree a power of $p$ are considered.
+
+ Over a number field, the possible isogeny degrees are determined by
+ Billerey algorithm.
+
+ \bprog
+ ? E = ellinit("14a1");
+ ? [L,M] = ellisomat(E);
+ ? LE = apply(x->x[1], L)  \\ list of curves
+ %3 = [[215/48,-5291/864],[-675/16,6831/32],[-8185/48,-742643/864],
+      [-1705/48,-57707/864],[-13635/16,306207/32],[-131065/48,-47449331/864]]
+ ? L[2][2]  \\ isogeny f_2
+ %4 = [x^3+3/4*x^2+19/2*x-311/12,
+       1/2*x^4+(y+1)*x^3+(y-4)*x^2+(-9*y+23)*x+(55*y+55/2),x+1/3]
+ ? L[2][3]  \\ dual isogeny g_2
+ %5 = [1/9*x^3-1/4*x^2-141/16*x+5613/64,
+       -1/18*x^4+(1/27*y-1/3)*x^3+(-1/12*y+87/16)*x^2+(49/16*y-48)*x
+       +(-3601/64*y+16947/512),x-3/4]
+ ? apply(E->ellidentify(ellinit(E))[1][1], LE)
+ %6 = ["14a1","14a4","14a3","14a2","14a6","14a5"]
+ ? M
+ %7 =
+ [1  3  3 2  6  6]
+
+ [3  1  9 6  2 18]
+
+ [3  9  1 6 18  2]
+
+ [2  6  6 1  3  3]
+
+ [6  2 18 3  1  9]
+
+ [6 18  2 3  9  1]
+ @eprog

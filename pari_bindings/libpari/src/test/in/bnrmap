@@ -1,0 +1,21 @@
+bnf = bnfinit(x^2-x-57);
+bnr = bnrinit(bnf, [5,[1,1]]);
+chi = [12,2];
+m = bnrconductor(bnr,[12,2]);
+bnr2 = bnrinit(bnf,m);
+S = bnrmap(bnr, bnr2)
+bnrmap(S, chi)
+bnrmap(S, charker(bnr,chi))
+bnrmap(S, 2)
+bnrmap(S,[1,2]~)
+apply(x->bnrmap(S,x), subgrouplist(bnr.cyc))
+
+\\ ERRORS
+bnrmap(1,2)
+bnrmap(bnr, bnrinit(x,1))
+bnrmap(S,[1,2,3])
+bnrmap(S,[1,2]/2)
+bnrmap(S,[1,2,3]~)
+bnrmap(S,[1,2]~/2)
+bnrmap(S,matid(3))
+bnrmap(S,matid(2)/2)

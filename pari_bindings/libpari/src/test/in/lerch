@@ -1,0 +1,10 @@
+lerchphi(5+3*I,2+3*I,1-I)
+lerchphi(0.8,1/2+10*I,2)
+lerchphi(-1,2,1)
+lerchphi(1/2,1,1/2)
+F(z,k,a)=-1/(z-1)*sum(q=0,k,(z/(z-1))^q*sum(j=0,q,(-1)^j*(j+a)^k*binomial(q,j)));
+exponent(lerchphi(5+2*I,-3,1/2-I)-F(5+2*I,3,1/2-I))
+lerchphi(5+3*I,2,1-I)
+lerchphi(5+I,2,1-I)
+lerchphi(99/100,1/2,2)
+lerchzeta(1/4+3*I,1/4+I,7/8-I)

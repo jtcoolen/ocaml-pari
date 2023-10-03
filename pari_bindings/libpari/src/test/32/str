@@ -1,0 +1,54 @@
+Vecsmall([104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33])
+"hello world!"
+"hello world!"
+"\\frac{x^3\n + 3\\*y\\*x^2\n + 3\\*y^2\\*x\n + y^3}{x^2\n - 2\\*y\\*x\n + y
+^2}"
+"1 mod 2"
+"t"
+"1\n + 2\\*I"
+"2\n + w"
+"2+O(3^2)"
+"x\n + x^2+ O(x^3)"
+"\\pmatrix{ 1&2\\cr}\n"
+"\\pmatrix{\n 0&1\\cr\n 1&0\\cr\n }"
+"\\pmatrix{ 1&2\\cr}\n"
+"\\pmatrix{ 1&2\\cr}\n"
+"\\pmatrix{ 1\\cr\n2\\cr\n}"
+"\\pmatrix{\n 1&0\\cr\n 0&1\\cr\n }"
+"\\pmatrix{\n \\frac{1}{2}\\cr\n }"
+"ab"
+"(x)\\mapsto x+1"
+"-\\infty"
+"+\\infty"
+"x"
+"1/2"
+"ab1"
+1
+["", "a", "b", "", ""]
+["a", "b", "", "", "", "cc"]
+["a", "b", "c"]
+["a", "b", "c"]
+["", "b", ""]
+["", "", ""]
+"a/1/cc"
+"a1cc"
+""
+"a"
+"1"
+"3h, 25min, 45,678 ms"
+  ***   at top-level: strchr(-1)
+  ***                 ^----------
+  *** strchr: out of range in integer -> character conversion (-1).
+  ***   at top-level: strsplit(1,1)
+  ***                 ^-------------
+  *** strsplit: incorrect type in strsplit (t_INT).
+  ***   at top-level: strsplit("1",'x)
+  ***                 ^----------------
+  *** strsplit: incorrect type in strsplit (t_POL).
+  ***   at top-level: strjoin(1,"/")
+  ***                 ^--------------
+  *** strjoin: incorrect type in strjoin (t_INT).
+  ***   at top-level: strjoin([],1)
+  ***                 ^-------------
+  *** strjoin: incorrect type in strjoin (t_INT).
+Total time spent: 0

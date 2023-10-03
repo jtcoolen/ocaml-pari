@@ -1,0 +1,35 @@
+default(parisize,"66M"); \\ overflows 64M
+
+print("precision SEGV");
+pol = x^8 + 9748*x^6 - 9748*x^5 + 23738821*x^4 - 47472768*x^3 + 35604576*x^2 - 11868192*x + 1483524;
+bnf = bnfinit(pol,1);
+gc = gcharinit(bnf,[1,[]]);
+round(gc.cyc)
+pr = idealprimedec(bnf,29)[1];
+chi = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]~;
+gc.cyc[1] % denominator(gchareval(gc,chi,pr,0)) == 0
+print("gchareval precision bug");
+chi = vectorv(#gc.cyc-1,i,1);
+p2 = idealprimedec(bnf,2);
+logp = gcharlog(gc,p2);
+localbitprec(2^8); logp1 = gcharlog(gc,p2);
+localbitprec(2^9); logp2 = gcharlog(gc,p2);
+localbitprec(2^10); logp3 = gcharlog(gc,p2);
+exponent(logp-logp3) < -128 + 5
+exponent(logp1-logp3) < -256 + 5
+exponent(logp2-logp3) < -512 + 5
+v = gchareval(gc, chi, p2, 0);
+localbitprec(256); gc1 = gcharnewprec(gc); v1 = gchareval(gc1,chi,p2,0);
+localbitprec(512); gc2 = gcharnewprec(gc); v2 = gchareval(gc2,chi,p2,0);
+exponent(v-v2) < -128 + 5 + 32
+exponent(v1-v2) < -256 + 5 + 32
+print("trivial ideal bug");
+gchareval(gc,chi,idealhnf(bnf,1),0) == 0
+
+print("argument determination bug");
+{pol = x^8 - 4*x^7 + 16222*x^6 - 48652*x^5 + 71214421*x^4 - 142347760*x^3 +
+44175759480*x^2 - 44104593708*x + 7360689434427};
+bnf = bnfinit(pol,1);
+gc = gcharinit(bnf,1);
+round(gc.cyc)
+

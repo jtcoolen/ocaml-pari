@@ -1,0 +1,17 @@
+Function: export
+Section: programming/specific
+Help: export(x{=...},...,z{=...}): export the variables x,...,z to the parallel world.
+Doc: Export the variables $x,\ldots, z$ to the parallel world.
+ Such variables are visible inside parallel sections in place of global
+ variables, but cannot be modified inside a parallel section.
+ \kbd{export(a)} set the variable $a$ in the parallel world to current value of $a$.
+ \kbd{export(a=z)} set the variable $a$ in the parallel world to $z$, without
+ affecting the current value of $a$.
+ \bprog
+ ? fun(x)=x^2+1;
+ ? parvector(10,i,fun(i))
+   ***   mt: please use export(fun).
+ ? export(fun)
+ ? parvector(10,i,fun(i))
+ %4 = [2,5,10,17,26,37,50,65,82,101]
+ @eprog

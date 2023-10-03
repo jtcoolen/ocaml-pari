@@ -1,0 +1,46 @@
+Function: intnumgaussinit
+Section: sums
+C-Name: intnumgaussinit
+Prototype: D0,L,p
+Help: intnumgaussinit({n}): initialize tables for n-point Gauss-Legendre
+ integration on a compact interval.
+Doc: initialize tables for $n$-point Gauss-Legendre integration of
+ a smooth function $f$ on a compact interval $[a,b]$. If $n$ is omitted, make a
+ default choice $n \approx B / 4$, where $B$ is
+ \kbd{realbitprecision}, suitable for analytic functions on $[-1,1]$.
+ The error is bounded by
+ $$
+    \dfrac{(b-a)^{2n+1} (n!)^4}{(2n+1)!(2n)!} \dfrac{f^{(2n)}}{(2n)!} (\xi) ,
+    \qquad a < \xi < b.
+ $$
+ If $r$ denotes the distance of the nearest pole to the interval $[a,b]$,
+ then this is of the order of $((b-a) / (4r))^{2n}$. In particular, the
+ integral must be subdivided if the interval length $b - a$ becomes close to
+ $4r$. The default choice $n \approx B / 4$ makes this quantity of order
+ $2^{-B}$ when $b - a = r$, as is the case when integrating $1/(1+t)$ on
+ $[0,1]$ for instance. If the interval length increases, $n$ should be
+ increased as well.
+
+ Specifically, the function returns a pair of vectors $[x,w]$, where $x$
+ contains the nonnegative roots of the $n$-th Legendre polynomial $P_n$ and
+ $w$ the corresponding Gaussian integration weights
+ $Q_n(x_j)/P'_n(x_j) = 2 / ((1-x_j^2)P'_n(x_j))^2$  such that
+ $$ \int_{-1}^{1} f(t)\, dt \approx w_j f(x_j)\;. $$
+
+ \bprog
+ ? T = intnumgaussinit();
+ ? intnumgauss(t=-1,1,exp(t), T) - exp(1)+exp(-1)
+ %1 = -5.877471754111437540 E-39
+ ? intnumgauss(t=-10,10,exp(t), T) - exp(10)+exp(-10)
+ %2 = -8.358367809712546836 E-35
+ ? intnumgauss(t=-1,1,1/(1+t^2), T) - Pi/2 \\ b - a = 2r
+ %3 = -9.490148553624725335 E-22 \\ ... loses half the accuracy
+
+ ? T = intnumgaussinit(50);
+ ? intnumgauss(t=-1,1,1/(1+t^2), T) - Pi/2
+ %5 = -1.1754943508222875080 E-38
+ ? intnumgauss(t=-5,5,1/(1+t^2), T) - 2*atan(5)
+ %6 = -1.2[...]E-8
+ @eprog
+ On the other hand, we recommend to split the integral and change variables
+ rather than increasing $n$ too much, see \tet{intnumgauss}.

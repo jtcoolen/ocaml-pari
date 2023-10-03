@@ -1,0 +1,35 @@
+Function: gcharisalgebraic
+Section: number_fields
+C-Name: gcharisalgebraic
+Prototype: iGGD&
+Help: gcharisalgebraic(gc,chi,{&type}): returns 1 if chi is an algebraic (type A0)
+ character. If type is present, set it to the infinity type [p,q] of chi.
+Doc: \var{gc} being the structure returned by \kbd{gcharinit} and \var{chi}
+ a character on \var{gc}, return 1 if and only if \var{chi} is an algebraic
+ (Weil type A0) character, so that its infinity type at every complex
+ embedding~$\tau$ can be written
+ $$
+  z \mapsto z^{-p_\tau}\bar{z}^{-q_\tau}
+ $$
+ for some pair of integers $(p_\tau,q_\tau)$.
+
+ If \var{type} is given, set it to the \typ{VEC} of exponents $[p_\tau,q_\tau]$.
+
+ \bprog
+ ? bnf = bnfinit(x^4+1,1);
+ ? gc = gcharinit(bnf,1);
+ ? gc.cyc
+ % = [0, 0, 0, 0.E-57]
+ ? chi1 = [0,0,1]~;
+ ? gcharisalgebraic(gc,chi1)
+ % = 0
+ ? gcharlocal(gc,chi1,1)
+ % = [-3, -0.89110698909568455588720672648627467040]
+ ? chi2 = [1,0,0,-3]~;
+ ? gcharisalgebraic(gc,chi2,&typ)
+ % = 1
+ ? typ
+ % = [[6, 0], [2, 4]]
+ ? gcharlocal(gc,chi2,1)
+ % = [-6, 3*I]
+ @eprog

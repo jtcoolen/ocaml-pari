@@ -1,0 +1,32 @@
+Function: ellsupersingularj
+Section: elliptic_curves
+C-Name: ellsupersingularj
+Prototype: G
+Help: ellsupersingularj(p): return a random supersingular j-invariant defined
+ over F_p^2 if p is prime number, over the (finite) field of definition of p
+ otherwise
+Doc:
+ return a random supersingular $j$-invariant defined over $\F_p^2$ as a \typ{FFELT}
+ in the variable \kbd{w}, if $p$ is a prime number, or over the field of definition
+ of $p$ if $p$ is a \typ{FFELT}. The field must be of even degree.
+ The random distribution is mostly uniform except that when $0$ or $1728$ are supersingular,
+ they are less likely.
+ \bprog
+ ?  j = ellsupersingularj(1009)
+ %1 = 12*w+295
+ ?  ellissupersingular(j)
+ %2 = 1
+ ?  a = ffgen([1009,2],'a);
+ ?  j = ellsupersingularj(a)
+ %4 = 867*a+721
+ ?  ellissupersingular(j)
+ %5 = 1
+ ?  E = ellinit([j]);
+ ?  F = elltwist(E);
+ ?  ellissupersingular(F)
+ %8 = 1
+ ?  ellap(E)
+ %9 = 2018
+ ?  ellap(F)
+ %10 = -2018
+ @eprog

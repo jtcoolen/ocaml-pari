@@ -1,0 +1,25 @@
+setdebug()~
+setdebug("bnf",2)
+setdebug("bnf")
+setdebug("bnf",0)
+setdebug("bnf")
+\g 2
+\g bnf
+\g "bnf"
+\g 1"bnf"
+\g 1bnf
+\g "bnf"1
+\g bnf
+\g bnf2
+\g bnf
+
+\\ ERRORS
+\gf 10
+1/0
+\gf 1
+setdebug("does_not_exist")
+\gf 0
+\g 1 "does_not_exist"
+\g "does_not_exist"
+\g "does_not_exist" 1
+

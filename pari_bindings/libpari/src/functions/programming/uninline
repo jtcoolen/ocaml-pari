@@ -1,0 +1,6 @@
+Function: uninline
+Section: programming/specific
+Obsolete: 2018-11-27
+Help: uninline(): forget all inline variables. DEPRECATED, use export.
+Doc: Exit the scope of all current \kbd{inline} variables. DEPRECATED, use
+ \kbd{export} / \kbd{unexport}.

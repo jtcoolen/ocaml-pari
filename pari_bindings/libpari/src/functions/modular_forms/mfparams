@@ -1,0 +1,45 @@
+Function: mfparams
+Section: modular_forms
+C-Name: mfparams
+Prototype: G
+Help: mfparams(F): If F is a modular form space, returns [N,k,CHI,space,Phi]:
+ level, weight, character, and space code; where Phi is the cyclotomic
+ polynomial defining the field of values of CHI. If F is a modular form,
+ returns [N,k,CHI,P,Phi], where P is the (polynomial giving the) field of
+ definition of F: in that case the level N may be a multiple of the level of F
+ and the polynomial P may define a larger field than Q(F).
+Doc: If $F$ is a modular form space, returns \kbd{[N,k,CHI,space,$\Phi$]},
+ level, weight, character $\chi$, and space code; where $\Phi$ is the
+ cyclotomic polynomial
+ defining the field of values of \kbd{CHI}. If $F$ is a generalized modular
+ form, returns \kbd{[N,k,CHI,P,$\Phi$]}, where $P$ is the (polynomial giving
+ the) field of definition of $F$ as a relative extension of the cyclotomic field
+ $\Q(\chi) = \Q[t]/(\Phi)$: in that case the level $N$ may be a multiple of the
+ level of $F$ and the polynomial $P$ may define a larger field than $\Q(F)$.
+ If you want the true level of $F$ from this result, use
+ \kbd{mfconductor(mfinit(F),F)}. The polynomial $P$ defines an extension of
+ $\Q(\chi) = \Q[t]/(\Phi(t))$; it has coefficients in that number field
+ (polmods in $t$).
+
+ In contrast with \kbd{mfparams(F)[4]} which always gives the polynomial
+ $P$ defining the relative extension $\Q(F)/\Q(\chi)$, the member function
+ \kbd{$F$.mod} returns the polynomial used to define $\Q(F)$ over $\Q$
+ (either a cyclotomic polynomial or a polynomial with cyclotomic
+ coefficients).
+
+ \bprog
+ ? E1 = mfeisenstein(4,-3,-4); E2 = mfeisenstein(3,5,-7); E3 = mfmul(E1,E2);
+ ? apply(mfparams, [E1,E2,E3])
+ %2 = [[12, 4, 12, y, t-1], [35, 3, -35, y, t-1], [420, 7, -420, y, t-1]]
+
+ ? mf = mfinit([36,2,Mod(13,36)],0); [f] = mfeigenbasis(mf); mfparams(mf)
+ %3 = [36, 2, Mod(13, 36), 0, t^2 + t + 1]
+ ? mfparams(f)
+ %4 = [36, 2, Mod(13, 36), y, t^2 + t + 1]
+ ? f.mod
+ %5 = t^2 + t + 1
+
+ ? mf = mfinit([36,4,Mod(13,36)],0); [f] = mfeigenbasis(mf);
+ ? lift(mfparams(f))
+ %7 = [36, 4, 13, y^3 + (2*t-2)*y^2 + (-4*t+6)*y + (10*t-1), t^2+t+1]
+ @eprog

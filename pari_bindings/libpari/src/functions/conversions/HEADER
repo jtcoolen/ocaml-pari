@@ -1,0 +1,13 @@
+Function: _header_conversions
+Class: header
+Section: conversions
+Doc:
+ \section{Conversions and similar elementary functions or commands}
+ \label{se:conversion}
+
+ \noindent
+ Many of the conversion functions are rounding or truncating operations. In
+ this case, if the argument is a rational function, the result is the
+ Euclidean quotient of the numerator by the denominator, and if the argument
+ is a vector or a matrix, the operation is done componentwise. This will not
+ be restated for every function.

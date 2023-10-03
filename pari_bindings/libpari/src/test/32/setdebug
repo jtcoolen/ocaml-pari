@@ -1,0 +1,39 @@
+
+["alg" "arith" "bern" "bnf" "bnr" "bnrclassfield" "bb_group" "compiler" "ell
+" "ellanal" "ellcard" "ellisogeny" "ellrank" "ellsea" "factcyclo" "factor" "
+factorff" "factorint" "factormod" "fflog" "galois" "gammamellininv" "gchar" 
+"genus2red" "hensel" "hgm" "hyperell" "intnum" "io" "isprime" "lfun" "mat" "
+mathnf" "mf" "mod" "mpqs" "ms" "mt" "nf" "nffactor" "nflist" "nfsubfields" "
+padicfields" "pol" "polclass" "polgalois" "polmodular" "polroots" "qf" "qfll
+l" "qfsolve" "qfisom" "quadclassunit" "rnf" "stark" "subcyclo" "subgrouplist
+" "thue" "trans" "zetamult"]
+
+[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+
+2
+0
+   debug = 2
+   debug("bnf") = 2
+   debug("bnf") = 2
+   debug("bnf") = 1
+   debug("bnf") = 1
+   debug("bnf") = 1
+   debug("bnf") = 1
+   debug("bnf") = 2
+   debug("bnf") = 2
+   debugfiles = 10
+  ***   at top-level: 1/0
+  ***                  ^--
+  *** _/_: impossible inverse in gdiv: 0.
+gp_context_restore: restoring pari_infile to stdin
+done
+   debugfiles = 1
+  ***   at top-level: setdebug("does_not_exist")
+  ***                 ^--------------------------
+  *** setdebug: domain error in setdebug: does_not_exist not a valid debug domain
+   debugfiles = 0
+  ***   domain error in setdebug: does_not_exist not a valid debug domain
+  ***   domain error in setdebug: does_not_exist not a valid debug domain
+  ***   domain error in setdebug: does_not_exist not a valid debug domain
+Total time spent: 0

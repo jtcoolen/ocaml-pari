@@ -1,0 +1,9 @@
+Function: cosh
+Section: transcendental
+C-Name: gcosh
+Prototype: Gp
+Description:
+ (mp):real:prec      gcosh($1, $prec)
+ (gen):gen:prec      gcosh($1, $prec)
+Help: cosh(x): hyperbolic cosine of x.
+Doc: hyperbolic cosine of $x$.

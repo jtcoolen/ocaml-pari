@@ -1,0 +1,18 @@
+Function: polisclass
+Section: polynomials
+C-Name: polisclass
+Prototype: lG
+Help: polisclass(P): P being a monic irreducible polynomial with integer
+ coefficients, return 0 if P is not a class polynomial for the j-invariant,
+ otherwise return the discriminant D<0 such that P=polclass(D).
+Doc: $P$ being a monic irreducible polynomial with integer coefficients,
+ return $0$ if $P$ is not a class polynomial for the $j$-invariant,
+ otherwise return the discriminant $D<0$ such that \kbd{P=polclass(D)}.
+ \bprog
+ ? polisclass(polclass(-47))
+ %1 = -47
+ ? polisclass(x^5+x+1)
+ %2 = 0
+ ? apply(polisclass,factor(poldisc(polmodular(5)))[,1])
+ %3 = [-16,-4,-3,-11,-19,-64,-36,-24,-51,-91,-99,-96,-84]~
+ @eprog

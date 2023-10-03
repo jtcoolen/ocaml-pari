@@ -1,0 +1,132 @@
+default(parisize,"108M"); \\ overflows 106M
+setrand(1429412696);bnfinit(x^2+29051222508*x-12).clgp
+setrand(1); bnfinit(x^8 + 12*x^6 + 30*x^4 + 24*x^2 + 4).reg
+setrand(1); bnfinit(x^4 - 3*x^2 + 49).reg
+bnfinit(x-1/2).clgp
+bnfinit(x^2-1/2).clgp
+bnfinit(x^2+2).tu \\ #2027
+setrand(1);bnfinit(x^3-3*x^2-910095904*x+10793133991936,1).no \\ #2139
+
+setrand(3);bnfinit(x^2-(1130481^2+4)).clgp
+setrand(2);bnfinit(x^4 - x^3 + 63*x^2 - 22*x + 1004).cyc
+setrand(1);bnfinit(x^8 - 8*x^6 + 38*x^4 - 143*x^2 + 121).clgp
+bnfcertify(bnfinit(x^2-40!));
+bnfcertify(bnfinit(x^8-2));
+\\#2168
+bnfcertify(bnfinit(x^8-4*x^5-x^4+4*x^3+1,1));
+\\#1736
+setrand(1);bnfinit(x^3-87156*x^2-6728799*x-456533).cyc
+
+\\#1253
+k=bnfinit(z^2+19*z+6,1); bnfisunit(k,k.fu[1]^2)
+
+\\#1247
+setrand(1);bnfinit(x^2+1635847).no
+
+\\#1381
+K = bnfinit(x^2+23); L = bnrdisclist(K, 10); s = L[2];
+bnfdecodemodule(K, s[1][1])
+
+\\ rare wrong result
+setrand(3805);bnfinit(y^8-44466*y^6+1977225156*y^4-87919293786696*y^2+3909419317519224336).cyc
+
+default(realprecision,19);
+K=bnfinit(x^5-x^4+x^3+100*x+20,1);
+A=idealpow(K,idealprimedec(K,5)[2],150);
+bnfisprincipal(K,A);
+default(realprecision,173);
+K=nfnewprec(K);
+bnfisprincipal(K,A)
+nfnewprec(bnfinit(x));
+
+ideallist(bnrinit(K,1),2,2)
+l=ideallist(K,4,0);ideallistarch(K,l,[1]);
+l=ideallist(K,3,3);L=ideallistarch(K,l,[1]);
+bnrdisclist(K,l)
+bnrdisclist(K,L)
+bnrdisclist(K,4,[1])
+ideallist(K, -1)
+ideallist(K, -4)
+\\#2180
+bnrdisclist(bnfinit(galoissubcyclo(32,15)),94);
+
+\\#1631
+setrand(1);bnfinit(x^16-48*x^14+934*x^12-9632*x^10+57251*x^8-198568*x^6+386172*x^4-377776*x^2+137288).no
+
+\\ oo loop in 2.9
+setrand(1);K=bnfinit(x^2+2323);
+P=idealprimedec(K,23)[1];
+bnfisprincipal(K,P)
+
+\\ #2054
+\\ Disabled, too slow
+\\D = 1460939943556665662782863549;
+\\K = nfinit([x^2-D,[3,7,1586327]]); setrand(426507128);
+\\bnfinit(K,,[0.132,0.15]);
+
+\\ #2164
+bnf = bnfinit(y^4-y-1);
+bnfisunit(bnf,-y^3+2*y^2-1)
+
+\\ #2183
+setrand(53152);
+bnfinit(y^12+179*y^10+32041*y^8+5735339*y^6+1026625681*y^4+183765996899*y^2+32894113444921).cyc
+
+setrand(1);bnfinit(x^28+2*x^27-23*x^26-70*x^25+137*x^24+741*x^23+247*x^22-2779*x^21-3751*x^20+3417*x^19+10616*x^18+3418*x^17-11131*x^16-12909*x^15-900*x^14+9818*x^13+10369*x^12+2704*x^11-5294*x^10-6549*x^9-2031*x^8+1826*x^7+2029*x^6+616*x^5-187*x^4-221*x^3-80*x^2-14*x-1).cyc
+
+setrand(1);bnfinit(x^8-4*x^7-42*x^6+140*x^5+361*x^4-960*x^3-540*x^2+1044*x+603,1).cyc
+
+setrand(1);bnfinit(x^4-25*x^2+25,1).cyc
+\\ FIXME: takes 8s without [0.3]
+setrand(1);bnfinit(x^6-x^5-26*x^4+57*x^3+98*x^2-345*x+225,1,[0.3]).cyc
+
+\\overflow when h>>1
+setrand(1); D = 2^60+33; bnf = bnfinit(x^2+D);
+P = idealprimedec(bnf, 3^30 + 4)[1];
+bnfisprincipal(bnf,P,1+4);
+bnfisprincipal(bnf,P,1);
+
+\\loss of accuracy
+bnf=bnfinit(a^3 - 65249548*a - 207761301170,1);exponent(bnf[3])
+
+\\ wrong cyclic components
+setrand(1);bnfinit(a^6+6748*a^4-750056*a^3+45535504*a^2-2530688944*a+140646000784,1).cyc
+
+\\ D. Broadhurst's examples
+P=x^7+10*x^6+16*x^5+160*x^4+76*x^3+760*x^2+96*x+962;
+localbitprec(64);setrand(1); bnfinit(nfinit(P),1).no
+
+P=x^7+3*x^6+57*x^5+171*x^4+927*x^3+2781*x^2+4455*x+13368;
+localbitprec(64);setrand(1);bnfinit(nfinit(P)).no
+
+P=x^7+3*x^6+54*x^5+162*x^4+621*x^3+1863*x^2+1404*x+4215;
+localbitprec(128);bitprecision(bnfinit(P,1).reg,128)
+
+P=x^7+6*x^6+30*x^5+180*x^4+207*x^3+1242*x^2+378*x+2271;
+localbitprec(128); k=bnfinit(P); [k.no, bitprecision(k.reg,128)]
+
+P=x^7-37*x^6+664*x^5-7380*x^4+2648*x^3-416*x^2+32*x-1;
+localbitprec(128); bnfinit(P).no
+
+P=x^7+22*x^6+184*x^5+764*x^4+2020*x^3+3792*x^2+5712*x+4;
+localbitprec(128); bnfinit(P,1).no
+
+P=x^7+8*x^6+6*x^5-128*x^4+224*x^3+4608*x^2+12672*x+4;
+localbitprec(128); bnfinit(P,1).no
+
+P=x^7-22*x^6+169*x^5-568*x^4+1263*x^3-1506*x^2+2295*x+2;
+localbitprec(128); bnfinit(P,1).no
+
+localbitprec(128); bitprecision(bnfinit(x).nf)
+
+\\ #2355
+bnfinit(x^3+x^2-300718516569853095954224822736606480534192*x+63469622412272370773369114880921263373233288077845073732447296,1).cyc
+
+\\ #2372
+P=y^6 + 3*y^5 + 6*y^4 - 886567*y^3 - 1329855*y^2 + 1329864*y + 196504250944;
+localprec(38);bnf=bnfinit(P,1); apply(x->nfeltnorm(bnf,x),bnf.fu)
+
+bnf=bnfinit(y^6-4*y^5-13*y^4+41*y^3+230*y^2+284*y+184,1);
+apply(x->idealnorm(bnf,x),bnf.fu)
+
+\\ ERRORS: keep at end of file

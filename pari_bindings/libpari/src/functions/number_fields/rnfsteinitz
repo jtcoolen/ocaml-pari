@@ -1,0 +1,19 @@
+Function: rnfsteinitz
+Section: number_fields
+C-Name: rnfsteinitz
+Prototype: GG
+Help: rnfsteinitz(nf,M): given a nf attached to a number field K and a
+ projective module M given by a pseudo-matrix, returns [A,I,D,d] where (A,I)
+ is a pseudo basis for M where all the ideals except perhaps the last are
+ trivial. If M is a polynomial with coefficients in K, replace it by the
+ pseudo-matrix returned by rnfpseudobasis.
+Doc: given a $\var{nf}$ attached to a number field $K$ and a projective
+ module $M$ given by a pseudo-matrix, returns a pseudo-basis $(A,I)$
+ (not in HNF in general) such that all the ideals of $I$ except perhaps the
+ last one are equal to the ring of integers of $\var{nf}$. If $M$ is a
+ polynomial with coefficients in $K$, replace it by the pseudo-matrix
+ returned by \kbd{rnfpseudobasis} and return the four-component row vector
+ $[A,I,D,d]$ where $(A,I)$ are as before and $(D,d)$ are discriminants
+ as returned by \kbd{rnfpseudobasis}. The ideal class of the last ideal of
+ $I$ is well defined; it is the \idx{Steinitz class} of $M$ (its image
+ in $SK_0(\Z_K)$).

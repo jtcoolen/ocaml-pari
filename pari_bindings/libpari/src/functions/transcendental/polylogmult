@@ -1,0 +1,39 @@
+Function: polylogmult
+Section: transcendental
+C-Name: polylogmult_interpolate
+Prototype: GDGDGp
+Help: polylogmult(s,{z},{t=0}): multiple polylogarithm value at integral
+ s = [s1,...,sr] with argument z = [z1,...,zr]. If z is omitted, assume
+ z = [1,...,1], i.e., multiple zeta value. More generally, return Yamamoto's
+ interpolation at t (ordinary multiple polylog at t = 0 and star value at
+ t = 1).
+Doc: For $s$ a vector of positive integers and $z$ a vector of complex
+ numbers of the same length, returns the multiple polylogarithm value (MPV)
+ $$\zeta(s_1,\dots, s_r; z_1,\dots,z_r)
+    = \sum_{n_1>\dots>n_r>0} \prod_{1\le i\le r}z_i^{n_i}/n_i^{s_i}.$$
+ If $z$ is omitted, assume $z=[1,\dots,1]$, i.e., Multiple Zeta Value.
+ More generally, return Yamamoto's interpolation between ordinary multiple
+ polylogarithms ($t = 0$) and star polylogarithms ($t = 1$, using the
+ condition $n_1\ge \dots \ge n_r > 0$), evaluated at $t$.
+
+ We must have $|z_1\cdots z_i|\le1$ for all $i$, and if $s_1=1$ we
+ must have $z_1\ne1$.
+ \bprog
+ ? 8*polylogmult([2,1],[-1,1]) - zeta(3)
+ %1 = 0.E-38
+ @eprog\noindent
+ \misctitle{Warning} The algorithm used converges when the $z_i$ are
+ $\pm 1$. It may not converge as some $z_i \neq 1$ becomes too close to $1$,
+ even at roots of $1$ of moderate order:
+ \bprog
+ ? polylogmult([2,1], (99+20*I)/101 * [1,1])
+  *** polylogmult: sorry, polylogmult in this range is not yet implemented.
+ ? polylogmult([2,1], exp(I*Pi/20)* [1,1])
+  *** polylogmult: sorry, polylogmult in this range is not yet implemented.
+ @eprog\noindent More precisely, if $y_i := 1 / (z_1\cdots z_i)$ and
+ $$ v := \min_{i < j; y_i \neq 1} |(1 - y_i) y_j| > 1/4$$
+ then the algorithm computes the value up to a $2^{-b}$ absolute error
+ in $O(k^2N)$ operations on floating point numbers of $O(N)$ bits,
+ where $k = \sum_i s_i$ is the weight and $N = b / \log_2 (4v)$.
+Variant: Also available is
+  \fun{GEN}{polylogmult}{GEN s, GEN z, long prec} ($t$ is \kbd{NULL}).

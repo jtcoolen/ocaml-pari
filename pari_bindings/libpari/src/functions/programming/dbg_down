@@ -1,0 +1,46 @@
+Function: dbg_down
+Class: gp
+Section: programming/control
+C-Name: dbg_down
+Prototype: vD1,L,
+Help: dbg_down({n=1}): (break loop) go down n frames. Cancel a previous dbg_up.
+Doc: (In the break loop) go down $n$ frames. This allows to cancel a previous
+ call to \kbd{dbg\_up}.
+ \bprog
+ ? x = 0;
+ ? g(x) = x-3;
+ ? f(x) = 1 / g(x+1);
+ ? for (x = 1, 5, f(x+1))
+    ***   at top-level: for(x=1,5,f(x+1))
+    ***                           ^-------
+    ***   in function f: 1/g(x+1)
+    ***                   ^-------
+    *** _/_: impossible inverse in gdiv: 0.
+    ***   Break loop: type 'break' to go back to GP prompt
+ break> dbg_up(3) \\ go up 3 frames
+   ***   at top-level: for(x=1,5,f(x+1))
+   ***                 ^-----------------
+ break> x
+ 0
+ break> dbg_down()
+   ***   at top-level: for(x=1,5,f(x+1))
+   ***                           ^-------
+ break> x
+ 1
+ break> dbg_down()
+   ***   at top-level: for(x=1,5,f(x+1))
+   ***                           ^-------
+ break> x
+ 1
+ break> dbg_down()
+   ***   at top-level: for(x=1,5,f(x+1))
+   ***                           ^-------
+   ***   in function f: 1/g(x+1)
+   ***                   ^-------
+ break> x
+ 2
+ @eprog\noindent The above example shows that the notion of GP frame is
+ finer than the usual stack of function calls (as given for instance by the
+ GDB \kbd{backtrace} command): GP frames are attached to variable scopes
+ and there are frames attached to control flow instructions such as a
+ \kbd{for} loop above.

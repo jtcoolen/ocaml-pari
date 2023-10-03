@@ -1,0 +1,88 @@
+Function: lfunconductor
+Section: l_functions
+C-Name: lfunconductor
+Prototype: GDGD0,L,b
+Help: lfunconductor(L, {setN = 10000},{flag=0}): give the conductor
+ of the given L-function, expecting to find it in the interval [1,setN].
+ If flag=0 (default), give either the conductor found as an integer, or a
+ vector of conductors found, possibly empty. If flag=1, same but give the
+ computed floating point approximations to the conductors found, without
+ rounding to integers. If flag=2, give all the conductors found, even those
+ far from integers. Alternatively, setN can contain a list of possible
+ conductors and we select the best one according to lfuncheckfeq;
+ in this case, flag is ignored and we return [N, lfuncheckfeq for that N].
+Doc:  Compute the conductor of the given $L$-function (if the structure
+ contains a conductor, it is ignored). Two methods are available,
+ depending on what we know about the conductor, encoded in the \kbd{setN}
+ parameter:
+
+ \item \kbd{setN} is a scalar: we know nothing but expect that the conductor
+ lies in the interval $[1, \kbd{setN}]$.
+
+ If \kbd{flag} is $0$ (default), give either the conductor found as an
+ integer, or a vector (possibly empty) of conductors found. If \kbd{flag} is
+ $1$, same but give the computed floating point approximations to the
+ conductors found, without rounding to integers. It \kbd{flag} is $2$, give
+ all the conductors found, even those far from integers.
+
+ \misctitle{Caveat} This is a heuristic program and the result is not
+ proven in any way:
+ \bprog
+ ? L = lfuncreate(857); \\ Dirichlet L function for kronecker(857,.)
+ ? \p19
+   realprecision = 19 significant digits
+ ? lfunconductor(L)
+ %2 = [17, 857]
+ ? lfunconductor(L,,1) \\ don't round
+ %3 = [16.99999999999999999, 857.0000000000000000]
+
+ ? \p38
+   realprecision = 38 significant digits
+ ? lfunconductor(L)
+ %4 = 857
+ @eprog\noindent Increasing \kbd{setN} or increasing \kbd{realbitprecision}
+ slows down the program but gives better accuracy for the result. This
+ algorithm should only be used if the primes dividing the conductor are
+ unknown, which is uncommon.
+
+ \item \kbd{setN} is a vector of possible conductors; for instance
+ of the form \kbd{D1 * divisors(D2)}, where $D_1$ is the known part
+ of the conductor and $D_2$ is a multiple of the contribution of the
+ bad primes.
+
+ In that case, \kbd{flag} is ignored and the routine uses \kbd{lfuncheckfeq}.
+ It returns $[N,e]$ where $N$ is the best conductor in the list and $e$ is the
+ value of \kbd{lfuncheckfeq} for that $N$. When no suitable conductor exist or
+ there is a tie among best potential conductors, return the empty vector
+ \kbd{[]}.
+ \bprog
+ ? E = ellinit([0,0,0,4,0]); /* Elliptic curve y^2 = x^3+4x */
+ ? E.disc  \\ |disc E| = 2^12
+ %2 = -4096
+ \\ create Ldata by hand. Guess that root number is 1 and conductor N
+ ? L(N) = lfuncreate([n->ellan(E,n), 0, [0,1], 2, N, 1]);
+ \\ lfunconductor ignores conductor = 1 in Ldata !
+ ? lfunconductor(L(1), divisors(E.disc))
+ %5 = [32, -127]
+ ? fordiv(E.disc, d, print(d,": ",lfuncheckfeq(L(d)))) \\ direct check
+ 1: 0
+ 2: 0
+ 4: -1
+ 8: -2
+ 16: -3
+ 32: -127
+ 64: -3
+ 128: -2
+ 256: -2
+ 512: -1
+ 1024: -1
+ 2048: 0
+ 4096: 0
+ @eprog\noindent The above code assumed that root number was $1$;
+ had we set it to $-1$, none of the \kbd{lfuncheckfeq} values would have been
+ acceptable:
+ \bprog
+ ? L2 = lfuncreate([n->ellan(E,n), 0, [0,1], 2, 0, -1]);
+ ? lfunconductor(L2, divisors(E.disc))
+ %7 = []
+ @eprog

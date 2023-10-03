@@ -1,0 +1,46 @@
+Function: strtex
+Section: programming/specific
+C-Name: strtex
+Prototype: s*
+Help: strtex({x}*): translates its (string) arguments to TeX format and
+ returns the resulting string.
+Doc:
+ translates its arguments to TeX format, and concatenates the results into a
+ single character string (type \typ{STR}, the empty string if $x$ is omitted).
+
+ The individual arguments are read in string context, see \secref{se:strings}.
+ \bprog
+ ? v = [1, 2, 3]
+ %1 [1, 2, 3]
+ ? strtex(v)
+ %2 = "\\pmatrix{ 1&2&3\\cr}\n"
+ @eprog
+
+ \misctitle{\TeX-nical notes} The TeX output engine was originally written
+ for plain TeX and designed for maximal portability. Unfortunately later
+ \kbd{LaTeX} packages have obsoleted valid \TeX\ primitives, leading us
+ to replace TeX's \kbd{\bs{}over} by LaTeX's \kbd{\bs{}frac} in PARI's TeX
+ output. We have decided not to update further our TeX markup and let the
+ users of various LaTeX engines customize their preambles. The following
+ documents the precise changes you may need to include in your style files to
+ incorporate PARI TeX output verbatim:
+
+ \item if you enabled bit 4 in \tet{TeXstyle} default, you must define
+ \kbd{\bs{}PARIbreak}; see \kbd{??TeXstyle};
+
+ \item if you use plain TeX only: you must define \kbd{\bs{}frac} as follows
+ \bprog
+   \def\frac#1#2{{#1\over#2}}
+ @eprog
+
+ \item if you use LaTeX and \kbd{amsmath}, \kbd{\bs{}pmatrix} is
+ obsoleted in favor of the \kbd{pmatrix} environment; see
+ \kbd{examples/parigp.sty} for how to re-enable the deprecated construct.
+
+Function: Strtex
+Section: programming/specific
+C-Name: strtex
+Prototype: s*
+Obsolete: 2018-10-01
+Help: Strtex({x}*): deprecated alias for strtex.
+Doc: deprecated alias for strtex.

@@ -1,0 +1,21 @@
+Function: idealdown
+Section: number_fields
+C-Name: idealdown
+Prototype: GG
+Help: idealdown(nf,x): finds the intersection of the ideal x with Q.
+Doc: let $\var{nf}$ be a number field as output by \kbd{nfinit}, and $x$ a
+ fractional ideal. This function returns the nonnegative rational generator
+ of $x \cap \Q$. If $x$ is an extended ideal, the extended part is ignored.
+ \bprog
+ ? nf = nfinit(y^2+1);
+ ? idealdown(nf, -1/2)
+ %2 = 1/2
+ ? idealdown(nf, (y+1)/3)
+ %3 = 2/3
+ ? idealdown(nf, [2, 11]~)
+ %4 = 125
+ ? x = idealprimedec(nf, 2)[1]; idealdown(nf, x)
+ %5 = 2
+ ? idealdown(nf, [130, 94; 0, 2])
+ %6 = 130
+ @eprog

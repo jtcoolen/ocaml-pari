@@ -1,0 +1,40 @@
+Function: pareval
+Section: programming/parallel
+C-Name: pareval
+Prototype: G
+Help: pareval(x): parallel evaluation of the elements of the vector of
+ closures x.
+Doc: parallel evaluation of the elements of \kbd{x}, where \kbd{x} is a
+ vector of closures. The closures must be of arity $0$, must not access
+ global variables or variables declared with \kbd{local} and must be
+ free of side effects.
+
+ Here is an artificial example explaining the MOV attack on the elliptic
+ discrete log problem (by reducing it to a standard discrete log over a
+ finite field):
+ \bprog
+ {
+   my(q = 2^30 + 3, m = 40 * q; p = 1 + m^2); \\ p, q are primes
+   my(E = ellinit([0,0,0,1,0] * Mod(1,p)));
+   my([P, Q] = ellgenerators(E));
+   \\ E(F_p) ~ Z/m P + Z/m Q and the order of the
+   \\ Weil pairing <P,Q> in (Z/p)^* is m
+   my(F = [m,factor(m)], e = random(m), R, wR, wQ);
+   R = ellpow(E, Q, e);
+   wR = ellweilpairing(E,P,R,m);
+   wQ = ellweilpairing(E,P,Q,m); \\ wR = wQ^e
+   pareval([()->znlog(wR,wQ,F), ()->elllog(E,R,Q), ()->e])
+ }
+ @eprog\noindent Note the use of \kbd{my} to pass "arguments" to the
+ functions we need to evaluate while satisfying the listed requirements:
+ closures of arity $0$ and no global variables (another possibility would be
+ to use \kbd{export}). As a result, the final three statements satisfy all
+ the listed requirements and are run in parallel. (Which is silly for
+ this computation but illustrates the use of pareval.) The function
+ \kbd{parfor} is more powerful but harder to use.
+
+Function: _pareval_worker
+Section: programming/internals
+C-Name: pareval_worker
+Prototype: G
+Help: _pareval_worker(C): evaluate the closure C.

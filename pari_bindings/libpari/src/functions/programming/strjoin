@@ -1,0 +1,15 @@
+Function: strjoin
+Section: programming/specific
+C-Name: strjoin
+Prototype: GDG
+Help: strjoin(v,{p = ""}): joins the strings in vector v, separating them with
+ delimiter p.
+Doc: joins the strings in vector $v$, separating them with delimiter $p$.
+ The reverse operation is \kbd{strsplit}.
+ \bprog
+ ? v = ["abc", "def", "ghi"]
+ ? strjoin(v, "/")
+ %2 = "abc/def/ghi"
+ ? strjoin(v)
+ %3 = "abcdefghi"
+ @eprog

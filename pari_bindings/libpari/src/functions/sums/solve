@@ -1,0 +1,27 @@
+Function: solve
+Section: sums
+C-Name: zbrent0
+Prototype: V=GGEp
+Help: solve(X=a,b,expr): real root of expression expr (X between a and b),
+ where either a or b is infinite or expr(a)*expr(b)<=0.
+Wrapper: (,,G)
+Description:
+  (gen,gen,gen):gen:prec zbrent(${3 cookie}, ${3 wrapper}, $1, $2, $prec)
+Doc: find a real root of expression
+ \var{expr} between $a$ and $b$.
+ If both $a$ and $b$ are finite, the condition is that
+ $\var{expr}(X=a) * \var{expr}(X=b) \le 0$. (You will get an error message
+ \kbd{roots must be bracketed in solve} if this does not hold.)
+
+ If only one between $a$ and $b$ is finite, say $a$, then $b=\pm\infty$. The
+ routine will test all $b=a\pm 2^r$, with $r\geq \log_2(|a|)$ until it finds
+ a bracket for the root which satisfies the abovementioned condition.
+
+ If both $a$ and $b$ are infinite, the routine will test $0$ and all $\pm 2^r$,
+ $r\geq 0$, until it finds a bracket for the root which satisfies the
+ condition.
+
+ This routine uses Brent's method and can fail miserably if \var{expr} is
+ not defined in the whole of $[a,b]$ (try \kbd{solve(x=1, 2, tan(x))}).
+
+ \synt{zbrent}{void *E,GEN (*eval)(void*,GEN),GEN a,GEN b,long prec}.

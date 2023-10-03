@@ -1,0 +1,16 @@
+Function: setdelta
+Section: linear_algebra
+C-Name: setdelta
+Prototype: GG
+Help: setdelta(x,y): symmetric difference of the sets x and y.
+Description:
+ (vec, vec):vec        setdelta($1, $2)
+Doc: symmetric difference of the two sets $x$ and $y$ (see \kbd{setisset}).
+ If $x$ or $y$ is not a set, the result is undefined.
+ \bprog
+ ? a=[1,2,2,3];b=[4,2,3,4];
+ ? setdelta(Set(a), Set(b))
+ %2 = [1, 4]      \\ the symmetric difference of the two sets
+ ? setdelta(a,b)
+ %3 = [1, 2, 2, 3, 4, 2, 3, 4] \\ undefined result
+ @eprog

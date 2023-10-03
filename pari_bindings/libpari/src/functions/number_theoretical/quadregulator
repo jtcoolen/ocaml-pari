@@ -1,0 +1,11 @@
+Function: quadregulator
+Section: number_theoretical
+C-Name: quadregulator
+Prototype: Gp
+Help: quadregulator(D): regulator of the real quadratic field of
+ discriminant D.
+Doc: regulator of the quadratic order of positive discriminant $D$ in time
+ $\tilde{O}(D^{1/2})$ using the continued fraction algorithm. Raise
+ an error if $D$ is not a discriminant (fundamental or not) or if $D$ is a
+ square. The function \kbd{quadclassunit} is asymptotically faster (and also
+ in practice for $D > 10^{10}$ or so) but depends on the GRH.

@@ -1,0 +1,19 @@
+{
+  forperm(4,p,
+    printsep(":",Vec(p),permorder(p),permsign(p),permcycles(p)));
+}
+
+{
+  my(s=0,m=1,q=[]);
+  forprime(p=1,60,
+    s += p; m *= p;
+    q = concat([q,[s+2-p..s],s+1-p]));
+  q = Vecsmall(q);
+  [permorder(q),permsign(q)]
+}
+
+\\error
+permsign(Vecsmall([1,1]))
+permsign(Vecsmall([1,2,1]))
+permorder(Vecsmall([1,2,1]))
+permcycles(Vecsmall([1,2,1]))

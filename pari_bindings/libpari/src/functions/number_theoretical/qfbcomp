@@ -1,0 +1,8 @@
+Function: qfbcomp
+Section: number_theoretical
+C-Name: qfbcomp
+Prototype: GG
+Help: qfbcomp(x,y): Gaussian composition with reduction of the binary
+ quadratic forms x and y.
+Doc: \idx{composition} of the binary quadratic forms $x$ and $y$, with
+ \idx{reduction} of the result.

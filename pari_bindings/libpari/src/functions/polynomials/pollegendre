@@ -1,0 +1,16 @@
+Function: pollegendre
+Section: polynomials
+C-Name: pollegendre_eval0
+Prototype: LDGD0,L,
+Help: pollegendre(n,{a='x},{flag=0}): legendre polynomial of degree n evaluated
+ at a. If flag is 1, return [P_{n-1}(a), P_n(a)].
+Description:
+  (small,?var):gen    pollegendre($1,$2)
+  (small,gen):gen     pollegendre_eval($1,$2)
+Doc: $n^{\text{th}}$ \idx{Legendre polynomial} $P_n$ evaluated at $a$ (\kbd{'x}
+ by default), where
+ $$P_n(x) = \dfrac{1}{2^n n!} \dfrac{d^n}{dx^n}(x^2-1)^n\;.$$
+ If \fl\ is 1, return $[P_{n-1}(a), P_n(a)]$.
+Variant: To obtain the $n$-th Legendre polynomial $P_n$ in variable $v$,
+ use \fun{GEN}{pollegendre}{long n, long v}. To obtain $P_n(a)$,
+ use \fun{GEN}{pollegendre_eval}{long n, GEN a}.

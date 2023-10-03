@@ -1,0 +1,32 @@
+Function: lfunmfspec
+Section: l_functions
+C-Name: lfunmfspec
+Prototype: Gb
+Help: lfunmfspec(L): L corresponding to a modular eigenform, returns
+ [ve,vo,om,op] in even weight, where ve (resp.,
+ vo) is the vector of even (resp., odd) periods, and om and op
+ the corresponding real numbers omega^- and omega^+. Returns [v,om] in odd
+ weight.
+Doc: let $L$ be the $L$-function attached to a modular eigenform $f$ of
+ weight $k$, as given by \kbd{lfunmf}. In even weight, returns
+ \kbd{[ve,vo,om,op]}, where \kbd{ve} (resp., \kbd{vo}) is the vector of even
+ (resp., odd) periods of $f$ and \kbd{om} and \kbd{op} the corresponding
+ real numbers $\omega^-$ and $\omega^+$ normalized in a noncanonical way.
+ In odd weight \kbd{ominus} is the same as \kbd{op} and we
+ return \kbd{[v,op]} where $v$ is the vector of all periods.
+ \bprog
+ ? D = mfDelta(); mf = mfinit(D); L = lfunmf(mf, D);
+ ? [ve, vo, om, op] = lfunmfspec(L)
+ %2 = [[1, 25/48, 5/12, 25/48, 1], [1620/691, 1, 9/14, 9/14, 1, 1620/691],\
+        0.0074154209298961305890064277459002287248,\
+        0.0050835121083932868604942901374387473226]
+ ? DS = mfsymbol(mf, D); bestappr(om*op / mfpetersson(DS), 10^8)
+ %3 = 8192/225
+ ? mf = mfinit([4, 9, -4], 0);
+ ? F = mfeigenbasis(mf)[1]; L = lfunmf(mf, F);
+ ? [v, om] = lfunmfspec(L)
+ %6 = [[1, 10/21, 5/18, 5/24, 5/24, 5/18, 10/21, 1],\
+       1.1302643192034974852387822584241400608]
+ ? FS = mfsymbol(mf, F); bestappr(om^2 / mfpetersson(FS), 10^8)
+ %7 = 113246208/325
+ @eprog

@@ -1,0 +1,16 @@
+Function: real
+Section: conversions
+C-Name: greal
+Prototype: G
+Help: real(x): real part of x.
+Doc: real part of $x$. When $x$ is a quadratic number, this is the
+ coefficient of $1$ in the ``canonical'' integral basis $(1,\omega)$.
+ \bprog
+ ? real(3 + I)
+ %1 = 3
+ ? x = 3 + quadgen(-23);
+ ? real(x) \\ as a quadratic number
+ %3 = 3
+ ? real(x * 1.) \\ as a complex number
+ %4 = 3.5000000000000000000000000000000000000
+ @eprog

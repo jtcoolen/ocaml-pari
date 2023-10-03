@@ -1,0 +1,23 @@
+Function: qfminimize
+Section: linear_algebra
+C-Name: qfminimize
+Prototype: G
+Help: qfminimize(G): given a square symmetric matrix G with rational
+  coefficients and non-zero determinant, of dimension n >= 1, return [H,U,c]
+ such that H = c * U~*G*U for some rational c, and H integral with minimal
+ determinant.
+Doc: Given a square symmetric matrix $G$ with rational coefficients, and
+ non-zero determinant, of dimension $n \geq 1$, return \kbd{[H,U,c]} such that
+ \kbd{H = c*U\til*G*U} for some rational $c$, and $H$ integral with minimal
+ determinant. The coefficients of $U$ are usually nonintegral.
+ \bprog
+ ? G = matdiagonal([650, -104329, -104329]);
+ ? [H,U,c]=qfminimize(G); H
+ %2 = [-1,0,0;0,-1,0;0,0,1]
+ ? U
+ %3 = [0,0,1/5;5/323,-1/323,0;-1/323,-5/323,0]
+ ? c
+ %4 = 1/26
+ ? c * U~ * G * U
+ %4 = [-1,0,0;0,-1,0;0,0,1]
+ @eprog

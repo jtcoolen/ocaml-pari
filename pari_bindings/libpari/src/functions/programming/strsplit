@@ -1,0 +1,21 @@
+Function: strsplit
+Section: programming/specific
+C-Name: strsplit
+Prototype: GDG
+Help: strsplit(s,{p = ""}): splits the string s into a vector of strings, with
+ p acting as a delimiter between successive fields; if p is empty or omitted,
+ split into characters.
+Doc: splits the string $s$ into a vector of strings, with $p$ acting as a
+ delimiter. If $p$ is empty or omitted, split the string into characters.
+ \bprog
+ ? strsplit("abc::def::ghi", "::")
+ %1 = ["abc", "def", "ghi"]
+ ? strsplit("abc", "")
+ %2 = ["a", "b", "c"]
+ ? strsplit("aba", "a")
+ @eprog\noindent If $s$ starts (resp.~ends) with the pattern $p$, then the
+ first (resp.~last) entry in the vector is the empty string:
+ \bprog
+ ? strsplit("aba", "a")
+ %3 = ["", "b", ""]
+ @eprog

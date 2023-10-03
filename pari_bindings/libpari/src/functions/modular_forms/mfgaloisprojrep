@@ -1,0 +1,52 @@
+Function: mfgaloisprojrep
+Section: modular_forms
+C-Name: mfgaloisprojrep
+Prototype: GGp
+Help: mfgaloisprojrep(mf,F): mf being an mf output by mfinit in weight 1,
+ and F an eigenform, returns a polynomial defining the field fixed by the
+ kernel of the projective representation associated to F.
+Doc: \var{mf} being an \kbd{mf} output by \kbd{mfinit} in weight $1$,
+ return a polynomial defining the field fixed by the kernel of the projective
+ Artin representation attached to \var{F} (by Deligne--Serre).
+ Currently only implemented for projective images $A_4$, $A_5$ and $S_4$.
+ The type $A_5$ requires the \kbd{nflistdata} package to be installed.
+
+ \bprog
+ \\ A4 example
+ ? mf = mfinit([4*31,1,Mod(87,124)],0);
+ ? F = mfeigenbasis(mf)[1];
+ ? mfgaloistype(mf,F)
+ %3 = -12
+ ? pol = mfgaloisprojrep(mf,F)
+ %4 = x^12 + 68*x^10 + 4808*x^8 + ... + 4096
+ ? G = galoisinit(pol); galoisidentify(G)
+ %5 = [12,3] \\A4
+ ? pol4 = polredbest(galoisfixedfield(G,G.gen[3], 1))
+ %6 = x^4 + 7*x^2 - 2*x + 14
+ ? polgalois(pol4)
+ %7 = [12, 1, 1, "A4"]
+ ? factor(nfdisc(pol4))
+ %8 =
+ [ 2 4]
+
+ [31 2]
+
+ \\ S4 example
+ ? mf = mfinit([4*37,1,Mod(105,148)],0);
+ ? F = mfeigenbasis(mf)[1];
+ ? mfgaloistype(mf,F)
+ %11 = -24
+ ? pol = mfgaloisprojrep(mf,F)
+ %12 = x^24 + 24*x^22 + 256*x^20 + ... + 255488256
+ ? G = galoisinit(pol); galoisidentify(G)
+ %13 = [24, 12] \\S4
+ ? pol4 = polredbest(galoisfixedfield(G,G.gen[3..4], 1))
+ %14 = x^4 - x^3 + 5*x^2 - 7*x + 12
+ ? polgalois(pol4)
+ %15 = [24, -1, 1, "S4"]
+ ? factor(nfdisc(pol4))
+ %16 =
+ [ 2 2]
+
+ [37 3]
+ @eprog

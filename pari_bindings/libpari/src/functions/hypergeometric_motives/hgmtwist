@@ -1,0 +1,18 @@
+Function: hgmtwist
+Section: hypergeometric_motives
+C-Name: hgmtwist
+Prototype: G
+Help: hgmtwist(H): twist by 1/2 of alpha and beta of the hypergeometric motive
+ template H.
+
+Doc: twist by $1/2$ of alpha and beta of the hypergeometric motive
+ template $H$.
+ \bprog
+ ? H = hgminit([5]);
+ ? hgmalpha(H)
+ %2 = [[1/5, 2/5, 3/5, 4/5], [0, 0, 0, 0]]
+ ? H2 = hgmtwist(H);
+ ? hgmalpha(H2)
+ %4 = [[1/10, 3/10, 7/10, 9/10], [1/2, 1/2, 1/2, 1/2]]
+ @eprog\noindent The template is symmetrical (\kbd{hgmissymmetrical})
+ if it is equal to its twist.

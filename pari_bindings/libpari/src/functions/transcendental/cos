@@ -1,0 +1,18 @@
+Function: cos
+Section: transcendental
+C-Name: gcos
+Prototype: Gp
+Description:
+ (real):real         mpcos($1)
+ (mp):real:prec      gcos($1, $prec)
+ (gen):gen:prec      gcos($1, $prec)
+Help: cos(x): cosine of x.
+Doc: cosine of $x$.
+ Note that, for real $x$, cosine and sine can be obtained simultaneously as
+ \bprog
+ cs(x) = my(z = exp(I*x)); [real(z), imag(z)];
+ @eprog and for general complex $x$ as
+ \bprog
+ cs2(x) = my(z = exp(I*x), u = 1/z); [(z+u)/2, (z-u)/2];
+ @eprog Note that the latter function suffers from catastrophic cancellation
+ when $z^2 \approx \pm1$.

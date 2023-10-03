@@ -1,0 +1,42 @@
+default(parisize,"44M"); \\ overflows 42M
+bernfrac(0);
+bernfrac(1);
+for(k = 1, 20, print(bernfrac(k)));
+for(k = 0, 5, print(bernpol(k)));
+for(k = 0, 5, print(bernpol(k,1)));
+bernvec(30)
+bernreal(30)
+bernreal(202)
+bernreal(1024)
+bernfrac(256)
+eulerreal(30) - eulerfrac(30)
+localprec(57); bernreal(30)
+localprec(57); eulerreal(30) - eulerfrac(30)
+eulerfrac(0)
+eulerfrac(1)
+eulerfrac(2)
+eulervec(30)
+forstep(k = 0, 20, 2, print(eulerfrac(k)));
+for(k = 0, 5, print(eulerpol(k)));
+for(k = 0, 5, print(eulerianpol(k)));
+
+p=2^32-5; B=Mod(bernvec(7000), p);
+X=Mod(1,p)*x + O(x^14002); t=X/(exp(X)-1);
+j=0; J=Mod(1,p); /* 2i and j! mod p */
+for (i=0, #B-1, if (B[1+i] != polcoeff(t,j)*J, error(i)); j+=2; J *= j*(j-1))
+
+E=Mod(eulervec(7000), p); t=1/cosh(X);
+j=0; J=Mod(1,p); /* 2i and j! mod p */
+for (i=0, #E-1, if (E[1+i] != polcoeff(t,j)*J, error(i)); j+=2; J *= j*(j-1))
+
+bernvec(579)[14]
+
+\\ Errors, keep at end of file
+bernfrac(-1)
+bernreal(-1)
+bernpol(-1)
+bernpol(-1,1)
+eulerfrac(-1)
+eulerreal(-1)
+eulerpol(-1)
+eulerianpol(-1)

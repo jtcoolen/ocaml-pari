@@ -1,0 +1,30 @@
+Function: parsum
+Section: programming/parallel
+C-Name: parsum
+Prototype: V=GGJ
+Description:
+ (gen,gen,closure):gen parsum($1, $2, $3)
+Help: parsum(i=a,b,expr): the sum (i goes from a to b) of
+ expression expr, evaluated in parallel (in random order).
+Doc: sum of expression \var{expr}, the formal parameter
+ going from $a$ to $b$, evaluated in parallel in random order.
+ The expression \kbd{expr} must not access global variables or
+ variables declared with \kbd{local()}, and must be free of side effects.
+ \bprog
+ ? parsum(i=1,1000,ispseudoprime(2^prime(i)-1))
+ cpu time = 1min, 26,776 ms, real time = 5,854 ms.
+ %1 = 20
+ @eprog
+ returns the number of prime numbers among the first $1000$ Mersenne numbers.
+ \misctitle{Note} This function is only useful when summing entries
+ that are too large to fit in memory simultaneously. To sum a small number of
+ values, using \kbd{vecsum(parvector())} is likely to be more efficient; the
+ sumation order also becomes deterministic.
+ %\syn{NO}
+
+Function: _parsum_slice_worker
+Section: programming/internals
+C-Name: parsum_slice_worker
+Prototype: GGGG
+Help: _parsum_slice_worker(a,b,m,C): return sum(k=0,(b-a)\m,C(a+k*m)).
+ a and m must be integers and m must be positive.

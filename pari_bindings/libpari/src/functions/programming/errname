@@ -1,0 +1,16 @@
+Function: errname
+Section: programming/specific
+C-Name: errname
+Prototype: G
+Help: errname(E): returns the type of the error message E.
+Doc: returns the type of the error message \kbd{E} as a string.
+ \bprog
+ ? iferr(1 / 0, E, print(errname(E)))
+ e_INV
+ ? ?? e_INV
+ [...]
+ * "e_INV".  Tried to invert a noninvertible object x in function s.
+ [...]
+ @eprog
+Description:
+ (gen):errtyp err_get_num($1)

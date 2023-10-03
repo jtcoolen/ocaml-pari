@@ -1,0 +1,7 @@
+Function: _#
+Section: symbolic_operators
+C-Name: mpprimorial
+Prototype: L
+Help: n#: primorial of n.
+Description:
+ (small):int                        mpprimorial($1)

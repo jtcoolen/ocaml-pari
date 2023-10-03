@@ -1,0 +1,17 @@
+Function: alginv
+Section: algebras
+C-Name: alginv
+Prototype: DGG
+Help: alginv({al},x): element 1/x in al (Hamilton quaternions if omitted).
+Doc: Given an element $x$ in \var{al} (Hamilton quaternions if omitted),
+ computes its inverse $x^{-1}$ in the algebra \var{al}. Assumes that $x$ is
+ invertible.
+ \bprog
+ ? A = alginit(nfinit(y), [-1,-1]);
+ ? alginv(A,[1,1,0,0]~)
+ %2 = [1/2, 1/2, 0, 0]~
+ ? alginv(,[1,0,Pi,sqrt(2)]~) \\Hamilton quaternions
+ %3 = [0.0777024661, 0, -0.2441094967, -0.1098878814]~
+ @eprog
+
+ Also accepts square matrices with coefficients in \var{al}.

@@ -1,0 +1,21 @@
+default(parisize,"34M"); \\ overflows 32M
+binomial(x,2)
+binomial(6,3)
+binomial(6)
+binomial(2^64-1,4)
+binomial(3,5)
+binomial(3,3)
+binomial(10001111,3532222) % (2^32 + 15)
+binomial(-2,-4)
+binomial(-2,-1)
+binomial(-2,2)
+binomial(-1,-4)
+binomial(-2,3)
+binomial(Mod(0,3),2)
+binomial(Mod(0,3),-1)
+binomial(Mod(0,3),0)
+
+\\errors
+binomial(1,2.)
+binomial(-1)
+binomial(1.)

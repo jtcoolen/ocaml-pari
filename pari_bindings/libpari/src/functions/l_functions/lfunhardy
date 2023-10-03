@@ -1,0 +1,35 @@
+Function: lfunhardy
+Section: l_functions
+C-Name: lfunhardy
+Prototype: GGb
+Help: lfunhardy(L,t): variant of the Hardy L-function attached to L, used for
+ plotting on the critical line.
+Doc: Variant of the Hardy $Z$-function given by \kbd{L}, used for
+ plotting or locating zeros of $L(k/2+it)$ on the critical line.
+ The precise definition is as
+ follows: let $k/2$ be the center of the critical strip, $d$ be the
+ degree, $\kbd{Vga} = (\alpha_j)_{j\leq d}$ given the gamma factors,
+ and $\varepsilon$ be the root number; we set
+ $s = k/2+it = \rho e^{i\theta}$ and
+ $2E = d(k/2-1) + \Re(\sum_{1\le j\le d}\alpha_j)$. Assume first that $\Lambda$
+ is self-dual, then the computed function at $t$ is equal to
+ $$Z(t) = \varepsilon^{-1/2}\Lambda(s) \cdot \rho^{-E}e^{dt\theta/2}\;,$$
+ which is a real function of $t$
+ vanishing exactly when $L(k/2+it)$ does on the critical line. The
+ normalizing factor $|s|^{-E}e^{dt\theta/2}$ compensates the
+ exponential decrease of $\gamma_A(s)$ as $t\to\infty$ so that
+ $Z(t) \approx 1$. For non-self-dual $\Lambda$, the definition is the same
+ except we drop the $\varepsilon^{-1/2}$ term (which is not well defined since
+ it depends on the chosen dual sequence $a^*(n)$): $Z(t)$ is still of the
+ order of $1$ and still vanishes where $L(k/2+it)$ does, but it needs no
+ longer be real-valued.
+
+ \bprog
+ ? T = 100; \\ maximal height
+ ? L = lfuninit(1, [T]); \\ initialize for zeta(1/2+it), |t|<T
+ ? \p19 \\ no need for large accuracy
+ ? ploth(t = 0, T, lfunhardy(L,t))
+ @eprog\noindent Using \kbd{lfuninit} is critical for this particular
+ applications since thousands of values are computed. Make sure to initialize
+ up to the maximal $t$ needed: otherwise expect to see many warnings for
+ unsufficient initialization and suffer major slowdowns.

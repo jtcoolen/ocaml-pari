@@ -1,0 +1,23 @@
+Function: Map
+Section: conversions
+C-Name: gtomap
+Prototype: DG
+Help: Map({x}): converts the matrix [a_1,b_1;a_2,b_2;...;a_n,b_n] to the map a_i->b_i.
+Description:
+ ():list           mkmap()
+ (gen):list        listinit(gtomap($1))
+Doc: A ``Map'' is an associative array, or dictionary: a data
+ type composed of a collection of (\emph{key}, \emph{value}) pairs, such that
+ each key appears just once in the collection. This function
+ converts the matrix $[a_1,b_1;a_2,b_2;\dots;a_n,b_n]$ to the map $a_i\mapsto
+ b_i$.
+ \bprog
+ ? M = Map(factor(13!));
+ ? mapget(M, 3)
+ %2 = 5
+ ? P = Map(matreduce(primes([1,20])))
+ %3 = Map([2,1;3,1;5,1;7,1;11,1;13,1;17,1;19,1])
+ ? select(i->mapisdefined(P,i), [1..20])
+ %4 = [2, 3, 5, 7, 11, 13, 17, 19]
+ @eprog\noindent If the argument $x$ is omitted, creates an empty map, which
+ may be filled later via \tet{mapput}.

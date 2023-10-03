@@ -1,0 +1,15 @@
+Function: _.fu
+Help: _.fu
+Section: member_functions
+C-Name: member_fu
+Prototype: G
+Description:
+ (bnr):void                $"ray units not implemented"
+ (bnf):gen:copy         bnf_get_fu($1)
+ (gen):gen              member_fu($1)
+
+Function: _chinese_unit_worker
+C-Name: chinese_unit_worker
+Prototype: GGGGGG
+Section: programming/internals
+Help: worker for _.fu

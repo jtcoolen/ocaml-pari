@@ -1,0 +1,53 @@
+default(parisize,"22M"); \\ overflows 20M
+bnf=bnfinit(x^3-2); S=idealfactor(bnf,2*3*5*7)[,1];
+B=bnfsunit(bnf,S);
+B[1]
+B[4]
+B[5]
+bnfissunit(bnf,B,x)
+bnfissunit(bnf,B,x+2)
+bnfissunit(bnf,B,x+100)
+bnfissunit(bnf,B,[x+2,20;x,17])
+bnfisunit(bnf, x+100)
+B=bnfunits(bnf)
+bnfisunit(bnf,x,B)
+B=bnfunits(bnf,S)
+bnfisunit(bnf,x+2,B)
+bnfisunit(bnf,x+100,B)
+bnfisunit(bnf,[x+2,20;x,17],B)
+
+S=bnfsunit(bnf,[]);
+bnfissunit(bnf,S,2)
+bnfissunit(bnf,S,-1)
+bnfissunit(bnf,S,bnf.fu[1])
+
+bnf=bnfinit(x^2+23); S=bnfsunit(bnf,idealprimedec(bnf,2)[1..1]);
+S[1]
+S[4]
+S[5]
+
+bnf=bnfinit(x^2-210); S=bnfsunit(bnf,idealprimedec(bnf,2)[1..1]);
+S[1]
+S[4]
+S[5]
+
+\\ #2207
+setrand(1);
+L=bnfinit(x^6-68463*x^4-5120808*x^3+1250774892*x^2+192368273328*x+7520491439712,1);
+S2=vecextract(idealprimedec(L,2), [3,2,1]);
+S7=idealprimedec(L,7);
+S13=vecextract(idealprimedec(L,13), [1,3,2]);
+S5=idealprimedec(L,5);
+S=concat([S2,S7,S13,S5]);
+U=bnfunits(L,S);
+foreach(U[1],u,print(bnfisunit(L,u,U)))
+
+\\ from D. Broadhurst's examples
+P=x^7-22*x^6+169*x^5-568*x^4+1263*x^3-1506*x^2+2295*x+2;
+setrand(1); bnf=bnfinit(P,1);
+US=bnfunits(bnf,idealprimedec(bnf,2)); u=US[1];
+t=4*(x^2-18*x+85)/x^2*Mod(1,bnf.pol);
+v=bnfisunit(bnf,t,US);
+for(i=1,#u,u[i][,2] *= v[i]);
+P=nfmodprinit(bnf,idealprimedec(bnf,2^32+15)[1]);
+nfmodpr(bnf,matreduce(matconcat(u~)), P) / nfmodpr(bnf,t,P)

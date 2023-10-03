@@ -1,0 +1,16 @@
+Function: eulerreal
+Section: combinatorics
+C-Name: eulerreal
+Prototype: Lp
+Help: eulerreal(n): Euler number E_n, as a real number.
+Doc: Euler number\sidx{Euler numbers} $E_n$,
+ where $E_0=1$, $E_1=0$, $E_2=-1$, \dots, are integers such that
+ $$ \dfrac{1}{\cosh t} = \sum_{n\geq 0} \dfrac{E_n}{n!} t^n. $$
+ The argument $n$ should be a nonnegative integer. Return $E_n$
+ as a real number (with the current precision).
+ \bprog
+ ? sizedigit(eulerfrac(20000))
+ %1 = 73416
+ ? eulerreal(20000);
+ %2 = 9.2736664576330851823546169139003297830 E73414
+ @eprog

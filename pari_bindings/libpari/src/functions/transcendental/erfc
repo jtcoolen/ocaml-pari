@@ -1,0 +1,21 @@
+Function: erfc
+Section: transcendental
+C-Name: gerfc
+Prototype: Gp
+Help: erfc(x): complementary error function.
+Doc: complementary error function, analytic continuation of
+ $(2/\sqrt\pi)\int_x^\infty e^{-t^2}\,dt
+ = \text{sign(x)}\kbd{incgam}(1/2,x^2)/\sqrt\pi$ for real $x \neq 0$.
+ The latter expression extends the function definition from real $x$ to
+ complex $x$ with positive real part (or zero real part and positive
+ imaginary part). This is extended to the whole complex plane by
+ the functional equation $\kbd{erfc}(-x) = 2 - \kbd{erfc}(x)$.
+ \bprog
+ ? erfc(0)
+ %1 = 1.0000000000000000000000000000000000000
+ ? erfc(1)
+ %2 = 0.15729920705028513065877936491739074071
+ ? erfc(1+I)
+ %3 = -0.31615128169794764488027108024367036903
+      - 0.19045346923783468628410886196916244244*I
+ @eprog

@@ -1,0 +1,39 @@
+Function: snfrank
+Section: linear_algebra
+C-Name: snfrank
+Prototype: lGDG
+Help: snfrank(D,{q = 0}): assuming that D is a Smith normal form
+ (i.e. vector of elementary divisors) for some module and q a power of an
+ irreducible element or 0 (default if omitted), return the rank of D/qD.
+Doc: assuming that $D$ is a Smith normal form
+ (i.e. vector of elementary divisors) for some module and $q$ a power of an
+ irreducible element or $0$, return the minimal number of generators for
+ $D/qD$. For instance, if $q=p^n$ where $p$ is a prime number, this is the
+ dimension of $(p^{n-1}D)/p^nD$ as an $\F_p$-vector space. An argument $q = 0$
+ may be omitted.
+
+ \bprog
+ ? snfrank([4,4,2], 2)
+ %1 = 3
+ ? snfrank([4,4,2], 4)
+ %2 = 2
+ ? snfrank([4,4,2], 8)
+ %3 = 0
+ ? snfrank([4,4,2])   \\ or snfrank([4,4,2], 0)
+ %4 = 3
+ @eprog\noindent The function also works for $K[x]$-modules:
+ \bprog
+ ? D=matsnf([-x-5,-1,-1,0; 0,x^2+10*x+26,-1,-x-5; 1,-x-5,-x-5,1; -1,0,0,1]);
+ ? snfrank(D, x^2 + 10*x + 27)
+ %6 = 2
+ ? A=matdiagonal([x-1,x^2+1,x-1,(x^2+1)^2,x,(x-1)^2]); D=matsnf(A);
+ ? snfrank(D,x-1)
+ %8 = 3
+ ? snfrank(D,(x-1)^2)
+ %9 = 1
+ ? snfrank(D,(x-1)^3)
+ %9 = 0
+ ? snfrank(D,x^2+1)
+ %10 = 2
+ @eprog\noindent Finally this function supports any output from \kbd{matsnf}
+ (e.g., with transformation matrices included, with or without cleanup).

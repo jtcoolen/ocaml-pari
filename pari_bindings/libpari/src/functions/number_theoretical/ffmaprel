@@ -1,0 +1,32 @@
+Function: ffmaprel
+Section: number_theoretical
+C-Name: ffmaprel
+Prototype: GG
+Help: ffmaprel(m, x): given a (partial) map m between two finite fields,
+ express x as an algebraic element over the codomain of m in a way which
+ is compatible with m.
+ The function is applied recursively to the component of vectors, matrices and
+ polynomials.
+Doc: given a (partial) map $m$ between two finite fields, express $x$ as an
+ algebraic element over the codomain of $m$ in a way which is compatible
+ with $m$.
+ The function is applied recursively to the component of vectors,
+ matrices and polynomials.
+ \bprog
+ ? a = ffgen([3,5],'a);
+ ? b = ffgen([3,10],'b);
+ ? m = ffembed(a, b);
+ ? mi= ffinvmap(m);
+ ? R = ffmaprel(mi,b)
+ %5 = Mod(b,b^2+(a+1)*b+(a^2+2*a+2))
+ @eprog
+ In particular, this function can be used to compute the relative minimal
+ polynomial, norm and trace:
+ \bprog
+ ? minpoly(R)
+ %6 = x^2+(a+1)*x+(a^2+2*a+2)
+ ? trace(R)
+ %7 = 2*a+2
+ ? norm(R)
+ %8 = a^2+2*a+2
+ @eprog

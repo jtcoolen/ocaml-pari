@@ -1,0 +1,51 @@
+Function: parploth
+Section: graphic
+C-Name: parploth
+Prototype: V=GGJD0,M,D0,L,p\nParametric|1; Recursive|2; no_Rescale|4; no_X_axis|8; no_Y_axis|16; no_Frame|32; no_Lines|64; Points_too|128; Splines|256; no_X_ticks|512; no_Y_ticks|1024; Same_ticks|2048; Complex|4096
+Description:
+  (gen,gen,closure,?small,?small):vec:prec  parploth($1, $2, $3, $4, $5, $prec)
+Help: parploth(X=a,b,expr,{flags=0},{n=0}): parallel version of ploth. Plot
+ of expression expr, X goes from a to b in high resolution. Both flags and n
+ are optional. Binary digits of flags mean: 1=Parametric, 2=Recursive,
+ 4=no_Rescale, 8=no_X_axis, 16=no_Y_axis, 32=no_Frame, 64=no_Lines (do not join
+ points), 128=Points_too (plot both lines and points), 256=Splines (use cubic
+ splines), 512=no_X_ticks, 1024= no_Y_ticks, 2048=Same_ticks (plot all ticks
+ with the same length), 4096=Complex (the two coordinates of each point are
+ encoded as a complex number). n specifies number of reference points on the
+ graph (0=use default value). Returns a vector for the bounding box.
+Doc: parallel version of \kbd{ploth}. High precision plot of the function
+ $y=f(x)$ represented by the expression \var{expr}, $x$ going from $a$ to $b$.
+ This opens a specific window (which is killed whenever you click on it), and
+ returns a four-component vector giving the coordinates of the bounding box in
+ the form $[\var{xmin},\var{xmax},\var{ymin},\var{ymax}]$.
+
+ \misctitle{Important note} \kbd{parploth} may evaluate \kbd{expr} thousands of
+ times; given the relatively low resolution of plotting devices, few
+ significant digits of the result will be meaningful. Hence you should keep
+ the current precision to a minimum (e.g.~9) before calling this function.
+
+ The parameter $n$ specifies the number of reference point on the graph, where
+ a value of 0 means we use the hardwired default values; the binary digits of
+ \fl\ have the same meaning
+ as in \kbd{ploth}: $1 = \kbd{Parametric}$; $2 = \kbd{Recursive}$;
+ $4 = \kbd{no\_Rescale}$; $8 = \kbd{no\_X\_axis}$; $16 = \kbd{no\_Y\_axis}$;
+ $32 = \kbd{no\_Frame}$; $64 = \kbd{no\_Lines}$; $128 = \kbd{Points\_too}$;
+ $256 = \kbd{Splines}$; $512 = \kbd{no\_X\_ticks}$;
+ $1024 = \kbd{no\_Y\_ticks}$; $2048 = \kbd{Same\_ticks}$;
+ $4096 = \kbd{Complex}$.
+
+ For instance:
+ \bprog
+ \\ circle
+ parploth(X=0,2*Pi,[sin(X),cos(X)], "Parametric")
+ \\ two entwined sinusoidal curves
+ parploth(X=0,2*Pi,[sin(X),cos(X)])
+ \\ circle cut by the line y = x
+ parploth(X=0,2*Pi,[X,X,sin(X),cos(X)], "Parametric")
+ \\ circle
+ parploth(X=0,2*Pi,exp(I*X), "Complex")
+ \\ circle cut by the line y = x
+ parploth(X=0,2*Pi,[(1+I)*X,exp(I*X)], "Complex")
+ @eprog
+
+ \synt{parploth}{GEN a,GEN b,GEN code, long flag, long n, long prec}.

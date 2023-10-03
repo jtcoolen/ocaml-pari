@@ -1,0 +1,54 @@
+Function: bnrclassfield
+Section: number_fields
+C-Name: bnrclassfield
+Prototype: GDGD0,L,p
+Help: bnrclassfield(bnr,{subgp},{flag=0}): bnr being as output by bnrinit,
+ find a relative equation for the class field corresponding to the congruence
+ subgroup described by (bnr,subgp). If flag=0, return a vector of polynomials
+ such that the compositum of the corresponding fields is the class field; if
+ flag=1 return a single relative polynomial; if flag=2 return a single
+ absolute polynomial.
+Doc: \var{bnr} being as output by \kbd{bnrinit}, returns a relative equation
+ for the class field corresponding to the congruence group defined by
+ $(\var{bnr},\var{subgp})$ (the full ray class field if \var{subgp} is
+ omitted). The subgroup can also be a \typ{INT}~$n$,
+ meaning~$n \cdot \text{Cl}_f$. The function also handles a vector of
+ subgroup, e.g, from \tet{subgrouplist} and returns the vector of individual
+ results in this case.
+
+ If $\fl=0$, returns a vector of polynomials such that the compositum of the
+ corresponding fields is the class field; if $\fl=1$ returns a single
+ polynomial; if $\fl=2$ returns a single absolute polynomial.
+
+ \bprog
+ ? bnf = bnfinit(y^3+14*y-1); bnf.cyc
+ %1 = [4, 2]
+ ? pol = bnrclassfield(bnf,,1) \\ Hilbert class field
+ %2 = x^8 - 2*x^7 + ... + Mod(11*y^2 - 82*y + 116, y^3 + 14*y - 1)
+ ? rnfdisc(bnf,pol)[1]
+ %3 = 1
+ ? bnr = bnrinit(bnf,3*5*7); bnr.cyc
+ %4 = [24, 12, 12, 2]
+ ? bnrclassfield(bnr,2) \\ maximal 2-elementary subextension
+ %5 = [x^2 + (-21*y - 105), x^2 + (-5*y - 25), x^2 + (-y - 5), x^2 + (-y - 1)]
+ \\ quadratic extensions of maximal conductor
+ ? bnrclassfield(bnr, subgrouplist(bnr,[2]))
+ %6 = [[x^2 - 105], [x^2 + (-105*y^2 - 1260)], [x^2 + (-105*y - 525)],
+       [x^2 + (-105*y - 105)]]
+ ? #bnrclassfield(bnr,subgrouplist(bnr,[2],1)) \\ all quadratic extensions
+ %7 = 15
+ @eprog\noindent When the subgroup contains $n \text{Cl}_f$, where $n$ is fixed,
+ it is advised to directly compute the \kbd{bnr} modulo $n$ to avoid expensive
+ discrete logarithms:
+ \bprog
+ ? bnf = bnfinit(y^2-5); p = 1594287814679644276013;
+ ? bnr = bnrinit(bnf,p); \\ very slow
+ time = 24,146 ms.
+ ? bnrclassfield(bnr, 2) \\ ... even though the result is trivial
+ %3 = [x^2 - 1594287814679644276013]
+ ? bnr2 = bnrinit(bnf,p,,2); \\ now fast
+ time = 1 ms.
+ ? bnrclassfield(bnr2, 2)
+ %5 = [x^2 - 1594287814679644276013]
+ @eprog\noindent This will save a lot of time when the modulus contains a
+ maximal ideal whose residue field is large.

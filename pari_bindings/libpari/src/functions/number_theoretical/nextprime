@@ -1,0 +1,24 @@
+Function: nextprime
+Section: number_theoretical
+C-Name: nextprime
+Prototype: G
+Help: nextprime(x): smallest pseudoprime >= x.
+Description:
+ (gen):int        nextprime($1)
+Doc: finds the smallest pseudoprime (see
+ \tet{ispseudoprime}) greater than or equal to $x$. $x$ can be of any real
+ type. Note that if $x$ is a pseudoprime, this function returns $x$ and not
+ the smallest pseudoprime strictly larger than $x$. To rigorously prove that
+ the result is prime, use \kbd{isprime}.
+ \bprog
+ ? nextprime(2)
+ %1 = 2
+ ? precprime(Pi)
+ %2 = 5
+ ? nextprime(-10)
+ %3 = 2 \\ primes are positive
+ @eprog\noindent
+ Despite the name, please note that the function is not guaranteed to return
+ a prime number, although no counter-example is known at present. The return
+ value \emph{is} a guaranteed prime if $x \leq 2^{64}$. To rigorously prove
+ that the result is prime in all cases, use \kbd{isprime}.

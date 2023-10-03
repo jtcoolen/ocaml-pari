@@ -1,0 +1,39 @@
+Function: logint
+Section: number_theoretical
+C-Name: logint0
+Prototype: lGGD&
+Help: logint(x,b,{&z}): return the largest non-negative integer e so that
+ b^e <= x, where b > 1 is an integer and x >= 1 is a real number. If the
+ parameter z is present, set it to b^e.
+Description:
+ (int,2):small        expi($1)
+ (gen,gen):small      logint0($1, $2, NULL)
+ (gen,gen,&int):small logint0($1, $2, &$3)
+Doc: Return the largest non-negative integer $e$ so that $b^e \leq x$, where
+ $b > 1$ is an integer and $x \geq 1$ is a real number. If the parameter $z$
+ is present, set it to $b^e$.
+ \bprog
+ ? logint(1000, 2)
+ %1 = 9
+ ? 2^9
+ %2 = 512
+ ? logint(1000, 2, &z)
+ %3 = 9
+ ? z
+ %4 = 512
+ ? logint(Pi^2, 2, &z)
+ %5 = 3
+ ? z
+ %6 = 8
+ @eprog\noindent The number of digits used to write $x$ in base $b$ is
+ \kbd{1 + logint(x,b)}:
+ \bprog
+ ? #digits(1000!, 10)
+ %5 = 2568
+ ? logint(1000!, 10)
+ %6 = 2567
+ @eprog\noindent This function may conveniently replace
+ \bprog
+   floor( log(x) / log(b) )
+ @eprog\noindent which may not give the correct answer since PARI
+ does not guarantee exact rounding.

@@ -1,0 +1,32 @@
+Function: elliscm
+Section: elliptic_curves
+C-Name: elliscm
+Prototype: lG
+Help: elliscm(E): return 0 if the elliptic curve E, defined
+ over a number field, is not CM, otherwise return the discriminant of its
+ endomorphism ring.
+Doc:
+ Let $E$ an elliptic curve over a number field.
+ Return $0$ if $E$ is not CM, otherwise return the discriminant of its
+ endomorphism ring.
+
+ \bprog
+ ? E = ellinit([0,0,-5,-750,7900]);
+ ? D = elliscm(E)
+ %2 = -27
+ ? w = quadgen(D, 'w);
+ ? P = ellheegner(E)
+ %4 = [10,40]
+ ? Q = ellmul(E,P,w)
+ %5 = [110/7-5/49*w,85/49-225/343*w]
+ @eprog
+
+ An example over a number field:
+ \bprog
+ ? nf=nfinit(a^2-5);
+ ? E = ellinit([261526980*a-584793000,-3440201839360*a+7692525148000],nf);
+ ? elliscm(E)
+ %3 = -20
+ ? ellisomat(E)[2]
+ %4 = [1,2,5,10;2,1,10,5;5,10,1,2;10,5,2,1]
+ @eprog

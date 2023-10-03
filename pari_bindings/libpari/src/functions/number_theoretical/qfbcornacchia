@@ -1,0 +1,44 @@
+Function: qfbcornacchia
+Section: number_theoretical
+C-Name: qfbcornacchia
+Prototype: GG
+Help: qfbcornacchia(d,n): Solve the equation
+ x^2+dy^2 = n in integers x and y where d > 0 and
+ n is prime or 4 times a prime.
+Doc: Solve the equation $x^2 + dy^2 = n$ in integers $x$ and $y$, where
+ $d > 0$ and $n$ is prime. Returns the empty vector \kbd{[]} when no solution
+ exists. It is also allowed to try $n = 4$ times a prime but the answer is
+ then guaranteed only if $d$ is $3$ mod $4$; more precisely if $d \neq 3$ mod
+ $4$, the algorithm may fail to find a non-primitive solution.
+
+ This function is a special case of \kbd{qfbsolve} applied to the principal
+ form in the imaginary quadratic order of discriminant $-4d$ (returning the
+ solution with non-negative $x$ and $y$). As its name implies,
+ \kbd{qfbcornacchia} uses Cornacchia's algorithm and runs in time quasi-linear
+ in $\log n$ (using \kbd{halfgcd}); in practical ranges, \kbd{qfbcornacchia}
+ should be about twice faster than \kbd{qfbsolve} unless we indicate to the
+ latter that its second argument is prime (see below).
+ \bprog
+ ? qfbcornacchia(1, 113)
+ %1 = [8, 7]
+ ? qfbsolve(Qfb(1,0,1), 113)
+ %2 = [7, -8]
+ ? qfbcornacchia(1, 4*113) \\ misses the non-primitive solution 2*[8,7]
+ %3 = []
+ ? qfbcornacchia(1, 4*109) \\ finds a non-primitive solution
+ %4 = [20, 6]
+ ? p = 122838793181521; isprime(p)
+ %5 = 1
+ ? qfbcornacchia(24, p)
+ %6 = [10547339, 694995]
+ ? Q = Qfb(1,0,24); qfbsolve(Q,p)
+ %7 = [10547339, 694995]
+ ? for (i=1, 10^5, qfbsolve(Q, p))
+ time = 345 ms.
+ ? for (i=1, 10^5, qfbcornacchia(24,p)) \\ faster
+ time = 251 ms.
+ ? for (i=1, 10^5, qfbsolve(Q, Mat([p,1]))) \\ just as fast
+ time = 251 ms.
+ @eprog\noindent We used \kbd{Mat([p,1])} to indicate that $p^1$
+ was the integer factorization of $p$, i.e., that $p$ is prime. Without it,
+ \kbd{qfbsolve} further attempts to factor $p$ and waste a little time.

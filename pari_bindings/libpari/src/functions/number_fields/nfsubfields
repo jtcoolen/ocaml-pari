@@ -1,0 +1,43 @@
+Function: nfsubfields
+Section: number_fields
+C-Name: nfsubfields0
+Prototype: GD0,L,D0,L,
+Help: nfsubfields(pol,{d=0},{fl=0}): find all subfields of degree d of number
+ field defined by pol (all subfields if d is null or omitted). Result is a
+ vector of subfields, each being given by [g,h] (default) or simply g (flag=1),
+ where g is an absolute equation and h expresses one of the roots of g in terms
+ of the root x of the polynomial defining nf.
+Doc: finds all subfields of degree
+ $d$ of the number field defined by the (monic, integral) polynomial
+ \var{pol} (all subfields if $d$ is null or omitted). The result is a vector
+ of subfields, each being given by $[g,h]$ (default) or simply $g$ (\fl=1),
+ where $g$ is an absolute equation
+ and $h$ expresses one of the roots of $g$ in terms of the root $x$ of the
+ polynomial defining $\var{nf}$. This routine uses
+
+ \item Allombert's \tet{galoissubfields} when \var{nf} is Galois (with weakly
+ supersolvable Galois group).\sidx{Galois}\sidx{subfield}
+
+ \item Kl\"uners's or van Hoeij--Kl\"uners--Novocin algorithm
+ in the general case. The latter runs in polynomial time and is generally
+ superior unless there exists a small unramified prime $p$ such that \var{pol}
+ has few irreducible factors modulo $p$.
+
+ An input of the form~\kbd{[nf, fa]} is also allowed, where~\kbd{fa} is the
+ factorisation of~\var{nf.pol} over~\var{nf}, expressed as a famat of
+ polynomials with coefficients in the variable of~\kbd{nf}, in which case the van
+ Hoeij--Kl\"uners--Novocin algorithm is used.
+
+ \bprog
+ ? pol = x^4 - x^3 - x^2 + x + 1;
+ ? nfsubfields(pol)
+ %2 = [[x, 0], [x^2 - x + 1, x^3 - x^2 + 1], [x^4 - x^3 - x^2 + x + 1, x]]
+ ? nfsubfields(pol,,1)
+ %2 = [x, x^2 - x + 1, x^4 - x^3 - x^2 + x + 1]
+ ? y=varhigher("y"); fa = nffactor(pol,subst(pol,x,y));
+ ? #nfsubfields([pol,fa])
+ %5 = 3
+ @eprog
+
+Variant: Also available is \fun{GEN}{nfsubfields}{GEN nf, long d}, corresponding
+ to \fl = 0.

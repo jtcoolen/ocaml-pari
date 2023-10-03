@@ -1,0 +1,16 @@
+Function: qfperfection
+Section: linear_algebra
+C-Name: qfperfection
+Prototype: G
+Help: qfperfection(G): rank of matrix of xx~ for x minimal vectors of a Gram
+ matrix G.
+Doc: $G$ being a square and symmetric matrix with integer entries
+ representing a positive definite quadratic form, outputs the perfection rank
+ of the form. That is, gives the rank of the family of the $s$ symmetric
+ matrices $vv^t$, where $v$ runs through the minimal vectors.
+
+ A form is perfect if and only if its perfection rank is $d(d+1)/2$ where
+ $d$ is the dimension of $G$.
+
+ The algorithm computes the minimal vectors and its runtime is exponential
+ in $d$.

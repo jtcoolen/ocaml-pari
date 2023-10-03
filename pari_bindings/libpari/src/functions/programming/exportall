@@ -1,0 +1,15 @@
+Function: exportall
+Section: programming/specific
+C-Name: exportall
+Prototype: v
+Help: exportall(): declare all current dynamic variables as exported variables.
+Doc: declare all current dynamic variables as exported variables.
+ Such variables are visible inside parallel sections in place of global variables.
+ \bprog
+ ? fun(x)=x^2+1;
+ ? parvector(10,i,fun(i))
+   ***   mt: please use export(fun).
+ ? exportall()
+ ? parvector(10,i,fun(i))
+ %4 = [2,5,10,17,26,37,50,65,82,101]
+ @eprog

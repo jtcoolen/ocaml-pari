@@ -1,0 +1,38 @@
+Function: bnrmap
+Section: number_fields
+C-Name: bnrmap
+Prototype: GG
+Help: bnrmap(A, B): if A and B are bnr structures for the same bnf attached
+ to moduli mA and mB with mB | mA, return the canonical surjection from
+ A to B. Alternatively, if A is a map from bnrmap and B is a congruence
+ subgroup or ray class character modulo mA, return the corresponding object on
+ Cl(mB).
+Doc: This function has two different uses:
+
+ \item if $A$ and $B$ are \var{bnr} structures for the same \var{bnf} attached
+ to moduli $m_A$ and $m_B$ with $m_B \mid m_A$, return the canonical surjection
+ from $A$ to $B$, i.e. from the ray class group moodulo $m_A$ to the ray
+ class group modulo $m_B$. The map is coded by a triple
+ $[M,\var{cyc}_A,\var{cyc}_B]$:
+ $M$ gives the image of the fixed ray class group generators of $A$ in
+ terms of the ones in $B$, $\var{cyc}_A$ and $\var{cyc}_B$ are the cyclic
+ structures \kbd{A.cyc} and \kbd{B.cyc} respectively. Note that this function
+ does \emph{not} need $A$ or $B$ to contain explicit generators for the ray
+ class groups: they may be created using \kbd{bnrinit(,0)}.
+
+ If $B$ is only known modulo $N$-th powers (from \kbd{bnrinit(,N)}), the result
+ is correct provided $N$ is a multiple of the exponent of $A$.
+
+ \item if $A$ is a projection map as above and $B$ is either a congruence
+ subgroup $H$, or a ray class character $\chi$, or a discrete logarithm
+ (from \kbd{bnrisprincipal})  modulo $m_A$ whose conductor
+ divides $m_B$, return the image of the subgroup (resp. the character, the
+ discrete logarighm) as defined modulo $m_B$. The main use of this variant is
+ to compute the primitive subgroup or character attached to a \var{bnr} modulo
+ their conductor. This is more efficient than \tet{bnrconductor} in two
+ respects: the \var{bnr} attached to the conductor need only be computed once
+ and, most importantly, the ray class group can be computed modulo $N$-th
+ powers, where $N$ is a multiple of the exponent of $\text{Cl}_{m_A} / H$ (resp.
+ of the order of $\chi$). Whereas \kbd{bnrconductor} is specified to return a
+ \var{bnr} attached to the full ray class group, which may lead to untractable
+ discrete logarithms in the full ray class group instead of a tiny quotient.

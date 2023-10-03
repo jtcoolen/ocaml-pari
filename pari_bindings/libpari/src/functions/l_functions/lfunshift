@@ -1,0 +1,23 @@
+Function: lfunshift
+Section: l_functions
+C-Name: lfunshift
+Prototype: GGD0,L,b
+Help: lfunshift(L,d,{flag}): creates the Ldata structure (without
+ initialization) corresponding to the function Ld such that Ld(s) = L(s-d).
+ If fl=1, return the product L*Ld instead.
+Doc: creates the Ldata structure (without initialization) corresponding to the
+ shift of $L$ by $d$, that is to the function $L_d$ such that
+ $L_d(s) = L(s-d)$. If $\fl=1$, return the product $L\times L_d$ instead.
+ \bprog
+ ? Z = lfuncreate(1); \\ zeta(s)
+ ? L = lfunshift(Z,1); \\ zeta(s-1)
+ ? normlp(Vec(lfunlambda(L,s)-lfunlambda(L,3-s)))
+ %3 = 0.E-38 \\ the expansions coincide to 'seriesprecision'
+ ? lfun(L,1)
+ %4 = -0.50000000000000000000000000000000000000 \\ = zeta(0)
+ ? M = lfunshift(Z,1,1); \\ zeta(s)*zeta(s-1)
+ ? normlp(Vec(lfunlambda(M,s)-lfunlambda(M,2-s)))
+ %6 = 2.350988701644575016 E-38
+ ? lfun(M,2) \\ simple pole at 2, residue zeta(2)
+ %7 = 1.6449340668482264364724151666460251892*x^-1+O(x^0)
+ @eprog

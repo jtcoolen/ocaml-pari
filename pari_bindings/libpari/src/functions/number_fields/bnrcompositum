@@ -1,0 +1,26 @@
+Function: bnrcompositum
+Section: number_fields
+C-Name: bnrcompositum
+Prototype: GG
+Help: bnrcompositum(A,B): compositum [bnr,H] of the two abelian extensions
+ given by A = [bnr1,H1] and B = [bnr2,H2], where bnr1 and bnr2 are attached
+ to the same base field.
+Doc: given two abelian extensions $A = \kbd{[bnr1, H1]}$ and
+ $B = \kbd{[bnr2, H2]}$, where \kbd{bnr1} and \kbd{bnr2} are two \kbd{bnr}
+ structures attached to the same base field, return their compositum
+ as \kbd{[bnr, H]}. The modulus attached to \kbd{bnr} need not be the
+ conductor of the compositum.
+ \bprog
+ ? Q = bnfinit(y);
+ ? bnr1 = bnrinit(Q, [7, [1]]); bnr1.cyc
+ %2 = [6]
+ ? bnr2 = bnrinit(Q, [13, [1]]); bnr2.cyc
+ %3 = [12]
+ ? H1 = Mat(2); bnrclassfield(bnr1, H1)
+ %4 = [x^2 + 7]
+ ? H2 = Mat(2); bnrclassfield(bnr2, H2)
+ %5 = [x^2 - 13]
+ ? [bnr,H] = bnrcompositum([bnr1, H1], [bnr2,H2]);
+ ? bnrclassfield(bnr,H)
+ %7 = [x^2 - 13, x^2 + 7]
+ @eprog

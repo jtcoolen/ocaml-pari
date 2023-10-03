@@ -1,0 +1,93 @@
+Function: subcyclohminus
+Section: number_fields
+C-Name: subcyclohminus
+Prototype: GDG
+Help: subcyclohminus(fH, {p=0}):
+ Let F be the abelian number field contained in Q(zeta_f) corresponding
+ to the subgroup H of (Z/fZ)^*. Let h be the relative class number
+ h^-(F) and Q the Hasse unit index in {1,2}. If Q could be computed, return
+ [h, Q]; else return [2h/Q, 0].
+Doc: Let $F$ be the abelian number field contained in $\Q(\zeta_f)$
+ corresponding to the subgroup $H$ of $(\Z/f\Z)^*$.
+ Computes the relative class number $h^-(F)=h(F)/h(F^+)$ of $F$.
+ The argument \kbd{fH} encodes $F$ and the data $[f,H]$ as follows:
+
+ \item $\kbd{fH} = [f, H]$, where $H$ is given by a vector of
+ integral generators,
+
+ \item $\kbd{fH} = [\var{bnr}, H]$, where \var{bnr} is attached to
+ $\Cl_f(\Q)$ and $H$ is a congruence subgroup,
+
+ \item $\kbd{fH} = [G, H]$, where $G$ is \kbd{idealstar}$(f,1)$, and $H$ is
+ a subgroup of $(\Z/f\Z)^\times$,
+
+ \item $\kbd{fH} = f$, where we assume that $H = \{1\}$, i.e., $F =
+ \Q(\zeta_f)$,
+
+ \item an irreducible integral polynomial defining a primitive element for $F$.
+
+ The algorithm is based on an analytic class number formula:
+ $$h^-(F)=Q(F)w(F)\prod_{K\subset F}N_{\Q(\zeta_d)/\Q}
+   \Bigl(-B_{1,\chi}/2\Bigr)\;,$$
+ where $Q(F)$ is the unit index of $F$, $w(F)$ is the number of roots of unity
+ contained in $F$ and $K$ runs through all imaginary cyclic subfields of $F$.
+ For each $K$, $d$ is the degree $[K:\Q]$, $\chi$ is an arbitrary injective
+ character of $G(K/\Q)$ to $\C^{\times}$ and the Bernoulli number is given by
+ $$B_{1,\chi}=(1/f_\chi)\sum_{a=1}^{f_\chi}a\chi(a)=-(1/(2-\overline{\chi}(2))
+ \sum_{1\leq a\leq f_\chi/2}\chi(a)\;,$$
+ where $f_\chi$ is the conductor of $\chi$, namely the conductor of $K$.
+ The unit index $Q\in\{1,2\}$ is difficult to determine in general. If it
+ could be computed, the function returns $[a, b] = [h^-, Q]$; else
+ it returns $[2h^-/Q, 0]$. More precisely, the second component is $0$ unless
+ we are in one of the following cases:
+
+ \item If $f=p^a$ with a prime number $p$, then $Q=1$.
+
+ \item If $F=\Q(\zeta_f)$, then $Q=1$ if and only if $f=p^a$.
+
+ \item If $f=4p^a$ or $p^aq^b$ with odd prime numbers $p,\,q$,
+ then $Q=1$ if and only if $[\Q(\zeta_f):F]$ is even.
+
+ Finally, the optional parameter $p$ is an \emph{odd} prime number.
+ If $p$ is given, then \kbd{subcyclohminus} outputs the valuation at $p$ of
+ $h^-(F)$, in other words the maximal integer $e$ such that
+ $p^e\,|\,h^-(F)$ by evaluating $p$-adic valuations of Bernoulli numbers.
+ Since $p$ is odd and $Q\in \{1,2\}$, the latter can be disregarded and
+ the result is the same as \kbd{valuation(subcyclohminus(f,H)[1], p)}, but
+ adding this argument $p$ can be much faster when $p$ does not divide $[F:\Q]$
+ or if a high power of $p$ divides $[F:\Q]$.
+ \bprog
+ ? [a,b] = subcyclohminus(22220); b
+ %1 = 2 \\ = Q
+ ? sizedigit(a)
+ %2 = 4306  \\ huge...
+ ? valuation(a, 101)
+ %3 = 41
+ ? subcyclohminus(22220, 101) \\ directly compute the valuation
+ %4 = 41
+ @eprog\noindent
+ shows that $101^{41}$ divides $h^-(\Q(\zeta_{22220}))$ exactly.
+ Let $k_n$ be the $n$-th layer of the cyclotomic $\Z_3$-extension of
+ $k=\Q(\sqrt{-1501391})$; the following computes $e_n$ for $1 \leq n \leq 3$,
+ where $3^{e_n}$ is the $3$-part of the relative class number $h^-(k_n)$:
+ \bprog
+ ? d = 1501391;
+ ? subcyclohminus([9*d, [28,10,8]], 3)
+ %1 = 5
+ ? subcyclohminus([27*d, [28,188,53]], 3)
+ %2 = 12
+ ? subcyclohminus([81*d, [161,80,242]], 3)
+ %3 = 26
+ @eprog\noindent Note that $h^+(k_n)$ is prime to $3$ for all $n\geq 0$.
+
+ The following example computes the $3$-part of $h^-(F)$, where $F$ is
+ the subfield of the $7860079$-th cyclotomic field with degree $2\cdot 3^8$.
+ \bprog
+ ? p=7860079; a=znprimroot(p)^(2*3^8);
+ ? valuation(subcyclohminus([p,a])[1], 3)
+ time = 1min, 47,896 ms.
+ %2 = 65
+ ? subcyclohminus([p,a], 3)
+ time = 1,290 ms.
+ %3 = 65
+ @eprog\noindent

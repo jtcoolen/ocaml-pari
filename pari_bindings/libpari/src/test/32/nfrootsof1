@@ -1,0 +1,16 @@
+  ***   Warning: new stack size = 20000000 (19.073 Mbytes).
+46
+46
+18
+2
+2
+2
+4
+68
+170
+[2, -1]
+[2, -1]
+  ***   at top-level: nfrootsof1(x^0)
+  ***                 ^---------------
+  *** nfrootsof1: constant polynomial in nfrootsof1.
+Total time spent: 2237

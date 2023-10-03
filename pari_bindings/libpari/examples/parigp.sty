@@ -1,0 +1,9 @@
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Including this package allows to use PARI/GP-output %
+% written by the writetex() function of gp directly   %
+% inside AMSLaTeX.                                    %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesPackage{parigp}[2019/02/05]
+\RequirePackage{amsmath}
+
+\def\pmatrix#1{\left(\env@matrix#1\endmatrix\right)}

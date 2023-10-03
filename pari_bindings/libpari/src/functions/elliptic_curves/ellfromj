@@ -1,0 +1,32 @@
+Function: ellfromj
+Section: elliptic_curves
+C-Name: ellfromj
+Prototype: G
+Help: ellfromj(j): returns the coefficients [a1,a2,a3,a4,a6] of a fixed
+ elliptic curve with j-invariant j.
+Doc: returns the coefficients $[a_1,a_2,a_3,a_4,a_6]$ of a fixed elliptic curve
+ with $j$-invariant $j$. The given model is arbitrary; for instance, over the
+ rationals, it is in general not minimal nor even integral.
+ \bprog
+ ? v = ellfromj(1/2)
+ %1 = [0, 0, 0, 10365/4, 11937025/4]
+ ? E = ellminimalmodel(ellinit(v)); E[1..5]
+ %2 = [0, 0, 0, 41460, 190992400]
+ ? F = ellminimalmodel(elltwist(E, 24)); F[1..5]
+ %3 = [1, 0, 0, 72, 13822]
+ ? [E.disc, F.disc]
+ %4 = [-15763098924417024000, -82484842750]
+ @eprog\noindent For rational $j$, the following program returns the integral
+ curve of minimal discriminant and given $j$ invariant:
+ \bprog
+ ellfromjminimal(j)=
+ { my(E = ellinit(ellfromj(j)));
+   my(D = ellminimaltwist(E));
+
+   ellminimalmodel(elltwist(E,D));
+ }
+ ? e = ellfromjminimal(1/2); e.disc
+ %1 = -82484842750
+ @eprog Using $\fl = 1$ in \kbd{ellminimaltwist} would instead return the
+ curve of minimal conductor. For instance, if $j = 1728$, this would return a
+ different curve (of conductor $32$ instead of $64$).

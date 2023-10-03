@@ -1,0 +1,22 @@
+Function: besseljzero
+Section: transcendental
+C-Name: besseljzero
+Prototype: GD1,L,b
+Help: besseljzero(nu,{k=1}): k-th zero of the J-bessel function of index nu. Works for real and complex ordrers but the result is guaranteed only if nu is nonnegative.
+Doc: $k$-th zero of the $J$-Bessel function of index \var{nu}, close
+ to $\pi(\nu/2 + k - 1/4)$, usually noted $j_{\nu,k}$.
+ \bprog
+ ? besseljzero(0) \\ @com{first zero of $J_0$}
+ %1 = 2.4048255576957727686216318793264546431
+ ? besselj(0, %)
+ %2 = 7.1951595399463653939930598011247182898 E-41
+ ? besseljzero(0, 2) \\ @com{second zero}
+ %3 = 5.5200781102863106495966041128130274252
+ ? besseljzero(I) \\ @com{also works for complex orders, here $J_i$}
+ %4 = 2.5377... + 1.4753...*I
+ @eprog\noindent The function uses a Newton iteration due to Temme.
+ If $\nu$ is real and nonnegative, the result is guaranteed and the function really
+ returns the $k$-th positive zero of $J_\nu$. For general $\nu$, the result
+ is not well defined, given by the Newton iteration with $\pi(\nu/2 + k - 1/4)$
+ as a starting value. (N.B. Using this method for large real $\nu$ would give
+ completely different results than the $j_{\nu,k}$ unless $k$ is large enough.)

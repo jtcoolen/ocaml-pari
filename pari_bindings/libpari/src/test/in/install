@@ -1,0 +1,13 @@
+install(addii,GG)
+type(addii)
+addii(1,2)
+?addii
+kill(addii)
+?addii
+install(addiu,"GD0,U,")
+addiu(2,3)
+type(addiu)
+\\ ERRORS
+install(addiu,"GDL0,U,")
+install(addiu,"GDL0,L,")
+install(addiu,"GD-1,U,")

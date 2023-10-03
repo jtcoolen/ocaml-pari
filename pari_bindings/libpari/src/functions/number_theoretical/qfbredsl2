@@ -1,0 +1,13 @@
+Function: qfbredsl2
+Section: number_theoretical
+C-Name: qfbredsl2
+Prototype: GDG
+Help: qfbredsl2(x,{isD}): reduction of the binary quadratic form x, return
+ [y,g] where y is reduced and g in Sl(2,Z) is such that g.x = y; isD, if
+ present, must be equal to sqrtint(D), where D > 0 is the discriminant of x.
+Doc:
+ reduction of the (real or imaginary) binary quadratic form $x$, return
+ $[y,g]$ where $y$ is reduced and $g$ in $\text{SL}(2,\Z)$ is such that
+  $g \cdot x = y$; \var{isD}, if
+ present, must be equal to $\kbd{sqrtint}(D)$, where $D > 0$ is the
+ discriminant of $x$.

@@ -1,0 +1,102 @@
+Function: nfisincl
+Section: number_fields
+C-Name: nfisincl0
+Prototype: GGD0,L,
+Description:
+ (gen, gen, ?0):gen    nfisincl($1, $2)
+ (gen, gen, small):gen nfisincl0($1, $2, $3)
+Help: nfisincl(f,g,{flag=0}): let f and g define number fields, either
+ irreducible rational polynomials or number fields as output by nfinit; tests
+ whether the number field f is isomorphic to a subfield of g. Return 0 if not,
+ and otherwise all the embeddings (flag=0, default), only one (flag=1), or
+ all embeddings as rational functions (flag=2).
+Doc: let $f$ and $g$ define number fields, where $f$ and $g$ are irreducible
+ polynomials in $\Q[X]$ and \var{nf} structures as output by \kbd{nfinit}.
+ If either $f$ or $g$ is not irreducible, the result is undefined.
+ Tests whether the number field $f$ is conjugate to a subfield of the field
+ $g$. If not, the output is the integer 0; if it is, the output depends on
+ the value of $\fl$:
+
+ \item $\fl = 0$ (default): return a vector of polynomials $[a_1,\dots,a_n]$
+ with rational coefficients, representing all distinct embeddings: we have
+ $g\mid f\circ a_i$ for all $i$.
+
+ \item $\fl = 1$: return a single polynomial $a$ representing a single
+ embedding; this can be $n$ times faster than the default when the
+ embeddings have huge coefficients.
+
+ \item $\fl = 2$: return a vector of rational functions $[r_1,\dots,r_n]$
+ whose denominators are coprime to $g$ and such that $r_i \% g$ is the
+ polynomial $a_i$ from $\fl = 0$. This variant is always faster than $\fl = 0$
+ but produces results which are harder to use. If the denominators are hard to
+ invert in $\Q[X]/(g)$, this may be even faster than $\fl = 1$.
+ \bprog
+ ? T = x^6 + 3*x^4 - 6*x^3 + 3*x^2 + 18*x + 10;
+ ? U = x^3 + 3*x^2 + 3*x - 2
+ ? nfisincl(U, T)
+ %3 = [24/179*x^5-27/179*x^4+80/179*x^3-234/179*x^2+380/179*x+94/179]
+ ? a = nfisincl(U, T, 1)
+ %4 = 24/179*x^5-27/179*x^4+80/179*x^3-234/179*x^2+380/179*x+94/179
+ ? subst(U, x, Mod(a,T))
+ %5 = Mod(0, x^6 + 3*x^4 - 6*x^3 + 3*x^2 + 18*x + 10)
+ ? nfisincl(U, T, 2) \\ a as a t_RFRAC
+ %6 = [(2*x^3 - 3*x^2 + 2*x + 4)/(3*x^2 - 1)]
+ ? (a - %[1]) % T
+ %7 = 0
+ ? #nfisincl(x^2+1, T) \\ two embeddings
+ %8 = 2
+
+ \\ same result with nf structures
+ ? L = nfinit(T); K = nfinit(U); v = [a];
+ ? nfisincl(U, L) == v
+ %10 = 1
+ ? nfisincl(K, T) == v
+ %11 = 1
+ ? nfisincl(K, L) == v
+ %12 = 1
+
+ \\ comparative bench: an nf is a little faster, esp. for the subfield
+ ? B = 2000;
+ ? for (i=1, B, nfisincl(U,T))
+ time = 1,364 ms.
+ ? for (i=1, B, nfisincl(K,T))
+ time = 988 ms.
+ ? for (i=1, B, nfisincl(U,L))
+ time = 1,341 ms.
+ ? for (i=1, B, nfisincl(K,L))
+ time = 880 ms.
+ @eprog\noindent Using an \var{nf} structure for the tentative subfield is
+ faster if the structure is already available. On the other hand, the gain in
+ \kbd{nfisincl} is usually not sufficient to make it worthwhile to initialize
+ only for that purpose.
+ \bprog
+ ? for (i=1, B, nfinit(U))
+ time = 590 ms.
+ @eprog\noindent A final more complicated example
+ \bprog
+ ? f = x^8 - 72*x^6 + 1944*x^4 - 30228*x^2 - 62100*x - 34749;
+ ? g = nfsplitting(f); poldegree(g)
+ %2 = 96
+ ? #nfisincl(f, g)
+ time = 559 ms.
+ %3 = 8
+ ? nfisincl(f,g,1);
+ time = 172 ms.
+ ? v = nfisincl(f,g,2);
+ time = 199 ms.
+ ? apply(x->poldegree(denominator(x)), v)
+ %6 = [81, 81, 81, 81, 81, 81, 80, 81]
+ ? v % g;
+ time = 407 ms.
+ @eprog\noindent This final example shows that mapping rational functions to
+ $\Q[X]/(g)$ can be more costly than that the rest of the algorithm. Note that
+ \kbd{nfsplitting} also admits a $\fl$ yielding an embedding.
+
+Variant: Also available is
+ \fun{GEN}{nfisisom}{GEN a, GEN b} ($\fl = 0$).
+
+Function: _partmap_reverse_frac_worker
+C-Name: partmap_reverse_frac_worker
+Prototype: GGGGGL
+Section: programming/internals
+Help: worker for partmap_reverse_frac

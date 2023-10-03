@@ -1,0 +1,3 @@
+C=[x^6+a*x+b,x^5+a*x+b,[x^6,x^3+a*x+b]];
+L=2*[0..5];
+foreach(C,c,foreach(L,l,print([c,l,genus2igusa(c,l)])))

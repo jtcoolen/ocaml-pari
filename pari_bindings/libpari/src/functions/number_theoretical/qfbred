@@ -1,0 +1,21 @@
+Function: qfbred
+Section: number_theoretical
+C-Name: qfbred0
+Prototype: GD0,L,DGDG
+Help: qfbred(x,{flag=0},{isd},{sd}): reduction of the binary
+ quadratic form x. All other args. are optional. The argument isd and
+ sd, if present, supply the values of floor(sqrt(d)) and sqrt(d)
+ respectively, where d is the discriminant. If d<0, its value is not used
+ and all references to Shanks's distance hereafter are meaningless.
+ flag can be any of 0: default; 1: do a single reduction step;
+Doc: reduces the binary quadratic form $x$ (updating Shanks's distance function
+ $d$ if $x = [q,d]$ is and extended indefinite form).
+ If $\fl$ is $1$, the function performs a single \idx{reduction} step, and
+ a complete reduction otherwise.
+
+ The arguments \var{isd}, \var{sd}, if present, supply the values of
+ $\floor{\sqrt{D}}$, and $\sqrt{D}$ respectively, where $D$
+ is the discriminant (this is not checked).
+ If $d<0$ these values are useless.
+Variant: Also available is \fun{GEN}{qfbred}{GEN x} (\fl is 0, \kbd{isd}
+ and \kbd{sd} are \kbd{NULL})

@@ -1,0 +1,15 @@
+Function: matintersect
+Section: linear_algebra
+C-Name: intersect
+Prototype: GG
+Help: matintersect(x,y): intersection of the vector spaces whose bases are
+ the columns of x and y.
+Doc: $x$ and $y$ being two matrices with the same number of rows, finds a
+ basis of the vector space equal to the intersection of the spaces spanned by
+ the columns of $x$ and $y$ respectively. For efficiency, the columns of $x$
+ (resp.~$y$) should be independent.
+
+ The faster function \tet{idealintersect} can be used to intersect
+ fractional ideals (projective $\Z_K$ modules of rank $1$); the slower but
+ more general function \tet{nfhnf} can be used to intersect general
+ $\Z_K$-modules.

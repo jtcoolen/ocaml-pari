@@ -1,0 +1,7 @@
+Function: bnfissunit
+Section: number_fields
+C-Name: bnfissunit
+Prototype: GGG
+Obsolete: 2020-01-15
+Help: bnfissunit(bnf,sfu,x): this function is obsolete, use bnfisunit.
+Doc: this function is obsolete, use \kbd{bnfisunit}.

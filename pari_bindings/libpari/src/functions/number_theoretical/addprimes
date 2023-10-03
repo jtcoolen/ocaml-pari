@@ -1,0 +1,28 @@
+Function: addprimes
+Section: number_theoretical
+C-Name: addprimes
+Prototype: DG
+Help: addprimes({x=[]}): add primes in the vector x to the prime table to
+ be used in trial division. x may also be a single integer. Composite
+ "primes" are NOT allowed.
+Doc: adds the integers contained in the
+ vector $x$ (or the single integer $x$) to a special table of
+ ``user-defined primes'', and returns that table. Whenever \kbd{factor} is
+ subsequently called, it will trial divide by the elements in this table.
+ If $x$ is empty or omitted, just returns the current list of extra
+ primes.
+ \bprog
+ ? addprimes(37975227936943673922808872755445627854565536638199)
+ ? factor(15226050279225333605356183781326374297180681149613806\
+          88657908494580122963258952897654000350692006139)
+ %2 =
+ [37975227936943673922808872755445627854565536638199 1]
+
+ [40094690950920881030683735292761468389214899724061 1]
+ ? ##
+   ***   last result computed in 0 ms.
+ @eprog
+
+ The entries in $x$ must be primes: there is no internal check, even if
+ the \tet{factor_proven} default is set. To remove primes from the list use
+ \kbd{removeprimes}.

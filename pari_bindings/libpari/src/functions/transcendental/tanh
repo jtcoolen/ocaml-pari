@@ -1,0 +1,9 @@
+Function: tanh
+Section: transcendental
+C-Name: gtanh
+Prototype: Gp
+Description:
+ (mp):real:prec      gtanh($1, $prec)
+ (gen):gen:prec      gtanh($1, $prec)
+Help: tanh(x): hyperbolic tangent of x.
+Doc: hyperbolic tangent of $x$.

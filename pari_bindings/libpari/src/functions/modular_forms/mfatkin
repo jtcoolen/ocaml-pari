@@ -1,0 +1,27 @@
+Function: mfatkin
+Section: modular_forms
+C-Name: mfatkin
+Prototype: GG
+Help: mfatkin(mfatk,f): Given an mfatk output by mfatk = mfatkininit(mf,Q)
+ and a modular form f belonging to the space mf, returns the modular form
+ g = C*f|W_Q where C = mfatk[3] is a normalizing constant so that g
+ has the same field of coefficients as f; mfatk[1] = mf2 (or 0 if mf2=mf)
+ which is the space to which g belongs.
+Doc: Given a \kbd{mfatk} output by \kbd{mfatk = mfatkininit(mf,Q)} and
+ a modular form $f$ belonging to the pace \kbd{mf}, returns the modular
+ form $g = C \times f|W_Q$, where $C = \kbd{mfatk[3]}$ is a normalizing
+ constant such that $g$ has the same field of coefficients as $f$;
+ \kbd{mfatk[3]} gives the constant $C$, and \kbd{mfatk[1]} gives
+ the modular form space to which $g$ belongs (or is set to $0$ if
+ it is \kbd{mf}).
+ \bprog
+ ? mf = mfinit([35,2],0); [f] = mfbasis(mf);
+ ? mfcoefs(f, 4)
+ %2 = [0, 3, -1, 0, 3]
+ ? mfatk = mfatkininit(mf,7);
+ ? g = mfatkin(mfatk, f); mfcoefs(g, 4)
+ %4 = [0, 1, -1, -2, 7]
+ ? mfatk = mfatkininit(mf,35);
+ ? g = mfatkin(mfatk, f); mfcoefs(g, 4)
+ %6 = [0, -3, 1, 0, -3]
+ @eprog

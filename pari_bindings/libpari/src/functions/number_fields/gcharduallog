@@ -1,0 +1,48 @@
+Function: gcharduallog
+Section: number_fields
+C-Name: gcharduallog
+Prototype: GG
+Help: gcharduallog(gc,chi): return logarithm vector of character chi
+ in R^n. We have gchareval(g,chi,x,0) = gcharduallog(g,chi)*gcharlog(g,x)
+Doc: Return internal logarithm vector of character \kbd{chi}
+ as a \typ{VEC} in $\R^n$, so that for all \var{x},
+ \kbd{gchareval}(\var{gc},\var{chi},\var{x},$0$) is equal to
+ \kbd{gcharduallog}(\var{gc},\var{chi}) * \kbd{gcharlog}(\var{gc},\var{x}).
+
+ The components are organized as follows:
+
+ \item the first \kbd{ns} components are in~$\R$ and describe the character on
+ the class group generators: $\theta$ encodes~$\goth{p}\mapsto
+ \exp(2i\pi\theta)$,
+
+ \item the next \kbd{nc} components are in~$\R$ and describe the \kbd{idealstar}
+ group character via its image on generators: $\theta$ encodes the
+ image~$\exp(2i\pi\theta)$,
+
+ \item the next $r_1+r_2$ components are in $\R$ and correspond to characters
+ of $\R$ for each infinite place: $\varphi$ encodes~$x\mapsto |x|^{i\varphi}$ in
+ the real case and~$z\mapsto |z|^{2i\varphi}$ in the complex case,
+
+ \item the last $r_2$ components are in $\Z$ and correspond to characters of
+ $\R/\Z$ for each complex place: $k$ encodes~$z\mapsto (z/|z|)^k$.
+
+ \item the last component~$s$ is in~$\C$ and corresponds to a
+ power~$\|\cdot\|^s$ of the ad\'elic norm.
+
+ See also \kbd{gcharlog}.
+
+ \bprog
+ ? bnf = bnfinit(x^3+4*x-1,1);
+ ? gc = gcharinit(bnf,[1,[1]]);
+ ? gc.cyc
+ % = [2, 0, 0, 0.E-57]
+ ? chi = [0,1,0]~;
+ ? f = gcharduallog(gc,chi)
+ % = [0.153497221319231, 1/2, 0.776369647248353, -0.388184823624176, 1, 0]
+ ? pr = idealprimedec(bnf,2)[1];
+ ? v = gcharlog(gc,pr);
+ ? exp(2*I*Pi*f*v)
+ % = -0.569867696226731232993110144 - 0.821736459454756074068598760*I
+ ? gchareval(gc,chi,pr)
+ % = -0.569867696226731232993110144 - 0.821736459454756074068598760*I
+ @eprog

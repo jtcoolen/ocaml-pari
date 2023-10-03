@@ -1,0 +1,27 @@
+Function: polroots
+Section: polynomials
+C-Name: roots
+Prototype: Gp
+Description:
+  (gen):vec:prec roots($1, $prec)
+Help: polroots(T): complex roots of the polynomial T using
+ Schonhage's method, as modified by Gourdon.
+Doc: complex roots of the polynomial $T$, given as a column vector where each
+ root is repeated according to its multiplicity and given as floating point
+ complex numbers at the current \kbd{realprecision}:
+ \bprog
+ ? polroots(x^2)
+ %1 = [0.E-38 + 0.E-38*I, 0.E-38 + 0.E-38*I]~
+
+ ? polroots(x^3+1)
+ %2 = [-1.00... + 0.E-38*I, 0.50... - 0.866...*I, 0.50... + 0.866...*I]~
+ @eprog
+
+ The algorithm used is a modification of Sch\"onhage\sidx{Sch\"onage}'s
+ root-finding algorithm, due to and originally implemented by Gourdon.
+ It runs in polynomial time in $\text{deg}(T)$ and the precision.
+ If furthermore $T$ has rational coefficients, roots are guaranteed to the
+ required relative accuracy. If the input polynomial $T$ is exact, then
+ the ordering of the roots does not depend on the precision: they are ordered
+ by increasing $|\Im z|$, then by increasing $\Re z$; in case of tie
+ (conjugates), the root with negative imaginary part comes first.

@@ -1,0 +1,21 @@
+Function: bernreal
+Section: combinatorics
+C-Name: bernreal
+Prototype: Lp
+Help: bernreal(n): Bernoulli number B_n, as a real number with the current
+ precision.
+Doc: Bernoulli number\sidx{Bernoulli numbers}
+ $B_n$, as \kbd{bernfrac}, but $B_n$ is returned as a real number
+ (with the current precision). The argument $n$ should be a nonnegative
+ integer. The function slows down as the precision increases:
+ \bprog
+ ? \p1000
+ ? bernreal(200000);
+ time = 5 ms.
+ ? \p10000
+ ? bernreal(200000);
+ time = 18 ms.
+ ? \p100000
+ ? bernreal(200000);
+ time = 84 ms.
+ @eprog

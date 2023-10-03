@@ -1,0 +1,11 @@
+Function: rnfisfree
+Section: number_fields
+C-Name: rnfisfree
+Prototype: lGG
+Help: rnfisfree(bnf,M): given a bnf attached to a number field K and a
+ projective Z_K module M given by a pseudo-matrix, return true (1) if M
+ is free else return false (0).
+Doc: given a $\var{bnf}$ attached to a number field $K$ and
+ a projective $\Z_K$-module $M$ given by a pseudo-matrix, return true (1) if
+ $M$ is free else return false (0). If $M$ is a polynomial with coefficients
+ in $K$, replace it by the pseudo-matrix returned by \kbd{rnfpseudobasis}.

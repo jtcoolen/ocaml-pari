@@ -1,0 +1,19 @@
+Function: algadd
+Section: algebras
+C-Name: algadd
+Prototype: DGGG
+Help: algadd({al},x,y): element x+y in al (Hamilton quaternions if omitted).
+Doc: Given two elements $x$ and $y$ in \var{al} (Hamilton quaternions if
+ omitted), computes their sum $x+y$ in the algebra~\var{al}.
+ \bprog
+ ? A = alginit(nfinit(y),[-1,1]);
+ ? algadd(A,[1,x]~,[1,2,3,4]~)
+ % = [2, 1, 1, 6]~
+ ? algadd(,sqrt(2+I),[-1,0,1,2]~)
+ % = [0.4553466902, 0.3435607497, 1, 2]~
+ @eprog
+
+ Also accepts matrices with coefficients in \var{al}.
+
+ If~$x$ and~$y$ are given in the same format, then one should simply use \kbd{+}
+ instead of \kbd{algadd}.

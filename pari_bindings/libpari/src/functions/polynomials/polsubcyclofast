@@ -1,0 +1,59 @@
+Function: polsubcyclofast
+Section: polynomials
+C-Name: polsubcyclofast
+Prototype: GLD0,L,D0,L,
+Help: polsubcyclofast(n,d,{s=0},{exact=0}): If 1 <= d <= 6
+ or a prime, finds an equation for the subfields of Q(zeta_n) with galois
+ group C_d. Contrary to polsubcyclo, the output is
+ always a (possibly empty) vector of polynomials. If s = 0 (default) all
+ signatures, otherwise s = 1 (resp., -1) for totally real (resp., totally
+ complex). Set exact = 1 for subfields of exact conductor n.
+Doc: If $1 \leq d\leq 6$ or a prime, finds an equation for the subfields of
+ $\Q(\zeta_n)$ with Galois group $C_d$; the special value $d = -4$ provides the
+ subfields with group $V_4=C_2\times C_2$. Contrary to \kbd{polsubcyclo}, the
+ output is always a (possibly empty) vector of polynomials. If $s = 0$ (default)
+ all signatures, otherwise $s = 1$ (resp., $-1$) for totally real
+ (resp., totally complex). Set \kbd{exact = 1} for subfields of conductor $n$.
+
+ The argument $n$ can be given as in arithmetic functions: as an integer, as a
+ factorization matrix, or (preferred) as a pair $[N, \kbd{factor}(N)]$.
+
+ \misctitle{Comparison with \kbd{polsubcyclo}} First \kbd{polsubcyclofast}
+ does not usually return Gaussian periods, but ad hoc polynomials which do
+ generate the same field. Roughly speaking (ignoring
+ logarithmic factors), the complexity of \kbd{polsubcyclo} is independent of
+ $d$ and the complexity of \kbd{polsubcyclofast} is independent of $n$.
+ Ignoring logarithmic factors, \kbd{polsubcylo} runs in time $O(n)$ and
+ \kbd{polsubcyclofast} in time $O(d^4)$.
+ So the latter is \emph{much} faster than \kbd{polsubcyclo} if $n$ is large,
+ but gets slower as $d$ increases and becomes unusable for $d \geq 40$ or so.
+
+ \bprog
+ ? polsubcyclo(10^7+19,7);
+ time = 1,852 ms.
+ ? polsubcyclofast(10^7+19,7);
+ time = 15 ms.
+
+ ? polsubcyclo(10^17+21,5); \\ won't finish
+  *** polsubcyclo: user interrupt after 2h
+ ? polsubcyclofast(10^17+21,5);
+ time = 3 ms.
+
+ ? polsubcyclofast(10^17+3,7);
+ time = 26 ms.
+
+ ? polsubcyclo(10^6+117,13);
+ time = 193 ms.
+ ? polsubcyclofast(10^6+117,13);
+ time = 50 ms.
+
+ ? polsubcyclofast(10^6+199,19);
+ time = 202 ms.
+ ? polsubcyclo(10^6+199,19); \\ about as fast
+ time = 3191ms.
+
+ ? polsubcyclo(10^7+271,19);
+ time = 2,067 ms.
+ ? polsubcyclofast(10^7+271,19);
+ time = 201 ms.
+ @eprog

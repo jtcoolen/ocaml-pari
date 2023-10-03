@@ -1,0 +1,48 @@
+Function: asympnumraw
+Section: sums
+C-Name: asympnumraw0
+Prototype: GLDGp
+Help: asympnumraw(expr,N,{alpha = 1}): N+1 first terms of asymptotic expansion
+ of expr as floating point numbers; alpha is as in limitnum.
+Doc: Return the $N+1$ first terms of asymptotic expansion of \var{expr},
+ corresponding to a sequence $u(n)$, as floating point numbers. Assume
+ that the expansion has the shape
+ $$u(n) \approx \sum_{i \geq 0} a_i n^{-i\alpha}$$
+ and return approximation of $[a_0, a_1,\dots, a_N]$.
+ The algorithm is heuristic and performs repeated calls to limitnum, with
+ \kbd{alpha} as in \kbd{limitnum}. As in \kbd{limitnum}, $u(n)$ may be
+ given either by a closure $n\mapsto u(n)$ or as a closure $N\mapsto
+ [u(1),\dots,u(N)]$, the latter being often more efficient. This function
+ is related to, but  more flexible than, \kbd{asympnum}, which requires
+ rational asymptotic expansions.
+ \bprog
+ ? f(n) = n! / (n^n*exp(-n)*sqrt(n));
+ ? asympnum(f)
+ %2 = []   \\ failure !
+ ? v = asympnumraw(f, 10);
+ ? v[1] - sqrt(2*Pi)
+ %4 = 0.E-37
+ ? bestappr(v / v[1], 2^60)
+ %5 =  [1, 1/12, 1/288, -139/51840, -571/2488320, 163879/209018880,...]
+ @eprog\noindent and we indeed get a few terms of Stirling's expansion (the
+ first 9 terms are correct).
+ If $u(n)$ has an asymptotic expansion in $n^{-\alpha}$ with $\alpha$ not an
+ integer, the default $alpha=1$ is inaccurate:
+ \bprog
+ ? f(n) = (1+1/n^(7/2))^(n^(7/2));
+ ? v1 = asympnumraw(f,10);
+ ? v1[1] - exp(1)
+ %8 = 4.62... E-12
+ ? v2 = asympnumraw(f,10,7/2);
+ ? v2[1] - exp(1)
+ %7 0.E-37
+ @eprog\noindent
+ As in \kbd{asympnum}, if \kbd{alpha} is not a rational number,
+ loss of accuracy is expected, so it should be precomputed to double
+ accuracy, say.
+
+ \synt{asympnumraw}{void *E, GEN (*u)(void *,GEN,long), long N, GEN alpha, long prec}, where \kbd{u(E, n, prec)} must return either $u(n)$ or
+ $[u(1),\dots,u(n)]$ in precision \kbd{prec}.
+ Also available is
+ \fun{GEN}{asympnumraw0}{GEN u, GEN alpha, long prec} where $u$ is either
+ a closure as above or a vector of sufficient length.

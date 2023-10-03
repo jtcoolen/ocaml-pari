@@ -1,0 +1,17 @@
+Function: system
+Section: programming/specific
+C-Name: gpsystem
+Prototype: ls
+Help: system(str): str being a string, execute the system command str.
+Doc: \var{str} is a string representing a system command. This command is
+ executed, its output written to the standard output (this won't get into your
+ logfile), and control returns to the PARI system. This simply calls the C
+ \kbd{system} command. Return the shell return value (which is system-dependent).
+ Beware that UNIX shell convention for boolean is opposite to GP, true is $0$
+ and false is non-$0$.
+ \bprog
+ ? system("test -d /") \\ test if '/' is a directory (true)
+ %1 = 0
+ ? system("test -f /") \\ test if '/' is a file (false)
+ %2 = 1
+ @eprog

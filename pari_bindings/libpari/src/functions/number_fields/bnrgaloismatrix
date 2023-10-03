@@ -1,0 +1,60 @@
+Function: bnrgaloismatrix
+Section: number_fields
+C-Name: bnrgaloismatrix
+Prototype: GG
+Help: bnrgaloismatrix(bnr,aut): return the matrix of the action of the
+ automorphism aut of the base field bnf.nf on the generators of the ray class
+ field bnr.gen; aut can be given as a polynomial, or a vector of automorphisms
+ or a galois group as output by galoisinit, in which case a vector of matrices
+ is returned (in the later case, only for the generators aut.gen).
+Doc: return the matrix of the action of the automorphism \var{aut} of the base
+ field \kbd{bnf.nf} on the generators of the ray class field \kbd{bnr.gen}.
+ The automorphism
+ \var{aut} can be given as a polynomial, an algebraic number, or a vector of
+ automorphisms and must stabilize the modulus \kbd{bnr.mod}. We also
+ allow a Galois group as output by \kbd{galoisinit}, in which case a
+ vector of matrices is returned corresponding to the generators
+ \kbd{aut.gen}.
+ Note: This function only makes sense when the ray class field attached to
+ \var{bnr} is Galois, which is not checked.
+
+ The generators \kbd{bnr.gen} need not be explicitly computed in the input
+ \var{bnr}, which saves time: the result is well defined in this case also.
+
+ \bprog
+ ? K = bnfinit(a^4-3*a^2+253009); B = bnrinit(K,9); B.cyc
+ %1 = [8400, 12, 6, 3]
+ ? G = nfgaloisconj(K)
+ %2 = [-a, a, -1/503*a^3 + 3/503*a, 1/503*a^3 - 3/503*a]~
+ ? bnrgaloismatrix(B, G[2])  \\ G[2] = Id ...
+ %3 =
+ [1 0 0 0]
+
+ [0 1 0 0]
+
+ [0 0 1 0]
+
+ [0 0 0 1]
+ ? bnrgaloismatrix(B, G[3]) \\ automorphism of order 2
+ %4 =
+ [799 0 0 2800]
+
+ [  0 7 0    4]
+
+ [  4 0 5    2]
+
+ [  0 0 0    2]
+ ? M = %^2; for (i=1, #B.cyc, M[i,] %= B.cyc[i]); M
+ %5 =  \\ acts on ray class group as automorphism of order 2
+ [1 0 0 0]
+
+ [0 1 0 0]
+
+ [0 0 1 0]
+
+ [0 0 0 1]
+ @eprog
+
+ See \kbd{bnrisgalois} for further examples.
+Variant: When $aut$ is a polynomial or an algebraic number,
+ \fun{GEN}{bnrautmatrix}{GEN bnr, GEN aut} is available.

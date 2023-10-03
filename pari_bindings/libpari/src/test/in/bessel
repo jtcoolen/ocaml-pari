@@ -1,0 +1,82 @@
+default(seriesprecision,6);
+besseljh(1,2^64)
+besseljh(10,x)
+NU = [x,0,1,1/2,sqrt(2),10,1+I];
+ARG = [x,1,1/2,1+I];
+F=[besselh1,besselh2,besseli,besselj,besseljh,besselk,bessely];
+test(f)=
+{
+print(f);
+for (i=1,#NU,
+  for (j=1,#ARG,
+    print([i,j],": ", iferr(f(NU[i],ARG[j]), E,E));
+  )
+);
+}
+for(i=1,#F,test(F[i]));
+for(i=1,#F,print(F[i](1,Mod(x,x^2+1))));
+for(i=1,#F,print(F[i](1,[1])));
+for(i=1,#F,print(F[i](1,[1]~)));
+for(i=1,#F,print(F[i](1,Mat(1))));
+besseljh(2,0.)
+besseljh(2,1e-50)
+besselk(1,1000)
+besseli(1,1000)
+besselj(1,1000)
+besseln(1,1000)
+besselk(1e-5,20)
+besselk(I,1000)
+besseli(I,1000)
+besselj(I,1000)
+besseln(I,1000)
+besseljh(100,I)
+besselj(80,66)
+
+besselk(0,O(x^3))
+
+v = powers(exp(I*Pi/4),7); v[3] = I; v[5] = -1; v[7] = -I;
+NU = v / 7;
+ARG = v * 1000;
+F=[besseli,besselj,besselk,bessely];
+clean(z) =
+{ my([x,y]=[abs(real(z)),abs(imag(z))]);
+  if (!x || !y, return(z));
+  x = exponent(x);
+  y = exponent(y);
+  if (x < y - 127, return (I*imag(z)));
+  if (y < x - 127, return (real(z)));
+  return (z);
+}
+test(f)=
+{
+print(f);
+for (i=1,#NU,
+  for (j=1,#ARG,
+    print([i,j],": ", clean(f(NU[i],ARG[j])));
+  )
+);
+}
+for(i=1,#F,test(F[i]))
+
+besselk(1e-20,1e-5)
+besseljzero(0, 1)
+besseljzero(0, 10)
+besselyzero(0, 1)
+besselyzero(0, 10)
+for (i=1,20, print(i,":", besseljzero(i)))
+for (i=1,20, print(i,":", besselyzero(i)))
+for(i=1,10, print(i,":",vector(5,j,besseljzero(i,j))))
+for(i=1,10, print(i,":",vector(5,j,besselyzero(i,j))))
+
+besselj(220, 112)
+besseli(220, 112)
+besselk(220, 112)
+besseln(220, 112)
+
+\\ ERRORS
+for(i=1,#F,print(iferr(F[i](O(2),1),E,E)));
+for(i=1,#F,print(iferr(F[i]("",1),E,E)));
+for(i=1,#F,print(iferr(F[i](1,O(2)),E,E)));
+for(i=1,#F,print(iferr(F[i](1,""),E,E)));
+besseljzero(0,-1)
+besselyzero(0,-1)

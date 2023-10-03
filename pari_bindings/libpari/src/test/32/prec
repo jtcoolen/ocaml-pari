@@ -1,0 +1,50 @@
++oo
++oo
+I
+77
+57
+128
+1 + O(x)
+1 + O(3^5)
+1
+38
++oo
+38
+64
+38
+64
+38
+128
++oo
+3
++oo
+2
+1
+1
++oo
+  ***   at top-level: padicprec(0,"")
+  ***                 ^---------------
+  *** padicprec: incorrect type in padicprec (t_STR).
+1
+1
+2
+  ***   at top-level: padicprec(O(2^2),3)
+  ***                 ^-------------------
+  *** padicprec: inconsistent moduli in padicprec: 2 != 3
+2
+3
+3
+3
+4
+  ***   at top-level: localprec(-1)
+  ***                 ^-------------
+  *** localprec: domain error in localprec: p < 1
+  ***   at top-level: localbitprec(-1)
+  ***                 ^----------------
+  *** localbitprec: domain error in localbitprec: p < 1
+0
+0
+  ***   at top-level: localprec('x)
+  ***                 ^-------------
+  *** localprec: incorrect type in localprec (t_POL).
+Total time spent: 2

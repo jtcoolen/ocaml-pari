@@ -1,0 +1,15 @@
+  ***   Warning: new stack size = 66000000 (62.943 Mbytes).
+precision SEGV
+[160, 8, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0]
+1
+gchareval precision bug
+1
+1
+1
+1
+1
+trivial ideal bug
+1
+argument determination bug
+[730422, 6, 2, 0, 0, 0, 0, 0, 0, 0, 0]
+Total time spent: 12406

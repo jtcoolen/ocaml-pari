@@ -1,0 +1,23 @@
+Function: algrandom
+Section: algebras
+C-Name: algrandom
+Prototype: DGG
+Help: algrandom({al},b): random element in al (Hamilton quaternions if omitted)
+ with coefficients in [-b,b].
+Doc: Given an algebra \var{al} and a nonnegative integer \var{b}, returns a
+ random element in \var{al} with coefficients in~$[-b,b]$.
+
+ \bprog
+ ? al = alginit(nfinit(y),[-1,-1]);
+ ? algrandom(al,3)
+ % = [2, 0, 3, -1]~
+ @eprog
+
+ If~\var{al} is an algebra over $\R$ (Hamilton quaternions if omitted) and
+ \var{b} is a positive \typ{REAL}, returns a random element of~\var{al} with
+ coefficients in~$[-b,b]$.
+
+ \bprog
+ ? algrandom(,1.)
+ % = [-0.1806334680, -0.2810504190, 0.5011479961, 0.9498643737]~
+ @eprog

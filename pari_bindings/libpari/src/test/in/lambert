@@ -1,0 +1,68 @@
+do(y,k)=my(x = lambertw(y,k)); exponent(exp(x)*x / y-1);
+do(-1)
+do(I)
+do(2)
+mie = -exp(-1);
+vecmax(vector(64, k, do(mie - 2^-k))) <= -112
+default(realprecision,211);
+do(1e14) <= -700
+DO(y)=
+{ my(x = lambertw(y), e = normlp(Vec(exp(x)*x - y)));
+  if (e > 2e-37, error([e, y]));
+}
+default(realprecision,38);
+DO(O(x^10))
+DO(O(x^30))
+DO(3+O(x^10))
+DO(3+O(x^30))
+DO(x)
+DO(x+O(x^10))
+DO(x+O(x^30))
+DO(3+O(x))
+DO(3+x)
+DO(3+x+O(x^10))
+DO(3+x+O(x^30))
+DO(x^2-2*x^3)
+DO(x^2-2*x^3+O(x^10))
+DO(x^2-2*x^3+O(x^30))
+DO(3+x^2-2*x^3)
+DO(3+x^2-2*x^3+O(x^10))
+DO(3+x^2-2*x^3+O(x^30))
+serlaplace(sin(lambertw(x + O(x^5))))
+lambertw(mie + x^2 + O(x^10))
+\p115
+do(-2^(-600),-1)
+for(b=-4,4,print(lambertw(-0.1,b)));
+do(-0.3678,0) <= -383
+do(-0.3678,-1) <= -383
+lambertw(-10^(-100),0)
+lambertw(-10^(-100),-1)
+do(lambertw(precision(-0.1,38),-1))
+\p38
+lambertw(10^1000) \\ #2429
+vector(10,mul,round(10^4*abs(lambertw(mie,mul))))
+vector(10,mul,round(10^4*abs(lambertw(mie,10*mul))))
+bra(y,k)=if(k!=-1||imag(y)||y>0||y<mie, k, 0);
+doc(y,k)=my(x=lambertw(y,k));exponent(x+log(x)-log(y)-2*Pi*I*bra(y,k));
+N = 30;
+for(k=-1,1,m=-1000; \
+  for(a=-N,N,for(b=-N,N,z=(a+I*b)/N; if(z,m=max(m,doc(z,k))))); \
+  print(m));
+lambertw(-0.1+x,0)
+lambertw(-0.1+x + O(x^3),-1)
+lambertw(-1+x,0)
+lambertw(-1+x,-1)
+
+lambertw(x^3+O(x^4))
+lambertw(x^2+O(x^4))
+lambertw(x^2+O(x^5))
+
+w=lambertw(3 + O(3^10))
+w*exp(w)-3
+a=2 + O(3^10); w=lambertw(a)
+w+log(w)-log(a)
+
+/* Errors at the end */
+lambertw(1/x)
+lambertw(0,-1)
+lambertw(mie + x + O(x^2))

@@ -1,0 +1,41 @@
+Function: binomial
+Section: combinatorics
+C-Name: binomial0
+Prototype: GDG
+Help: binomial(n,{k}): binomial coefficient n*(n-1)...*(n-k+1)/k! defined for
+ k in Z and any n. If k is omitted and n a nonnegative integer, return the
+ vector [binomial(n,0),...,binomial(n,n)].
+Doc: \idx{binomial coefficient} $\binom{n}{k}$.
+ Here $k$ must be an integer, but $n$ can be any PARI object. For nonnegative
+ $k$, $\binom{n}{k} = (n)_k / k!$ is polynomial in $n$, where $(n)_k =
+ n(n-1)\dots(n-k+1)$ is the Pochammer symbol.
+ \bprog
+ ? binomial(4,2)
+ %1 = 6
+ ? n = 4; vector(n+1, k, binomial(n,k-1))
+ %2 = [1, 4, 6, 4, 1]
+ ? binomial('x, 2)
+ %3 = 1/2*x^2 - 1/2*x
+ @eprog\noindent When $n$ is a negative integer and $k$ is negative,
+ we use Daniel Loeb's extension,
+ $$ \lim_{t\to 1} \Gamma(n+t) / \Gamma(k+t) / \Gamma(n-k+t), $$
+ (Sets with a negative number of elements, \emph{Adv. Math.} {\bf 91} (1992),
+ no. 1, 64--74. See also~\kbd{https://arxiv.org/abs/1105.3689}.)
+ This way the symmetry relation $\binom{n}{k} = \binom{n}{n - k}$
+ becomes valid for all integers $n$ and $k$, and
+ the binomial theorem
+ holds for all complex numbers $a$, $b$, $n$ with $|b| < |a|$:
+ $$ (a + b)^n = \sum_{k\geq 0} \binom{n}{k} a^{n-k} b^k\,. $$
+ Beware that this extension is incompatible with another traditional
+ extension ($\binom{n}{k} := 0$ if $k < 0$); to enforce the latter, use
+ \bprog
+   BINOMIAL(n, k) = if (k >= 0, binomial(n, k));
+ @eprog
+
+ The argument $k$ may be omitted if $n$ is a
+ nonnegative integer; in this case, return the vector with $n+1$
+ components whose $k+1$-th entry is \kbd{binomial}$(n,k)$
+ \bprog
+ ? binomial(4)
+ %3 = [1, 4, 6, 4, 1]
+ @eprog

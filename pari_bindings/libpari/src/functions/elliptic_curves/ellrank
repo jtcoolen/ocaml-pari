@@ -1,0 +1,97 @@
+Function: ellrank
+Section: elliptic_curves
+C-Name: ellrank
+Prototype: GD0,L,DGp
+Help: ellrank(E,{effort=0},{points}): if E is an elliptic curve over Q,
+ attempts to compute the Mordell-Weil group attached to the curve.
+ The output is [r1,r2,s,L], where r1 <= rank(E) <= r2, s gives information
+ on the Tate-Shafarevich group (see documentation), and and L is a list of
+ independent, non-torsion rational points on the curve. E can also be given as
+ the output of ellrankinit(E).
+Doc: if $E$ is an elliptic curve over $\Q$, attempts to compute the
+ Mordell-Weil group attached to the curve. The output is $[r_1,r_2,s,L]$, where
+ $r_1 \le\text{rank}(E) \le r_2$, $s$ gives informations on the
+ Tate-Shafarevic group (see below), and $L$ is a list of independent,
+ non-torsion rational points on the curve. $E$ can also be given as the output
+ of \kbd{ellrankinit(E)}.
+
+ If \kbd{points} is provided, it must be a vector of rational points on the
+ curve, which are not computed again.
+
+ The parameter \kbd{effort} is a measure of the time employed to find rational
+ points before giving up. If \kbd{effort} is not $0$, the search is
+ randomized, so rerunning the function might yield different or even
+ a different number of rational points. Values up to $10$ or so are reasonable
+ but the parameter can be increased futher, with running times increasing
+ roughly like the \emph{cube} of the \kbd{effort} value.
+
+ \bprog
+ ? E = ellinit([-127^2,0]);
+ ? ellrank(E)
+ %2 = [1, 1, 0, []] \\ rank is 1 but no point has been found.
+ ? ellrank(E,4) \\ with more effort we find a point.
+ %3 = [1, 1, 0, [[38902300445163190028032/305111826865145547009,
+      680061120400889506109527474197680/5329525731816164537079693913473]]]
+ @eprog
+
+ In addition to the previous calls, the first argument $E$ can be a pair
+ $[e,f]$, where $e$ is an elliptic curve given by \kbd{ellrankinit} and
+ $f$ is a quadratic twist of $e$. We then look for points on $f$.
+ Note that the \kbd{ellrankinit} initialization is independent of $f$, so
+ this can speed up computations significantly!
+
+ \misctitle{Technical explanation}
+ The algorithm, which computes the $2$-descent and the $2$-part of the Cassels
+ pairings has an intrinsic limitation: We can never have $r = R$ when
+ the Tate-Shafarevic group $G$ has $4$-torsion. Thus, in this case we cannot
+ determine the rank precisely.
+ More precisely, the algorithm computes (exactly) three quantities:
+
+ \item the rank of the $2$-Selmer group ($C$).
+
+ \item the rank of the $2$-torsion subgroup ($T$).
+
+ \item the rank of $G[2]/2G[4]$ ($s$) (even).
+
+ The following quantities are also relevant:
+
+ \item the rank of the free part of $E(\Q)$ ($R$)
+
+ \item the rank of $G[2]$ ($S$) (conjecturally even).
+
+ Then, the following formula holds: $C = T + R + S$.
+ It always holds that $s \le S$ and $r_1 \le R \le r_2$.
+ $r_2$ is defined by $r_2 = C - T - s$.
+
+ When the conductor of $E$ is small, the BSD conjecture can be used
+ to find the true rank:
+ \bprog
+ ? E=ellinit([-113^2,0]);
+ ? ellrootno(E) \\ rank is even (parity conjecture)
+ %2 = 1
+ ? ellrank(E)
+ %3 = [0, 2, 0, []] \\ rank is either 0 or 2, $2$-rank of $G$ is
+ ? ellrank(E, 3) \\ try harder
+ %4 = [0, 2, 0, []] \\ no luck
+ ? [r,L] = ellanalyticrank(E) \\ assume BSD
+ %5 = [0, 3.9465...]
+ ? L / ellbsd(E) \\ analytic rank is 0, compute Sha
+ %6 = 16.0000000000000000000000000000000000000
+ @eprog
+ We find that the rank is $0$ and the cardinal of the Tate-Shafarevich group
+ is $16$ (assuming BSD!). Moreover, since $s=0$, it is isomorphic to $(\Z/4\Z)^2$.
+
+ When the rank is $1$ and the conductor is small, \kbd{ellheegner} can be used
+ to find the point.
+ \bprog
+  ? E = ellinit([-157^2,0]);
+  ? ellrank(E)
+  %2 = [1, 1, []] \\ rank is 1, no point found
+  ? ellrank(E, 5) \\ Try harder
+  time = 4,321 ms.
+  %3 = [1, 1, []] \\ No luck
+  ? ellheegner(E) \\ use analytic method
+  time = 608 ms.
+  %4 = [69648970982596494254458225/166136231668185267540804, ...]
+ @eprog\noindent In this last example, an \kbd{effort} about 10 would also
+ find a random point (not necessarily the Heegner point) in 5 to 20 seconds.

@@ -1,0 +1,452 @@
+  ***   Warning: new stack size = 10000000 (9.537 Mbytes).
+one large field
+[10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+non trivial cm subfield
+
+[1 0  0]
+
+[0 1  0]
+
+[0 0  0]
+
+[0 0  0]
+
+[0 0  0]
+
+[0 0  0]
+
+[0 0  0]
+
+[0 0 -1]
+
+1
+[[9, 7], [7, 9], [0, 16], [16, 0]]
+[-2, 8*I]
+[2, 8*I]
+[16, 8*I]
+[-16, 8*I]
+8
+1
+[[5, 5], [5, 5], [0, 10], [10, 0]]
+[0, 5*I]
+[0, 5*I]
+[10, 5*I]
+[-10, 5*I]
+5
+gcharalgebraic
+
+[1 0 0 0    0  0]
+
+[0 1 0 0    0  0]
+
+[0 0 1 0    0  0]
+
+[0 0 0 1    0  0]
+
+[0 0 0 0    1  0]
+
+[0 0 0 0    0  0]
+
+[0 0 0 0 -1/2 -1]
+
+[]
+[[0, 0, 0, 2, -1, 0, -1/2]~]
+1
+1
+[[2, 1], [1, 2]]
+[[-1, -2]~]
+1
+[[4, 0]]
+gcharisalgebraic r1>0
+1
+[[0, 0], [0, 0]]
+1
+[[0, 0], [0, 0]]
+0
+1
+[[1, 0], [1, 0]]
+0
+1
+[[0, 0], [0, 0]]
+1
+[[0, 0], [0, 0]]
+1
+[[0, 0], [0, 0]]
+0
+0
+1
+[[1, 0], [1, 1]]
+0
+need to increase prec
+larger fields
+r2 = 5, clno = 5
+r2 = 4, clno = 3
+r2 = 8, clno = 16
+gcharidentify
+[1, 1]~
+[1, 1]~
+[2, 0, 0, 0, 0]
+[0, 0, 0, 0]~
+[0, 0, 0, 0]~
+[0, 0, 0, 0]~
+[0, 0, 0, 0]~
+[0, 0, 0, 0]~
+
+[1 0  0]
+
+[0 1  0]
+
+[0 0 -1]
+
+[129024, 12, 12, 12, 6, 0, 0, 0, 0, 0, 0]
+
+[1 0 0 0 0    0  0]
+
+[0 1 0 0 0    0  0]
+
+[0 0 1 0 0    0  0]
+
+[0 0 0 1 0    0  0]
+
+[0 0 0 0 1    0  0]
+
+[0 0 0 0 0    1  0]
+
+[0 0 0 0 0    0  0]
+
+[0 0 0 0 0    0  0]
+
+[0 0 0 0 0    0  0]
+
+[0 0 0 0 0    0  0]
+
+[0 0 0 0 0 -1/2 -1]
+
+prec increase
+[444, 12, 2, 2, 0, 0, 0]
+1
+1
+1
+1
+limit cases
+
+[ 0]
+
+[-1]
+
+
+[1  0]
+
+[0 -1]
+
+[]
+
+[ 0]
+
+[ 0]
+
+[ 0]
+
+[-1]
+
+[]
+[[0, 0, 0, 0]~]
+[[0, 0, 0, -1]~]
+[[0, 0, 0]~]
+[[0, 0, -1]~]
+[[0, 0, -1]~]
+[]
+gcharisalgebraic
+0
+1
+0
+0
+gcharduallog
+[0, 0, 600000000000000000000, 200000000000000000000, 0]
+[89110698909568455589, -89110698909568455589, -300000000000000000000, -10000
+0000000000000000, 0]
+1
+gchareval
+1
+169
+169
+gcharidentify 2
+[0, 0]
+[5]~
+1
+gcharlocal
+[0, 652850]
+[0, -652850]
+[0, 652850]
+[0, -652850]
+[100000, 108808]
+[0, -108808]
+[100000, 108808 - 300000*I]
+[0, -108808 + 200000*I]
+[0, 891192]
+[6, 2]
+6
+0
+3
+0
+2
+0
+[0, 0, 0]
+[0, 105380]
+[200000, -52690]
+[-11811]
+[6, 2]
+6
+0
+doc gcharidentify
+[0, 13.057005210545987626926134713745179631]
+0.30000006229129706787363344444425752636
+1
+[-7]~
+[0, 0]
+[-1, 1/3]~
+1
+doc gcharinit
+[0, 0, 0, 0]
+
+[5 4 4 4]
+
+[0 1 0 0]
+
+[0 0 1 0]
+
+[0 0 0 1]
+
+doc gcharalgebraic
+[6, 0, 0, 0, 0]
+
+[1 0    0  0]
+
+[0 1    0  0]
+
+[0 0    1  0]
+
+[0 0    0  0]
+
+[0 0 -1/2 -1]
+
+[]
+[[0, 1, 2, 0, -1]~]
+doc gcharconductor
+[8892, 6, 2, 0, 0]
+[[61009, 7267; 0, 169], [1, 0]]
+[[4693, 559; 0, 13], [1, 0]]
+[[247, 65; 0, 13], [1, 0]]
+[[19, 5; 0, 1], [0, 0]]
+doc gcharduallog
+[2, 0, 0, 0]
+[0.65349722131944394777012772415329089459, 1/2, 0.77636964724835377082031544
+763328693202, -0.38818482362417688541015772381664346601, 1, 0]
+1
+doc gcharisalgebraic
+[0, 0, 0, 0]
+0
+[-3, -0.89110698909568455588720672648627467040]
+1
+[[6, 0], [2, 4]]
+[-6, 3*I]
+[2, 2, 0, 0, 0]
+[1, 0, 0, 4, 5, 0, 0, 0, 9, 0, 16, 0, 0, 0, 0, 16, 0, 0, 16, 20]
+[1, 0, 0, 4, 5, 0, 0, 0, 9, 0, 16, 0, 0, 0, 0, 16, 0, 0, 16, 20]
+[1, 0, 0, 4, 5, 0, 0, 0, 9, 0, 16, 0, 0, 0, 0, 16, 0, 0, 16, 20]
+[1, 0, 0, 4, 5, 0, 0, 0, 9, 0, 16, 0, 0, 0, 0, 16, 0, 0, 16, 20]
+[4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0]
+[0]
+[1, 0, 0, -2, 0, 0, -1, 0, 0, 0, 0, 0, 5, 0, 0, 4, 0, 0, -7, 0]
+[1, 0, 0, -2, 0, 0, -1, 0, 0, 0, 0, 0, 5, 0, 0, 4, 0, 0, -7, 0]
+[3, 0, 0, 0]
+1
+[1, 0, -3, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, -4, 0, 0, 0, 0, 0, 0, 0, 0, 0
+, 0, -6, 0, -3, 0]
+[1, 0, -3, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, -4, 0, 0, 0, 0, 0, 0, 0, 0, 0
+, 0, -6, 0, -3, 0]
+doc gcharlocal
+[0, 0, 0]
+[0, -4.8839310048284836274074581373242545693 - 1/3*I]
+[6, 2.4419655024142418137037290686621272847 - 1/3*I]
+[0.11546513518429312402440891592110333661 + 0.085383333121129357912721832603
+542830928*I]
+[600, 3, 0, 0]
+[24, 3]
+24
+-21/50
+[100]
+50
+-0.30120819117478336291229946188762973702
+doc gcharlog
+[3, 0, 0, 0]
+[2, -5, -1, 0.018811547500499531241113311466621986842, -0.018811547500499531
+241113311466621986842, -0.84017631483385676441321948151670042729, 0.25614999
+936338807373816549781062849278*I]~
+-4.5285995080704456583673312416031761731 + 2.1193835177957097598574507313417
+135170*I
+-4.5285995080704456583673312416031761736 + 2.1193835177957097598574507313417
+135161*I
+doc gchareval
+-3804107379 - 9248176417*I
+-3121086862
+1
+prime sort bug
+1
+LLL erase bug
+1
+bestS fix
+[2, 0, 0]
+1
+1
+bug #2373
+over Q
+[0, 1]
+[0, 256150*I]~
+1/5
+200000
+[0, -I]
+[256150*I]
+
+[-1]
+
+[[-2]~]
+[1, [0]]
+1
+[[-1, 0]]
+[-1]~
+[0, 0, 1]
+[0, 0, 256150*I]~
+1/5
+200000
+[0, -I]
+[256150*I]
+[0, 110318*I]
+
+[-1]
+
+[[-1]~]
+[1, [0]]
+1
+[[-1, 0]]
+[-1]~
+bug in length checks
+[0, -I]
+bad inputs
+  ***   at top-level: gcharinit([],1)
+  ***                 ^---------------
+  *** gcharinit: incorrect type in checknf [please apply nfinit()] (t_VEC).
+  ***   at top-level: gcharinit(bnfinit(x),[])
+  ***                 ^------------------------
+  *** gcharinit: incorrect type in idealtyp (t_VEC).
+  ***   at top-level: gcharinit(bnfinit(x),[1,[]])
+  ***                 ^----------------------------
+  *** gcharinit: incorrect type in Idealstar [incorrect archimedean component] (t_VEC).
+  ***   at top-level: gcharidentify([],[1],[[0,0]])
+  ***                 ^-----------------------------
+  *** gcharidentify: incorrect type in char group (t_VEC).
+  ***   at top-level: gcharidentify('gc,[1],[[0,0]])
+  ***                 ^------------------------------
+  *** gcharidentify: incorrect type in char group (t_POL).
+  ***   at top-level: gcharidentify(gc,[1,1],[[0,0],[0,0]])
+  ***                 ^-------------------------------------
+  *** gcharidentify: components of Lv must be distinct.
+  ***   at top-level: gcharidentify(gc,[1,0],[[0,0],[0,0]])
+  ***                 ^-------------------------------------
+  *** gcharidentify: domain error in gcharidentify: v <= 0
+  ***   at top-level: gcharidentify(gc,[1,3],[[0,0],[0,0]])
+  ***                 ^-------------------------------------
+  *** gcharidentify: domain error in gcharidentify: v > 2
+  ***   at top-level: gcharidentify(gc,[1,[]],[[0,0],[0,0]])
+  ***                 ^--------------------------------------
+  *** gcharidentify: incorrect type in idealtyp (t_VEC).
+  ***   at top-level: gcharidentify(gc,[1,'x],[[0,0],[0,0]])
+  ***                 ^--------------------------------------
+  *** gcharidentify: incorrect type in gcharidentify [ideal] (t_POL).
+  ***   at top-level: gcharidentify(gc,[[]],[1.])
+  ***                 ^---------------------------
+  *** gcharidentify: incorrect type in idealtyp (t_VEC).
+  ***   at top-level: gcharidentify(gc,[pr],[1+O(3^7)])
+  ***                 ^---------------------------------
+  *** gcharidentify: incorrect type in gcharidentify [character value: should be real or complex] (t_PADIC).
+  ***   at top-level: gcharidentify(gc,[pr],['x])
+  ***                 ^---------------------------
+  *** gcharidentify: incorrect type in gcharidentify [character value: should be real or complex] (t_POL).
+  ***   at top-level: gcharidentify(gc,[1],['x])
+  ***                 ^--------------------------
+  *** gcharidentify: incorrect type in gcharidentify [character at infinite place: should be a t_VEC] (t_POL).
+  ***   at top-level: gcharidentify(gc,[1],[[]])
+  ***                 ^--------------------------
+  *** gcharidentify: inconsistent dimensions in gcharidentify [character at infinite place: should have two components].
+  ***   at top-level: gcharidentify(gc,[1],[[0.1,0]])
+  ***                 ^-------------------------------
+  *** gcharidentify: incorrect type in gcharidentify [k parameter at infinite place: should be a t_INT] (t_REAL).
+  ***   at top-level: gcharidentify(gc,[1],[[0,O(3^7)]])
+  ***                 ^----------------------------------
+  *** gcharidentify: incorrect type in gcharidentify [phi parameter at infinite place: should be real or complex] (t_PADIC).
+  ***   at top-level: gcharidentify(gc,[1],[0,0])
+  ***                 ^---------------------------
+  *** gcharidentify: inconsistent dimensions in gcharidentify [#Lv != #Lchiv].
+  ***   at top-level: gcharidentify(gc,[pr],[0])
+  ***                 ^--------------------------
+  *** gcharidentify: elements not coprime in gcharidentify:
+    [101, [-48, 0, 1, 0]~, 1, 1, [12, 114, -30, 3; 49, 11, 29, -114; -19, -29, -104, -30; 48, -49, -19, 12]]
+    Mat([[101, [-48, 0, 1, 0]~, 1, 1, [12, 114, -30, 3; 49, 11, 29, -114; -19, -29, -104, -30; 48, -49, -19, 12]], 1])
+  ***   at top-level: gcharnewprec(gc)
+  ***                 ^----------------
+  *** gcharnewprec: incorrect type in char group (t_INT).
+  ***   at top-level: gcharnewprec(gc)
+  ***                 ^----------------
+  *** gcharnewprec: incorrect type in gchar group (basis) (t_VEC).
+  ***   at top-level: gcharnewprec(gc)
+  ***                 ^----------------
+  *** gcharnewprec: incorrect type in gchar group (gc[8]) (t_VEC).
+  ***   at top-level: gcharidentify(gc,[],[])
+  ***                 ^-----------------------
+  *** gcharidentify: precision too low in gchar group, please call gcharnewprec.
+  ***   at top-level: gcharalgebraic(gc,0)
+  ***                 ^--------------------
+  *** gcharalgebraic: incorrect type in gcharalgebraic (1) (t_INT).
+  ***   at top-level: gcharalgebraic(gc,[1..10])
+  ***                 ^--------------------------
+  *** gcharalgebraic: incorrect type in gcharalgebraic (1) (t_VEC).
+  ***   at top-level: gcharalgebraic(gc,[0])
+  ***                 ^----------------------
+  *** gcharalgebraic: incorrect type in gcharalgebraic (2) (t_VEC).
+  ***   at top-level: gcharalgebraic(gc,[[]])
+  ***                 ^-----------------------
+  *** gcharalgebraic: incorrect type in gcharalgebraic (2) (t_VEC).
+  ***   at top-level: gcharalgebraic(gc,[[0,[]]])
+  ***                 ^---------------------------
+  *** gcharalgebraic: incorrect type in gcharalgebraic (2) (t_VEC).
+  ***   at top-level: gcharalgebraic(gc,[[[],0]])
+  ***                 ^---------------------------
+  *** gcharalgebraic: incorrect type in gcharalgebraic (2) (t_VEC).
+  ***   at top-level: gchareval(gc,O(3^7),1,0)
+  ***                 ^------------------------
+  *** gchareval: incorrect type in check_gchar [chi] (t_PADIC).
+  ***   at top-level: gchareval(gc,[0,O(3^7)],1,0)
+  ***                 ^----------------------------
+  *** gchareval: incorrect type in check_gchar [chi] (t_VEC).
+  ***   at top-level: chareval(gc,[0]~,1)
+  ***                 ^-------------------
+  *** chareval: incorrect type in chareval [use gchareval to evaluate a grossencharacter] (t_VEC).
+  ***   at top-level: gcharisalgebraic(gc,[1])
+  ***                 ^------------------------
+  *** gcharisalgebraic: incorrect type in check_gchar [chi] (t_VEC).
+  ***   at top-level: gcharalgebraic(gc,[])
+  ***                 ^---------------------
+  *** gcharalgebraic: incorrect type in gcharalgebraic (1) (t_VEC).
+  ***   at top-level: gcharalgebraic(gc,[[1,1]])
+  ***                 ^--------------------------
+  *** gcharalgebraic: incorrect type in gcharalgebraic (1) (t_VEC).
+  ***   at top-level: gcharlocal(gc,[0,1]~,0)
+  ***                 ^-----------------------
+  *** gcharlocal: domain error in gcharlocal [index of an infinite place]: v <= 0
+  ***   at top-level: gcharlocal(gc,[0,1]~,3)
+  ***                 ^-----------------------
+  *** gcharlocal: domain error in gcharlocal [index of an infinite place]: v > 2
+  ***   at top-level: gcharlocal(gc,[0,1,O(5^2)]~,1)
+  ***                 ^------------------------------
+  *** gcharlocal: incorrect type in check_gchar_i [s] (t_PADIC).
+Total time spent: 2964

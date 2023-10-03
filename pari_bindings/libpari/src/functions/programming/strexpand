@@ -1,0 +1,29 @@
+Function: strexpand
+Section: programming/specific
+C-Name: strexpand
+Prototype: s*
+Help: strexpand({x}*): concatenates its (string) arguments into a single
+ string, performing tilde expansion.
+Doc:
+ converts its argument list into a
+ single character string (type \typ{STR}, the empty string if $x$ is omitted).
+ Then perform \idx{environment expansion}, see \secref{se:envir}.
+ This feature can be used to read \idx{environment variable} values.
+ \bprog
+ ? strexpand("$HOME/doc")
+ %1 = "/home/pari/doc"
+
+ ? module = "aprcl"; n = 10;
+ ? strexpand("$HOME/doc/", module, n, ".tex")
+ %3 = "/home/pari/doc/aprcl10.tex"
+ @eprog
+
+ The individual arguments are read in string context, see \secref{se:strings}.
+
+Function: Strexpand
+Section: programming/specific
+C-Name: strexpand
+Prototype: s*
+Obsolete: 2018-10-01
+Help: Strexpand({x}*): deprecated alias for strexpand
+Doc: deprecated alias for strexpand

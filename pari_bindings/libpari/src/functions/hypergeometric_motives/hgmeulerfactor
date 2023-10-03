@@ -1,0 +1,50 @@
+Function: hgmeulerfactor
+Section: hypergeometric_motives
+C-Name: hgmeulerfactor
+Prototype: GGLD&
+Help: hgmeulerfactor(H, t, p, {&e}): (H,t) being a hypergeometric motive,
+ returns the Euler factor P_p at the prime p; if present, set e to the valuation
+ of the conductor at p.
+Doc: $(H,t)$ being a hypergeometric motive, returns the inverse of its
+ Euler factor at the prime $p$ and the exponent $e$ of the conductor at $p$.
+ This is not implemented when $p$ is a wild prime: the function returns $0$ and
+ sets $e$ to $-1$. Caveat: contrary to \kbd{lfuneuler}, this function returns
+ the \emph{inverse} of the Euler factor, given by a polynomial $P_p$ such that
+ the Euler factor is $1 / P_p(p^{-s})$.
+ \bprog
+ ? H = hgminit([5]); \\ cyclotomic parameters [5] and [1,1,1,1]
+ ? hgmeulerfactor(H, 1/2, 3)
+ %2 = 729*x^4 + 135*x^3 + 45*x^2 + 5*x + 1
+ ? hgmeulerfactor(H, 1/2, 3, &e)
+ %3 = 729*x^4 + 135*x^3 + 45*x^2 + 5*x + 1
+ ? e
+ %4 = 0
+ ? hgmeulerfactor(H, 1/2, 2, &e)
+ %5 = -x + 1
+ ? e
+ %6 = 3
+ ? hgmeulerfactor(H, 1/2, 5)
+ %7 = 0  \\ 5 is wild
+ @eprog
+
+ If the conductor is small, the wild Euler factors can be computed
+ from the functional equation: set \kbd{L = lfunhgm(H,t)} (the complexity
+ should be roughly proportional to the conductor) then
+ the \kbd{lfuneuler} function should give you the correct Euler factors
+ at all primes:
+ \bprog
+ ? L = lfunhgm(H, 1/2);
+ time = 790 ms.  \\ fast in this case, only 5 is wild
+ ? lfunparams(L)   \\ ... and the conductor 5000 is small
+ %8 = [5000, 4, [-1, 0, 0, 1]]
+ ? lfuneuler(L, 5)
+ %9 = 1 \\ trivial Euler factor
+
+ ? L = lfunhgm(H, 1/64); lfunparams(L)
+ time = 20,122 ms. \\ slower: the conductor is larger
+ %10 = [525000, 4, [-1, 0, 0, 1]]
+
+ ? L = lfunhgm(H, 1/128); lfunparams(L)
+ time = 2min, 16,205 ms. \\ even slower, etc.
+ %11 = [3175000, 4, [-1, 0, 0, 1]]
+ @eprog

@@ -1,0 +1,19 @@
+Function: strtime
+Section: programming/specific
+C-Name: strtime
+Prototype: L
+Help: strtime(t): return a string describing the time t in milliseconds,
+ in the format used by the GP timer.
+Doc:
+  return a string describing the time t in milliseconds in the format used by
+  the GP timer.
+ \bprog
+ ? print(strtime(12345678))
+ 3h, 25min, 45,678 ms
+ ? {
+     my(t=getabstime());
+     F=factor(2^256+1);t=getabstime()-t;
+     print("factor(2^256+1) took ",strtime(t));
+   }
+ factor(2^256+1) took 1,320 ms
+ @eprog

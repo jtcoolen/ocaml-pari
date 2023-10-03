@@ -1,0 +1,202 @@
+This file highlights some of the novelties in PARI/GP 2.15 compared to
+latest stable branch 2.13.*. The detailed Changelog is in CHANGES.
+Incompatible changes are described in COMPAT.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% VERSION 2.15 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A general overview (slides and video) of new features is available at
+    http://pari.math.u-bordeaux.fr/Events/PARI2022/index.html#TUTO
+
+[The GP language]
+  - Notion of DebugLevel "domains" that allow to finely control diagnostics.
+    See setdebug()[,1] to obtain a list of domains. You can still print out
+    everything using \g 10, but you can also be more specific and use
+      \g qflll 10
+    which sets the debug level to 10 only for the "qflll" domain,
+    i.e. everything related to the LLL algorithm (there are 60 domains so far).
+    The alternate syntax setdebug("qflll", 10) is available.
+  - The syntax setdebug(dom, val) and default(def, val) are now recognized in
+    the GPRC file
+  - Recall that random(10) returns an integer in [0,9]; now random(-10) draws
+    a random integer in the symetrized interval [-9,9]. More generally,
+    recall that random(10 * x^3) returns a polynomial of degree <= 3 and
+    coefficients in [0, 9]; now random(-10 * x3) draws coefficients in [-9,9].
+  - Recall that valuation(x, t) computes the t-valuation of x; the t argument
+    is now optional for types affording a natural valuation: t_PADIC, t_POL
+    and t_SER:
+      ? valuation(sin(x))
+      %1 = 1
+      ? valuation(175 + O(5^5))
+      %2 = 2
+
+[Linear Algebra]
+  - qflll() now implements most LLL modes in fplll (fast, dpe and heuristic),
+    allowing large speedups. Directly and in the many functions that use the
+    LLL algorithm.
+  - new GP function snfrank(), a utility function returning q-ranks from
+    Smith Normal Forms
+
+[Elementary Number Theory]
+  - New GP function: harmonic(), to compute generalized harmonic numbers
+  - Rework Euler numbers, analogously to Benoulli's: eulervec() is now
+    faster and caches computed values, and a new GP function eulerreal()
+    computes floating point approximations.
+  - dirpowerssum() now allows to twist by a completely multiplicative function
+     ? dirpowerssum(N, s, n->kronecker(-23,n)) \\ sum_{n <= N} chi(n)n^{-s}
+  - New GP function factormodcyclo(n, p) to quickly factor the n-th
+    cyclotomic polynomial over Fp
+
+[Elliptic Curves]
+  - New module to compute the Mordell-Weil group of rational elliptic curves:
+      ell2cover     ellrank       ellrankinit      ellsaturation
+    See the tutorial (slides and video) at
+      http://pari.math.u-bordeaux.fr/Events/PARI2022/index.html#ELL
+    * ellrank() implements 2-descent together with Cassels's pairing
+    restrictions yielding rational points and an interval for the rank. If the
+    Tate-Shafarevic group has no 4 torsion and we spend enough time looking for
+    rational points (on the curve and auxiliary quartics), we obtain the
+    Mordell-Weil rank and generators V for a subgroup of finite index in E(Q).
+    * ellrankinit() precomputes ellrank() data for all quadratic twists of E.
+    * function ellsaturation(E,V,B) updates the generators V and guarantees
+    than any prime dividing the index must be > B.
+    * ell2cover() returns everywhere locally soluble 2-covers of E
+    (rational quartics on which we try to find a rational point).
+  - New GP function elltrace() summing the Galois conjugates of a point on E
+  - New input format for elliptic curves: ellinit([j]) as a shortcut for
+    ellfromj(j).
+
+[Curves of Higher Genus]
+  - genus2red(): the given integral model is now a pair [P,Q] such that
+    y^2+Q*y = P is minimal everywhere (was minimal over Z[1/2]).
+  - new GP functions to handle models of hyperelliptic curves
+      hyperelldisc         hyperellisoncurve   hyperellminimalmodel
+      hyperellminimaldisc  hyperellred
+
+[L-functions]
+  - New module for hypergeometric motives, see ??hgm. GP functions
+      hgmalpha     hgmbydegree     hgmcyclo          hgminit
+      hgmtwist     hgmcoef         hgmeulerfactor    hgmissymmetrical
+      lfunhgm      hgmcoefs        hgmgamma          hgmparams
+    See the tutorial (slides and video) at
+      http://pari.math.u-bordeaux.fr/Events/PARI2022/index.html#HGM
+  - New GP function lfunparams() to return the [N, k, Gamma factors] attached
+    to a motivic L-function.
+  - New GP function lfuneuler() to return the local Euler factor at a prime p
+
+[Modular Forms]
+  - Faster implementation of mfinit() and mfbasis() in weight 1
+  - Add optional argument to ramanujantau() to compute the newform of level 1
+    and given small weight; parallelize implementation.
+
+[Quadratic Fields]
+  - qfbcomp() now implements general composition of integral binary quadratic
+    forms (of different discriminants); f * g and f^n are shorthand for
+    composition and powerings of forms, including (real) extended forms with a
+    Shanks distance component.
+  - New GP function qfbcornacchia, solving x^2 + Dy^2 = n in integers
+    in essentially linear time.
+  - New GP functions quadunitindex() (index of the unit group of a quadratic
+    order in the units for the maximal order), quadunitnorm() (norm of the
+    fundamental unit). Used to improve qfbclassno for non fundamental
+    positive discriminants.
+
+[General Number Fields]
+  - nfinit(), nfdisc(), nfbasis() now use lazy factorization: partially
+    factor the polynomial discriminant, hoping the unfactored part will be a
+    square coprime to the field discriminant, and that we will be able to
+    prove it via a variant of Buchmann-Lenstra's algorithm.
+  - New bit in nfinit flag to prevent LLL on nf.zk, which is a major speedup
+    when the field degree is large and only basic field or ideal arithmetic
+    is needed.
+  - New GP functions nfeltissquare() and nfeltispower() to quickly check whether
+    an algebraic number is a k-th power (and obtain a k-th root when it is).
+  - New GP function galoissplittinginit(T) to compute the Galois group of the
+    splitting field of T. This can be used in all Galois theory functions,
+    e.g., galoissubgroups(), galoisidentify(), etc.
+  - New GP function nflist to list number fields with given small Galois
+    group by increasing discriminant. Some groups (such as A5 and A5(6))
+    require the new 'nflistdata' package. The same function gives a regular
+    extension of Q(t) with the requested Galois group for all transitive
+    subgroups of S_n, n <= 15.
+  - New GP function nfresolvent() computes classical Galois resolvents
+    attached to fields of small degree
+  - Recal that ideallist(nf, B) returns integral ideals of norm bounded
+    by B > 0. The new ideallist(nf, negative B) returns integral ideals
+    of norm |B| (in factored form).
+
+[Class Field Theory]
+  - New GP function bnrcompositum() to construct the compositum of two
+    abelian extensions given by a class field theoretic description.
+  - New module to deal with class groups of abelian fields and their Iwasawa
+    invariants:
+      subcyclohminus     subcycloiwasawa   subcyclopclgp
+    See the tutorial (slides and video) at
+      http://pari.math.u-bordeaux.fr/Events/PARI2022/index.html#CYCLO
+  - New module to generate and compute with Hecke characters:
+      gchareval        gcharalgebraic   gcharconductor
+      gcharduallog     gcharidentify    gcharinit        gcharisalgebraic
+      gcharlocal       gcharlog         gcharnewprec
+    See ??"Hecke Grossencharacters" as well as the tutorial at
+      http://pari.math.u-bordeaux.fr/Events/PARI2022/index.html#HECKE
+
+[Transcendental functions]
+  - New GP function lerchphi(), lerchzeta() for the Lerch Phi and zeta function.
+  - New GP functions bessljzero(), besselyzero(), for J and Y Bessel functions
+  - Lambert W functions are now all supported, one can specify a branch as an
+    optional argument: lambertw(y, -1) corresponds to W_{-1}, defined for
+    -exp(-1) <= y < 0. Complex arguments are allowed (as well as power series
+    and p-adics)
+  - Speedup for a number of transcendental functions at rational
+    arguments, in particular atanh(), gamma() and lngamma().
+  - Allow sqrtint(), sqrtnint() and logint() for positive real number arguments
+  - We now allow hypergeom(N, D, t_SER)
+
+[Numerical summation and integration]
+  - New GP function sumnumsidi() for Sidi summation.
+  - New GP function intnumosc() to integrate quasi-periodic functions of
+    half-period H on a real half-line:
+      ? \p200
+      ? H = Pi; intnumosc(x = 0, sinc(x), H) - Pi/2
+      time = 1,241 ms.
+      %2 = 0.E-211
+    A number of summation algorithms are used (Lagrange, Sidi, Sumalt, Sumpos).
+    See ??9 for a comparison of available integration or summation algorithms
+  - Allow endpoints in solve() to by +oo or -oo
+
+[Miscellaneous]
+  - poliscyclo(): replace Bradford-Davenport's Graeffe method by their
+    invphi algorithm (much faster)
+  - New GP function polsubcyclofast: fast variant of polsubcyclo() in small
+    degree, returning ad hoc generators (instead of Gaussian periods)
+  - New GP function poltomonic(T): fast monic integral generating polynomial
+    for Q[x] / (T)
+  - New GP function qfminimize to minimize a rational quadratic form.
+  - New GP function setdelta() for symmetric difference.
+  - New GP function serdiffdep() to find linear relations with polynomial
+    coefficients of bounded degree between derivatives of a power series:
+    ? y = sum(i=0, 50, binomial(3*i,i)*t^i) + O(t^51);
+    ? serdiffdep(y, 4, 3) \\ order <= 4 and degrees <= 3
+    %2 = [(27*t^2 - 4*t)*x^2 + (54*t - 2)*x + 6, 0]
+    ? (27*t^2 - 4*t)*y'' + (54*t - 2)*y' + 6*y
+    %3 = O(T^50)
+
+COMPATIBILITY ISSUES BETWEEN 2.13.* and 2.15.*
+============================================
+
+0) Obsoleted functions and interfaces:
+  - default(debugfiles,) is now obsolete, use setdebug("io",)
+  - Unify real and imaginary binary quadratic forms: there are no longer
+    t_QFI and t_QFR for real an imaginary forms, only generic t_QFB.
+    One can still create a form using q = Qfb(a,b,c) [ or Qfb(v) if v=[a,b,c] ],
+    and a pair [q, d] denotes an extended (real) form including a Shanks
+    distance component 'd' (which used to be part of 'q', but no longer).
+
+1) Output changes:
+  - system(cmd) now returns the shell return value
+  - elltwist now returns an ellinit, and accepts the same input formats
+    as ellinit ([a1,a2,a3,a4,a6], [a4,a6], Cremona label)
+  - genus2red 3rd component is now a pair [P,Q] such that y^2+Q*y=P is
+    minimal everywhere.
+
+2) Input changes:
+  - qfbredsl2(q, S): change format of S: was [D,isD], is now isD

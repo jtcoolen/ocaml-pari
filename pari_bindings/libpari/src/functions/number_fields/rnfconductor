@@ -1,0 +1,44 @@
+Function: rnfconductor
+Section: number_fields
+C-Name: rnfconductor0
+Prototype: GGD0,L,
+Help: rnfconductor(bnf,T,{flag=0}): conductor of the Abelian extension
+ of bnf defined by T. The result is [conductor,bnr,subgroup],
+ where conductor is the conductor itself, bnr the attached bnr
+ structure, and subgroup the HNF defining the norm
+ group (Artin or Takagi group) on the given generators bnr.gen.
+ If flag is 1, return a bnr modulo deg(T), attached to Cl_f / (deg(T));
+ if flag is 2 only return [f, idealfactor(f[1])].
+Doc: given a \var{bnf} structure attached to a number field $K$, as produced
+ by \kbd{bnfinit}, and $T$ an irreducible polynomial in $K[x]$
+ defining an \idx{Abelian extension} $L = K[x]/(T)$, computes the class field
+ theory conductor of this Abelian extension. If $T$ does not define an Abelian
+ extension over $K$, the result is undefined; it may be the integer $0$ (in
+ which case the extension is definitely not Abelian) or a wrong result.
+
+ The result is a 3-component vector $[f,\var{bnr},H]$, where $f$ is the
+ conductor of the extension given as a 2-component row vector $[f_0,f_\infty]$,
+ \var{bnr} is the attached \kbd{bnr} structure and $H$ is a matrix in HNF
+ defining the subgroup of the ray class group on the ray class group generators
+ \kbd{bnr.gen}; in particular, it is a left divisor of the diagonal matrix
+ attached to \kbd{bnr.cyc} and $|\det H| = N = \deg T$.
+
+ \item If \fl\ is $1$, return $[f,\var{bnrmod}, H]$, where
+ \kbd{bnrmod} is now attached to $\text{Cl}_f / \text{Cl}_f^N$, and $H$ is as
+ before since it contains the $N$-th powers. This is useful when $f$ contains
+ a maximal ideal with huge residue field, since the corresponding tough
+ discrete logarithms are trivialized: in the quotient group, all elements have
+ small order dividing $N$. This allows to work in $\text{Cl}_f/H$ but no
+ longer in $\text{Cl}_f$.
+
+ \item If \fl\ is $2$, only return $[f, \kbd{fa}]$ where \kbd{fa} is the
+ factorization of the conductor finite part ($=f[1]$).
+
+ \misctitle{Huge discriminants, helping rnfdisc} The format $[T,B]$ is
+ also accepted instead of $T$ and computes the conductor of the extension
+ provided it factors completely over the maximal ideals specified by $B$,
+ see \kbd{??rnfinit}: the valuation of $f_0$ is then correct at all such
+ maximal ideals but may be incorrect at other primes.
+
+Variant: Also available is \fun{GEN}{rnfconductor}{GEN bnf, GEN T} when $\fl =
+ 0$.

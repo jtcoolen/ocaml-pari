@@ -1,0 +1,17 @@
+"t_CLOSURE"
+3
+addii: installed function
+library name: addii
+prototype: GG
+
+addii: new identifier
+
+5
+"t_CLOSURE"
+  ***   not an ulong: GDL0,U,
+  ***                   ^-----
+  ***   not a long: GDL0,L,
+  ***                 ^-----
+  ***   not an ulong: GD-1,U,
+  ***                   ^-----
+Total time spent: 0

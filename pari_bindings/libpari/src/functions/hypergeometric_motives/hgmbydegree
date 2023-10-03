@@ -1,0 +1,11 @@
+Function: hgmbydegree
+Section: hypergeometric_motives
+C-Name: hgmbydegree
+Prototype: L
+Help: hgmbydegree(n): outputs [L(0),...,L(n-1)] where L(w) is the list of
+ cyclotomic parameters of all possible hypergeometric motive templates of
+ degree n and weight w.
+
+Doc: outputs $[L(0),...,L(n-1)]$ where $L(w)$ is the list of
+ cyclotomic parameters of all possible hypergeometric motive templates of
+ degree $n$ and weight $w$.

@@ -1,0 +1,12 @@
+Function: _def_debug
+Class: default
+Section: default
+C-Name: sd_debug
+Prototype:
+Help:
+Doc: debugging level. If it is nonzero, some extra messages may be printed,
+ according to what is going on (see~\b{g}). To turn on and off diagnostics
+ attached to a specific feature (such as the LLL algorithm), use
+ \tet{setdebug}.
+
+ The default value is \kbd{0} (no debugging messages).

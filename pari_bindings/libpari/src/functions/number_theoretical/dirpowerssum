@@ -1,0 +1,48 @@
+Function: dirpowerssum
+Section: number_theoretical
+C-Name: dirpowerssum0
+Prototype: GGDGD0,L,p
+Help: dirpowerssum(N,x,{f},{both=0}):
+ return f(1)1^x + f(2)2^x + ... + f(N)N^x, where f is a completely
+ multiplicative function (= 1 if omitted). If both is set, return the pair
+ for arguments (x, f) and (-1-x, conj(f)). If both=2, assume in addition
+ that f is real-valued.
+Doc: for positive integer $N$ and complex number $x$, return the sum
+ $f(1)1^x + f(2)2^x + \dots + f(N)N^x$, where $f$ is a completely
+ multiplicative function. If $f$ is omitted, return
+ $1^x + \dots + N^x$. When $N \le 0$, the function returns $0$.
+ If \kbd{both} is set, return the pair for arguments $(x,f)$ and
+ $(-1-x,\overline{f})$. If \kbd{both=2}, assume in addition that $f$ is
+ real-valued.
+
+ \misctitle{Caveat} when {\tt both} is set, the present implementation
+ assumes that $|f(n)|$ is either $0$ or $1$, which is the case for
+ Dirichlet characters.
+
+ Unlike variants using \kbd{dirpowers(N,x)}, this function uses $O(\sqrt{N})$
+ memory instead of $O(N)$. And it is faster for large $N$. The return value
+ is usually a floating point number, but it will be exact if the result
+ is an integer. On the other hand, rational numbers are converted to
+ floating point approximations, since they are likely to blow up for large $N$.
+ \bprog
+ ? dirpowers(5, 2)
+ %1 = [1, 4, 9, 16, 25]
+ ? vecsum(%)
+ %2 = 55
+ ? dirpowerssum(5, 2)
+ %3 = 55
+ ? dirpowerssum(5, -2)
+ %4 = 1.4636111111111111111111111111111111111
+ ? \p200
+ ? s = 1/2 + I * sqrt(3); N = 10^7;
+ ? dirpowerssum(N, s);
+ time = 11,425 ms.
+ ? vecsum(dirpowers(N, s))
+ time = 19,365 ms.
+ ? dirpowerssum(N, s, n->kronecker(-23,n))
+ time = 10,981 ms.
+ @eprog\noindent The \kbd{dirpowerssum} commands work with default stack size,
+ the \kbd{dirpowers} one requires a stacksize of at least 5GB.
+
+ \synt{dirpowerssumfun}{ulong N, GEN x, void *E, GEN (*f)(void*, ulong, long), long prec}. When $f = \kbd{NULL}$, one may use
+ \fun{GEN}{dirpowerssum}{ulong N, GEN x, long prec}.

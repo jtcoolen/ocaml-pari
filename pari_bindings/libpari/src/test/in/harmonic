@@ -1,0 +1,11 @@
+harmonic(0)
+harmonic(1)
+harmonic(2)
+harmonic(3)
+harmonic(10)
+harmonic(10,2)
+harmonic(10,-2)
+
+\\ ERRORS
+harmonic(1.)
+harmonic(1,x)

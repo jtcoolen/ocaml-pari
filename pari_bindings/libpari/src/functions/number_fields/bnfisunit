@@ -1,0 +1,92 @@
+Function: bnfisunit
+Section: number_fields
+C-Name: bnfisunit0
+Prototype: GGDG
+Help: bnfisunit(bnf,x, {U}): bnf being output by bnfinit, give
+ the column vector of exponents of x on the fundamental units and the roots
+ of unity if x is a unit, the empty vector otherwise. If U is present,
+ as given by bnfunits, decompose x on the attached S-units generators.
+Doc: \var{bnf} being the number field data
+ output by \kbd{bnfinit} and $x$ being an algebraic number (type integer,
+ rational or polmod), this outputs the decomposition of $x$ on the fundamental
+ units and the roots of unity if $x$ is a unit, the empty vector otherwise.
+ More precisely, if $u_1$,\dots,$u_r$ are the fundamental units, and $\zeta$
+ is the generator of the group of roots of unity (\kbd{bnf.tu}), the output is
+ a vector $[x_1,\dots,x_r,x_{r+1}]$ such that $x=u_1^{x_1}\cdots
+ u_r^{x_r}\cdot\zeta^{x_{r+1}}$. The $x_i$ are integers but the last one
+ ($i = r+1$) is only defined modulo the order $w$ of $\zeta$ and is guaranteed
+ to be in $[0,w[$.
+
+ Note that \var{bnf} need not contain the fundamental units explicitly: it may
+ contain the placeholder $0$ instead:
+ \bprog
+ ? setrand(1); bnf = bnfinit(x^2-x-100000);
+ ? bnf.fu
+ %2 = 0
+ ? u = [119836165644250789990462835950022871665178127611316131167, \
+        379554884019013781006303254896369154068336082609238336]~;
+ ? bnfisunit(bnf, u)
+ %3 = [-1, 0]~
+ @eprog\noindent The given $u$ is $1/u_1$, where $u_1$ is the fundamental
+ unit implicitly stored in \var{bnf}. In this case, $u_1$ was not computed
+ and stored in algebraic form since the default accuracy was too low. Re-run
+ the \kbd{bnfinit} command at \kbd{\bs g1} or higher to see such diagnostics.
+
+ This function allows $x$ to be given in factored form, but it then assumes
+ that $x$ is an actual unit. (Because it is general too costly to check
+ whether this is the case.)
+ \bprog
+ ? { v = [2, 85; 5, -71; 13, -162; 17, -76; 23, -37; 29, -104; [224, 1]~, -66;
+ [-86, 1]~, 86; [-241, 1]~, -20; [44, 1]~, 30; [124, 1]~, 11; [125, -1]~, -11;
+ [-214, 1]~, 33; [-213, -1]~, -33; [189, 1]~, 74; [190, -1]~, 104;
+ [-168, 1]~, 2; [-167, -1]~, -8]; }
+ ? bnfisunit(bnf,v)
+ %5 = [1, 0]~
+ @eprog\noindent Note that $v$ is the fundamental unit of \kbd{bnf} given in
+ compact (factored) form.
+
+ If the argument \kbd{U} is present, as output by \kbd{bnfunits(bnf, S)},
+ then the function decomposes $x$ on the $S$-units generators given in
+ \kbd{U[1]}.
+ \bprog
+  ? bnf = bnfinit(x^4 - x^3 + 4*x^2 + 3*x + 9, 1);
+  ? bnf.sign
+  %2 = [0, 2]
+  ? S = idealprimedec(bnf,5); #S
+  %3 = 2
+  ? US = bnfunits(bnf,S);
+  ? g = US[1]; #g  \\ #S = #g, four S-units generators, in factored form
+  %5 = 4
+  ? g[1]
+  %6 = [[6, -3, -2, -2]~ 1]
+  ? g[2]
+  %7 =
+  [[-1, 1/2, -1/2, -1/2]~ 1]
+
+  [      [4, -2, -1, -1]~ 1]
+  ? [nffactorback(bnf, x) | x <- g]
+  %8 = [[6, -3, -2, -2]~, [-5, 5, 0, 0]~, [-1, 1, -1, 0]~,
+        [1, -1, 0, 0]~]
+
+  ? u = [10,-40,24,11]~;
+  ? a = bnfisunit(bnf, u, US)
+  %9 = [2, 0, 1, 4]~
+  ? nffactorback(bnf, g, a) \\ prod_i g[i]^a[i] still in factored form
+  %10 =
+  [[6, -3, -2, -2]~  2]
+
+  [ [0, 0, -1, -1]~  1]
+
+  [ [2, -1, -1, 0]~ -2]
+
+  [   [1, 1, 0, 0]~  2]
+
+  [  [-1, 1, 1, 1]~ -1]
+
+  [  [1, -1, 0, 0]~  4]
+
+  ? nffactorback(bnf,%)  \\ u = prod_i g[i]^a[i]
+  %11 = [10, -40, 24, 11]~
+ @eprog
+Variant: Also available is \fun{GEN}{bnfisunit}{GEN bnf, GEN x} for $U =
+ \kbd{NULL}$.

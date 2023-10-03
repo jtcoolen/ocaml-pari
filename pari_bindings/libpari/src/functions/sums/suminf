@@ -1,0 +1,61 @@
+Function: suminf
+Section: sums
+C-Name: suminf0_bitprec
+Prototype: V=GEb
+Help: suminf(X=a,expr): naive summation (X goes from a to infinity) of real or
+ complex expression expr.
+Wrapper: (,G)
+Description:
+  (gen,gen):gen:prec suminf(${2 cookie}, ${2 wrapper}, $1, $prec)
+Doc: Naive summation of expression \var{expr}, the formal parameter $X$
+ going from $a$ to infinity. The evaluation stops when the relative error of
+ the expression is less than the default bit precision for 3 consecutive
+ evaluations. The expressions must evaluate to a complex number.
+
+ If the expression tends slowly to $0$, like $n^{-a}$ for some $a > 1$,
+ make sure $b = \kbd{realbitprecision}$ is low: indeed, the algorithm will
+ require $O(2^{b/a})$ function evaluations and we expect only about $b(1-1/a)$
+ correct bits in the answer. If the series is alternating, we can expect $b$
+ correct bits but the \tet{sumalt} function should be used instead since its
+ complexity is polynomial in $b$, instead of exponential. More generally,
+ \kbd{sumpos} should be used if the terms have a constant sign and
+ \kbd{sumnum} if the function is $C^\infty$.
+
+ \bprog
+ ? \pb25
+   realbitprecision = 25 significant bits (7 decimal digits displayed)
+ ? exponent(suminf(i = 1, (-1)^i / i) + log(2))
+ time = 2min, 2,602 ms.
+ %1 = -29
+ ? \pb45
+   realbitprecision = 45 significant bits (13 decimal digits displayed)
+ ? exponent(suminf(i = 1, 1 / i^2) - zeta(2))
+ time = 2,186 ms.
+ %2 = -23
+
+ \\ alternatives are much faster
+ ? \pb 10000
+   realbitprecision = 10000 significant bits (3010 decimal digits displayed)
+ ? exponent(sumalt(i = 1, (-1)^i / i) + log(2))
+ time = 25 ms.
+ %3 = -10043
+
+ ? \pb 4000
+   realbitprecision = 4000 significant bits (1204 decimal digits displayed)))
+ ? exponent(sumpos(i = 1, 1 / i^2) - zeta(2))
+ time = 22,593 ms.
+ %4 = -4030
+
+ ? exponent(sumnum(i = 1, 1 / i^2) - zeta(2))
+ time = 7,032 ms.
+ %5 = -4031
+
+ \\ but suminf is perfect for geometrically converging series
+ ? exponent(suminf(i = 1, 2^-i) - 1)
+ time = 25 ms.
+ %6 = -4003
+ @eprog
+
+ \synt{suminf_bitprec}{void *E, GEN (*eval)(void*,GEN), GEN a, long prec}.
+ The historical variant \fun{GEN}{suminf}{\dots, long prec}, where \kbd{prec} is
+ expressed in words, not bits, is obsolete and should no longer be used.

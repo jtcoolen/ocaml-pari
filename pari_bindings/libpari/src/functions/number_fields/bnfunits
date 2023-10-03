@@ -1,0 +1,72 @@
+Function: bnfunits
+Section: number_fields
+C-Name: bnfunits
+Prototype: GDG
+Help: bnfunits(bnf,{S}): return the fundamental units of the number field
+ bnf output by bnfinit; if S is present and is a list of prime ideals, compute
+ fundamental S-units instead. The first component of the result contains the
+ S-units, followed by fundamental units, followed by the torsion unit.
+ The result may be used as an optional argument to bnfisunit.
+Doc: return the fundamental units of the number field
+ bnf output by bnfinit; if $S$ is present and is a list of prime ideals,
+ compute fundamental $S$-units instead. The first component of the result
+ contains independent integral $S$-units generators: first nonunits, then
+ $r_1+r_2-1$ fundamental units, then the torsion unit. The result may be used
+ as an optional argument to bnfisunit. The units are given in compact form:
+ no expensive computation is attempted if the \var{bnf} does not already
+ contain units.
+
+ \bprog
+  ? bnf = bnfinit(x^4 - x^3 + 4*x^2 + 3*x + 9, 1);
+  ? bnf.sign   \\ r1 + r2 - 1 = 1
+  %2 = [0, 2]
+  ? U = bnfunits(bnf); u = U[1];
+  ? #u \\ r1 + r2 = 2 units
+  %5 = 2;
+  ? u[1] \\ fundamental unit as factorization matrix
+  %6 =
+  [[0, 0, -1, -1]~  1]
+
+  [[2, -1, -1, 0]~ -2]
+
+  [  [1, 1, 0, 0]~  2]
+
+  [ [-1, 1, 1, 1]~ -1]
+  ? u[2] \\ torsion unit as factorization matrix
+  %7 =
+  [[1, -1, 0, 0]~ 1]
+  ? [nffactorback(bnf, z) | z <- u]  \\ same units in expanded form
+  %8 = [[-1, 1, -1, 0]~, [1, -1, 0, 0]~]
+  @eprog
+
+  Now an example involving $S$-units for a nontrivial $S$:
+  \bprog
+  ? S = idealprimedec(bnf,5); #S
+  %9 = 2
+  ? US = bnfunits(bnf, S); uS = US[1];
+  ? g = [nffactorback(bnf, z) | z <- uS] \\ now 4 units
+  %11 = [[6, -3, -2, -2]~, [-5, 5, 0, 0]~, [-1, 1, -1, 0]~, [1, -1, 0, 0]~]
+  ? bnfisunit(bnf,[10,-40,24,11]~)
+  %12 = []~  \\ not a unit
+  ? e = bnfisunit(bnf, [10,-40,24,11]~, US)
+  %13 = [2, 0, 1, 4]~  \\ ...but an S-unit
+  ? nffactorback(bnf, g, e)
+  %14 = [10, -40, 24, 11]~
+  ? nffactorback(bnf, uS, e) \\ in factored form
+  %15 =
+  [[6, -3, -2, -2]~  2]
+
+  [ [0, 0, -1, -1]~  1]
+
+  [ [2, -1, -1, 0]~ -2]
+
+  [   [1, 1, 0, 0]~  2]
+
+  [  [-1, 1, 1, 1]~ -1]
+
+  [  [1, -1, 0, 0]~  4]
+  @eprog\noindent Note that in more complicated cases, any \kbd{nffactorback}
+  fully expanding an element in factored form could be \emph{very} expensive.
+  On the other hand, the final example expands a factorization whose components
+  are themselves in factored form, hence the result is a factored form:
+  this is a cheap operation.

@@ -1,0 +1,48 @@
+Function: hyperellpadicfrobenius
+Section: elliptic_curves
+C-Name: hyperellpadicfrobenius0
+Prototype: GGL
+Help: hyperellpadicfrobenius(Q,q,n): Q being a rational polynomial of degree
+ d and X being the curve defined by y^2=Q(x), return the matrix of the
+ Frobenius at the prime q >= d in the standard basis of H^1_dR(X) to absolute
+ q-adic precision q^n; q may also be of the form [T,p] where T is an integral
+ polynomial which is irreducible mod p.
+Doc:
+ Let $X$ be the curve defined by $y^2=Q(x)$, where $Q$ is a polynomial of
+ degree $d$ over $\Q$ and $q\ge d$ is a prime such that $X$ has good reduction
+ at $q$. Return the matrix of the Frobenius endomorphism $\varphi$ on the
+ crystalline module $D_p(X) = \Q_p \otimes H^1_{dR}(X/\Q)$ with respect to the
+ basis of the given model $(\omega, x\*\omega,\ldots,x^{g-1}\*\omega)$, where
+ $\omega = dx/(2\*y)$ is the invariant differential, where $g$ is the genus of
+ $X$ (either $d=2\*g+1$ or $d=2\*g+2$).  The characteristic polynomial of
+ $\varphi$ is the numerator of the zeta-function of the reduction of the curve
+ $X$ modulo $q$. The matrix is computed to absolute $q$-adic precision $q^n$.
+
+ Alternatively, $q$ may be of the form $[T,p]$ where $p$ is a prime,
+ $T$ is a polynomial with integral coefficients whose projection to
+ $\F_p[t]$ is irreducible, $X$ is defined over $K = \Q[t]/(T)$ and has good
+ reduction to the finite field $\F_q = \F_p[t]/(T)$. The matrix of
+ $\varphi$ on $D_q(X) = \Q_q \otimes H^1_{dR}(X/K)$ is computed
+ to absolute $p$-adic precision $p^n$.
+
+ \bprog
+ ? M=hyperellpadicfrobenius(x^5+'a*x+1,['a^2+1,3],10);
+ ? liftall(M)
+ [48107*a + 38874  9222*a + 54290  41941*a + 8931 39672*a + 28651]
+
+ [ 21458*a + 4763  3652*a + 22205 31111*a + 42559 39834*a + 40207]
+
+ [ 13329*a + 4140 45270*a + 25803  1377*a + 32931 55980*a + 21267]
+
+ [15086*a + 26714  33424*a + 4898 41830*a + 48013  5913*a + 24088]
+ ? centerlift(simplify(liftpol(charpoly(M))))
+ %8 = x^4+4*x^2+81
+ ? hyperellcharpoly((x^5+Mod(a,a^2+1)*x+1)*Mod(1,3))
+ %9 = x^4+4*x^2+81
+ @eprog
+
+Variant: The functions
+ \fun{GEN}{hyperellpadicfrobenius}{GEN H, ulong p, long n}
+ and
+ \fun{GEN}{nfhyperellpadicfrobenius}{GEN H, GEN T, ulong p, long n} are also
+ available.

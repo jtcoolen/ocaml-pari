@@ -1,0 +1,356 @@
+Function: nflist
+Section: number_fields
+C-Name: nflist
+Prototype: GDGD-1,L,DG
+Help: nflist(G, {N}, {s = -1}, {F}): finds number fields (up to isomorphism)
+ with Galois group of Galois closure isomorphic to G, and s complex places.
+
+ If s = -1 (default) all signatures, s = -2 is identical to s = -1 except
+ fields are separated by increasing number of complex places. If field F is
+ specified (by a polynomial), gives only number fields having F as a subfield
+ (or a resolvent field in the case of S3, Dl, A4, S4, F5, M21 and M42).
+
+ The parameter N can be the following: a positive integer (absolute
+ value of discriminant is N); a vector [a,b] (finds fields with absolute
+ discriminant between a and b); a polynomial, in variable t say (regular
+ extension of Q(t) with specified Galois group). If omitted
+ (default), returns a few fields and F is ignored.
+Doc: finds number fields (up to isomorphism) with Galois group of Galois
+ closure isomorphic to $G$ with $s$ complex places. The number fields are given by polynomials. This function supports
+ the following groups:
+
+ \item degree $2$: $C_2=2T1$;
+
+ \item degree $3$: $C_3=3T1$ and $S_3=3T2$;
+
+ \item degree $4$: $C_4=4T1$, $V_4=4T2$, $D_4=4T3$, $A_4=4T4$, and $S_4=4T5$;
+
+ \item degree $5$: $C_5=5T1$, $D_5=5T2$, $F_5 = M_{20}=5T3$, and $A_5=5T4$;
+
+ \item degree $6$: $C_6=6T1$, $S_3(6) = D_6(6)=6T2$, $D_6(12)=6T3$,
+ $A_4(6)=6T4$, $S_3\times C_3=6T5$, $A_4(6)\times C_2=6T6$, $S_4(6)^+=6T7$,
+ $S_4(6)^-=6T8$, $S_3^2=6T9$, $C_3^2:C_4=6T10$, $S_4(6)\times C_2=6T11$,
+ $A_5(6)=PSL_2(5)=6T12$, and $C_3^2:D_4=6T13$;
+
+ \item degree $7$: $C_7=7T1$, $D_7=7T2$, $M_{21}=7T3$, and $M_{42}=7T4$;
+
+ \item degree $9$: $C_9=9T1$, $C_3\times C_3=9T2$, and $D_9=9T3$;
+
+ \item degree $\ell$ with $\ell$ prime: $C_\ell=\ell T1$ and $D_\ell=\ell T2$.
+
+ The groups $A_5$ and $A_5(6)$ require the optional package \kbd{nflistdata}.
+
+ In addition, if $N$ is a polynomial, all transitive subgroups of $S_n$
+ with $n\le 15$, as well as alternating groups $A_n$ and the full symmetric group
+ $S_n$ for all $n$ (see below for details and explanations).
+
+ The groups are coded as $[n,k]$ using the \kbd{nTk} format where $n$ is the
+ degree and $k$ is the $T$-number, the index in the classification of
+ transitive subgroups of $S_n$.
+
+ Alternatively, the groups $C_n$, $D_n$,
+ $A_n$, $S_n$, $V_4$, $F_5 = M_{20}$, $M_{21}$ and $M_{42}$ can be input as
+ character strings exactly as written, lifting subscripts; for instance
+ \kbd{"S4"} or \kbd{"M21"}. If the group is not recognized or is
+ unsupported the function raises an exception.
+
+ The number fields are computed on the fly (and not from a preexisting table)
+ using a variety of algorithms, with the exception of $A_5$ and $A_5(6)$ which
+ are obtained by table lookup.
+ The algorithms are recursive and use the following ingredients: build
+ distinguished subfields (or resolvent fields in Galois closures) of smaller
+ degrees, use class field theory to build abelian extensions over a known
+ base, select subfields using Galois theory. Because of our use of class
+ field theory, and ultimately \kbd{bnfinit}, all results depend on the GRH in
+ degree $n > 3$.
+
+ To avoid wasting time, the output polynomials defining the number fields are
+ usually not the simplest possible, use \kbd{polredbest} or \kbd{polredabs}
+ to reduce them.
+
+ The non-negative integer $s$ specifies the number of complex places, between
+ $0$ and $n/2$. Additional supported values are:
+
+ \item $s = -1$ (default) all signatures;
+
+ \item $s = -2$ all signatures, given by increasing number of complex
+ places; in degree $n$, this means a vector with $1 + \text{floor}(n/2)$
+ components: the $i$-th entry corresponds to $s = i - 1$.
+
+ If the irreducible monic polynomial $F\in \Z[X]$ is specified, gives only
+ number fields having $\Q[X]/(F)$ as a subfield, or in the case of
+ $S_3$, $D_\ell$, $A_4$, $S_4$, $F_5$, $M_{21}$ and $M_{42}$, as a resolvent
+ field (see also the function \kbd{nfresolvent} for these cases).
+
+ The parameter $N$ can be the following:
+
+ \item a positive integer: finds all fields with absolute discriminant $N$
+ (recall that the discriminant over $\Q$ is $(-1)^s N$).
+
+ \item a pair of non-negative real numbers $[a,b]$ specifying a real interval:
+ finds all fields with absolute value of discriminant between $a$ and $b$.
+ For most Galois groups, this is faster than iterating on individual $N$.
+
+ \item omitted (default): a few fields of small discriminant (not always
+ those with smallest absolute discriminant) are output with given $G$
+ and $s$; usually about 10, less if too difficult to find. The parameter
+ $F$ is ignored.
+
+ \item a polynomial with main variable, say $t$, of priority lower than $x$.
+ The program outputs a \emph{regular} polynomial in $\Q(t)[x]$ (in fact in
+ $\Z[x,t]$) with the given Galois group. By Hilbert irreducibility, almost all
+ specializations of $t$ will give suitable polynomials. The parameters $s$ and
+ $F$ are ignored. This is implemented for all transitive subgroups of
+ $S_n$ with $n\le15$ as well as for the alternating and symmetric groups $A_n$ and
+ $S_n$ for all $n$. Polynomials for $A_n$ were inspired by J.-F.~Mestre,
+ a few polynomials in degree $\leq 8$ come from G.~W.~Smith,
+ ``Some polynomials over $\Q(t)$ and their
+ Galois groups'', \emph{Math. Comp.}, {\bf 69} (230), 1999, pp.~775--796
+ most others in degree $\leq 11$ were provided by J.~Kl\"uners and G.~Malle
+ (see G.~Malle and B.~H.~Matzat, \emph{Inverse Galois Theory}, Springer,
+ 1999) and T.~Dokchitser completed the list up to degree~$15$. But for
+ $A_n$ and $S_n$, subgroups of $S_n$ for $n > 7$ require the optional
+ \kbd{nflistdata} package.
+
+ \misctitle{Complexity} : For a positive integer $N$, the complexity is
+ subexponential in $\log N$ (and involves factoring $N$). For an interval
+ $[a,b]$, the complexity is roughly as follows, ignoring terms which are
+ subexponential in $\log b$. It is usually linear in the output size.
+
+ \item $C_n$: $O(b^{1/\phi(n)})$ for $n = 2, 4, 6, 9$ or any odd prime;
+
+ \item $D_n$: $O(b^{2/\phi(n)})$ for $n = 4$ or any odd prime;
+
+ \item $V_4$, $A_4$: $O(b^{1/2})$, $S_4$: $O(b)$;
+ N.B. The subexponential terms are expensive for $A_4$ and $S_4$.
+
+ \item $M_{20}$: $O(b)$.
+
+ \item $S_4(6)^-$, $S_4(6)^+$ $A_4(6)\times C_2$, $S_3\times S_3$,
+ $S_4(6)\times C_2$ : $O(b)$,
+ $D_6(12)$, $A_4(6)$, $S_3(6)$, $S_3\times C_3$, $C_3^2:C_4$: $O(b^{1/2})$.
+
+ \item $M_{21}$, $M_{42}$: $O(b)$.
+
+ \item $C_3\times C_3$: $O(b^{1/3})$, $D_9$: $O(b^{5/12})$.
+
+ \bprog
+ ? #nflist("S3", [1, 10^5]) \\ S3 cubic fields
+ %1 = 21794
+ ? #nflist("S3", [1, 10^5], 0) \\ real S3 cubic fields (0 complex place)
+ %2 = 4753
+ ? #nflist("S3", [1, 10^5], 1) \\ complex cubic fields (1 complex place)
+ %3 = 17041
+ ? v = nflist("S3", [1, 10^5], -2); apply(length,v)
+ %4 = [4753, 17041]
+ ? nflist("S4") \\ a few S4 fields
+ %5 = [x^4 + 12*x^2 - 8*x + 16, x^4 - 2*x^2 - 8*x + 25, ...]
+ ? nflist("S4",,0) \\ a few real S4 fields
+ %6 = [x^4 - 52*x^2 - 56*x + 48, x^4 - 26*x^2 - 8*x + 1, ...]
+ ? nflist("S4",,-2) \\ a few real S4 fields, by signature
+ %7 = [[x^4 - 52*x^2 - 56*x + 48, ...],
+       [x^4 - 8*x - 16, ... ],
+       [x^4 + 138*x^2 - 8*x + 4541, ...]]
+ ? nflist("S3",,,x^2+23) \\ a few cubic fields with resolvent Q(sqrt(-23))
+ %8 = [x^3 + x + 1, x^3 + 2*x + 1, ...]
+ ? nflist("C3", 3969) \\ C3 fields of given discriminant
+ %9 = [x^3 - 21*x + 28, x^3 - 21*x - 35]
+ ? nflist([3,1], 3969) \\ C3 fields, using nTt label
+ %10 = [x^3 - 21*x + 28, x^3 - 21*x - 35]
+ ? P = nflist([8,12],t) \\ geometric 8T12 polynomial
+ %11 = x^8 + (-t^2 - 803)*x^6 + (264*t^2 + 165528)*x^4
+       + (-2064*t^2 - 1724976)*x^2 + 4096*t^2
+ ? polgalois(subst(P, t, 11))
+ %12 = [24, 1, 12, "2A_4(8)=[2]A(4)=SL(2,3)"]
+ ? nflist("S11")
+  ***   at top-level: nflist("S11")
+  ***                 ^-------------
+  *** nflist: unsupported group (S11). Use one of
+  "C1"=[1,1];
+  "C2"=[2,1];
+  "C3"=[3,1], "S3"=[3,2];
+  "C4"=[4,1], "V4"=[4,2], "D4"=[4,3], "A4"=[4,4], "S4"=[4,5];
+  "C5"=[5,1], "D5"=[5,2], "F5"="M20"=[5,3], "A5"=[5,4];
+  "C6"=[6,1], "D6"=[6,2], [6,3], ..., [6,13];
+  "C7"=[7,1], "D7"=[7,2], "M21"=[7,3], "M42"=[7,4];
+  "C9"=[9,1], [9,2], "D9"=[9,3]."
+  Also supported are "Cp"=[p,1] and "Dp"=[p,2] for any odd prime p.
+
+ ? nflist("S25", 't)
+ %13 = x^25 + x*t + 1
+ @eprog
+
+Function: _nflist_C3_worker
+Section: programming/internals
+C-Name: nflist_C3_worker
+Prototype: GG
+Help: nflist_C3_worker(gv, T): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_C4vec_worker
+Section: programming/internals
+C-Name: nflist_C4vec_worker
+Prototype: GGGG
+Help: nflist_C4vec_worker(gm, X, Xinf, X2, gs): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_V4_worker
+Section: programming/internals
+C-Name: nflist_V4_worker
+Prototype: GGGG
+Help: nflist_V4_worker(D1, X, Xinf, gs): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_D4_worker
+Section: programming/internals
+C-Name: nflist_D4_worker
+Prototype: GGGG
+Help: nflist_D4_worker(D, X, Xinf, listarch): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_A4S4_worker
+Section: programming/internals
+C-Name: nflist_A4S4_worker
+Prototype: GGGG
+Help: nflist_A4S4_worker(P3, X, Xinf, cardsprec): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_C5_worker
+Section: programming/internals
+C-Name: nflist_C5_worker
+Prototype: GG
+Help: nflist_C5_worker(N, bnfC5): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_CL_worker
+Section: programming/internals
+C-Name: nflist_CL_worker
+Prototype: GGG
+Help: nflist_CL_worker(Fcond, bnf, ellprec): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_DL_worker
+Section: programming/internals
+C-Name: nflist_DL_worker
+Prototype: GGGGGG
+Help: nflist_DL_worker(P2, X1p, X0p, X, Xinf, ells): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_Mgen_worker
+Section: programming/internals
+C-Name: nflist_Mgen_worker
+Prototype: GGGG
+Help: nflist_Mgen_worker(field, X, Xinf, ella): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_C6_worker
+Section: programming/internals
+C-Name: nflist_C6_worker
+Prototype: GGGGG
+Help: nflist_C6_worker(P3, X, Xinf, M, T): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_D612_worker
+Section: programming/internals
+C-Name: nflist_D612_worker
+Prototype: GGGG
+Help: nflist_D612_worker(P3, X, Xinf, X2, limd2s2): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_A46S46P_worker
+Section: programming/internals
+C-Name: nflist_A46S46P_worker
+Prototype: GGGG
+Help: nflist_A46S46P_worker(P3, Xinf, sqX, cards): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_S46M_worker
+Section: programming/internals
+C-Name: nflist_S46M_worker
+Prototype: GGGG
+Help: nflist_S46M_worker(P3, X, Xinf, sprec): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_A462_worker
+Section: programming/internals
+C-Name: nflist_A462_worker
+Prototype: GGGGG
+Help: nflist_A462_worker(P3, X, Xinf, listarch, GAL): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_S3C3_worker
+Section: programming/internals
+C-Name: nflist_S3C3_worker
+Prototype: GGG
+Help: nflist_S3C3_worker(D2, X, Xinf, X2): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_S462_worker
+Section: programming/internals
+C-Name: nflist_S462_worker
+Prototype: GGGGG
+Help: nflist_S462_worker(P3, X, Xinf, listarch, GAL): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_S36_worker
+Section: programming/internals
+C-Name: nflist_S36_worker
+Prototype: GGG
+Help: nflist_S36_worker(pol, X, Xinf, X2): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_C32C4_worker
+Section: programming/internals
+C-Name: nflist_C32C4_worker
+Prototype: GGGG
+Help: nflist_C32C4_worker(P4, X, Xinf, GAL): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_C32D4_worker
+Section: programming/internals
+C-Name: nflist_C32D4_worker
+Prototype: GGGG
+Help: nflist_C32D4_worker(P, X, Xinf, gs): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_C9_worker
+Section: programming/internals
+C-Name: nflist_C9_worker
+Prototype: GGG
+Help: nflist_C9_worker(P, X, Xinf): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_C3C3_worker
+Section: programming/internals
+C-Name: nflist_C3C3_worker
+Prototype: GGGG
+Help: nflist_C3C3_worker(gi, V3, V3D, X): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_S3R_worker
+Section: programming/internals
+C-Name: nflist_S3R_worker
+Prototype: GG
+Help: nflist_S3R_worker(ga, ALLCTS): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_S3I_worker
+Section: programming/internals
+C-Name: nflist_S3I_worker
+Prototype: GG
+Help: nflist_S3I_worker(ga, ALLCTS): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_D9_worker
+Section: programming/internals
+C-Name: nflist_D9_worker
+Prototype: GGG
+Help: nflist_D9_worker(P2, X, Xinf): auxiliary.
+Doc: auxiliary
+
+Function: _nflist_S32_worker
+Section: programming/internals
+C-Name: nflist_S32_worker
+Prototype: GGGGG
+Help: nflist_S32_worker(all1, X, Xinf, V3, sprec): auxiliary.
+Doc: auxiliary

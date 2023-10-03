@@ -1,0 +1,39 @@
+[1, 2, 3, 4]:1:1:[Vecsmall([1]), Vecsmall([2]), Vecsmall([3]), Vecsmall([4])
+]
+[1, 2, 4, 3]:2:-1:[Vecsmall([1]), Vecsmall([2]), Vecsmall([3, 4])]
+[1, 3, 2, 4]:2:-1:[Vecsmall([1]), Vecsmall([2, 3]), Vecsmall([4])]
+[1, 3, 4, 2]:3:1:[Vecsmall([1]), Vecsmall([2, 3, 4])]
+[1, 4, 2, 3]:3:1:[Vecsmall([1]), Vecsmall([2, 4, 3])]
+[1, 4, 3, 2]:2:-1:[Vecsmall([1]), Vecsmall([2, 4]), Vecsmall([3])]
+[2, 1, 3, 4]:2:-1:[Vecsmall([1, 2]), Vecsmall([3]), Vecsmall([4])]
+[2, 1, 4, 3]:2:1:[Vecsmall([1, 2]), Vecsmall([3, 4])]
+[2, 3, 1, 4]:3:1:[Vecsmall([1, 2, 3]), Vecsmall([4])]
+[2, 3, 4, 1]:4:-1:[Vecsmall([1, 2, 3, 4])]
+[2, 4, 1, 3]:4:-1:[Vecsmall([1, 2, 4, 3])]
+[2, 4, 3, 1]:3:1:[Vecsmall([1, 2, 4]), Vecsmall([3])]
+[3, 1, 2, 4]:3:1:[Vecsmall([1, 3, 2]), Vecsmall([4])]
+[3, 1, 4, 2]:4:-1:[Vecsmall([1, 3, 4, 2])]
+[3, 2, 1, 4]:2:-1:[Vecsmall([1, 3]), Vecsmall([2]), Vecsmall([4])]
+[3, 2, 4, 1]:3:1:[Vecsmall([1, 3, 4]), Vecsmall([2])]
+[3, 4, 1, 2]:2:1:[Vecsmall([1, 3]), Vecsmall([2, 4])]
+[3, 4, 2, 1]:4:-1:[Vecsmall([1, 3, 2, 4])]
+[4, 1, 2, 3]:4:-1:[Vecsmall([1, 4, 3, 2])]
+[4, 1, 3, 2]:3:1:[Vecsmall([1, 4, 2]), Vecsmall([3])]
+[4, 2, 1, 3]:3:1:[Vecsmall([1, 4, 3]), Vecsmall([2])]
+[4, 2, 3, 1]:2:-1:[Vecsmall([1, 4]), Vecsmall([2]), Vecsmall([3])]
+[4, 3, 1, 2]:4:-1:[Vecsmall([1, 4, 2, 3])]
+[4, 3, 2, 1]:2:1:[Vecsmall([1, 4]), Vecsmall([2, 3])]
+[1922760350154212639070, -1]
+  ***   at top-level: permsign(Vecsmall([1,1]))
+  ***                 ^-------------------------
+  *** permsign: incorrect type in permsign (t_VECSMALL).
+  ***   at top-level: permsign(Vecsmall([1,2,1]))
+  ***                 ^---------------------------
+  *** permsign: incorrect type in permsign (t_VECSMALL).
+  ***   at top-level: permorder(Vecsmall([1,2,1]))
+  ***                 ^----------------------------
+  *** permorder: incorrect type in permorder (t_VECSMALL).
+  ***   at top-level: permcycles(Vecsmall([1,2,1]))
+  ***                 ^-----------------------------
+  *** permcycles: incorrect type in permcycles (t_VECSMALL).
+Total time spent: 1

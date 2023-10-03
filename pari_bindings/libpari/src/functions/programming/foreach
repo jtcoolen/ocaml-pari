@@ -1,0 +1,10 @@
+Function: foreach
+Section: programming/control
+C-Name: foreachpari
+Prototype: vGVI
+Help: foreach(V,X,seq): the sequence is evaluated, X running over the
+ components of V.
+Doc: evaluates \var{seq}, where the formal variable $X$ ranges through the
+ components of $V$ (\typ{VEC}, \typ{COL}, \typ{LIST} or \typ{MAT}). A matrix
+ argument is interpreted as a vector containing column vectors, as in
+ \kbd{Vec}$(V)$.

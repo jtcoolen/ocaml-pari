@@ -1,0 +1,13 @@
+Function: hgmparams
+Section: hypergeometric_motives
+C-Name: hgmparams
+Prototype: G
+Help: hgmparams(H): H being a hypergeometric motive template, returns
+ [d, w, [P, T], M], where d is the degree, w the weight,
+ P the Hodge polynomial and T the Tate twist number (so that the Hodge
+ function itself is P/x^T); finally M is the so-called M-value.
+Doc: $H$ being a hypergeometric motive template, returns
+ $[d,w,[P,T], M]$, where $d$ is the degree, $w$ the weight,
+ $P$ the Hodge polynomial, and $T$ the Tate twist number (so that the Hodge
+ function itself is $P/x^T$); finally the normalizing factor $M$ is the
+ so-called $M$-value, $M = \prod_n n^{n\gamma_n}$.

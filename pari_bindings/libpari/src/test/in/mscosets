@@ -1,0 +1,33 @@
+Psl2=mspolygon(1);
+gamma_0(N)=msfarey(Psl2,x->x[2,1]%N==0);
+gamma_1(N)=msfarey(gamma_0(N),(g->my(a=g[1,1]%N); a==1 || a==N-1));
+gamma_(N)=msfarey(gamma_1(N),g->g[1,2]%N==0);
+gamma_00(N)=msfarey(gamma_0(N),x->x[1,2]%N==0);
+gamma1_0(N1,N2)=msfarey(Psl2,x->x[2,1]%N1==0 && x[1,2]%N2==0);
+gamma1(N1,N2)=
+{ my (N = lcm(N1,N2));
+  msfarey(Psl2,
+    x->(x[2,1]%N1==0 && x[1,2]%N2==0 && x[2,1]%N==0 && x[1,2]%N==0))
+};
+gammafrom(N,d)=msfarey(gamma_0(N),x->(x[2,1]%(N*d)==0));
+
+test(F)=my(A=F[2]); A^2 == A^0;
+
+F=gamma_0(5)
+msfarey(Psl2, x->x[2,1]%5==0,&C);
+C
+mscosets(F[3], x->x[2,1]%5==0)
+gamma_1(5)
+gamma_(3)
+gamma_00(3)
+gamma1_0(3,4)
+gamma1(3,4)
+gammafrom(10,3)
+F=gamma_1(91); test(F)
+
+mscosets([Vecsmall([2,1,3]), Vecsmall([2,3,1])],x->x^3==x^0)
+
+\\ ERRORS
+mscosets([],x->1)
+mscosets([1],(x,y)->1)
+N=24; G0 = mspolygon(N); msfarey(G0, g -> a=g[1,1]%N; a==1);

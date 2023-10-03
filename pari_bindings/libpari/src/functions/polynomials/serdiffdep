@@ -1,0 +1,26 @@
+Function: serdiffdep
+Section: polynomials
+C-Name: serdiffdep
+Prototype: GLL
+Help: serdiffdep(s,p,r): find an inhomogenous linear differential equation
+ satisfied by the series s, with polynomial coefficients of degree <= r. The
+ result is a pair [E,P] such that E(d)(S)=P where E(d) is interpreted as a
+ differential polynomial, or 0 in case no relation is found.
+Doc: find a linear relation between the derivatives $(s, s', \dots, s^p)$ of
+ the series $s$ and $1$, with polynomial coefficients of degree $\leq r$. In
+ case no relation is found, return $0$, otherwise return $[E,P]$ such that
+ $E(d)(S)=P$ where $d$ is the standard derivation.
+ \bprog
+ ? S = sum(i=0, 50, binomial(3*i,i)*T^i) + O(T^51);
+ ? serdiffdep(S, 3, 3)
+ %2 = [(27*T^2 - 4*T)*x^2 + (54*T - 2)*x + 6, 0]
+ ? (27*T^2 - 4*T)*S'' + (54*T - 2)*S' + 6*S
+ %3 = O(T^50)
+
+ ? S = exp(T^2) + T^2;
+ ? serdiffdep(S, 3, 3)
+ %5 = [x-2*T, -2*T^3+2*T]
+ ? S'-2*T*S
+ %6 = 2*T-2*T^3+O(T^17)
+ @eprog \noindent The series main variable must not be $x$, so as to be able
+ to express the result as a polynomial in $x$.

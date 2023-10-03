@@ -1,0 +1,32 @@
+Function: gcharconductor
+Section: number_fields
+C-Name: gchar_conductor
+Prototype: GG
+Help: gcharconductor(gc,chi): returns the conductor of chi, as a modulus over gc.bnf.
+Doc: returns the conductor of \kbd{chi}, as a modulus over \kbd{gc.bnf}. This is
+ the minimum modulus $\goth{m}$ such that
+ $U(\goth{m})\subset\text{ker}(\var{chi})$
+ indicating the exact ramification of \var{chi}.
+
+ \item for a real place $v$, $v\mid \goth{m}$ iff $\chi_v(-1)=-1$.
+
+ \item for a finite place~$\goth{p}$, the prime power~$\goth{p}^e$ divides
+ exactly $\goth{m}$ if $e\ge 0$ is the smallest integer such that $\chi_{\goth{p}}
+ (U_e)=1$ where~$U_0 = \Z_{\goth{p}}^\times$ and~$U_i =
+ 1+\goth{p}^i\Z_{\goth{p}}$ for~$i>0$.
+
+ \bprog
+ ? bnf = bnfinit(x^2-5,1);
+ ? gc = gcharinit(bnf,[(13*19)^2,[1,1]]);
+ ? gc.cyc
+ % = [8892, 6, 2, 0, 0.E-57]
+ ? chi = [0,0,1,1]~;
+ ? gcharconductor(gc,chi)
+ % = [[61009, 7267; 0, 169], [1, 0]]
+ ? gcharconductor(gc,13*chi)
+ % = [[4693, 559; 0, 13], [1, 0]]
+ ? gcharconductor(gc,13*19*chi)
+ % = [[247, 65; 0, 13], [1, 0]]
+ ? gcharconductor(gc,13*19*168*chi)
+ % = [[19, 5; 0, 1], [0, 0]]
+ @eprog

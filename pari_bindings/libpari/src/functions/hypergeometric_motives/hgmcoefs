@@ -1,0 +1,17 @@
+Function: hgmcoefs
+Section: hypergeometric_motives
+C-Name: hgmcoefs
+Prototype: GGL
+Help: hgmcoefs(H,t,n): (H,t) being a hypergeometric motive, returns the
+ first n coefficients of its L-function, where Euler factors at wild primes
+ are set to 1.
+Doc: $(H,t)$ being a hypergeometric motive, returns the
+ first $n$ coefficients of its $L$-function, where Euler factors at wild primes
+ are set to 1. The argument $t$ may be replaced by $[t,\var{bad}]$
+ where \var{bad} is a vector of pairs $[p,L_p]$, $p$ being a prime and $L_p$
+ being the corresponding local Euler factor, overriding the default.
+
+ If you hope that the wild Euler factors can be computed not too slowly
+ from the functional equation, you can also set \kbd{L=lfunhgm(H,t)}, and then
+ \kbd{lfunan(L,n)}, and then the Euler factors at wild primes should
+ be correct.

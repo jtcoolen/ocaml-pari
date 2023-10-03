@@ -1,0 +1,17 @@
+Function: lfunparams
+Section: l_functions
+C-Name: lfunparams
+Prototype: Gp
+Help: lfunparams(ldata): returns the parameters [N, k, vga] of the L-function
+  defined by ldata (see lfuncreate).
+  The parameters Vga (gamma shifts) are returned to the current precision.
+Doc: returns the parameters $[N, k, Vga]$ of the $L$-function
+ defined by \kbd{ldata}, corresponding respectively to
+ the conductor, the functional equation relating values at $s$ and $k-s$,
+ and the gamma shifts of the $L$-function (see \kbd{lfuncreate}). The gamma
+ shifts are returned to the current precision.
+ \bprog
+ ? L = lfuncreate(1); /* Riemann zeta function */
+ ? lfunparams(L)
+ %2 = [1, 1, [0]]
+ @eprog

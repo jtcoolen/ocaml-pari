@@ -1,0 +1,52 @@
+Function: msfarey
+Section: modular_symbols
+C-Name: msfarey0
+Prototype: GGD&
+Help: msfarey(F,inH,{&CM}): F being a Farey symbol attached to a group G
+ contained in SL2(Z) and H a subgroup of G, return a Farey symbol attached
+ to H; H is given by a criterion inH (closure) deciding whether an element
+ of G belongs to H.
+Doc:
+ $F$ being a Farey symbol attached to a group $G$ contained in
+ $\text{PSL}_2(\Z)$ and $H$ a subgroup of $G$, return a Farey symbol attached
+ to $H$. The subgroup $H$ is given by a criterion \kbd{inH} (closure) deciding
+ whether an element of $G$ belongs to $H$. The symbol $F$ can be created using
+
+ \item \kbd{mspolygon}: $G = \Gamma_0(N)$, which runs in time $\tilde{O}(N)$;
+
+ \item or \kbd{msfarey} itself, which runs in time $O([G:H]^2)$.
+
+ If present, the argument \kbd{CM} is set to \kbd{mscosets(F[3])}, giving
+ the right cosets of $H \backslash G$ and the action of $G$ by right
+ multiplication. Since \kbd{msfarey}'s algorithm is quadratic in the index
+ $[G:H]$, it is advisable to construct subgroups by a chain of inclusions if
+ possible.
+
+ \bprog
+ \\ Gamma_0(N)
+ G0(N) = mspolygon(N);
+
+ \\ Gamma_1(N): direct construction, slow
+ G1(N) = msfarey(mspolygon(1), g -> my(a = g[1,1]%N, c = g[2,1]%N);\
+                               c == 0 && (a == 1 || a == N-1));
+ \\ Gamma_1(N) via Gamma_0(N): much faster
+ G1(N) = msfarey(G0(N), g -> my(a=g[1,1]%N); a==1 || a==N-1);
+ @eprog\noindent Note that the simpler criterion \kbd{g[1,1]\%N == 1} would not
+ be correct since it must apply to elements of $\text{PSL}_2(\Z)$ hence be
+ invariant under $g \mapsto -g$. Here are other examples:
+ \bprog
+ \\ Gamma(N)
+ G(N) = msfarey(G1(N), g -> g[1,2]%N==0);
+
+ G_00(N) = msfarey(G0(N), x -> x[1,2]%N==0);
+ G1_0(N1,N2) = msfarey(G0(1), x -> x[2,1]%N1==0 && x[1,2]%N2==0);
+
+ \\ Gamma_0(91) has 4 elliptic points of order 3, Gamma_1(91) has none
+ D0 = mspolygon(G0(91), 2)[4];
+ D1 = mspolygon(G1(91), 2)[4];
+ write("F.tex","\\documentclass{article}\\usepackage{tikz}\\begin{document}",\
+                D0,"\n",D1,"\\end{document}");
+ @eprog
+
+Variant: Also available is
+ \fun{GEN}{msfarey}{GEN F, void *E, long (*inH)(void *, GEN), GEN *pCM}.

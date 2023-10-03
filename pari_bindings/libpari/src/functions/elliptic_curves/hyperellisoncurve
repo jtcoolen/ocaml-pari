@@ -1,0 +1,23 @@
+Function: hyperellisoncurve
+Section: elliptic_curves
+C-Name: hyperellisoncurve
+Prototype: iGG
+Help: hyperellisoncurve(X, p): X being a nonsingular hyperelliptic model of a curve,
+ test whether the point p is on the curve.
+ X can be given either by a squarefree polynomial P such that
+ X:y^2=P(x) or by a vector [P,Q] such that X:y^2+Q(x)*y=P(x) and Q^2+4P is
+ squarefree.
+Doc:
+ $X$ being a nonsingular hyperelliptic model of a curve, test whether the
+ point $p$ is on the curve.
+
+ $X$ can be given either by a squarefree polynomial $P$ such that
+ $X: y^2 = P(x)$ or by a vector $[P,Q]$ such that
+ $X: y^2 + Q(x)\*y = P(x)$ and $Q^2+4\*P$ is squarefree.
+ \bprog
+ ? W = [2*x^6+3*x^5+x^4+x^3-x,x^3+1]; p = [px, py] = [1/3,-14/27];
+ ? hyperellisoncurve(W, p)
+ %2 = 1
+ ? [Px,Qx]=subst(W,x,px); py^2+py*Qx == Px
+ %3 = 1
+ @eprog

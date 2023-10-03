@@ -1,0 +1,76 @@
+Function: nfsplitting
+Section: number_fields
+C-Name: nfsplitting0
+Prototype: GDGD0,L,
+Help: nfsplitting(P,{d},{fl}): defining polynomial S over Q for the splitting
+ field of P, that is the smallest field over which P is totally split.
+ P can also be given by a nf structure. If d is given, it must be a multiple
+ of the splitting field degree. If fl=1, return [S,C] where C is an embedding
+ of Q[x]/(P) in its splitting field.
+Doc: defining polynomial $S$ over~$\Q$ for the splitting field of
+ $\var{P}\in\Q[x]$, that is the smallest field over which $P$ is totally split.
+ If irreducible, the polynomial $P$ can also be given by a~\kbd{nf} structure,
+ which is more efficient. If $d$ is given, it must be a multiple of the
+ splitting field degree. Note that if $P$ is reducible the splitting field
+ degree can be smaller than the degree of $P$.
+
+ If $\fl$ is non-zero, we assume $P$ to be monic, integral and irreducible and
+ the return value depends on $\fl$:
+
+ \item $\fl = 1$: return $[S,C]$ where $S$ is as before and $C$ is an
+ embedding of $\Q[x]/(P)$ in its splitting field given by a polynomial
+ (implicitly modulo $S$, as in \kbd{nfisincl}).
+
+ \item $\fl = 2$: return $[S,C]$ where $C$ is vector of rationals functions
+  whose image in $\Q[x]/(S)$ yields the embedding; this avoids inverting the
+  denominator, which is costly. when the degree of the splitting field is huge.
+
+ \item $\fl = 3$: return $[S, v, p]$ a data structure allowing to quickly
+ compute the Galois group of the splitting field, which is used by
+ \kbd{galoissplittinginit}; more precisely, $p$ is a prime splitting
+ completely in the splitting field and $v$ is a vector with $\deg S$
+ elements describing the automorphisms of $S$ acting on the roots
+ of $S$ modulo $p$.
+
+ \bprog
+ ? K = nfinit(x^3 - 2);
+ ? nfsplitting(K)
+ %2 = x^6 + 108
+ ? nfsplitting(x^8 - 2)
+ %3 = x^16 + 272*x^8 + 64
+ ? S = nfsplitting(x^6 - 8) \\ reducible
+ %4 = x^4 + 2*x^2 + 4
+ ? lift(nfroots(subst(S,x,a),x^6-8))
+ %5 = [-a, a, -1/2*a^3 - a, -1/2*a^3, 1/2*a^3, 1/2*a^3 + a]
+
+ ? P = x^8-2;
+ ? [S,C] = nfsplitting(P,,1)
+ %7 = [x^16 + 272*x^8 + 64, -7/768*x^13 - 239/96*x^5 + 1/2*x]
+ ? subst(P, x, Mod(C,S))
+ %8 = Mod(0, x^16 + 272*x^8 + 64)
+ @eprog\noindent
+ Specifying the degree $d$ of the splitting field can make the computation
+ faster; if $d$ is not a multiple of the true degree, it will be ignored with
+ a warning.
+ \bprog
+ ? nfsplitting(x^17-123);
+ time = 3,607 ms.
+ ? poldegree(%)
+ %2 = 272
+ ? nfsplitting(x^17-123,272);
+ time = 150 ms.
+ ? nfsplitting(x^17-123,273);
+  *** nfsplitting: Warning: ignoring incorrect degree bound 273
+ time = 3,611 ms.
+ @eprog
+ \noindent
+ The complexity of the algorithm is polynomial in the degree $d$ of the
+ splitting field and the bitsize of $T$; if $d$ is large the result will
+ likely be unusable, e.g. \kbd{nfinit} will not be an option:
+ \bprog
+ ? nfsplitting(x^6-x-1)
+ [... degree 720 polynomial deleted ...]
+ time = 11,020 ms.
+ @eprog
+ Variant: Also available is
+ \fun{GEN}{nfsplitting}{GEN T, GEN D} for $\fl = 0$.

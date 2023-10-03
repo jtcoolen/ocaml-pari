@@ -1,0 +1,29 @@
+Function: prodeuler
+Section: sums
+C-Name: prodeuler0
+Prototype: V=GGEp
+Help: prodeuler(p=a,b,expr): Euler product (p runs over the primes between a
+ and b) of real or complex expression, as a floating point approximation.
+Doc: product of expression \var{expr}, initialized at \kbd{1.0}
+ (i.e.~to a floating point number equal to 1 to the
+ current \kbd{realprecision}), the formal parameter $p$ ranging over the prime
+ numbers between $a$ and $b$.\sidx{Euler product}
+ \bprog
+ ? prodeuler(p = 2, 10^4, 1 - p^-2)
+ %1 = 0.60793306911405513018380499671124428015
+ ? P = 1; forprime(p = 2, 10^4, P *= (1 - p^-2))
+ ? exponent(numerator(P))
+ %3 = 22953
+ @eprog\noindent The function returns a floating point number because,
+ as the second expression shows, such products are usually intractably
+ large rational numbers when computed symbolically.
+ If the expression is a rational funtction, \kbd{prodeulerrat} computes the
+ product over all primes:
+ \bprog
+ ? prodeulerrat(1 - p^-2)
+ %4 = 0.60792710185402662866327677925836583343
+ ? 6/Pi^2
+ %3 = 0.60792710185402662866327677925836583343
+ @eprog
+
+ \synt{prodeuler}{void *E, GEN (*eval)(void*,GEN), GEN a,GEN b, long prec}.

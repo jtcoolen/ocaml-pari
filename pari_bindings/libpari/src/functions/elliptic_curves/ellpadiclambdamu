@@ -1,0 +1,48 @@
+Function: ellpadiclambdamu
+Section: elliptic_curves
+C-Name: ellpadiclambdamu
+Prototype: GLD1,L,D0,L,
+Help: ellpadiclambdamu(E, p, {D=1},{i=0}): returns the Iwasawa invariants for
+ the p-adic L-function attached to E, twisted by (D,.) and the i-th power
+ of the Teichmuller character.
+Doc: Let $p$ be a prime number and let $E/\Q$ be a rational elliptic curve
+ with good or bad multiplicative reduction at $p$.
+ Return the Iwasawa invariants $\lambda$ and $\mu$ for the $p$-adic $L$
+ function $L_p(E)$, twisted by $(D/.)$ and the $i$-th power of the
+ Teichm\"uller character $\tau$, see \kbd{ellpadicL} for details about
+ $L_p(E)$.
+
+ Let $\chi$ be the cyclotomic character and choose $\gamma$
+ in $\text{Gal}(\Q_p(\mu_{p^\infty})/\Q_p)$ such that $\chi(\gamma)=1+2p$.
+ Let $\hat{L}^{(i), D} \in \Q_p[[X]]\otimes D_{cris}$ such that
+ $$ (<\chi>^s \tau^i) (\hat{L}^{(i), D}(\gamma-1))
+   = L_p\big(E, <\chi>^s\tau^i (D/.)\big).$$
+
+ \item When $E$ has good ordinary or bad multiplicative reduction at $p$.
+ By Weierstrass's preparation theorem the series $\hat{L}^{(i), D}$ can be
+ written $p^\mu (X^\lambda + p G(X))$ up to a $p$-adic unit, where
+ $G(X)\in \Z_p[X]$. The function returns $[\lambda,\mu]$.
+
+ \item When $E$ has good supersingular reduction, we define a sequence
+ of polynomials $P_n$ in $\Q_p[X]$ of degree $< p^n$ (and bounded
+ denominators), such that
+ $$\hat{L}^{(i), D} \equiv P_n \varphi^{n+1}\omega_E -
+    \xi_n P_{n-1}\varphi^{n+2}\omega_E \bmod \big((1+X)^{p^n}-1\big)
+    \Q_p[X]\otimes D_{cris},$$
+ where $\xi_n = \kbd{polcyclo}(p^n, 1+X)$.
+ Let $\lambda_n,\mu_n$ be the invariants of $P_n$. We find that
+
+ \item $\mu_n$ is nonnegative and decreasing for $n$ of given parity hence
+ $\mu_{2n}$ tends to a limit $\mu^+$ and $\mu_{2n+1}$ tends to a limit
+ $\mu^-$ (both conjecturally $0$).
+
+ \item there exists integers $\lambda^+$, $\lambda^-$
+ in $\Z$ (denoted with a $\til$ in the reference below) such that
+ $$ \lim_{n\to\infty} \lambda_{2n} + 1/(p+1) = \lambda^+
+    \quad \text{and} \quad
+    \lim_{n\to\infty} \lambda_{2n+1} + p/(p+1) = \lambda^-.$$
+ The function returns $[[\lambda^+, \lambda^-], [\mu^+,\mu^-]]$.
+
+ \noindent Reference: B. Perrin-Riou, Arithm\'etique des courbes elliptiques
+ \`a r\'eduction supersinguli\`ere en $p$, \emph{Experimental Mathematics},
+ {\bf 12}, 2003, pp. 155-186.

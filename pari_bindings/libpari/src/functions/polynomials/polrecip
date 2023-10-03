@@ -1,0 +1,14 @@
+Function: polrecip
+Section: polynomials
+C-Name: polrecip
+Prototype: G
+Help: polrecip(pol): reciprocal polynomial of pol.
+Doc:  reciprocal polynomial of \var{pol} with respect to its main variable,
+ i.e.~the coefficients of the result are in reverse order; \var{pol} must be
+ a polynomial.
+ \bprog
+ ? polrecip(x^2 + 2*x + 3)
+ %1 = 3*x^2 + 2*x + 1
+ ? polrecip(2*x + y)
+ %2 = y*x + 2
+ @eprog

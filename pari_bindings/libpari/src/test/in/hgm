@@ -1,0 +1,194 @@
+hgmdegree(h)=hgmparams(h)[1];
+hgmmvalue(h)=h[6];
+hgmweight(h)=hgmparams(h)[2];
+val=[1,2,3,4]/5;
+m=hgminit(val);
+if (m != hgminit([5]), error(1));
+if (m != hgminit([5,0,0,0,-1]), error(2));
+hgmeulerfactor(m,-1,101)
+hgmeulerfactor(m,-1,97)
+hgmcoefs(m,-1,36)
+
+H=hgminit([2],[1]);
+hgmeulerfactor(H,-8,11)
+
+H=hgminit([30],[1,2,3,5]);
+hgmmvalue(H)==30^30/(15^15*10^10*6^6)
+hgmeulerfactor(H,1/2,7)
+hgmweight(hgminit([1/2],[0]))
+hgmweight(hgminit([1/4,3/4],[0,0]))
+hgmweight(hgminit([1/6,1/3,2/3,5/6],[0,0,1/4,3/4]))
+hgmweight(hgminit([1/6,1/3,2/3,5/6],[1/8,3/8,5/8,7/8]))
+hgmweight(hgminit([6,2],[1,1,1]))
+hgmweight(hgminit([6],[1,2]))
+hgmweight(hgminit([8],[1,2,3]))
+hgmweight(hgminit([5],[1,1,1,1]))
+hgmweight(hgminit([5,6],[1,1,2,2,3]))
+hgmweight(hgminit([3,8],[1,1,1,2,6]))
+hgmweight(hgminit([3,3],[2,2,4]))
+hgmdegree(hgminit([1/2],[0]))
+hgmdegree(hgminit([5,6],[1,1,2,2,3]))
+hgmdegree(hgminit([3,8],[1,1,1,2,6]))
+hgmdegree(hgminit([3,3],[2,2,4]))
+hgmparams(hgminit([3],[6]))
+hgmparams(hgminit([4],[1,2]))
+hgmparams(hgminit([6,10],[3,12]))
+hgmparams(hgminit([2,2,2,2,3,3,3,6,6],[1,1,4,5,9]))
+hgmmvalue(hgminit([1/6,1/3,2/3,5/6],[1/8,3/8,5/8,7/8]))
+hgmmvalue(hgminit([1/2,1/2,1/2,1/2],[0,0,0,0]))
+hgmmvalue(hgminit([5],[1,1,1,1]))
+H=hgminit(vector(16,i,1/2),vector(16));hgmissymmetrical(H)
+H=hgminit([1/2],[0]);H2=hgmtwist(H);hgmalpha(H2)
+hgmgamma(H2)
+hgmtwist(H2)==H
+H=hgminit([6],[1,2]);H2=hgmtwist(H);hgmcyclo(H2)
+hgmalpha(H2)
+hgmgamma(H2)
+H=hgminit([1/2,1/2,1/2,1/2],[0,0,0,0]);
+H1=hgminit([1,1,1],[6,2]);
+H2=hgminit([6,2],[1,1,1]);
+[hgmweight(H2),hgmdegree(H2)]
+H3=hgminit([1/12,5/12,7/12,11/12],[0,1/2,1/2,1/2]);
+[hgmweight(H3),hgmdegree(H3)]
+H=hgminit([1,1,1],[6,2]);
+H=hgminit([1/2,1/2,1/2,1/2],[0,0,0,0]);
+hgmeulerfactor(H,-1,5)
+forprime(p=5,19,print(hgmeulerfactor(H2,4,p)))
+forprime(p=11,29,print(hgmeulerfactor(H3,-5,p)))
+H1=hgminit([1,1,1],[1/2,1/2,1/2]);
+hgmeulerfactor(H1,-1,3)
+H2=hgminit([1/2,1/2,1/2],[1,1,1]);
+L=lfunhgm(H2,1/4); lfunrootres(L)
+hgmeulerfactor(H2,-1,3)
+H=hgminit([1,1,1,3],[2,5]);
+hgmeulerfactor(H,1/5,7)
+H=hgminit([1/2,1/2,1/2,1/2],[0,0,0,0]);
+L=lfunhgm(H,-1); lfunan(L,20)
+hgmcoefs(H,-1,20)
+hgmcoefs(H,1/5,20)
+vtov(V)=my(W=vector(#V));for(i=1,#V,my(Vi=V[i],Wi=vector(#Vi,j,Vec(Vi[j])));W[i]=Wi);W;
+R=hgmbydegree(2);for(w=0,#R-1,print(w,": ",vtov(R[w+1])));
+R=hgmbydegree(8);vector(#R,i,#R[i])
+R=hgmbydegree(9);vector(#R,i,#R[i])
+\\#hgmbydegree(10)
+\\lfunhgm(H,6/7)
+H=hgminit([1/6,5/6],[0,1/2]);
+L=lfunhgm(H,-1)
+lfuneuler(L,2)
+lfuneuler(L,3)
+\\
+HCAN=hgminit([1/2,1/2,1/2]);
+lfunhgm(HCAN,1/4)
+hgmcoef(HCAN, 1/64, 11)
+hgmcoef(HCAN, 1/64, 11^2)
+hgmcoef(HCAN, 1/64, 11^3)
+hgmcoef(HCAN, 1/64, 11^4)
+hgmcoef(HCAN, 1/64, [5,2;11,2])
+hgmcoef(HCAN, 1/64, Mat([7,6]))
+hgmcoef(HCAN, 1/64, Mat([11,4]))
+\\ hgmeulerfactor(HCAN,[1/4,5,-8],3)
+hgmeulerfactor(HCAN,1/4,3)
+hgmeulerfactor(HCAN,5,3)
+hgmeulerfactor(HCAN,-8,3)
+hgmeulerfactor(HCAN,4/3,3)
+[hgmeulerfactor(HCAN,-1/8,3,&c), c]
+[hgmeulerfactor(HCAN,-1/2,3,&c), c]
+[hgmeulerfactor(HCAN,1/5,5,&c), c]
+hgmcoef(HCAN,1/64,4)
+hgmeulerfactor(HCAN,-25/2,5)
+hgmeulerfactor(HCAN,1/64,2)
+hgmeulerfactor(HCAN,-1/64,2)
+L=lfunhgm(HCAN,1/64); L[1][2][2]
+lfuncheckfeq(L)
+
+H=hgminit([3,3],[1,2,6]);
+L=lfunhgm(H,4);L[3]
+
+H=hgminit(Vecsmall(2), Vecsmall(1));
+hgmeulerfactor(H,-8,3)
+H=hgminit([3,12],[1,1,6,6]); H[10]
+hgmeulerfactor(H,8,7)
+hgmeulerfactor(H,12,11)
+H=hgminit([4,4,4],[1,1,1,2,6]); H[10]
+hgmeulerfactor(H,8,7)
+hgmeulerfactor(H,12,11)
+H=hgminit([2,4,10],[1,18]); H[10]
+hgmeulerfactor(H,14,13)
+H=hgminit([5]);
+hgmeulerfactor(H,11^5,11)
+hgmcoef(H,1/2,2)
+hgmeulerfactor(H,1/2,2)
+hgmcoefs(H,-1,1000); \\ make sure it's not too slow
+H=hgminit([3,3],[1,1,1,1]);
+hgmeulerfactor(H,7^3,7,&c)
+c
+\\ hgmeulerfactor(H,[7^3,5],7,&c)
+hgmeulerfactor(H,5,7,&c)
+c
+H=hgminit([5],[3,3]);
+\\ too large for 32 bits
+\\ hgmcoef(H,1/8,98041)
+\\ hgmcoef(H,1/8,98017)
+hgmcoef(H,1/8,65521)
+hgmcoef(H,1/8,65519)
+hgmeulerfactor(H,1/2^3,2)
+hgmeulerfactor(H,1/7^3,7)
+hgmeulerfactor(hgminit([10],[3,3]), 1/7^3, 7)
+hgmeulerfactor(hgminit([2,2,2],[4,1]), -1/48, 3)
+
+H=hgminit([1/2,1/2,1/2,1/2,1/2]);
+hgmeulerfactor(H,-1,79)
+\\ too large for 32 bits
+\\ hgmeulerfactor(H,-1,107)
+H=hgminit([7]);
+hgmeulerfactor(H,1/3,2)
+H=hgminit([-17, -1, 1, 1, 1, 0, 1])
+
+H=hgminit([5],[1,1,1,1]);
+hgmeulerfactor(H,1,11)
+hgmcoefs(H,1,12)
+hgmeulerfactor(hgminit([4,4],[6,6]),1,71)
+
+/* Guess pole */
+#lfunhgm(HCAN,1/4)==7
+#lfunhgm(HCAN,-1/4)==7
+
+/* Guess wild factors/conductor */
+test(H, t) = my(L=lfunhgm(H,t));[L[1][2][2][2],L[^1]];
+default(realbitprecision,64);
+test(HCAN,-4)
+test(HCAN,-3)
+H=hgminit([2,3],[1,4]);
+test(H,2)
+H=hgminit([1/3,1/2,2/3],[0,0,0]);
+test(H,2)
+test(H,2/27)
+H=hgminit([2,3],[1,6]);
+hgmeulerfactor(H,4,2)
+hgmeulerfactor(H,4,3)
+test(H,4)
+
+H=hgminit([1/2,1/2,1/2,1/2],[0,0,0,0]);
+L=lfunhgm(H,2^(-8));
+[lfuneuler(L,p)|p<-primes([1,20])]
+
+\\ ERRORS
+hgminit([0])
+H=hgminit(2, Vecsmall(1))
+H=hgminit([2], Vecsmall(1))
+lfunhgm(1,1)
+hgminit([1,1],[0])
+hgmcoef(H,1.,1)
+hgmcoefs(H,1.,1)
+hgmeulerfactor(H,1.,3)
+hgminit([1/2],[1/2])
+hgminit([1.0],[1/2])
+hgminit([1/2],[0.])
+hgminit([1],[1])
+hgminit([])
+hgminit([],[])
+p=if(sizebyte(0)==16, 2^32+15, 2^16+1);
+H=hgminit([2,2,2,2,2,2,2,2,2,2]); hgmeulerfactor(H,1,p)
+hgmeulerfactor(HCAN,1,p)
+hgmalpha(Pi)
+hgmgamma(Pi)

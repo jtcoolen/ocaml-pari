@@ -1,0 +1,27 @@
+Function: zetamultdual
+Section: transcendental
+C-Name: zetamultdual
+Prototype: G
+Help: zetamultdual(s): s being either an evec, avec, or index m,
+ return the dual sequence in avec format.
+Doc: $s$ being either an \kbd{evec}, \kbd{avec}, or index \kbd{m},
+ return the dual sequence in \kbd{avec} format.
+ The dual of a sequence of  length $r$ and weight $k$ has length $k-r$ and
+ weight $k$. Duality is an involution and zeta values attached to
+ dual sequences are the same:
+ \bprog
+ ? zetamultdual([4])
+ %1 = Vecsmall([2, 1, 1])
+ ? zetamultdual(%)
+ %2 = Vecsmall([4])
+ ? zetamult(%1) - zetamult(%2)
+ %3 = 0.E-38
+ @eprog
+ In \kbd{evec} form, duality simply reverses the order of bits and swaps $0$
+ and $1$:
+ \bprog
+ ? zetamultconvert([4], 0)
+ %4 = Vecsmall([0, 0, 0, 1])
+ ? zetamultconvert([2,1,1], 0)
+ %5 = Vecsmall([0, 1, 1, 1])
+ @eprog

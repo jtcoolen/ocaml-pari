@@ -1,0 +1,91 @@
+Function: _forvec_init
+Class: gp2c_internal
+Help: Initializes parameters for forvec.
+Description:
+ (forvec, gen, ?small):void    forvec_init(&$1, $2, $3)
+
+Function: _forvec_next
+Class: gp2c_internal
+Help: Initializes parameters for forvec.
+Description:
+ (forvec):vec    forvec_next(&$1)
+
+Function: forvec
+Section: programming/control
+C-Name: forvec
+Prototype: vV=GID0,L,
+Iterator: (gen,gen,?small) (forvec, _forvec_init, _forvec_next)
+Help: forvec(X=v,seq,{flag=0}): v being a two-component vectors of
+ length n, the sequence is evaluated with X[i] going from v[i][1] to v[i][2]
+ for i=n,..,1 if flag is zero or omitted. If flag = 1 (resp. flag = 2),
+ restrict to increasing (resp. strictly increasing) sequences.
+ As a shortcut, v being a vector of nonnegative integers allows to
+ loop over representatives of Z^n/vZ^n.
+Doc:
+ Let $v$ be an $n$-component vector (where $n$ is arbitrary) of
+ two-component vectors $[a_i,b_i]$ for $1\le i\le n$, where all entries $a_i$,
+ $b_i$ are real numbers. This routine lets $X$ vary over the $n$-dimensional
+ box given by $v$ with unit steps: $X$ is an $n$-dimensional vector whose $i$-th
+ entry $X[i]$ runs through $a_i, a_i+1, a_i+2, \dots $ stopping with the
+ first value greater than $b_i$ (note that neither $a_i$ nor $b_i - a_i$
+ are required to be integers). The values of $X$ are ordered
+ lexicographically, like embedded \kbd{for} loops, and the expression
+ \var{seq} is evaluated with the successive values of $X$. The type of $X$ is
+ the same as the type of $v$: \typ{VEC} or \typ{COL}.
+
+ If $\fl=1$, generate only nondecreasing vectors $X$, and
+ if $\fl=2$, generate only strictly increasing vectors $X$.
+ \bprog
+ ? forvec (X=[[0,1],[-1,1]], print(X));
+ [0, -1]
+ [0, 0]
+ [0, 1]
+ [1, -1]
+ [1, 0]
+ [1, 1]
+ ? forvec (X=[[0,1],[-1,1]], print(X), 1);
+ [0, 0]
+ [0, 1]
+ [1, 1]
+ ? forvec (X=[[0,1],[-1,1]], print(X), 2)
+ [0, 1]
+ @eprog
+
+ As a shortcut, a vector of the form $v=[[0,c_1-1],\dots [0,c_n-1]]$
+ can be abbreviated as $v=[c_1,\dots c_n]$ and $\fl$ is ignored in this case.
+ More generally, if $v$ is a vector of nonnegative integers $c_i$ the loop
+ runs over representatives of $\Z^n/v\Z^n$; and $\fl$ is again ignored.
+ The vector $v$ may contain zero entries, in which case the loop spans an
+ infinite lattice. The values are ordered lexicographically, graded by
+ increasing $L_1$-norm on free ($c_i=0$) components.
+
+ This allows to iterate over elements of abelian groups using their
+ \kbd{.cyc} vector.
+ \bprog
+ ? forvec (X=[2,3], print(X));
+ [0, 0]
+ [0, 1]
+ [0, 2]
+ [1, 0]
+ [1, 1]
+ [1, 2]
+ ? my(i);forvec (X=[0,0], print(X); if (i++ > 10, break));
+ [0, 0]
+ [-1, 0]
+ [0, -1]
+ [0, 1]
+ [1, 0]
+ [-2, 0]
+ [-1, -1]
+ [-1, 1]
+ [0, -2]
+ [0, 2]
+ [1, -1]
+ ? zn = znstar(36,1);
+ ? forvec (chi = zn.cyc, if (chareval(zn,chi,5) == 5/6, print(chi)));
+ [1, 0]
+ [1, 1]
+ ? bnrchar(zn, [5], [5/6]) \\ much more efficient in general
+ %5 = [[1, 1], [1, 0]]
+
+ @eprog

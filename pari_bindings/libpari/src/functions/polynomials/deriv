@@ -1,0 +1,45 @@
+Function: deriv
+Section: polynomials
+C-Name: deriv
+Prototype: GDn
+Help: deriv(x,{v}): derivative of x with respect to v, or to the main
+ variable of x if v is omitted.
+Doc: derivative of $x$ with respect to the main
+ variable if $v$ is omitted, and with respect to $v$ otherwise. The derivative
+ of a scalar type is zero, and the derivative of a vector or matrix is done
+ componentwise. One can use $x'$ as a shortcut if the derivative is with
+ respect to the main variable of $x$; and also use $x''$, etc., for multiple
+ derivatives altough \kbd{derivn} is often preferrable.
+
+ By definition, the main variable of a \typ{POLMOD} is the main variable among
+ the coefficients from its two polynomial components (representative and
+ modulus); in other words, assuming a polmod represents an element of
+ $R[X]/(T(X))$, the variable $X$ is a mute variable and the derivative is
+ taken with respect to the main variable used in the base ring $R$.
+
+ \bprog
+ ? f = (x/y)^5;
+ ? deriv(f)
+ %2 = 5/y^5*x^4
+ ? f'
+ %3 = 5/y^5*x^4
+ ? deriv(f, 'x) \\ same since 'x is the main variable
+ %4 = 5/y^5*x^4
+ ? deriv(f, 'y)
+ %5 = -5/y^6*x^5
+ @eprog
+
+ This function also operates on closures, in which case the variable
+ must be omitted. It returns a closure performing a numerical
+ differentiation as per \kbd{derivnum}:
+ \bprog
+ ? f(x) = x^2;
+ ? g = deriv(f)
+ ? g(1)
+ %3 = 2.0000000000000000000000000000000000000
+ ? f(x) = sin(exp(x));
+ ? deriv(f)(0)
+ %5 = 0.54030230586813971740093660744297660373
+ ? cos(1)
+ %6 = 0.54030230586813971740093660744297660373
+ @eprog

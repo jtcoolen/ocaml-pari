@@ -1,0 +1,24 @@
+2
+395
+  ***   at top-level: parsum(i=1,10,f(i))
+  ***                 ^-------------------
+  *** parsum: mt: attempt to change exported variable 'z'.
+  ***   at top-level: parsum(i=1,10,f(i))
+  ***                 ^-------------------
+  *** parsum: mt: attempt to change exported variable 'z'.
+  ***   at top-level: parsum(i=1,10,f(i))
+  ***                 ^-------------------
+  *** parsum: mt: attempt to change exported variable 'z'.
+"parallel"
+"sequential"
+"parallel"
+"parallel"
+"parallel"
+"parallel"
+"parallel"
+"parallel"
+"parallel"
+"parallel"
+"sequential"
+"parallel"
+Total time spent: 0

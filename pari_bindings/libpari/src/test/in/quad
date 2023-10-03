@@ -1,0 +1,55 @@
+w=quadgen(5);
+w^0
+w+1.
+w+(I+0.)
+1.*w
+(I+0.)*w
+norm(w)
+norml2(w)
+trace(w)
+trace(1+0*w)
+floor(w)
+floor(1/2 + w/7)
+ceil(w)
+ceil(1/2 + w/7)
+round(w)
+round(1/2 + w/7)
+ceil(quadgen(5)*0)
+
+w < 1
+1 < w
+w < 1.
+1. < w
+w < 3/2
+3/2 < w
+w < w
+w <= w
+w <= +oo
+w <= -oo
+quadgen(-8) < 1
+
+z=66992092050551637663438906713182313772-47370562574818466708936539960450008968*quadgen(8);
+z*1.
+2*quadgen(21)-3 + 0. \\ #2362
+
+test(a)=[sign(z) | z<-[a,a-1,a-2,1-a,2-a]]
+test(w)
+test(quadgen(8))
+w8 = quadgen(-8);
+round(w8)
+
+w = quadgen(2^64+1)
+w * 1.
+floor(2*w)
+floor(-2*w)
+ceil(2*w)
+ceil(-2*w)
+round(2*w)
+round(-2*w)
+quadgen(5) + 2/3 + 0.\\ #2419
+
+\\ Errors keep at end of file
+floor(w8)
+ceil(w8)
+sign(w8)
+floor(Mod(0,3)*quadgen(5))

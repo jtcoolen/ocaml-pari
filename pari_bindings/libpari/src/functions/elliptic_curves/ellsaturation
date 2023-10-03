@@ -1,0 +1,42 @@
+Function: ellsaturation
+C-Name: ellsaturation
+Section: elliptic_curves
+Prototype: GGLp
+Help: ellsaturation(E, V, B): let E be an elliptic curve over Q
+ and V be a vector of independent rational points on E of infinite order that
+ generate a subgroup G of E(Q) of finite index.
+ Return a new set W of the same length that generate a subgroup H of
+ E(Q) containing G and such that [E(Q):H] is not divisible by any prime
+ number less than B.
+Doc: Let $E$ be an elliptic curve over $\Q$ and
+ and $V$ be a set of independent non-torsion rational points on $E$ of infinite
+ order that generate a subgroup $G$ of $E(\Q)$ of finite index.
+ Return a new set $W$ of the same length that generate a subgroup $H$ of
+ $E(\Q)$ containing $G$ and such that $[E(\Q):H]$ is not divisible by any
+ prime number less than $B$. The running time is roughly quadratic in $B$.
+
+ \bprog
+ ? E = ellinit([0,0, 1, -7, 6]);
+ ? [r,R,s,V] = ellrank(E)
+ %2 = [3, 3, 0, [[-1,3], [-3,0], [11,35]]]
+ ? matdet(ellheightmatrix(E, V))
+ %3 = 3.7542920288254557283540759015628405708
+ ? W = ellsaturation(E, V, 2) \\ index is now odd
+ time = 1 ms.
+ %4 = [[-1, 3], [-3, 0], [11, 35]]
+ ? W = ellsaturation(E, W, 10) \\ index not divisible by p <= 10
+ time = 2 ms.
+ ? W = ellsaturation(E, V, 100) \\ looks OK now
+ %5 = [[1, -1], [2, 0], [0, -3]]
+ time = 171 ms.
+ ? matdet(ellheightmatrix(E,V))
+ %6 = 0.41714355875838396981711954461809339675
+ ? lfun(E,1,3)/3! / ellbsd(E) \\ conductor is small, check assuming BSD
+ %7 = 0.41714355875838396981711954461809339675
+ @eprog
+
+Function: _ellQ_factorback_worker
+C-Name: ellQ_factorback_worker
+Section: programming/internals
+Prototype: GGGGU
+Help: worker for ellQ_factorback

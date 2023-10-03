@@ -1,0 +1,82 @@
+Function: hypergeom
+Section: transcendental
+C-Name: hypergeom
+Prototype: DGDGGp
+Help: hypergeom({N},{D},z): general hypergeometric function, where
+ N and D are the vector of parameters in the numerator and denominator
+ respectively, evaluated at the argument z.
+Doc: general hypergeometric function, where \kbd{N} and \kbd{D} are
+ the vector of parameters in the numerator and denominator respectively,
+ evaluated at the argument $z$, which may be complex, $p$-adic or a power
+ series.
+
+ This function implements hypergeometric functions
+ $$_pF_q((a_i)_{1\le i\le p},(b_j)_{1\le j\le q};z)
+    = \sum_{n\ge0}\dfrac{\prod_{1\le i\le p}(a_i)_n}{\prod_{1\le j\le q}(b_j)_n}
+       \dfrac{z^n}{n!}\;,$$
+ where $(a)_n=a(a+1)\cdots(a+n-1)$ is the rising Pochammer symbol. For this
+ to make sense, none of the $b_j$ must be a negative or zero integer. The
+ corresponding general GP command is
+ \bprog
+   hypergeom([a1,a2,...,ap], [b1,b2,...,bq], z)
+ @eprog\noindent Whenever $p = 1$ or $q = 1$, a one-element vector can be
+ replaced by the element it contains. Whenever $p = 0$ or $q = 0$, an empty
+ vector can be omitted. For instance hypergeom(,b,z) computes $_0F_1(;b;z)$.
+
+ The non-archimedean cases ($z$ a $p$-adic or power series) are handled
+ trivially. We now discuss the case of a complex $z$; we distinguish three
+ kinds of such functions according to their radius of convergence $R$:
+
+ \item $q\ge p$: $R = \infty$.
+
+ \item $q=p-1$: $R=1$. Nonetheless, by integral representations, $_pF_q$
+ can be analytically continued outside the disc of convergence.
+
+ \item $q\le p-2$: $R=0$. By integral representations, one can make sense of
+ the function in a suitable domain, by analytic continuation.
+
+ The list of implemented functions and their domain of validity in
+ our implementation is as follows:
+
+ \kbd{F01}: \kbd{hypergeom(,a,z)} (or \kbd{[a]}).
+ This is essentially a Bessel function and computed as such. $R=\infty$.
+
+ \kbd{F10}: \kbd{hypergeom(a,,z)}
+  This is $(1-z)^{-a}$.
+
+ \kbd{F11}: \kbd{hypergeom(a,b,z)} is the Kummer confluent hypergeometric
+ function, computed by summing the series. $R=\infty$
+
+ \kbd{F20}: \kbd{hypergeom([a,b],,z)}. $R=0$, computed as
+ $$\dfrac{1}{\Gamma(a)}\int_0^\infty t^{a-1}(1-zt)^{-b}e^{-t}\,dt\;.$$
+
+ \kbd{F21}: \kbd{hypergeom([a,b],c,z)} (or \kbd{[c]}).
+ $R=1$, extended by
+ $$\dfrac{\Gamma(c)}{\Gamma(b)\Gamma(c-b)}
+    \int_0^1 t^{b-1}(1-t)^{c-b-1}(1-zt)^a\,dt\;.$$
+ This is Gauss's Hypergeometric function, and almost all of the implementation
+ work is done for this function.
+
+ \kbd{F31}: \kbd{hypergeom([a,b,c],d,z)} (or \kbd{[d]}). $R=0$, computed as
+ $$\dfrac{1}{\Gamma(a)}\int_0^\infty t^{a-1}e^{-t}{}_2F_1(b,c;d;tz)\,dt\;.$$
+
+ \kbd{F32}: \kbd{hypergeom([a,b,c],[d,e],z)}. $R=1$, extended by
+ $$\dfrac{\Gamma(e)}{\Gamma(c)\Gamma(e-c)}
+    \int_0^1t^{c-1}(1-t)^{e-c-1}{}_2F_1(a,b;d;tz)\,dt\;.$$
+
+ For other inputs: if $R=\infty$ or $R=1$ and $|z| < 1- \varepsilon$ is not
+ too close to the circle of convergence, we simply sum the series.
+
+ \bprog
+ ? hypergeom([3,2], 3.4, 0.7)   \\ 2F1(3,2; 3.4; 0.7)
+ %1 = 7.9999999999999999999999999999999999999
+ ? a=5/3; T1=hypergeom([1,1,1],[a,a],1)  \\ 3F2(1,1,1; a,a; 1)
+ %2 = 3.1958592952314032651578713968927593818
+ ? T2=hypergeom([2,1,1],[a+1,a+1],1)
+ %3 = 1.6752931349345765309211012564734179541
+ ? T3=hypergeom([2*a-1,1,1],[a+1,a+1],1)
+ %4 = 1.9721037126267142061807688820853354440
+ ? T1 + (a-1)^2/(a^2*(2*a-3)) * (T2-2*(a-1)*T3) \\
+   - gamma(a)^2/((2*a-3)*gamma(2*a-2))
+ %5 = -1.880790961315660013 E-37 \\ ~ 0
+ @eprog\noindent This identity is due to Bercu.

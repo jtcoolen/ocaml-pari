@@ -1,0 +1,27 @@
+[1, -1]~
+[2, 0]
+[2, 2]
+[1, I, -1, -I]~
+[2 + I, -I, -I, 2 + I]
+[4, 4*I, 0, 4]
+[1, -I, -1, I]~
+[2 + I, 2 + I, -I, -I]
+[4, 4*I, 0, 4]
+-97
+1
+1
+[2]
+[x]
+  ***   at top-level: fft(rootsof1(3),x^2+x+1)
+  ***                 ^------------------------
+  *** fft: inconsistent dimensions in fft.
+  ***   at top-level: fftinv(rootsof1(3),x^2+x+1)
+  ***                 ^---------------------------
+  *** fftinv: inconsistent dimensions in fft.
+  ***   at top-level: fft([],[])
+  ***                 ^----------
+  *** fft: inconsistent dimensions in fft.
+  ***   at top-level: fftinv([],[])
+  ***                 ^-------------
+  *** fftinv: inconsistent dimensions in fft.
+Total time spent: 33

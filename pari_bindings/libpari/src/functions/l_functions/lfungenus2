@@ -1,0 +1,19 @@
+Function: lfungenus2
+Section: l_functions
+C-Name: lfungenus2
+Prototype: G
+Help: lfungenus2(F): returns the Ldata structure attached to the
+ L-function attached to the genus-2 curve defined by y^2=F(x)
+ or y^2+Q(x)*y=P(x) if F=[P,Q].
+ Currently, only odd conductors are supported.
+Doc: returns the \kbd{Ldata} structure attached to the $L$ function
+ attached to the genus-2 curve defined by $y^2=F(x)$ or
+ $y^2+Q(x)\*y=P(x)$ if $F=[P,Q]$.
+ Currently, if the conductor is even, its valuation at $2$ might be incorrect
+ (a warning is issued).
+
+Function: _dirgenus2_worker
+Section: programming/internals
+C-Name: dirgenus2_worker
+Prototype: GLG
+Help: lfungenus2 worker

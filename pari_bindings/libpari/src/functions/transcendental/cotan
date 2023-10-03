@@ -1,0 +1,9 @@
+Function: cotan
+Section: transcendental
+C-Name: gcotan
+Prototype: Gp
+Description:
+ (mp):real:prec      gcotan($1, $prec)
+ (gen):gen:prec      gcotan($1, $prec)
+Help: cotan(x): cotangent of x.
+Doc: cotangent of $x$.

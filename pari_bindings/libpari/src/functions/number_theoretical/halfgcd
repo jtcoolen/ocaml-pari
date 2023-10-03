@@ -1,0 +1,22 @@
+Function: halfgcd
+Section: number_theoretical
+C-Name: ghalfgcd
+Prototype: GG
+Help: halfgcd(x,y): return a vector [M, [a,b]~], where M is an invertible 2x2
+ matrix such that M*[x,y]~ = [a,b]~, where b is small. More precisely,
+ if x,y are integers, we have b < sqrt(max(|x|,|y|)) <= a. If x,y
+ are polynomials, we have deg b < ceil((max(|x|,|y|))/2) <= deg a.
+Doc:
+ Let inputs $x$ and $y$ be both integers, or both polynomials in the same
+ variable. Return a vector \kbd{[M, [a,b]\til]}, where $M$ is an invertible
+ $2\times 2$ matrix such that \kbd{M*[x,y]\til = [a,b]\til}, where $b$ is
+ small. More precisely,
+
+ \item polynomial case: $\det M$ has degree $0$ and we
+ have $$\deg a \geq \ceil{\max(\deg x,\deg y))/2} > \deg b.$$
+
+ \item integer case: $\det M = \pm 1$ and we have
+ $$a \geq \ceil{\sqrt{\max(|x|,|y|)}} > b.$$
+ Assuming $x$ and $y$ are nonnegative, then $M^{-1}$ has nonnegative
+ coefficients, and $\det M$ is equal to the sign of both main diagonal terms
+ $M[1,1]$ and $M[2,2]$.

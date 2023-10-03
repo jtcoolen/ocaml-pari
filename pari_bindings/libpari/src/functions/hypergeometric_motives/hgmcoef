@@ -1,0 +1,9 @@
+Function: hgmcoef
+Section: hypergeometric_motives
+C-Name: hgmcoef
+Prototype: GGG
+Help: hgmcoef(H,t,n): (H,t) being a hypergeometric motive, returns the
+ n-th coefficient of its L-function.
+Doc: $(H,t)$ being a hypergeometric motive, returns the
+ $n$-th coefficient of its $L$-function. This is not implemented for wild
+ primes $p$ and will raise an exception if such a $p$ divides~$n$.

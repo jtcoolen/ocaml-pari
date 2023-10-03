@@ -1,0 +1,32 @@
+Function: ell2cover
+Section: elliptic_curves
+C-Name: ell2cover
+Prototype: Gp
+Help: ell2cover(E): if E is an elliptic curve over Q, return a basis of the set
+ of everywhere locally soluble 2-covers of the curve E. For each cover a pair
+ [R,P] is returned where y^2-R(x) is a quartic curve and P belongs to E(k), where
+ k = Q(x)[y] / (y^2-R(x)).
+Doc: if $E$ is an elliptic curve over $\Q$, return a basis of the set of
+ everywhere locally soluble $2$-covers of the curve $E$.
+ For each cover a pair $[R,P]$ is returned where $y^2-R(x)$ is a quartic curve
+ and $P$ is a point on $E(k)$, where $k = \Q(x)[y] / (y^2-R(x))$.
+ $E$ can also be given as the output of \kbd{ellrankinit(E)},
+ or as a pair $[e, f]$, where $e$ is an elliptic curve given by
+ \kbd{ellrankinit} and $f$ is a quadratic twist of $e$. We then look for
+ points on $f$.
+ \bprog
+ ? E = ellinit([-25,4]);
+ ? C = ell2cover(E); #C
+ %2 = 2
+ ? [R,P] = C[1]; R
+ %3 = 64*x^4+480*x^2-128*x+100
+ ? P[1]
+ %4 = -320/y^2*x^4 + 256/y^2*x^3 + 800/y^2*x^2 - 320/y^2*x - 436/y^2
+ ? ellisoncurve(E, Mod(P, y^2-R))
+ %5 = 1
+ ? H = hyperellratpoints(R,10)
+ %6 = [[0,10], [0,-10], [1/5,242/25], [1/5,-242/25], [2/5,282/25],
+       [2/5,-282/25]]
+ ? A = substvec(P,[x,y],H[1])
+ %7 = [-109/25, 686/125]
+ @eprog

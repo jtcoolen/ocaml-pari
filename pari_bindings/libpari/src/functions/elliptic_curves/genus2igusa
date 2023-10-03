@@ -1,0 +1,13 @@
+Function: genus2igusa
+Section: elliptic_curves
+C-Name: genus2igusa
+Prototype: GD0,L,
+Help: genus2igusa(PQ,{k}): let PQ be a polynomial P, resp. a vector [P,Q] of
+ polynomials. Return the Igusa invariants of the hyperelliptic curve C/Q of genus 2 defined by
+ y^2 = P, resp. y^2 + Q*y = P.
+Doc: Let $PQ$ be a polynomial $P$, resp. a vector $[P,Q]$ of polynomials.
+  Return the Igusa invariants $[J_2,J_4,J_6,J_8,J_10]$ of the hyperelliptic
+  curve $C/\Q$, defined by the
+  hyperelliptic equation $y^2 = P(x)$, resp.  $y^2 + Q(x)*y = P(x)$.
+  If $k$ is given, only return the invariant of degree $k$
+  ($k$ must be even between $2$ and $10$).

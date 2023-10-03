@@ -1,0 +1,40 @@
+\p115
+sumnumrat(1/x,-oo)
+sumnumrat(1/x^2,-oo)
+sumeulerrat(y/x^2,1)
+F=1/(x^2+1)^2; sumnumrat(F,1)
+F=1/((x+1)*(x^2+x+1)); sumnumrat(F,0)
+F=1+1/x^2; prodnumrat(F,1)
+sumeulerrat(1/(q^2+1),1)
+sumeulerrat(1/(q+1),2)
+z = zeta(2)/zeta(4);
+exponent(prodeulerrat(1+1/q^2,1) - z)
+exponent(prodeulerrat(1+1/q^4,1/2) - z)
+prodeulerrat(1-2/(q*(q+1)),1)
+exponent(prodeulerrat(1+1/q,3) - zeta(3)/zeta(6))
+sumnumrat(0,0)
+prodnumrat(1,1)
+prodeulerrat(1)
+sumeulerrat(0)
+\\ #2357
+exponent(prodeulerrat(1/(1-1/x^2)) - zeta(2))
+
+\\ #2190
+m=100;prodeulerrat((p-2)/(p-1)+(p-1)^(m-1)/p^m,1,3)
+
+S = 5.860056454092251396039917840682865151109267605836469570260459245112533010750289129320452484305732931556286661157629 E-9;
+exponent(sumeulerrat(1/p,2,10^7) - S) < -384
+S = 1.000000005860056471262372114707057832977756961053190894780909349332937607270144123030429510269114760410610337790942;
+exponent(prodeulerrat(1+1/p,2,10^7) - S) < -381
+
+\\ errors
+sumnumrat(1/x^2,oo)
+sumnumrat(1.0,1)
+sumnumrat(1/x,10)
+prodnumrat(1+1/x,10)
+prodnumrat(2,1)
+sumeulerrat(1)
+sumeulerrat(1/p)
+prodeulerrat(2)
+prodeulerrat(1+1/p)
+sumeulerrat(x^2/(1+x),2)

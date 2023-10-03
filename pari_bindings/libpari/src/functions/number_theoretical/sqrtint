@@ -1,0 +1,28 @@
+Function: sqrtint
+Section: number_theoretical
+C-Name: sqrtint0
+Prototype: GD&
+Help: sqrtint(x,{&r}): integer square root y of x, where x is a nonnegative
+ real number. If r is present, set it to the remainder x - y^2.
+Description:
+ (gen):int sqrtint($1)
+Doc: returns the integer square root of $x$, i.e. the largest integer $y$
+ such that $y^2 \leq x$, where $x$ a nonnegative real number. If $r$ is present,
+ set it to the remainder $r = x - y^2$, which satisfies $0\leq r < 2y + 1$.
+ Further, when $x$ is an integer, $r$ is an integer satisfying
+ $0 \leq r \leq 2y$.
+ \bprog
+ ? x = 120938191237; sqrtint(x)
+ %1 = 347761
+ ? sqrt(x)
+ %2 = 347761.68741970412747602130964414095216
+ ? y = sqrtint(x, &r); r
+ %3 = 478116
+ ? x - y^2
+ %4 = 478116
+ ? sqrtint(9/4, &r) \\ not 3/2 !
+ %5 = 1
+ ? r
+ %6 = 5/4
+ @eprog
+Variant: Also available is \fun{GEN}{sqrtint}{GEN a}.

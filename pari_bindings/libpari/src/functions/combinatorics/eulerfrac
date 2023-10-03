@@ -1,0 +1,16 @@
+Function: eulerfrac
+Section: combinatorics
+C-Name: eulerfrac
+Prototype: L
+Help: eulerfrac(n): Euler number E_n, as a rational number.
+Doc: Euler number\sidx{Euler numbers} $E_n$,
+ where $E_0=1$, $E_1=0$, $E_2=-1$, \dots, are integers such that
+ $$ \dfrac{1}{\cosh t} = \sum_{n\geq 0} \dfrac{E_n}{n!} t^n. $$
+ The argument $n$ should be a nonnegative integer.
+ \bprog
+ ? vector(10,i,eulerfrac(i))
+ %1 = [0, -1, 0, 5, 0, -61, 0, 1385, 0, -50521]
+ ? eulerfrac(20000);
+ ? sizedigit(%))
+ %3 = 73416
+ @eprog

@@ -1,0 +1,36 @@
+Function: polrootspadic
+Section: polynomials
+C-Name: polrootspadic
+Prototype: GGL
+Help: polrootspadic(f,p,r): p-adic roots of the polynomial f to precision r.
+Doc: vector of $p$-adic roots of the polynomial \var{pol}, given to
+ $p$-adic precision $r$; the integer $p$ is assumed to be a prime.
+ Multiple roots are
+ \emph{not} repeated. Note that this is not the same as the roots in
+ $\Z/p^r\Z$, rather it gives approximations in $\Z/p^r\Z$ of the true roots
+ living in $\Q_p$:
+ \bprog
+ ? polrootspadic(x^3 - x^2 + 64, 2, 4)
+ %1 = [2^3 + O(2^4), 2^3 + O(2^4), 1 + O(2^4)]~
+ ? polrootspadic(x^3 - x^2 + 64, 2, 5)
+ %2 = [2^3 + O(2^5), 2^3 + 2^4 + O(2^5), 1 + O(2^5)]~
+ @eprog\noindent As the second commands show, the first two roots \emph{are}
+ distinct in $\Q_p$, even though they are equal modulo $2^4$.
+
+ More generally, if $T$ is an integral polynomial irreducible
+ mod $p$ and $f$ has coefficients in $\Q[t]/(T)$, the argument $p$
+ may be replaced by the vector $[T,p]$; we then return the roots of $f$ in
+ the unramified extension $\Q_p[t]/(T)$.
+ \bprog
+ ? polrootspadic(x^3 - x^2 + 64*y, [y^2+y+1,2], 5)
+ %3 = [Mod((2^3 + O(2^5))*y + (2^3 + O(2^5)), y^2 + y + 1),
+       Mod((2^3 + 2^4 + O(2^5))*y + (2^3 + 2^4 + O(2^5)), y^2 + y + 1),
+       Mod(1 + O(2^5), y^2 + y + 1)]~
+ @eprog
+
+ If \var{pol} has inexact \typ{PADIC} coefficients, this need not
+ well-defined; in this case, the polynomial is first made integral by
+ dividing out the $p$-adic content, then lifted to $\Z$ using \tet{truncate}
+ coefficientwise. Hence the roots given are approximations of the roots of an
+ exact polynomial which is $p$-adically close to the input. To avoid pitfalls,
+ we advise to only factor polynomials with exact rational coefficients.

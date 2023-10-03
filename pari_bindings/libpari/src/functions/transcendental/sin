@@ -1,0 +1,18 @@
+Function: sin
+Section: transcendental
+C-Name: gsin
+Prototype: Gp
+Description:
+ (real):real         mpsin($1)
+ (mp):real:prec      gsin($1, $prec)
+ (gen):gen:prec      gsin($1, $prec)
+Help: sin(x): sine of x.
+Doc: sine of $x$.
+ Note that, for real $x$, cosine and sine can be obtained simultaneously as
+ \bprog
+ cs(x) = my(z = exp(I*x)); [real(z), imag(z)];
+ @eprog and for general complex $x$ as
+ \bprog
+ cs2(x) = my(z = exp(I*x), u = 1/z); [(z+u)/2, (z-u)/2];
+ @eprog Note that the latter function suffers from catastrophic cancellation
+ when $z^2 \approx \pm1$.

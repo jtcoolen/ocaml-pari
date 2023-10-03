@@ -1,0 +1,15 @@
+Function: rnfhnfbasis
+Section: number_fields
+C-Name: rnfhnfbasis
+Prototype: GG
+Help: rnfhnfbasis(bnf,M): given a bnf attached to a number field K and a
+ projective Z_K module M given by a pseudo-matrix, returns either a true
+ HNF basis of M if one exists, or zero otherwise. If M is a polynomial with
+ coefficients in K, replace it by the pseudo-matrix returned by
+ rnfpseudobasis.
+Doc: given a \var{bnf} attached to a number field $K$ and a projective
+ $\Z_K$-module $M$ given by a pseudo-matrix, returns either a true HNF basis
+ of $M$ if one exists, or zero otherwise. If $M$ is a polynomial with
+ coefficients in $K$, replace it by the pseudo-matrix returned by
+ \kbd{rnfpseudobasis}.
+

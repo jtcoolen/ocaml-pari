@@ -1,0 +1,16 @@
+Function: nfeltispower
+Section: number_fields
+C-Name: nfispower
+Prototype: lGGLD&
+Help: nfeltispower(nf,x,n,{&y}): returns 1 if x is an n-th power in nf (and set y to
+ an n-th root if present), else returns 0.
+Doc: returns $1$ if $x$ is an $n$-th power in the number field \kbd{nf} (and sets $y$ to an $n$-th root if the
+ argument is present), else returns 0.
+
+ \bprog
+ ? nf = nfinit(1+x^2);
+ ? nfeltispower(nf, -4, 4, &y)
+ %2 = 1
+ ? y
+ %3 = [-1, -1]~
+ @eprog

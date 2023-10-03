@@ -1,0 +1,16 @@
+Function: imag
+Section: conversions
+C-Name: gimag
+Prototype: G
+Help: imag(x): imaginary part of x.
+Doc: imaginary part of $x$. When $x$ is a quadratic number, this is the
+ coefficient of $\omega$ in the ``canonical'' integral basis $(1,\omega)$.
+ \bprog
+ ? imag(3 + I)
+ %1 = 1
+ ? x = 3 + quadgen(-23);
+ ? imag(x) \\ as a quadratic number
+ %3 = 1
+ ? imag(x * 1.) \\ as a complex number
+ %4 = 2.3979157616563597707987190320813469600
+ @eprog

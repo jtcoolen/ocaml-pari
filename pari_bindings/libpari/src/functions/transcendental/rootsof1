@@ -1,0 +1,16 @@
+Function: rootsof1
+Section: transcendental
+C-Name: grootsof1
+Prototype: Lp
+Help: rootsof1(N): column vector of complex N-th roots of 1.
+Doc: return the column vector $v$ of all complex $N$-th roots of $1$, where $N$
+ is a positive integer. In other words,
+ $v[k] = \exp(2I(k-1)\pi/N)$ for $k = 1, \dots, N$. Rational components
+ (e.g., the roots $\pm1$ and $\pm I$) are given exactly, not as floating point
+ numbers:
+ \bprog
+ ? rootsof1(4)
+ %1 = [1, I, -1, -I]~
+ ? rootsof1(3)
+ %2 = [1, -1/2 + 0.866025...*I, -1/2 - 0.866025...*I]~
+ @eprog

@@ -1,0 +1,122 @@
+  ***   Warning: new stack size = 40000000 (38.147 Mbytes).
++oo
++oo
++oo
+1.6449340668482264364724151666460251892
+0.39493406684822643647241516664602518922
+1.6449340668482264364724151666460251892
++oo
+2.6123753486854883433485675679240716306
+2.6123753486854883433485675679240716306
+1.6123753486854883433485675679240716306
+(n)->1/(n^2+1)
+-38
+-38
+-40
+-38
+(n)->log(1+1/n)/n
++oo
+-38
+-36
+-38
+(n)->lngamma(1+1/n)/n
++oo
++oo
+-37
+-39
+(n)->sin(1/sqrt(n))/n^(3/2)
++oo
++oo
+-36
++oo
+2.3979771206715998375659850036324914715
+2.3979771206715998375659850036324914714
++oo
++oo
+  ***   at top-level: sumnummonien(n=1,1/n^2,tab)
+  ***                                  ^----------
+  ***   incompatible initial value 2 != 1.
++oo
++oo
++oo
++oo
+-36
++oo
+   realprecision = 115 significant digits
++oo
++oo
++oo
++oo
++oo
+-115
++oo
++oo
++oo
++oo
++oo
+-115
+   realprecision = 308 significant digits
+-308
+-307
+-307
++oo
+-307
+-307
+-307
+[-307, -305]
+-307
++oo
+-408
+2.47966052573232990761047428236557457611831203144307271235622022056652147251
+7605158008989579019155072837095780182410363956184573887461660980052873616581
+6577757896142310226542037192089589361644803693741989026767407181994861341239
+0058993512488079811186434271036137090844427472126934630595857603882052659184
+49350
+   realprecision = 38 significant digits
+0.94536905472633293526609521540827019813
+0.E-37
+   realprecision = 19 significant digits
+1.644934066848226436
+  ***   at top-level: sumnum(n=1,1/n^2,"bug")
+  ***                            ^------------
+  ***   incorrect type in sumnum (t_STR).
+  ***   at top-level: sumnumap(n=1,1/n^2,"bug")
+  ***                              ^------------
+  ***   incorrect type in sumnumap (t_STR).
+  ***   at top-level: intnumapinit(x,y)
+  ***                 ^-----------------
+  ***   not a function in function call
+  ***   at top-level: sumnummonieninit([-1,1])
+  ***                 ^------------------------
+  *** sumnummonieninit: domain error in sumnummonieninit: a <= 0
+  ***   at top-level: sumnummonieninit([1,-1])
+  ***                 ^------------------------
+  *** sumnummonieninit: domain error in sumnummonieninit: a+b <= 1
+  ***   at top-level: sumnummonieninit(,[n->2^-n,oo])
+  ***                 ^-------------------------------
+  *** sumnummonieninit: forbidden addition t_INT + t_INFINITY.
+  ***   at top-level: sumnummonieninit(oo)
+  ***                 ^--------------------
+  *** sumnummonieninit: incorrect type in sumnummonieninit (t_INFINITY).
+  ***   at top-level: sumnumlagrangeinit([1/5,0])
+  ***                 ^---------------------------
+  *** sumnumlagrangeinit: sorry, sumnumlagrange for this alpha is not yet implemented.
+  ***   at top-level: sumnumlagrangeinit(x)
+  ***                 ^---------------------
+  *** sumnumlagrangeinit: incorrect type in sumnumlagrangeinit (t_POL).
+  ***   at top-level: sumnumlagrangeinit(x,-2)
+  ***                 ^------------------------
+  *** sumnumlagrangeinit: domain error in sumnumlagrangeinit: c1 <= 0
+  ***   at top-level: prodinf(n=0,1+2^-n,2)
+  ***                 ^---------------------
+  *** prodinf: invalid flag in prodinf.
+  ***   at top-level: sumalt(n=0,1,2)
+  ***                 ^---------------
+  *** sumalt: invalid flag in sumalt.
+  ***   at top-level: sumpos(n=0,1,2)
+  ***                 ^---------------
+  *** sumpos: invalid flag in sumpos.
+  ***   at top-level: intnumosc(x=0,besselj(0,x)^2,Pi)
+  ***                                       ^----------
+  ***   sumnumsidi diverges.
+Total time spent: 3527

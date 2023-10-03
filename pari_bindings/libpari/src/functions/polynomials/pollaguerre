@@ -1,0 +1,15 @@
+Function: pollaguerre
+Section: polynomials
+C-Name: pollaguerre_eval0
+Prototype: LDGDGD0,L,
+Help: pollaguerre(n,{a=0},{b='x},{flag=0}): Laguerre polynomial of degree n
+ and parameter a evaluated at b. If flag is 1, return [L^{(a)_{n-1}(b),
+ L^{(a)}_n(b)].
+Doc: $n^{\text{th}}$ \idx{Laguerre polynomial} $L^{(a)}_n$ of degree $n$ and
+ parameter $a$ evaluated at $b$ (\kbd{'x} by default), i.e.
+ $$ L_n^{(a)}(x) =
+    \dfrac{x^{-a}e^x}{n!} \dfrac{d^n}{dx^n}\big(e^{-x}x^{n+a}\big).$$
+ If \fl\ is $1$, return $[L^{(a)}_{n-1}(b), L_n^{(a)}(b)]$.
+Variant: To obtain the $n$-th Laguerre polynomial in variable $v$,
+ use \fun{GEN}{pollaguerre}{long n, GEN a, GEN b, long v}. To obtain
+ $L^{(a)}_n(b)$, use \fun{GEN}{pollaguerre_eval}{long n, GEN a, GEN b}.

@@ -1,0 +1,7 @@
+Function: rnfkummer
+Section: number_fields
+C-Name: rnfkummer
+Obsolete: 2020-05-22
+Prototype: GDGp
+Help: rnfkummer(bnr,{subgp}): this function is deprecated. Use bnrclassfield.
+Doc: This function is deprecated, use \kbd{bnrclassfield}.

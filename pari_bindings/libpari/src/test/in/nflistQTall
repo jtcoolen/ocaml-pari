@@ -1,0 +1,16 @@
+\\package:galdata nflistdata
+default(new_galois_format,1);
+default(parisize,"48M"); \\ overflows 40M [GMP], 46M [portable]
+
+tst(n,k)=
+{ my(c = 0, V = List(), P = nflist([n,k],'t));
+  for (a = 1, 100,
+    my(Q = subst(P,t,a));
+    if (polisirreducible(Q),
+      if (n > 11 || (polgalois(Q)[3] == k && c++ == 1), return(1))));
+  error(k);
+}
+
+L=[1,1,2,5,5,16,7,50,34,45,8,301,9,63,104];
+S = vector(15,i,[1..L[i]]);
+for(n=1,#S,print1(n,": ");print([tst(n,k) | k<-S[n]]))

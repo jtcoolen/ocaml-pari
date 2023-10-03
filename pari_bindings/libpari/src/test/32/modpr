@@ -1,0 +1,195 @@
+  ***   at top-level: nfeltmulmodpr(nfinit(x),x,x,1)
+  ***                 ^------------------------------
+  *** nfeltmulmodpr: incorrect type in checkprid (t_INT).
+[0, 1, error("inconsistent variables in poltobasis, t != y."), 1, error("inc
+onsistent variables in poltobasis, z != y."), 0, error("incorrect type in Rg
+_to_ff (t_COL).")]
+y^2 + 1: [1, [1, 1], [2, [1, 1]~, 2, 1, [1, -1; 1, 1]]]~
+*[1, 1]:
+error("impossible inverse in F2xq_inv: 0.")
+0
+*[1, 2]:
+0
+0
+*[1, 3]:
+0
+0
+*[1, 4]:
+error("impossible inverse in F2xq_inv: 0.")
+0
+*[2, 2]:
+1
+1
+*[2, 3]:
+1
+1
+*[2, 4]:
+error("impossible inverse in F2xq_inv: 0.")
+0
+*[3, 3]:
+1
+1
+*[3, 4]:
+error("impossible inverse in F2xq_inv: 0.")
+0
+*[4, 4]:
+error("impossible inverse in F2xq_inv: 0.")
+0
+*1:
+[0, 0]~
+*2:
+[1, 0]~
+*3:
+error("inconsistent variables in poltobasis, t != y.")
+*4:
+[1, 0]~
+*5:
+error("inconsistent variables in poltobasis, z != y.")
+*6:
+[0, 0]~
+*7:
+error("incorrect type in Rg_to_ff (t_COL).")
+[0, error("impossible inverse in Fl_inv: Mod(0, 3)."), error("inconsistent v
+ariables in poltobasis, t != y."), t, error("inconsistent variables in polto
+basis, z != y."), error("impossible inverse in Rg_to_ff: Mod(0, 3)."), error
+("incorrect type in Rg_to_ff (t_COL).")]
+y^2 + 1: [1, [1, 0; 0, 1], [3, [3, 0]~, 1, 2, 1], t^2 + 1]~
+*[1, 1]:
+error("impossible inverse in Flxq_inv: 0.")
+0
+*[1, 2]:
+0
+0
+*[2, 2]:
+1
+2
+*1:
+[0, 0]~
+*2:
+error("impossible inverse in Fl_inv: Mod(0, 3).")
+*3:
+error("inconsistent variables in poltobasis, t != y.")
+*4:
+error("inconsistent variables in poltobasis, t != y.")
+*5:
+error("inconsistent variables in poltobasis, z != y.")
+*6:
+error("impossible inverse in Rg_to_ff: Mod(0, 3).")
+*7:
+error("incorrect type in Rg_to_ff (t_COL).")
+[0, error("impossible inverse in Fl_inv: Mod(0, 3)."), error("inconsistent v
+ariables in poltobasis, t != y."), 0, error("inconsistent variables in polto
+basis, z != y."), error("incorrect type in Rg_to_ff (t_COL)."), error("impos
+sible inverse in Rg_to_ff: Mod(0, 3).")]
+y^3 - 9: [1, [1, 0, 0], [3, [0, 1, 0]~, 3, 1, [0, 3, 0; 0, 0, 3; 1, 0, 0]]]~
+*[1, 1]:
+error("impossible inverse in Flxq_inv: 0.")
+0
+*[1, 2]:
+error("impossible inverse in Flxq_inv: 0.")
+0
+*[2, 2]:
+error("impossible inverse in Flxq_inv: 0.")
+0
+*1:
+[0, 0, 0]~
+*2:
+error("impossible inverse in Fl_inv: Mod(0, 3).")
+*3:
+error("inconsistent variables in poltobasis, t != y.")
+*4:
+[0, 0, 0]~
+*5:
+error("inconsistent variables in poltobasis, z != y.")
+*6:
+error("incorrect type in Rg_to_ff (t_COL).")
+*7:
+error("impossible inverse in Rg_to_ff: Mod(0, 3).")
+1
+0
+0
+[0, 1, error("inconsistent variables in poltobasis, t != y."), t, error("inc
+onsistent variables in poltobasis, z != y."), error("incorrect type in Rg_to
+_ff (t_COL)."), 0]
+y^3 - 9: [[0, -1, -1]~, [1, 1, 0; 0, 1, 1], [2, [1, 1, 1]~, 1, 2, [1, 3, 0; 
+0, 1, 3; 1, 0, 1]], t^2 + t + 1]~
+*[1, 1]:
+error("impossible inverse in F2xq_inv: 0.")
+0
+*[1, 2]:
+0
+0
+*[1, 3]:
+0
+0
+*[1, 4]:
+error("impossible inverse in F2xq_inv: 0.")
+0
+*[2, 2]:
+1
+1
+*[2, 3]:
+t + 1
+t
+*[2, 4]:
+error("impossible inverse in F2xq_inv: 0.")
+0
+*[3, 3]:
+1
+t + 1
+*[3, 4]:
+error("impossible inverse in F2xq_inv: 0.")
+0
+*[4, 4]:
+error("impossible inverse in F2xq_inv: 0.")
+0
+*1:
+[0, 0, 0]~
+*2:
+[1, 0, 0]~
+*3:
+error("inconsistent variables in poltobasis, t != y.")
+*4:
+error("inconsistent variables in poltobasis, t != y.")
+*5:
+error("inconsistent variables in poltobasis, z != y.")
+*6:
+error("incorrect type in Rg_to_ff (t_COL).")
+*7:
+error("inconsistent variables in poltobasis, t != y.")
+y
+[1, 0]~
+
+[x + 1 3]
+
+1
+[1, 1]~
+[;]
+[0, 1]~
+
+[1 1]
+
+[1 1]
+
+
+[1]
+
+[1]
+
+  ***   at top-level: LI(matsolve(m,v))
+  ***                    ^--------------
+  *** matsolve: impossible inverse in gauss: [1, 1; 1, 1].
+  ***   at top-level: LI(matsolve(m,m))
+  ***                    ^--------------
+  *** matsolve: impossible inverse in gauss: [1, 1; 1, 1].
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0]~
+  ***   at top-level: nfmodpr(nfinit(x),[],[]~)
+  ***                 ^-------------------------
+  *** nfmodpr: incorrect type in checkprid (t_COL).
+2*t
+2*y
+  ***   at top-level: nfmodpr(Kerr,[y,2;y^2/9,3],Perr)
+  ***                 ^--------------------------------
+  *** nfmodpr: impossible inverse in Rg_to_ff: Mod(0, 3).
+Total time spent: 84

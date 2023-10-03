@@ -1,0 +1,402 @@
+\def\TITLE{Introduction to parallel GP programming}
+\input parimacro.tex
+
+% START TYPESET
+\begintitle
+\vskip 2.5truecm
+\centerline{\mine Introduction}
+\vskip 1.truecm
+\centerline{\mine to}
+\vskip 1.truecm
+\centerline{\mine parallel GP}
+\vskip 1.truecm
+\centerline{\sectiontitlebf (version \vers)}
+\vskip 1.truecm
+\authors
+\endtitle
+
+\copyrightpage
+\tableofcontents
+\openin\std=parallel.aux
+\ifeof\std
+\else
+  \input parallel.aux
+\fi
+\chapno=0
+
+\chapter{Parallel GP interface}
+
+\section{Configuration}
+
+This booklet documents the parallel GP interface. The first chapter describes
+configuration and basic concepts, the second one explains how to write GP
+codes suitable for parallel execution. Two multithread interfaces
+are supported:
+
+\item POSIX threads
+
+\item Message passing interface (MPI)
+
+POSIX threads are well-suited for single systems, for instance a personal
+computer equiped with a multi-core processor, while MPI is used by most
+clusters. However the parallel GP interface does not depend on the
+multithread interface: a properly written GP program will work identically
+with both. The interfaces are mutually exclusive and one must be chosen at
+configuration time when installing the PARI/GP suite.
+
+\subsec{POSIX threads}
+
+POSIX threads are selected by passing the flag \kbd{--mt=pthread} to
+\kbd{Configure}. The required library (\kbd{libpthread}) and header files
+(\kbd{pthread.h}) are installed by default on most Linux system. This option
+implies \kbd{--enable-tls} which builds a thread-safe version of the PARI
+library. This unfortunately makes the dynamically linked \kbd{gp-dyn} binary
+about $25\%$ slower; since \kbd{gp-sta} is only $5\%$ slower, you definitely
+want to use the latter binary.
+
+You may want to also pass the flag \kbd{--time=ftime} to \kbd{Configure}
+so that \kbd{gettime} and the GP timer report real time instead of cumulated
+CPU time. An alternative is to use \kbd{getwalltime} in your GP scripts
+instead of \kbd{gettime}.
+
+You can test whether parallel GP support is working with
+
+\bprog
+make test-parallel
+@eprog
+
+\subsec{Message Passing Interface}
+
+Configuring MPI is somewhat more difficult, but your MPI installation should
+include a script \kbd{mpicc} that takes care of the necessary configuration.
+If you have a choice between several MPI implementations, choose OpenMPI.
+
+To configure PARI/GP for MPI, use
+\bprog
+env CC=mpicc ./Configure --mt=mpi
+@eprog
+
+To run a program, you must use the launcher provided by your implementation,
+usually \kbd{mpiexec} or \kbd{mpirun}. For instance, to run
+the program \kbd{prog.gp} on $10$ nodes, you would use
+\bprog
+  mpirun -np 10 gp prog.gp
+@eprog\noindent (or \kbd{mpiexec} instead of \kbd{mpirun}). PARI
+requires at least $3$ MPI nodes to work properly. \emph{Caveats:}
+\kbd{mpirun} is not suited for interactive use because it does not provide
+tty emulation. Moreover, it is not currently possible to interrupt parallel
+tasks.
+
+You can test parallel GP support (here using 3 nodes) with
+
+\bprog
+make test-parallel RUNTEST="mpirun -np 3"
+@eprog
+
+\section{Concept}
+
+In a GP program, the \emph{main thread} executes instructions sequentially
+(one after the other) and GP provides functions, that execute subtasks in
+\emph{secondary threads} in parallel (at the same time). Those functions all
+share the prefix \kbd{par}, e.g., \kbd{parfor}, a parallel version of the
+sequential \kbd{for}-loop construct.
+
+The subtasks are subject to a stringent limitation, the parallel code
+must be free of side effects: it cannot set or modify a global variable
+for instance. In fact, it may not even \emph{access} global variables or
+local variables declared with \kbd{local()}.
+
+Due to the overhead of parallelism, we recommend to split the computation so
+that each parallel computation requires at least a few seconds. On the other
+hand, it is generally more efficient to split the computation in small chunks
+rather than large chunks.
+
+\subsec{Resources}
+
+The number of secondary threads to use is controlled by
+\kbd{default(nbthreads)}. The default value of nbthreads depends on the
+mutithread interface.
+
+\item POSIX threads: the number of CPU threads, i.e., the number of CPU cores
+multiplied by the hyperthreading factor. The default can be freely modified.
+
+\item MPI: the number of available process slots minus $1$ (one slot is used by
+the master thread), as configured with \kbd{mpirun} (or \kbd{mpiexec}). E.g.,
+\kbd{nbthreads} is $9$ after \kbd{mpirun -np 10 gp}.
+It is possible to change the default to a lower value, but increasing it will
+not work: MPI does not allow to spawn new threads at run time. PARI requires
+at least $3$ MPI nodes to work properly.
+
+The PARI stack size in secondary threads is controlled by
+\kbd{default(threadsize)}, so the total memory allocated is equal to
+$\kbd{parisize}+\kbd{nbthreads}\times\kbd{threadsize}$.  By default,
+$\kbd{threadsize}=\kbd{parisize}$. Setting the \kbd{threadsizemax} default
+allows \kbd{threadsize} to grow as needed up to that limit, analogously to
+the behaviour of \kbd{parisize} / \kbd{parisizemax}. We strongly recommend
+to set this parameter since it is very hard to control in advance the amount
+of memory threads will require: a too small stack size will result in a
+stack overflow, aborting the computation, and a too large value is
+very wasteful (since the extra reserved but unneeded memory is multiplied by
+the number of threads).
+
+\subsec{GP functions}
+
+GP provides the following functions for parallel operations, please
+see the documentation of each function for details:
+
+\item \tet{parvector}: parallel version of \kbd{vector};
+
+\item \tet{parapply}:  parallel version of \kbd{apply};
+
+\item \tet{parsum}:    parallel version of \kbd{sum};
+
+\item \tet{parselect}:    parallel version of \kbd{select};
+
+\item \tet{pareval}:   evaluate a vector of closures in parallel;
+
+\item \tet{parfor}:    parallel version of \kbd{for};
+
+\item \tet{parforprime}:   parallel version of \kbd{forprime};
+
+\item \tet{parforvec}: parallel version of \kbd{forvec};
+
+\item \tet{parploth}: parallel version of \kbd{ploth}.
+
+\subsec{PARI functions}
+The low-level \kbd{libpari} interface for parallelism is documented
+in the \emph{Developer's guide to the PARI library}.
+\newpage
+
+\chapter{Writing code suitable for parallel execution}
+
+\section{Exporting global variables}
+
+When parallel execution encounters a global variable, say $V$,
+an error such as the following is reported:
+\bprog
+  *** parapply: mt: please use export(V)
+@eprog\noindent A global variable is not visible in the parallel execution
+unless it is explicitly exported. This may occur in a number of contexts.
+
+\subsec{Example 1: data}
+
+\bprog
+? V = [2^256 + 1, 2^193 - 1];
+? parvector(#V, i, factor(V[i]))
+  *** parvector: mt: please use export(V).
+@eprog\noindent The problem is fixed as follows:
+\bprog
+? V = [2^256 + 1, 2^193 - 1];
+? export(V)
+? parvector(#V, i, factor(V[i]))
+@eprog\noindent The following short form is also available, with a different
+semantic:
+\bprog
+? export(V = [2^256 + 1, 2^193 - 1]);
+? parvector(#V, i, factor(V[i]))
+@eprog\noindent In the latter case the variable $V$ does not exist in the
+main thread, only in parallel threads.
+
+\subsec{Example 2: polynomial variable}
+
+\bprog
+? f(n) = bnfinit(x^n-2).no;
+? parapply(f, [1..50])
+  *** parapply: mt: please use export(x).
+@eprog\noindent You may fix this as in the first example using \kbd{export}
+but here there is a more natural solution: use the polynomial indeterminate
+\kbd{'x} instead the global variable \kbd{x} (whose value is \kbd{'x} on
+startup, but may or may no longer be \kbd{'x} at this point):
+
+\bprog
+? f(n) = bnfinit('x^n-2).no;
+@eprog\noindent or alternatively
+\bprog
+? f(n) = my(x='x); bnfinit(x^n-2).no;
+@eprog
+which is more readable if the same polynomial variable is used several times
+in the function.
+
+\subsec{Example 3: function}
+
+\bprog
+? f(a) = bnfinit('x^8-a).no;
+? g(a,b) = parsum(i = a, b, f(i));
+? g(37,48)
+  *** parsum: mt: please use export(f).
+? export(f)
+? g(37,48)
+%4 = 81
+@eprog\noindent Note that \kbd{export}$(v)$ freezes the value of $v$
+for parallel execution at the time of the export: you may certainly modify
+its value later in the main thread but you need to re-export $v$ if you want
+the new value to be used in parallel threads. You may export more than one
+variable at once, e.g., \kbd{export}$(a,b,c)$ is accepted. You may also
+export \emph{all} variables with dynamic scope (all global variables
+and all variables declared with \kbd{local}) using \kbd{exportall()}.
+Although convenient, this may be wasteful if most variables are not meant to
+be used from parallel threads. We recommend to
+
+\item use \kbd{exportall} in the \kbd{gp} interpreter interactively, while
+  developping code;
+
+\item \kbd{export} a function meant to be called from parallel
+  threads, just after its definition;
+
+\item use $v = \var{value}$; \kbd{export}$(v)$ when the value
+  is needed both in the main thread and in secondary threads;
+
+\item use \kbd{export}($v = \var{value}$) when the value is
+  not needed in the main thread.
+
+\noindent In the two latter forms, $v$ should be considered read-only. It is
+actually read-only in secondary threads, trying to change it will raise an
+exception:
+\bprog
+  ***   mt: attempt to change exported variable 'v'.
+@eprog\noindent You \emph{can} modify it in the main thread, but it must be
+exported again so that the new value is accessible to secondary threads:
+barring a new \kbd{export}, secondary threads continue to access the old value.
+
+\section{Input and output} If your parallel code needs to write data to
+files, split the output in as many files as the number of parallel
+computations, to avoid concurrent writes to the same file, with a high risk
+of data corruption. For example a parallel version of
+\bprog
+? f(a) = write("bnf",bnfinit('x^8-a));
+? for (a = 37, 48, f(a))
+@eprog\noindent could be
+\bprog
+? f(a) = write(Str("bnf-",a), bnfinit('x^8-a).no);
+? export(f);
+? parfor(i = 37, 48, f(i))
+@eprog\noindent which creates the files \kbd{bnf-37} to \kbd{bnf-48}. Of
+course you may want to group these file in a subdirectory, which must be
+created first.
+
+\section{Using \kbd{parfor} and \kbd{parforprime}}
+\kbd{parfor} and \kbd{parforprime} are the most powerful of all parallel GP
+functions but, since they have a different interface than \kbd{for} or
+\kbd{forprime}, sequential code needs to be adapted. Consider the example
+\bprog
+for(i = a, b,
+  my(c = f(i));
+  g(i,c));
+@eprog\noindent
+
+where \kbd{f} is a function without side effects.  This can be run in parallel
+as follows:
+\bprog
+parfor(i = a, b,
+  f(i),
+  c,     /*@Ccom the value of \kbd{f(i)} is assigned to \kbd{c} */
+  g(i,c));
+@eprog\noindent For each $i$, $a \leq i \leq b$, in random order,
+this construction assigns \kbd{f(i)} to (lexically scoped, as per~\kbd{my})
+variable $c$, then calls \kbd{g}$(i,c)$. Only the function \kbd{f} is
+evaluated in parallel (in secondary threads), the function \kbd{g} is
+evaluated sequentially (in the main thread). Writing \kbd{c = f(i)} in the
+parallel section of the code would not work since the main thread would then
+know nothing about $c$ or its content. The only data sent from the main
+thread to secondary threads are $f$ and the index $i$, and only $c$ (which
+is equal to $f(i)$) is returned from the secondary thread to the main thread.
+
+The following function finds the index of the first component of a vector
+$V$ satisfying a predicate, and $0$ if none satisfies it:
+\bprog
+parfirst(pred, V) =
+{
+  parfor(i = 1, #V,
+    pred(V[i]),
+    cond,
+    if (cond, return(i)));
+  return(0);
+}
+@eprog\noindent This works because, if the second expression
+in \kbd{parfor} exits the loop via \kbd{break} / \kbd{return} at index~$i$,
+it is guaranteed that all indexes $< i$ are also evaluated and the one with
+smallest index is the one that triggers the exit. See \kbd{??parfor} for
+details.
+
+The following function is similar to \kbd{parsum}:
+\bprog
+myparsum(a, b, expr) =
+{ my(s = 0);
+
+  parfor(i = a, b,
+    expr(i),
+    val,
+    s += val);
+  return(s);
+}
+@eprog
+
+\section{Sizing parallel tasks}
+
+Dispatching tasks to parallel threads takes time. To limit overhead, split
+the computation so that each parallel task requires at least a few
+seconds. Consider the following sequential example:
+\bprog
+  ? thuemorse(n) = (-1)^n * hammingweight(n);
+  ? s = 0; for(n = 1, 2*10^6, s += thuemorse(n) / n * 1.)
+  cpu time = 1,064 ms, real time = 1,064 ms.
+@eprog\noindent
+It is natural to try
+\bprog
+  ? export(thuemorse);
+  ? s = 0; parfor(n = 1, 2*10^6, thuemorse(n) / n * 1., S, s += S)
+  cpu time = 5,637 ms, real time = 3,216 ms.
+@eprog\noindent
+However, due to the overhead, this is not faster than the sequential
+version; in fact it is much \emph{slower}. To limit overhead, we group
+the summation by blocks:
+\bprog
+  ? s = 0; parfor(N = 1, 20, sum(n = 1+(N-1)*10^5, N*10^5,
+                                 thuemorse(n) / n*1.), S, s += S)
+  ? cpu time = 1,997 ms, real time = 186 ms.
+@eprog\noindent
+Try to create at least as many groups as the number of available threads,
+to take full advantage of parallelism. Since some of the floating point
+additions are done in random order (the ones in a given block occur
+successively, in deterministic order), it is possible that some of the
+results will differ slightly from one run to the next.
+
+Of course, in this example, \kbd{parsum} is much easier to use since it will
+group the summations for you behind the scenes:
+\bprog
+  ? parsum(n = 1, 2*10^6, thuemorse(n) / n * 1.)
+  cpu time = 1,905 ms, real time = 177 ms.
+@eprog
+
+\section{Load balancing}
+
+If the parallel tasks require varying time to complete, it is preferable to
+perform the slower ones first, when there are more tasks than available
+parallel threads. Instead of
+\bprog
+  parvector(36, i, bnfinit('x^i - 2).no)
+@eprog\noindent doing
+\bprog
+  parvector(36, i, bnfinit('x^(37-i) - 2).no)
+@eprog\noindent will be faster if you have fewer than $36$ threads.
+Indeed, \kbd{parvector} schedules tasks by increasing $i$ values, and the
+computation time increases steeply with $i$. With $18$ threads, say:
+
+\item in the first form, thread~1 handles both $i = 1$ and $i = 19$,
+  while thread~18 will likely handle $i = 18$ and $i = 36$. In fact, it is
+  likely that the first batch of tasks $i\leq 18$ runs relatively quickly,
+  but that none of the threads  handling a value $i > 18$ (second task) will
+  have time to complete before $i = 18$. When that thread finishes
+  $i = 18$, it will pick the remaining task $i = 36$.
+
+\item in the second form, thread~1 will likely handle
+only $i = 36$: tasks $i = 36, 35, \dots 19$ go to the available
+18 threads, and $i = 36$ is likely to finish last, when
+$i = 18,\dots, 2$ are already assigned to the other 17 threads.
+Since the small values of $i$ will finish almost instantly, $i = 1$ will have
+been allocated before the initial thread handling $i = 36$ becomes ready again.
+
+Load distribution is clearly more favourable in the second form.
+
+\vfill\eject
+\input index\end

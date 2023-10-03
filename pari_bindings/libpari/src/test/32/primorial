@@ -1,0 +1,9 @@
+[1, 1, 2, 6, 6, 30, 30, 210, 210, 210, 210, 2310, 2310]
+2305567963945518424753102147331756070
+  ***   at top-level: (-1)#
+  ***                  ^----
+  *** _#: domain error in primorial: argument < 0
+  ***   at top-level: Pi#
+  ***                 ^---
+  ***   incorrect type in gtos [integer expected] (t_REAL).
+Total time spent: 0

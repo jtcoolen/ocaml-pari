@@ -1,0 +1,58 @@
+Function: qfbsolve
+Section: number_theoretical
+C-Name: qfbsolve
+Prototype: GGD0,L,
+Help: qfbsolve(Q,n,{flag=0}): Solve the equation
+ Q(x,y)=n in coprime integers x and y where Q is a binary quadratic form,
+ up to the action of the special orthogonal group of Q over the integers.
+ Binary digits of flag mean
+ 1: return all solutions,
+ 2: also include imprimitive solutions.
+Doc: Solve the equation $Q(x,y)=n$ in coprime integers $x$ and $y$ (primitive
+ solutions), where
+ $Q$ is a binary quadratic form and $n$ an integer, up to the action of the
+ special orthogonal group $G=SO(Q,\Z)$, which is isomorphic to the group of
+ units of positive norm of the quadratic order of discriminant $D = \disc Q$.
+ If $D>0$, $G$ is infinite. If $D<-4$, $G$ is of order $2$, if $D=-3$, $G$ is
+ of order $6$ and if $D=-4$, $G$ is of order $4$.
+
+ Binary digits of $\fl$ mean:
+ 1: return all solutions if set, else a single solution; return $[]$ if
+ a single solution is wanted (bit unset) but none exist.
+ 2: also include imprimitive solutions.
+
+ When $\fl = 2$ (return a single solution, possibly imprimitive), the
+ algorithm returns a solution with minimal content; in particular, a
+ primitive solution exists if and only if one is returned.
+
+ The integer $n$ can also be given by its factorization matrix
+ \kbd{\var{fa} = factor(n)} or by the pair $[n, \var{fa}]$.
+
+ \bprog
+ ? qfbsolve(Qfb(1,0,2), 603) \\ a single primitive solution
+ %1 = [5, 17]
+
+ ? qfbsolve(Qfb(1,0,2), 603, 1) \\ all primitive solutions
+ %2 = [[5, 17], [-19, -11], [19, -11], [5, -17]]
+
+ ? qfbsolve(Qfb(1,0,2), 603, 2) \\ a single, possibly imprimitive solution
+ %3 = [5, 17] \\ actually primitive
+
+ ? qfbsolve(Qfb(1,0,2), 603, 3) \\ all solutions
+ %4 = [[5, 17], [-19, -11], [19, -11], [5, -17], [-21, 9], [-21, -9]]
+
+ ? N = 2^128+1; F = factor(N);
+ ? qfbsolve(Qfb(1,0,1),[N,F],1)
+ %3 = [[-16382350221535464479,8479443857936402504],
+       [18446744073709551616,-1],[-18446744073709551616,-1],
+       [16382350221535464479,8479443857936402504]]
+ @eprog
+
+ For fixed $Q$, assuming the factorisation of $n$ is given, the algorithm
+ runs in probabilistic polynomial time in $\log p$, where $p$ is the largest
+ prime divisor of $n$, through the computation of square roots of $D$ modulo
+ $4\*p$). The dependency on $Q$ is more complicated: polynomial time in $\log
+ |D|$ if $Q$ is imaginary, but exponential time if $Q$ is real (through the
+ computation of a full cycle of reduced forms). In the latter case, note that
+ \tet{bnfisprincipal} provides a solution in heuristic subexponential time
+ assuming the GRH.

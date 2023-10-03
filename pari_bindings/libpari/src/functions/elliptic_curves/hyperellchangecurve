@@ -1,0 +1,24 @@
+Function: hyperellchangecurve
+Section: elliptic_curves
+C-Name: hyperellchangecurve
+Prototype: GG
+Help: hyperellchangecurve(C, m): C being a nonsingular
+ hyperelliptic model of a curve, apply the change of coordinate
+ given by m.
+ C can be given either by a squarefree polynomial P such that
+ C:y^2=P(x) or by a vector [P,Q] such that C:y^2+Q(x)*y=P(x) and Q^2+4P is
+ squarefree.
+Doc:
+ $C$ being a nonsingular hyperelliptic model of a curve,
+ apply the change of coordinate given by $m = [e, [a,b;c,d], H]$.
+
+ If $(x,y)$ is a point on the new model, the corresponding
+ point $(X,Y)$ on $C$ is given by
+ $$
+   X = (a*x + b) / (c*x + d), \quad
+   Y = e (y + H(x)) / (c*x + d)^{g+1}.
+ $$
+
+ $C$ can be given either by a squarefree polynomial $P$ such that
+ $C: y^2 = P(x)$ or by a vector $[P,Q]$ such that
+ $C: y^2 + Q(x)\*y = P(x)$ and $Q^2+4\*P$ is squarefree.

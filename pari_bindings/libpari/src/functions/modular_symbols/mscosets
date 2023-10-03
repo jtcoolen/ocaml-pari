@@ -1,0 +1,35 @@
+Function: mscosets
+Section: modular_symbols
+C-Name: mscosets0
+Prototype: GG
+Help: mscosets(gen, inH): gen being a system of generators for a group G and H
+ being a subgroup of finite index of G, return a list of right cosets of H \ G
+ and the right action of G on H \ G. The subgroup H is given by a criterion inH
+ (closure) deciding whether an element of G belongs to H.
+Doc: \kbd{gen} being a system of generators for a group $G$ and $H$ being a
+ subgroup of finite index in $G$, return a list of right cosets of
+ $H\backslash G$ and the right action of $G$ on $H\backslash G$. The subgroup
+ $H$ is given by a criterion \kbd{inH} (closure) deciding whether an element
+ of $G$ belongs to $H$. The group $G$ is restricted to types handled by generic
+ multiplication (\kbd{*}) and inversion (\kbd{g\pow (-1)}), such as matrix
+ groups or permutation groups.
+
+ Let $\kbd{gens} = [g_1, \dots, g_r]$. The function returns $[C,M]$ where $C$
+ lists the $h = [G:H]$ representatives $[\gamma_1, \dots, \gamma_h]$
+ for the right cosets $H\gamma_1,\dots,H\gamma_h$; $\gamma_1$ is always the
+ neutral element in $G$. For all $i \leq h$, $j \leq r$, if $M[i][j] = k$ then
+ $H \gamma_i g_j = H\gamma_k$.
+
+ \bprog
+ ? PSL2 = [[0,1;-1,0], [1,1;0,1]];  \\ S and T
+ \\ G = PSL2, H = Gamma0(2)
+ ? [C, M] = mscosets(PSL2, g->g[2,1] % 2 == 0);
+ ? C \\ three cosets
+ %3 = [[1, 0; 0, 1], [0, 1; -1, 0], [0, 1; -1, -1]]
+ ? M
+ %4 = [Vecsmall([2, 1]), Vecsmall([1, 3]), Vecsmall([3, 2])]
+ @eprog\noindent Looking at $M[1]$ we see that $S$ belongs to the second
+ coset and $T$ to the first (trivial) coset.
+Variant: Also available is the function
+ \fun{GEN}{mscosets}{GEN G, void *E, long (*inH)(void *, GEN)}
+

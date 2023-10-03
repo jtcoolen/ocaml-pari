@@ -1,0 +1,29 @@
+Function: nfsubfieldscm
+Section: number_fields
+C-Name: nfsubfieldscm
+Prototype: GD0,L,
+Help: nfsubfieldscm(nf,{fl=0}): compute the maximal CM subfield of nf. Return 0 if
+ nf does not have a CM subfield, otherwise return [g,h] (default) or g (fl=1)
+ where g is an absolute
+ equation and h expresses a root of g in terms of the generator of nf.
+Doc: Compute the maximal CM subfield of \var{nf}. Return $0$ if \var{nf} does
+ not have a CM subfield, otherwise return~$[g,h]$ (default) or $g$ (flag=1)
+ where~$g$ is an absolute
+ equation and~$h$ expresses a root of $g$ in terms of the generator of~\var{nf}.
+ Moreover, the CM involution is given by $X\bmod g(X) \mapsto -X\bmod g(X)$,
+ i.e. $X\bmod g(X)$ is a totally imaginary element.
+
+ An input of the form~\kbd{[nf, fa]} is also allowed, where~\kbd{fa} is the
+ factorisation of~\var{nf.pol} over~\var{nf}, and~\var{nf} is also allowed to
+ be a monic defining polynomial for the number field.
+
+ \bprog
+ ? nf = nfinit(x^8 + 20*x^6 + 10*x^4 - 4*x^2 + 9);
+ ? nfsubfieldscm(nf)
+ %2 = [x^4 + 4480*x^2 + 3612672, 3*x^5 + 58*x^3 + 5*x]
+ ? pol = y^16-8*y^14+29*y^12-60*y^10+74*y^8-48*y^6+8*y^4+4*y^2+1;
+ ? fa = nffactor(pol, subst(pol,y,x));
+ ? nfsubfieldscm([pol,fa])
+ %5 = [y^8 + ... , ...]
+ @eprog
+
