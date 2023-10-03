@@ -32,7 +32,7 @@
   (ocaml (>= 4.10))
   (dune (>= 3.7))
   (core (>= v0.14.0))
-  (pari-bindings :dev)
+  (pari-bindings (= :version))
   ctypes
   ctypes-foreign
   conf-gmp
