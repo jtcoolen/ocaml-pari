@@ -40,8 +40,7 @@ let images_from_abscissa (ell : 'a Elliptic_curve.structure) (x : 'a) =
                + (a4 * x) + a6));
        |])
 
-(* l must be coprime with the characteristic of the field over which the curve is defined.
-   Note that if l is prime then the Weil pairing is trivial (it always evaluates to 1).
+(* l must be prime different from the characteristic of the field over which the curve is defined.
 
    Inefficient way to find the elements of an l-torsion subgroup: find the abscissa of such
    a elements by looking at the roots of the l-division polynomial. *)
