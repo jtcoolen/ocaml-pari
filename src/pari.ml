@@ -392,11 +392,6 @@ module Elliptic_curve = struct
   let sub ell p q = ellsub ell p q
   let mul ell ~n ~p = ellmul ell p n
   let equal a b = gequal a b = 1
-
-  let generators_ff ell =
-    let res = ff_ellgens ell in
-    Printf.eprintf "\ngenerators=%s\n" (gentostr res);
-    res
-
+  let generators_ff ell = ff_ellgens ell
   let zero _ = ellinf ()
 end

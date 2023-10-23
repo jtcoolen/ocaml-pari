@@ -2440,7 +2440,6 @@ val flx_divrem_pre :
   ('kind, 'structure) t
 
 val flx_double : ('kind, 'structure) t -> pari_ulong -> ('kind, 'structure) t
-val flx_equal : ('kind, 'structure) t -> ('kind, 'structure) t -> int
 val flx_eval : ('kind, 'structure) t -> pari_ulong -> pari_ulong -> pari_ulong
 
 val flx_eval_powers_pre :
@@ -2988,13 +2987,6 @@ val flxq_minpoly_pre :
   pari_ulong ->
   ('kind, 'structure) t
 
-val flxq_mul :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  pari_ulong ->
-  ('kind, 'structure) t
-
 val flxq_mul_pre :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
@@ -3007,13 +2999,6 @@ val flxq_norm :
   ('kind, 'structure) t -> ('kind, 'structure) t -> pari_ulong -> pari_ulong
 
 val flxq_order :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  pari_ulong ->
-  ('kind, 'structure) t
-
-val flxq_pow :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
@@ -3185,12 +3170,6 @@ val get_flxq_field :
   ('kind, 'structure) t ->
   pari_ulong ->
   bb_field Ctypes.structure Ctypes_static.ptr
-
-val get_flxq_star :
-  unit Ctypes_static.ptr Ctypes_static.ptr ->
-  ('kind, 'structure) t ->
-  pari_ulong ->
-  bb_group Ctypes.structure Ctypes_static.ptr
 
 val monomial_flx :
   pari_ulong -> Signed.long -> Signed.long -> ('kind, 'structure) t
@@ -5764,9 +5743,6 @@ val polrootsff :
   ('kind, 'structure) t ->
   ('kind, 'structure) t
 
-val polrootsmod :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
 val rootmod0 :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
@@ -7149,7 +7125,6 @@ val rgx_rgmv_eval :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
 val isdiagonal : ('kind, 'structure) t -> int
-val matid : Signed.long -> ('kind, 'structure) t
 val scalarcol : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 
 val scalarcol_shallow :
@@ -9457,22 +9432,11 @@ val pari_var_create : entree Ctypes.structure Ctypes_static.ptr -> Signed.long
 val name_var : Signed.long -> string -> unit
 val readseq : string -> ('kind, 'structure) t
 
-val safegel :
-  ('kind, 'structure) t ->
-  Signed.long ->
-  ('kind, 'structure) t Ctypes_static.ptr
-
 val safeel :
   ('kind, 'structure) t -> Signed.long -> Signed.long Ctypes_static.ptr
 
 val safelistel :
   ('kind, 'structure) t ->
-  Signed.long ->
-  ('kind, 'structure) t Ctypes_static.ptr
-
-val safegcoeff :
-  ('kind, 'structure) t ->
-  Signed.long ->
   Signed.long ->
   ('kind, 'structure) t Ctypes_static.ptr
 
@@ -9751,12 +9715,6 @@ val fp_log :
   ('kind, 'structure) t
 
 val fp_order :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t
-
-val fp_pow :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
@@ -10348,16 +10306,11 @@ val nfinit_complete :
   Signed.long ->
   ('kind, 'structure) t
 
-val nfinit : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
-
 val nfinit0 :
   ('kind, 'structure) t -> Signed.long -> Signed.long -> ('kind, 'structure) t
 
 val nfinitred : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val nfinitred2 : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
-
-val nfisincl :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
 val nfisincl0 :
   ('kind, 'structure) t ->
@@ -10378,9 +10331,6 @@ val nfpoleval :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
   ('kind, 'structure) t
-
-val nfsplitting :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
 val nfsplitting0 :
   ('kind, 'structure) t ->
@@ -10403,7 +10353,6 @@ val polredabs : ('kind, 'structure) t -> ('kind, 'structure) t
 val polredabs0 : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val polredabs2 : ('kind, 'structure) t -> ('kind, 'structure) t
 val polredabsall : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
-val polredbest : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 
 val poltomonic :
   ('kind, 'structure) t ->
@@ -10931,12 +10880,6 @@ val nfv_cxlog :
   Signed.long ->
   ('kind, 'structure) t
 
-val nfadd :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t
-
 val nfchecksigns :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t -> int
 
@@ -10947,12 +10890,6 @@ val nfdiv :
   ('kind, 'structure) t
 
 val nfdiveuc :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t
-
-val nfdivrem :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
@@ -11041,12 +10978,6 @@ val nfm_nfc_mul :
   ('kind, 'structure) t
 
 val nfmod :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t
-
-val nfmul :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
@@ -11541,9 +11472,6 @@ val idealmulred :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
   ('kind, 'structure) t
-
-val idealnorm :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
 val idealnumden :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
@@ -12365,8 +12293,6 @@ val gen_cmp_rgx :
   ('kind, 'structure) t ->
   int
 
-val polcyclo : Signed.long -> Signed.long -> ('kind, 'structure) t
-
 val polcyclo_eval :
   Signed.long -> ('kind, 'structure) t -> ('kind, 'structure) t
 
@@ -12467,7 +12393,6 @@ val getwalltime : unit -> ('kind, 'structure) t
 val gprec : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val gprec_wtrunc : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val gprec_w : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
-val gtoset : ('kind, 'structure) t -> ('kind, 'structure) t
 val indexlexsort : ('kind, 'structure) t -> ('kind, 'structure) t
 val indexsort : ('kind, 'structure) t -> ('kind, 'structure) t
 
@@ -12583,9 +12508,6 @@ val setisset : ('kind, 'structure) t -> Signed.long
 
 val setminus :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
-val setsearch :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> Signed.long -> Signed.long
 
 val setunion :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
@@ -13627,13 +13549,6 @@ val ellr_ab : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val ellr_eta : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val ellr_omega : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val ellr_roots : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
-
-val elladd :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t
-
 val ellan : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val ellanq_zv : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 
@@ -13651,9 +13566,6 @@ val ellap_cm_fast :
 val ellbasechar : ('kind, 'structure) t -> ('kind, 'structure) t
 val ellbsd : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 
-val ellcard :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
 val ellchangecurve :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
@@ -13664,9 +13576,6 @@ val ellchangepoint :
 
 val ellchangepointinv :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
-val elldivpol :
-  ('kind, 'structure) t -> Signed.long -> Signed.long -> ('kind, 'structure) t
 
 val elleisnum :
   ('kind, 'structure) t ->
@@ -13725,12 +13634,6 @@ val ellheightoo :
   Signed.long ->
   ('kind, 'structure) t
 
-val ellinit :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  Signed.long ->
-  ('kind, 'structure) t
-
 val ellintegralmodel :
   ('kind, 'structure) t ->
   ('kind, 'structure) t Ctypes_static.ptr ->
@@ -13781,12 +13684,6 @@ val ellminimaltwist0 :
 
 val ellminimaltwistcond : ('kind, 'structure) t -> ('kind, 'structure) t
 
-val ellmul :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t
-
 val ellnf_vecarea :
   ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 
@@ -13830,7 +13727,6 @@ val ellpadicheightmatrix :
 val ellperiods :
   ('kind, 'structure) t -> Signed.long -> Signed.long -> ('kind, 'structure) t
 
-val ellrandom : ('kind, 'structure) t -> ('kind, 'structure) t
 val ellrootno : ('kind, 'structure) t -> ('kind, 'structure) t -> Signed.long
 val ellrootno_global : ('kind, 'structure) t -> Signed.long
 
@@ -13848,12 +13744,6 @@ val ellsigma :
   ('kind, 'structure) t ->
   Signed.long ->
   Signed.long ->
-  ('kind, 'structure) t
-
-val ellsub :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
   ('kind, 'structure) t
 
 val ellsupersingularj : ('kind, 'structure) t -> ('kind, 'structure) t
@@ -13878,13 +13768,6 @@ val elltrace :
 
 val elltwist :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
-val ellweilpairing :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t
 
 val ellwp :
   ('kind, 'structure) t ->
@@ -14416,7 +14299,6 @@ val u_forprime_arith_init :
   pari_ulong ->
   int
 
-val ff_1 : ('kind, 'structure) t -> ('kind, 'structure) t
 val ff_frobenius : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 
 val ff_z_z_muldiv :
@@ -14429,9 +14311,6 @@ val ff_q_add :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
 val ff_z_add :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
-val ff_z_mul :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
 val ff_add :
@@ -14447,8 +14326,6 @@ val ff_ellcard : ('kind, 'structure) t -> ('kind, 'structure) t
 
 val ff_ellcard_sea :
   ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
-
-val ff_ellgens : ('kind, 'structure) t -> ('kind, 'structure) t
 
 val ff_ellgroup :
   ('kind, 'structure) t ->
@@ -14491,7 +14368,6 @@ val ff_ellweilpairing :
   ('kind, 'structure) t ->
   ('kind, 'structure) t
 
-val ff_equal : ('kind, 'structure) t -> ('kind, 'structure) t -> int
 val ff_equal0 : ('kind, 'structure) t -> int
 val ff_equal1 : ('kind, 'structure) t -> int
 val ff_equalm1 : ('kind, 'structure) t -> int
@@ -14522,10 +14398,6 @@ val ff_map :
 
 val ff_minpoly : ('kind, 'structure) t -> ('kind, 'structure) t
 val ff_mod : ('kind, 'structure) t -> ('kind, 'structure) t
-
-val ff_mul :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
 val ff_mul2n : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val ff_neg : ('kind, 'structure) t -> ('kind, 'structure) t
 val ff_neg_i : ('kind, 'structure) t -> ('kind, 'structure) t
@@ -14534,16 +14406,10 @@ val ff_norm : ('kind, 'structure) t -> ('kind, 'structure) t
 val ff_order :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
-val ff_p : ('kind, 'structure) t -> ('kind, 'structure) t
 val ff_p_i : ('kind, 'structure) t -> ('kind, 'structure) t
 
 val ff_pow :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
-val ff_primroot :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t Ctypes_static.ptr ->
-  ('kind, 'structure) t
 
 val ff_q : ('kind, 'structure) t -> ('kind, 'structure) t
 val ff_samefield : ('kind, 'structure) t -> ('kind, 'structure) t -> int
@@ -14564,10 +14430,8 @@ val ff_to_f2xq_i : ('kind, 'structure) t -> ('kind, 'structure) t
 val ff_to_flxq : ('kind, 'structure) t -> ('kind, 'structure) t
 val ff_to_flxq_i : ('kind, 'structure) t -> ('kind, 'structure) t
 val ff_to_fpxq : ('kind, 'structure) t -> ('kind, 'structure) t
-val ff_to_fpxq_i : ('kind, 'structure) t -> ('kind, 'structure) t
 val ff_trace : ('kind, 'structure) t -> ('kind, 'structure) t
 val ff_var : ('kind, 'structure) t -> Signed.long
-val ff_zero : ('kind, 'structure) t -> ('kind, 'structure) t
 
 val ffm_ffc_invimage :
   ('kind, 'structure) t ->
@@ -14757,14 +14621,7 @@ val z_ff_div :
 val ffembed :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
-val ffextend :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  Signed.long ->
-  ('kind, 'structure) t
-
 val fffrobenius : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
-val ffgen : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val ffinvmap : ('kind, 'structure) t -> ('kind, 'structure) t
 
 val fflog :
@@ -15057,7 +14914,6 @@ val gpvaluation :
 
 val gvaluation : ('kind, 'structure) t -> ('kind, 'structure) t -> Signed.long
 val gidentical : ('kind, 'structure) t -> ('kind, 'structure) t -> int
-val glength : ('kind, 'structure) t -> Signed.long
 
 val gmax :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
@@ -15103,9 +14959,6 @@ val normalizeser : ('kind, 'structure) t -> ('kind, 'structure) t
 val normalizepol : ('kind, 'structure) t -> ('kind, 'structure) t
 
 val normalizepol_approx :
-  ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
-
-val normalizepol_lg :
   ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 
 val padic_to_fl : ('kind, 'structure) t -> pari_ulong -> pari_ulong
@@ -15329,18 +15182,11 @@ val deg2pol_shallow :
   Signed.long ->
   ('kind, 'structure) t
 
-val degree : ('kind, 'structure) t -> Signed.long
 val denom : ('kind, 'structure) t -> ('kind, 'structure) t
 val denom_i : ('kind, 'structure) t -> ('kind, 'structure) t
 
 val denominator :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
-val deriv : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
-(** [deriv] *)
-
-val derivn :
-  ('kind, 'structure) t -> Signed.long -> Signed.long -> ('kind, 'structure) t
 
 val derivser : ('kind, 'structure) t -> ('kind, 'structure) t
 
@@ -15487,7 +15333,6 @@ val gtovecrev0 : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val gtovecsmall : ('kind, 'structure) t -> ('kind, 'structure) t
 val gtovecsmall0 : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val gtrunc : ('kind, 'structure) t -> ('kind, 'structure) t
-val gvar : ('kind, 'structure) t -> Signed.long
 val gvar2 : ('kind, 'structure) t -> Signed.long
 
 val hqfeval :
@@ -15551,10 +15396,6 @@ val polcoef_i :
   ('kind, 'structure) t -> Signed.long -> Signed.long -> ('kind, 'structure) t
 
 val poldegree : ('kind, 'structure) t -> Signed.long -> Signed.long
-
-val poleval :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
 val pollead : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val precision : ('kind, 'structure) t -> Signed.long
 
@@ -16883,7 +16724,6 @@ val zm_lll_norms :
   ('kind, 'structure) t
 
 val kerint : ('kind, 'structure) t -> ('kind, 'structure) t
-val lll : ('kind, 'structure) t -> ('kind, 'structure) t
 
 val lllfp :
   ('kind, 'structure) t -> float -> Signed.long -> ('kind, 'structure) t
@@ -17444,7 +17284,6 @@ val dvmdii :
   ('kind, 'structure) t Ctypes_static.ptr ->
   ('kind, 'structure) t
 
-val equalii : ('kind, 'structure) t -> ('kind, 'structure) t -> int
 val equalrr : ('kind, 'structure) t -> ('kind, 'structure) t -> int
 val floorr : ('kind, 'structure) t -> ('kind, 'structure) t
 
@@ -17475,17 +17314,11 @@ val mantissa_real :
   Signed.long Ctypes_static.ptr ->
   ('kind, 'structure) t
 
-val modii :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
 val modiiz :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
   unit
-
-val mulii :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
 val mulir :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
@@ -18501,7 +18334,6 @@ val newtonpoly :
 
 val nfrootsq : ('kind, 'structure) t -> ('kind, 'structure) t
 val poldisc0 : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
-val polisirreducible : ('kind, 'structure) t -> Signed.long
 
 val polresultant0 :
   ('kind, 'structure) t ->
@@ -19139,7 +18971,6 @@ val primes_interval_zv : pari_ulong -> pari_ulong -> ('kind, 'structure) t
 val primes_upto_zv : pari_ulong -> ('kind, 'structure) t
 val primes0 : ('kind, 'structure) t -> ('kind, 'structure) t
 val primes_zv : Signed.long -> ('kind, 'structure) t
-val randomprime : ('kind, 'structure) t -> ('kind, 'structure) t
 
 val randomprime0 :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
@@ -19274,7 +19105,6 @@ val zn_quad_roots :
   ('kind, 'structure) t ->
   ('kind, 'structure) t
 
-val genrand : ('kind, 'structure) t -> ('kind, 'structure) t
 val getrand : unit -> ('kind, 'structure) t
 val pari_rand : unit -> pari_ulong
 val randomi : ('kind, 'structure) t -> ('kind, 'structure) t
@@ -19451,7 +19281,6 @@ val strsplit :
 
 val strtogenstr : string -> ('kind, 'structure) t
 val type_name : Signed.long -> string
-val type0 : ('kind, 'structure) t -> ('kind, 'structure) t
 
 val asympnum :
   unit Ctypes_static.ptr ->
@@ -19805,7 +19634,6 @@ val powrs : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val powrshalf : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val powru : ('kind, 'structure) t -> pari_ulong -> ('kind, 'structure) t
 val powruhalf : ('kind, 'structure) t -> pari_ulong -> ('kind, 'structure) t
-val powuu : pari_ulong -> pari_ulong -> ('kind, 'structure) t
 
 val powgi :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
@@ -20332,9 +20160,6 @@ val absr : ('kind, 'structure) t -> ('kind, 'structure) t
 val absrnz_equal1 : ('kind, 'structure) t -> int
 val absrnz_equal2n : ('kind, 'structure) t -> int
 
-val addii :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
 val addiiz :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
@@ -20390,7 +20215,6 @@ val affsr : Signed.long -> ('kind, 'structure) t -> unit
 val affsz : Signed.long -> ('kind, 'structure) t -> unit
 val affui : pari_ulong -> ('kind, 'structure) t -> unit
 val affur : pari_ulong -> ('kind, 'structure) t -> unit
-val cgetg : Signed.long -> Signed.long -> ('kind, 'structure) t
 val cgetg_block : Signed.long -> Signed.long -> ('kind, 'structure) t
 
 val cgetg_copy :
@@ -20626,7 +20450,6 @@ val mpmulz :
 val mpneg : ('kind, 'structure) t -> ('kind, 'structure) t
 val mpodd : ('kind, 'structure) t -> int
 val mpround : ('kind, 'structure) t -> ('kind, 'structure) t
-val mpshift : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
 val mpsqr : ('kind, 'structure) t -> ('kind, 'structure) t
 
 val mpsub :
@@ -20680,7 +20503,6 @@ val mulsrz :
   Signed.long -> ('kind, 'structure) t -> ('kind, 'structure) t -> unit
 
 val mulssz : Signed.long -> Signed.long -> ('kind, 'structure) t -> unit
-val negi : ('kind, 'structure) t -> ('kind, 'structure) t
 val negr : ('kind, 'structure) t -> ('kind, 'structure) t
 val new_chunk : int -> ('kind, 'structure) t
 val rcopy : ('kind, 'structure) t -> ('kind, 'structure) t
@@ -20797,9 +20619,6 @@ val stack_malloc : int -> string
 val stack_malloc_align : int -> Signed.long -> string
 val stack_calloc : int -> string
 val stack_calloc_align : int -> Signed.long -> string
-
-val subii :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
 val subiiz :
   ('kind, 'structure) t ->
@@ -20968,9 +20787,6 @@ val mkrfrac :
 val mkrfraccopy :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
-val mkcomplex :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
 val gen_i : unit -> ('kind, 'structure) t
 val cgetc : Signed.long -> ('kind, 'structure) t
 
@@ -21007,11 +20823,6 @@ val mkqfb :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
   ('kind, 'structure) t
-
-val mkvec : ('kind, 'structure) t -> ('kind, 'structure) t
-
-val mkvec2 :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
 val mkvec3 :
   ('kind, 'structure) t ->
@@ -21171,7 +20982,6 @@ val zero_f2v : Signed.long -> ('kind, 'structure) t
 val zero_f2m : Signed.long -> Signed.long -> ('kind, 'structure) t
 val zero_f2m_copy : Signed.long -> Signed.long -> ('kind, 'structure) t
 val zeromatcopy : Signed.long -> Signed.long -> ('kind, 'structure) t
-val zerovec_block : Signed.long -> ('kind, 'structure) t
 val col_ei : Signed.long -> Signed.long -> ('kind, 'structure) t
 val vec_ei : Signed.long -> Signed.long -> ('kind, 'structure) t
 val f2v_ei : Signed.long -> Signed.long -> ('kind, 'structure) t
@@ -21259,9 +21069,6 @@ val rgv_isin_i :
   ('kind, 'structure) t -> ('kind, 'structure) t -> Signed.long -> Signed.long
 
 val rgv_isin : ('kind, 'structure) t -> ('kind, 'structure) t -> Signed.long
-
-val vecslice :
-  ('kind, 'structure) t -> Signed.long -> Signed.long -> ('kind, 'structure) t
 
 val vecslicepermute :
   ('kind, 'structure) t ->
@@ -21422,12 +21229,6 @@ val remsbil : Signed.long -> Signed.long
 val fp_red :
   ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
 
-val fp_add :
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t ->
-  ('kind, 'structure) t
-
 val fp_sub :
   ('kind, 'structure) t ->
   ('kind, 'structure) t ->
@@ -21575,7 +21376,6 @@ val is_recursive_t : Signed.long -> int
 val is_scalar_t : Signed.long -> int
 val is_vec_t : Signed.long -> int
 val qfb_is_qfi : ('kind, 'structure) t -> int
-val sqrtr : ('kind, 'structure) t -> ('kind, 'structure) t
 val cbrtr_abs : ('kind, 'structure) t -> ('kind, 'structure) t
 val cbrtr : ('kind, 'structure) t -> ('kind, 'structure) t
 val sqrtnr : ('kind, 'structure) t -> Signed.long -> ('kind, 'structure) t
@@ -21688,7 +21488,6 @@ val f2v_copy : ('kind, 'structure) t -> ('kind, 'structure) t
 val flv_copy : ('kind, 'structure) t -> ('kind, 'structure) t
 val flx_copy : ('kind, 'structure) t -> ('kind, 'structure) t
 val vecsmall_copy : ('kind, 'structure) t -> ('kind, 'structure) t
-val flx_equal1 : ('kind, 'structure) t -> int
 val zx_equal1 : ('kind, 'structure) t -> int
 val zx_is_monic : ('kind, 'structure) t -> int
 
@@ -22192,10 +21991,6 @@ val qfb_disc3 :
 val qfb_disc : ('kind, 'structure) t -> ('kind, 'structure) t
 val sqrfrac : ('kind, 'structure) t -> ('kind, 'structure) t
 val normalize_frac : ('kind, 'structure) t -> unit
-
-val powii :
-  ('kind, 'structure) t -> ('kind, 'structure) t -> ('kind, 'structure) t
-
 val powis : Signed.long -> ('kind, 'structure) t
 val mpexpz : ('kind, 'structure) t -> ('kind, 'structure) t -> unit
 val mplogz : ('kind, 'structure) t -> ('kind, 'structure) t -> unit
@@ -22259,8 +22054,6 @@ val ell_get_b6 : ('kind, 'structure) t -> ('kind, 'structure) t
 val ell_get_b8 : ('kind, 'structure) t -> ('kind, 'structure) t
 val ell_get_c4 : ('kind, 'structure) t -> ('kind, 'structure) t
 val ell_get_c6 : ('kind, 'structure) t -> ('kind, 'structure) t
-val ell_get_disc : ('kind, 'structure) t -> ('kind, 'structure) t
-val ell_get_j : ('kind, 'structure) t -> ('kind, 'structure) t
 val ell_get_type : ('kind, 'structure) t -> Signed.long
 val ellff_get_field : ('kind, 'structure) t -> ('kind, 'structure) t
 val ellff_get_a4a6 : ('kind, 'structure) t -> ('kind, 'structure) t
@@ -22273,7 +22066,6 @@ val ellnf_get_nf : ('kind, 'structure) t -> ('kind, 'structure) t
 val ellnf_get_bnf : ('kind, 'structure) t -> ('kind, 'structure) t
 val checkell_i : ('kind, 'structure) t -> int
 val ell_is_inf : ('kind, 'structure) t -> int
-val ellinf : unit -> ('kind, 'structure) t
 val modpr_get_pr : ('kind, 'structure) t -> ('kind, 'structure) t
 val modpr_get_p : ('kind, 'structure) t -> ('kind, 'structure) t
 val modpr_get_t : ('kind, 'structure) t -> ('kind, 'structure) t
@@ -22290,7 +22082,6 @@ val nf_get_pol : ('kind, 'structure) t -> ('kind, 'structure) t
 val nf_get_degree : ('kind, 'structure) t -> Signed.long
 val nf_get_r1 : ('kind, 'structure) t -> Signed.long
 val nf_get_r2 : ('kind, 'structure) t -> Signed.long
-val nf_get_disc : ('kind, 'structure) t -> ('kind, 'structure) t
 val nf_get_index : ('kind, 'structure) t -> ('kind, 'structure) t
 val nf_get_m : ('kind, 'structure) t -> ('kind, 'structure) t
 val nf_get_g : ('kind, 'structure) t -> ('kind, 'structure) t
@@ -22299,17 +22090,9 @@ val nf_get_tr : ('kind, 'structure) t -> ('kind, 'structure) t
 val nf_get_diff : ('kind, 'structure) t -> ('kind, 'structure) t
 val nf_get_ramified_primes : ('kind, 'structure) t -> ('kind, 'structure) t
 val nf_get_roots : ('kind, 'structure) t -> ('kind, 'structure) t
-val nf_get_zk : ('kind, 'structure) t -> ('kind, 'structure) t
 val nf_get_zkprimpart : ('kind, 'structure) t -> ('kind, 'structure) t
 val nf_get_zkden : ('kind, 'structure) t -> ('kind, 'structure) t
 val nf_get_invzk : ('kind, 'structure) t -> ('kind, 'structure) t
-
-val nf_get_sign :
-  ('kind, 'structure) t ->
-  Signed.long Ctypes_static.ptr ->
-  Signed.long Ctypes_static.ptr ->
-  unit
-
 val cyc_get_expo : ('kind, 'structure) t -> ('kind, 'structure) t
 val abgrp_get_no : ('kind, 'structure) t -> ('kind, 'structure) t
 val abgrp_get_cyc : ('kind, 'structure) t -> ('kind, 'structure) t
