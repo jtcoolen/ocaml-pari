@@ -122,6 +122,7 @@ module Set = struct
 end
 
 module Vector = struct
+  type ('a, 'b) p = ('a, 'b) t
   type ('a, 'b) t = gen constraint 'a = gen constraint 'b = [< `COL | `ROW ]
 
   let length x = glength x |> Signed.Long.to_int
@@ -133,6 +134,14 @@ module Vector = struct
     let v = zerovec_block (Signed.Long.of_int l) in
     for i = 1 to l do
       v.%[i] <- a.(i - 1)
+    done;
+    register_gc v;
+    v
+
+  let init l ~f =
+    let v = zerovec_block (Signed.Long.of_int l) in
+    for i = 1 to l do
+      v.%[i] <- f (i - 1)
     done;
     register_gc v;
     v
@@ -213,6 +222,22 @@ module Polynomial = struct
   let minimal p = polredbest p (Signed.Long.of_int 0)
   let ( .%[] ) m i = gcopy @@ truecoef m (Signed.Long.of_int i)
   let roots_ff p = polrootsmod p Ctypes.(coerce (ptr void) t null)
+
+  let fold_left2 ~f ~acc p p' =
+    assert (degree p = degree p');
+    let acc = ref acc in
+    for i = 0 to degree p do
+      acc := f p.%[i] p'.%[i] !acc
+    done;
+    !acc
+
+  let fold_left2_vec ~f ~acc p v =
+    assert (degree p < Vector.length v);
+    let acc = ref acc in
+    for i = 0 to degree p do
+      acc := f p.%[i] Vector.(v.%[i + 1]) !acc
+    done;
+    !acc
 end
 
 module Number_field = struct

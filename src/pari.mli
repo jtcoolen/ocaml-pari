@@ -198,11 +198,14 @@ module Set : sig
 end
 
 module Vector : sig
+  type ('a, 'b) p = ('a, 'b) t
+
   type nonrec ('a, 'b) t
     constraint 'a = ('c, 'd) t constraint 'b = [< `COL | `ROW ]
 
   val length : ('a, 'b) t -> int
   val of_array : 'a array -> ('a, [ `ROW ]) t
+  val init : int -> f:(int -> ('a, 'b) p) -> (('a, 'b) p, [ `ROW ]) t
   val equal : ('a, 'b) t -> ('a, 'b) t -> bool
   val slice : ('a, 'b) t -> start:int -> stop:int -> ('a, 'b) t
   val ( .%[] ) : ('a, 'b) t -> int -> 'a
@@ -316,6 +319,20 @@ module rec Polynomial : sig
 
   val roots_ff :
     (finite_field, ring) p t -> ((finite_field, field) p, [ `ROW ]) Vector.t
+
+  val fold_left2 :
+    f:('a -> 'b -> ('c, 'd) p -> ('c, 'd) p) ->
+    acc:('c, 'd) p ->
+    'a t ->
+    'b t ->
+    ('c, 'd) p
+
+  val fold_left2_vec :
+    f:('a -> 'b -> ('c, 'd) p -> ('c, 'd) p) ->
+    acc:('c, 'd) p ->
+    'a t ->
+    ('b, _) Vector.t ->
+    ('c, 'd) p
 end
 
 and Fp : sig

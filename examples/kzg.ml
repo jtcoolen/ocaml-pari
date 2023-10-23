@@ -129,16 +129,12 @@ module KZG :
 
   let commit c p =
     assert (Polynomial.degree p < Vector.length c.srs_g1);
-    let cm = ref (Elliptic_curve.zero c.curve) in
-    for i = 0 to Polynomial.degree p do
-      let n =
-        Polynomial.(Finite_field.(residue_class (inj_field p.%[i])).%[0])
-      in
-      cm :=
-        Elliptic_curve.(
-          add c.curve !cm (mul c.curve ~n ~p:Vector.(c.srs_g1.%[i + 1])))
-    done;
-    !cm
+    Polynomial.fold_left2_vec
+      ~f:(fun x p cm ->
+        let n = Polynomial.(Finite_field.(residue_class (inj_field x)).%[0]) in
+        Elliptic_curve.(add c.curve cm (mul c.curve ~n ~p)))
+      ~acc:(Elliptic_curve.zero c.curve)
+      p c.srs_g1
 
   let prove c p x =
     let y = Polynomial.(create [| eval p (Finite_field.inj_ring x) |]) in
@@ -194,8 +190,8 @@ let c =
     Printf.eprintf "\nsubgroup\n";
     Array.iter (fun e -> Printf.eprintf "\n%s\n" @@ gentostr e) sg;
     Printf.eprintf "\nend subgroup\n";*)
-  let srs_g1 = Vector.of_array (Array.init 100 (coeff ToyCurve.g1)) in
-  let srs_g2 = Vector.of_array (Array.init 100 (coeff ToyCurve.g2)) in
+  let srs_g1 = Vector.init 100 ~f:(coeff ToyCurve.g1) in
+  let srs_g2 = Vector.init 100 ~f:(coeff ToyCurve.g2) in
   {
     srs_g1;
     srs_g2;

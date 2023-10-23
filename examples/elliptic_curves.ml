@@ -25,4 +25,3 @@ let e2 =
   |> Option.get
 
 let () = Printf.printf "%s\n" (Integer.to_string (Elliptic_curve.order e2))
-
