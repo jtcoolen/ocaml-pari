@@ -18,58 +18,14 @@ module type Polynomial_commitment = sig
     common_input -> commitment -> scalar -> evaluation -> proof -> bool
 end
 
-let images_from_abscissa (ell : 'a Elliptic_curve.structure) (x : 'a) =
-  let open Elliptic_curve in
-  let a1 = get_a1 ell in
-  let a2 = get_a2 ell in
-  let a3 = get_a3 ell in
-  let a4 = get_a4 ell in
-  let a6 = get_a6 ell in
-  let open Finite_field in
-  let open Finite_field.Infix in
-  (*Y^2 + a_1 XY + a_3 Y = X^3 + a_2 X^2 + a_4 X + a_6*)
-  Polynomial.roots_ff
-    (Polynomial.create
-       [|
-         inj_ring @@ one x;
-         inj_ring ((a1 * x) + a3);
-         inj_ring
-           Infix.(
-             ~-((x ^ Integer.of_int 3)
-               + (a2 * (x ^ Integer.of_int 2))
-               + (a4 * x) + a6));
-       |])
-
-(* l must be prime different from the characteristic of the field over which the curve is defined.
-
-   Inefficient way to find the elements of an l-torsion subgroup: find the abscissa of such
-   a elements by looking at the roots of the l-division polynomial. *)
-let _l_torsion_subgroup ell ~l =
-  let l_div = Elliptic_curve.l_division_polynomial ell ~l in
-  let l_div_roots = Polynomial.roots_ff l_div in
-  let len = Vector.length l_div_roots in
-  let c = ref 0 in
-  let sg = Array.make (2 * len) (Elliptic_curve.zero ell) in
-  for i = 1 to len do
-    let x = Vector.(l_div_roots.%[i]) in
-    let ys = images_from_abscissa ell x in
-    for j = 1 to Vector.length ys do
-      let y = Vector.(ys.%[j]) in
-      let p = Elliptic_curve.of_coordinates ~x ~y in
-      sg.(!c) <- p;
-      c := !c + 1
-    done
-  done;
-  Array.init !c (fun i -> sg.(i))
-
 type kzg_common_input = {
-  srs_g1 : (Finite_field.t Elliptic_curve.t, [ `ROW ]) Vector.t;
-  srs_g2 : (Finite_field.t Elliptic_curve.t, [ `ROW ]) Vector.t;
+  srs_g1 : (Finite_field.t Elliptic_curve.elt, [ `ROW ]) Vector.t;
+  srs_g2 : (Finite_field.t Elliptic_curve.elt, [ `ROW ]) Vector.t;
   finite_field_generator : Finite_field.t;
-  curve : Finite_field.t Elliptic_curve.structure;
+  curve : Finite_field.t Elliptic_curve.t;
   curve_subgroup_order : Integer.t;
-  g1 : Finite_field.t Elliptic_curve.t;
-  g2 : Finite_field.t Elliptic_curve.t;
+  g1 : Finite_field.t Elliptic_curve.elt;
+  g2 : Finite_field.t Elliptic_curve.elt;
 }
 
 module ToyCurve = struct
@@ -82,9 +38,9 @@ module ToyCurve = struct
       (`Quotient
         (Polynomial.create
            [|
-             Finite_field.(inj_ring @@ one fp);
-             Finite_field.(inj_ring @@ zero fp);
-             Finite_field.(inj_ring @@ one fp);
+             Finite_field.(inj_ring (one fp));
+             Finite_field.(inj_ring (zero fp));
+             Finite_field.(inj_ring (one fp));
            |]))
 
   let g1_x =
@@ -107,34 +63,35 @@ module ToyCurve = struct
   let g2 = Elliptic_curve.of_coordinates ~x:g2_x ~y:g2_y
 
   let curve =
-    Elliptic_curve.create
-      ~a6:(Finite_field.finite_field_element [| Integer.of_int 1 |] quad_ext_p)
-      ~dom:quad_ext_p ()
-    |> Option.get
+    Option.get
+      (Elliptic_curve.create
+         ~a6:
+           (Finite_field.finite_field_element [| Integer.of_int 1 |] quad_ext_p)
+         ~dom:quad_ext_p ())
 end
 
 module KZG :
   Polynomial_commitment
     with type common_input = kzg_common_input
-     and type polynomial = (finite_field, ring) t Polynomial.t
+     and type polynomial = (finite_field, ring) typ Polynomial.t
      and type scalar = Finite_field.t
      and type evaluation = Finite_field.t
-     and type commitment = Finite_field.t Elliptic_curve.t = struct
+     and type commitment = Finite_field.t Elliptic_curve.elt = struct
   type common_input = kzg_common_input
-  type polynomial = (finite_field, ring) t Polynomial.t
+  type polynomial = (finite_field, ring) typ Polynomial.t
   type scalar = Finite_field.t
   type evaluation = Finite_field.t
-  type commitment = Finite_field.t Elliptic_curve.t
-  type proof = Finite_field.t Elliptic_curve.t
+  type commitment = Finite_field.t Elliptic_curve.elt
+  type proof = Finite_field.t Elliptic_curve.elt
 
   let commit c p =
     assert (Polynomial.degree p < Vector.length c.srs_g1);
-    Polynomial.fold_left2_vec
-      ~f:(fun x p cm ->
-        let n = Polynomial.(Finite_field.(residue_class (inj_field x)).%[0]) in
-        Elliptic_curve.(add c.curve cm (mul c.curve ~n ~p)))
-      ~acc:(Elliptic_curve.zero c.curve)
-      p c.srs_g1
+    let f x p cm =
+      let n = Polynomial.(Finite_field.(residue_class (inj_field x)).%[0]) in
+      Elliptic_curve.(add c.curve cm (mul c.curve ~n ~p))
+    in
+    let acc = Elliptic_curve.zero c.curve in
+    Polynomial.fold_left2_vec ~f ~acc p c.srs_g1
 
   let prove c p x =
     let y = Polynomial.(create [| eval p (Finite_field.inj_ring x) |]) in
@@ -143,14 +100,14 @@ module KZG :
       Polynomial.create
         [|
           Finite_field.(inj_ring (one c.finite_field_generator));
-          Finite_field.(inj_ring (Infix.( ~- ) x));
+          Finite_field.(inj_ring (neg x));
         |]
     in
     let q = Polynomial.div n d in
     commit c q
 
   let verify c cm x y pi =
-    let d =
+    let denominator =
       Elliptic_curve.(
         sub c.curve
           Vector.(c.srs_g2.%[2])
@@ -158,7 +115,7 @@ module KZG :
              ~n:Polynomial.((Finite_field.residue_class x).%[0])
              ~p:c.g2))
     in
-    let n =
+    let numerator =
       Elliptic_curve.(
         sub c.curve cm
           (mul c.curve
@@ -166,12 +123,12 @@ module KZG :
              ~p:c.g1))
     in
     let lhs =
-      Elliptic_curve.weil_pairing_ff c.curve ~l:c.curve_subgroup_order ~p:pi
-        ~q:d
+      Elliptic_curve.weil_pairing c.curve ~l:c.curve_subgroup_order pi
+        denominator
     in
     let rhs =
-      Elliptic_curve.weil_pairing_ff c.curve ~l:c.curve_subgroup_order ~p:n
-        ~q:c.g2
+      Elliptic_curve.weil_pairing c.curve ~l:c.curve_subgroup_order numerator
+        c.g2
     in
     Finite_field.equal lhs rhs
 end
@@ -186,10 +143,6 @@ let c =
           Finite_field.(residue_class (pow secret (Integer.of_int i))).%[0])
       ~p
   in
-  (*let sg = l_torsion_subgroup ToyCurve.curve ~l:(Signed.Long.of_int 641) in
-    Printf.eprintf "\nsubgroup\n";
-    Array.iter (fun e -> Printf.eprintf "\n%s\n" @@ gentostr e) sg;
-    Printf.eprintf "\nend subgroup\n";*)
   let srs_g1 = Vector.init 100 ~f:(coeff ToyCurve.g1) in
   let srs_g2 = Vector.init 100 ~f:(coeff ToyCurve.g2) in
   {
@@ -243,12 +196,12 @@ let r =
 
 let lhs =
   Finite_field.mul
-    (Elliptic_curve.weil_pairing_ff c.curve ~l:ToyCurve.r ~p:c.g1 ~q:r)
-    (Elliptic_curve.weil_pairing_ff c.curve ~l:ToyCurve.r ~p:c.g2 ~q:r)
+    (Elliptic_curve.weil_pairing c.curve ~l:ToyCurve.r c.g1 r)
+    (Elliptic_curve.weil_pairing c.curve ~l:ToyCurve.r c.g2 r)
 
 let rhs =
-  Elliptic_curve.weil_pairing_ff c.curve ~l:ToyCurve.r
-    ~p:(Elliptic_curve.add c.curve c.g1 c.g2)
-    ~q:r
+  Elliptic_curve.weil_pairing c.curve ~l:ToyCurve.r
+    (Elliptic_curve.add c.curve c.g1 c.g2)
+    r
 
 let () = assert (Finite_field.(equal lhs rhs))

@@ -2,12 +2,24 @@
 
 (include_subdirs unqualified)
 
-;(mdx
-; (files :standard - *.mli)
-; (libraries pari-bindings core integers ctypes ctypes.foreign mdx)
-; (preludes prelude))
+(mdx
+ (files :standard - *.mli)
+ (libraries pari pari-bindings core integers ctypes ctypes.foreign mdx)
+ (preludes prelude))
+
+(env
+ (release
+  (ocamlopt_flags
+   (:standard -O3 -w -58))))
 
 (library
  (name Pari)
  (public_name pari)
- (libraries core ctypes.stubs ctypes.foreign ctypes integers pari-bindings))
+ (libraries
+  core
+  ctypes.stubs
+  ctypes.foreign
+  ctypes
+  integers
+  pari-bindings
+  hex))

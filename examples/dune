@@ -17,3 +17,17 @@
  (name kzg)
  (libraries core ctypes.stubs ctypes.foreign ctypes pari)
  (modules kzg))
+
+(executable
+ (name pohlig_hellman)
+ (libraries
+  core
+  ctypes.stubs
+  ctypes.foreign
+  ctypes
+  pari
+  hacl-star
+  hex
+  iter
+  qcheck)
+ (modules pohlig_hellman))

@@ -40,4 +40,8 @@
   conf-bison
   conf-perl
   odoc
+  hex
+  iter
+  hacl-star
+  qcheck
   (mdx (>= 2.0.0))))

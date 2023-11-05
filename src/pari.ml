@@ -1,35 +1,42 @@
 include Pari_bindings
 
-type ('kind, 'structure) t = gen
+type ('kind, 'structure) typ = gen
 
 let t = gen
 
-type ring = gen
-type field = gen
+type group
+type ring
+type field
+type unique_factorization_domain
+type complex
+type real
+type rational
+type integer
+type polynomial
+type integer_mod
+type finite_field
+type number_field
+type elliptic_curve
 
 let register_gc v =
   Gc.finalise_last (fun () -> pari_free Ctypes.(coerce gen (ptr void) v)) v
 
+let gentostr = gentostr_raw
+let gentobytes x = gentostr x |> String.to_bytes
+
 module Complex = struct
-  type complex = private Complex
   type t = gen
 
-  let create ~re ~im =
-    let c = mkcomplex re im in
-    register_gc c;
-    c
-
+  let create ~re ~im = mkcomplex re im
   let inv = ginv
   let add = gadd
   let to_string = gentostr
 end
 
 module Real = struct
-  type real = private Real
   type t = gen
 
-  external inj_complex : t -> Complex.t = "%identity"
-
+  let[@inline] inj_complex x = Fun.id x
   let of_signed = stor
   let shift n s = mpshift n (Signed.Long.of_int s)
   let sqrt = sqrtr
@@ -39,31 +46,33 @@ module Real = struct
 end
 
 module Rational = struct
-  type rational = private Rational
   type t = gen
-  type ring = gen
 
-  external inj_ring : t -> ring = "%identity"
-  external inj_real : t -> Real.t = "%identity"
-  external inj_complex : t -> Complex.t = "%identity"
-
+  let[@inline] inj_ring x = Fun.id x
+  let[@inline] inj_real x = Fun.id x
+  let[@inline] inj_complex x = Fun.id x
   let shift x s = mpshift x (Signed.Long.of_int s)
 end
 
 module Integer = struct
-  type integer = private Integer
   type t = gen
 
-  external inj_rat : t -> Rational.t = "%identity"
-  external inj_real : t -> Rational.t = "%identity"
-  external inj_complex : t -> Rational.t = "%identity"
-
+  let[@inline] inj_rat x = Fun.id x
+  let[@inline] inj_real x = Fun.id x
+  let[@inline] inj_complex x = Fun.id x
+  let[@inline] inj_unique_factorization_domain x = Fun.id x
+  let to_integer : gen -> t = Fun.id
   let equal x y = equalii x y = 1
   let of_int i = stoi (Signed.Long.of_int i)
+  let to_int i = Signed.Long.to_int (itos i)
   let of_signed = stoi
+
+  let of_hex (`Hex h) =
+    fromdigits (gtovec (gtovecsmall (strtogenstr h))) (of_int 16)
+
   let shift x s = mpshift x (Signed.Long.of_int s)
   let sqrt i = inj_complex (sqrti i)
-  let zero = stoi Signed.Long.zero
+  let zero () = of_int 0
   let mul = mulii
   let add = addii
   let sub = subii
@@ -73,8 +82,19 @@ module Integer = struct
   let of_string s = (* todo error handling *) Some (gp_read_str s)
   let to_string = gentostr
 
+  let gcdext a b =
+    let u = Ctypes.allocate t a in
+    let v = Ctypes.allocate t a in
+    let gcd = bezout a b u v in
+    (gcd, Ctypes.( !@ ) u, Ctypes.( !@ ) v)
+
+  let gcd = gcdii
+  let divexact = diviiexact
+
   let random_prime ~bits_amount =
     randomprime (mpshift (of_int 1) (Signed.Long.of_int bits_amount))
+
+  let random = randomi
 
   module Infix = struct
     let ( * ) = mul
@@ -111,7 +131,11 @@ module Matrix = struct
   let ( .%[]<- ) m i v = Ctypes.(safegel m (Signed.Long.of_int i) <-@ v)
   let ( .%[;..] ) m i = !@(getcoeff m i)
   let ( .%[;..]<- ) m i v = Ctypes.(getcoeff m i <-@ v)
-  let inj x ~inj:_ = x
+  let[@inline] inj x ~inj:_ = x
+
+  let dimensions m =
+    let sz = matsize m in
+    (Signed.Long.to_int (itos sz.%[1]), Signed.Long.to_int (itos sz.%[2]))
 end
 
 module Set = struct
@@ -122,7 +146,6 @@ module Set = struct
 end
 
 module Vector = struct
-  type ('a, 'b) p = ('a, 'b) t
   type ('a, 'b) t = gen constraint 'a = gen constraint 'b = [< `COL | `ROW ]
 
   let length x = glength x |> Signed.Long.to_int
@@ -134,6 +157,15 @@ module Vector = struct
     let v = zerovec_block (Signed.Long.of_int l) in
     for i = 1 to l do
       v.%[i] <- a.(i - 1)
+    done;
+    register_gc v;
+    v
+
+  let array_map ~f a =
+    let l = Array.length a in
+    let v = zerovec_block (Signed.Long.of_int l) in
+    for i = 1 to l do
+      v.%[i] <- f a.(i - 1)
     done;
     register_gc v;
     v
@@ -160,7 +192,7 @@ module Vector = struct
   let to_set = gtoset
   let singleton x = mkvec x
   let concat = gconcat
-  let inj x ~inj:_ = x
+  let[@inline] inj x ~inj:_ = x
   let to_string = gentostr
 
   module Infix = struct
@@ -175,7 +207,6 @@ end
 let () = pari_init 50_000_000 (Unsigned.ULong.of_int 500_000)
 
 module Polynomial = struct
-  type polynomial
   type 'a t = gen constraint 'a = gen
 
   let equal x y = gequal x y = 1
@@ -188,9 +219,6 @@ module Polynomial = struct
   let neg = gneg
   let eval p x = poleval p x
   let degree t = degree t |> Signed.Long.to_int
-
-  let get_coeff t i =
-    gcopy @@ Ctypes.(!@(coerce gen (ptr gen) t +@ Int.add i 2))
 
   let create (p : 'a array) : 'a t =
     let len = Array.length p in
@@ -223,6 +251,13 @@ module Polynomial = struct
   let ( .%[] ) m i = gcopy @@ truecoef m (Signed.Long.of_int i)
   let roots_ff p = polrootsmod p Ctypes.(coerce (ptr void) t null)
 
+  let fold_left ~f ~acc p =
+    let acc = ref acc in
+    for i = 0 to degree p do
+      acc := f p.%[i] !acc
+    done;
+    !acc
+
   let fold_left2 ~f ~acc p p' =
     assert (degree p = degree p');
     let acc = ref acc in
@@ -240,10 +275,48 @@ module Polynomial = struct
     !acc
 end
 
+module Integer_mod = struct
+  type t = gen
+
+  let[@inline] inj_group x = Fun.id x
+
+  let create : Integer.t -> modulo:Integer.t -> t =
+   fun x ~modulo -> mkintmod x modulo
+
+  let create_assume_prime_modulus x ~modulo = mkintmod x modulo
+  let lift = lift
+
+  let inverse x =
+    let x = Ctypes.(coerce gen (ptr gen) x) in
+    let modulo = Ctypes.(!@(x +@ 1)) in
+    let res = Ctypes.allocate t (Integer.zero ()) in
+    if invmod Ctypes.(!@(x +@ 2)) modulo res = 1 then
+      Some (create Ctypes.(!@res) ~modulo)
+    else None
+
+  let mul = gmul
+  let pow = powgi
+  let chinese : (t, [ `ROW ]) Vector.t -> t = chinese1
+  let to_string = gentostr
+
+  let get_modulo x =
+    let x = Ctypes.(coerce gen (ptr gen) x) in
+    gcopy Ctypes.(!@(x +@ 1))
+
+  let order x =
+    let x' = Ctypes.(coerce gen (ptr gen) x) in
+    let modulo = Ctypes.(!@(x' +@ 1)) in
+    znorder x (eulerphi modulo)
+
+  let log ~base x =
+    let log = znlog x base (order base) in
+    let typ = gentostr (type0 log) in
+    if typ = "\"t_VEC\"" then None else Some log
+end
+
 module Number_field = struct
-  type number_field = private Number_field
-  type nonrec t = (number_field, field) t
-  type structure = gen
+  type t = gen
+  type elt = gen
 
   let create p =
     let nf = nfinit p Signed.Long.(of_int 4) in
@@ -280,15 +353,13 @@ module Number_field = struct
   end
 end
 
-type group
-
 type 'a group_structure = {
-  mul : ('a, group) t -> ('a, group) t -> ('a, group) t;
-  pow : ('a, group) t -> Integer.t -> ('a, group) t;
-  rand : unit -> ('a, group) t;
-  hash : ('a, group) t -> Unsigned.ULong.t;
-  equal : ('a, group) t -> ('a, group) t -> bool;
-  equal_identity : ('a, group) t -> bool;
+  mul : ('a, group) typ -> ('a, group) typ -> ('a, group) typ;
+  pow : ('a, group) typ -> Integer.t -> ('a, group) typ;
+  rand : unit -> ('a, group) typ;
+  hash : ('a, group) typ -> Unsigned.ULong.t;
+  equal : ('a, group) typ -> ('a, group) typ -> bool;
+  equal_identity : ('a, group) typ -> bool;
   bb_group : bb_group Ctypes.structure option;
 }
 
@@ -299,14 +370,11 @@ module Fp = struct
   let pow x ~exponent ~modulo = fp_pow x exponent modulo
 end
 
-type finite_field = private Finite_field
-
 module Finite_field = struct
-  type ('a, 'b) p = ('a, 'b) t
-  type t = (finite_field, field) p
+  type t = gen
 
-  external inj_ring : t -> (finite_field, ring) p = "%identity"
-  external inj_field : (finite_field, ring) p -> t = "%identity"
+  let[@inline] inj_ring x = Fun.id x
+  let[@inline] inj_field x = Fun.id x
 
   let generator ~order =
     ff_primroot
@@ -332,6 +400,8 @@ module Finite_field = struct
 
   let equal a b = ff_equal a b = 1
   let add = ff_add
+  let sub = ff_sub
+  let neg = ff_neg
   let mul = ff_mul
   let pow x n = ff_pow x n
   let random = genrand
@@ -349,8 +419,7 @@ module Finite_field = struct
     | `Quotient modulo ->
         Vector.((ffextend base_field_elt modulo Signed.Long.zero).%[1])
 
-  let fpxq_star ~(p : pari_ulong) ~(quotient : Fp.t Polynomial.t) :
-      finite_field group_structure =
+  let fpxq_star ~p ~quotient =
     let open Ctypes in
     let q = powuu p (Unsigned.ULong.of_int (Polynomial.degree quotient)) in
     let ret = allocate (ptr void) (from_voidp void null) in
@@ -382,9 +451,8 @@ module Finite_field = struct
 end
 
 module Elliptic_curve = struct
-  type elliptic_curve
-  type nonrec 'a t = (elliptic_curve, group) t constraint 'a = gen
-  type 'a structure = gen constraint 'a = gen
+  type 'a t = gen constraint 'a = gen
+  type 'a elt = gen constraint 'a = gen
 
   let create ?a1 ?a2 ?a3 ?a4 ?a6 ?(dom = Ctypes.(coerce (ptr void) gen null)) ()
       =
@@ -395,10 +463,7 @@ module Elliptic_curve = struct
            (to_coeff a6))
         dom (Signed.Long.of_int 38)
     in
-    if Vector.length ell = 0 then None
-    else (
-      register_gc ell;
-      Some ell)
+    if Vector.length ell = 0 then None else Some ell
 
   let get_a1 = ell_get_a1
   let get_a2 = ell_get_a2
@@ -411,12 +476,64 @@ module Elliptic_curve = struct
   let j_invariant ell = ell_get_j ell
   let random = ellrandom
   let l_division_polynomial ell ~l = elldivpol ell l Signed.Long.zero
-  let to_string = gentostr
-  let weil_pairing_ff ell ~l ~p ~q = ellweilpairing ell p q l
-  let add ell p q = elladd ell p q
-  let sub ell p q = ellsub ell p q
+  let to_string ell = gentostr ell
+  let weil_pairing ell ~l p q = ellweilpairing ell p q l
+  let add = elladd
+  let sub = ellsub
   let mul ell ~n ~p = ellmul ell p n
   let equal a b = gequal a b = 1
-  let generators_ff ell = ff_ellgens ell
+  let generators ell = ellgenerators ell
   let zero _ = ellinf ()
+
+  let get_coordinates p =
+    if Vector.length p = 1 then `inf
+    else `point (gcopy Vector.(p.%[1]), gcopy Vector.(p.%[2]))
+
+  let order_elt ell elt = ellorder ell elt Ctypes.(coerce (ptr void) gen null)
+  let to_string_elt = gentostr
+
+  let log ell ~base x =
+    let log = elllog ell x base (order_elt ell base) in
+    let typ = gentostr (type0 log) in
+    if typ = "\"t_VEC\"" then None else Some log
 end
+
+let factor e =
+  let m = factor e in
+  let n_rows, n_cols = Matrix.dimensions m in
+  assert (n_cols = 2);
+  Array.init n_rows (fun i ->
+      (m.Matrix.%[i + 1; 1], Integer.to_int m.Matrix.%[i + 1; 2]))
+
+let gequal x y = gequal x y = 1
+
+let[@inline] with_stack_clean f =
+  let ltop = get_avma () in
+  let res = f () in
+  gerepilecopy ltop res
+
+let[@inline] with_stack_clean_opt f =
+  let ltop = get_avma () in
+  match f () with
+  | Some res -> Some (gerepilecopy ltop res)
+  | None ->
+      set_avma ltop;
+      None
+
+let[@inline] with_stack_clean6 ?av f =
+  (* TODO add gc_needed check *)
+  let ltop = match av with Some av -> av | None -> get_avma () in
+  let a1, a2, a3, a4, a5, a6 = f () in
+  let a1' = copy_bin a1 in
+  let a2' = copy_bin a2 in
+  let a3' = copy_bin a3 in
+  let a4' = copy_bin a4 in
+  let a5' = copy_bin a5 in
+  let a6' = copy_bin a6 in
+  set_avma ltop;
+  ( bin_copy a1',
+    bin_copy a2',
+    bin_copy a3',
+    bin_copy a4',
+    bin_copy a5',
+    bin_copy a6' )

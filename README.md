@@ -6,11 +6,9 @@ The best way to get the dependencies is through [Nix](https://nixos.org/).
 Without Nix, you will need opam 2.0 and GMP installed on your system.
 To generate the stubs you will need LLVM and libclang.
 
-1. Clone the vendored library PARI: `git submodule update --recursive --remote --init`
-2. With Nix: `nix develop -c $SHELL`
-3. With OPAM: `opam update && opam switch create . -y --deps-only`
-4. `dune build`
+1. With OPAM: `opam update && opam switch create . -y --deps-only` (or with Nix: `nix develop -c $SHELL`)
+2. `dune build`
 
 To regenerate the stubs run `make gen-stubs` (after `nix-shell -p llvm libclang`).
 
-Execute a code sample: `dune exec examples/elliptic_curves.exe`.
+Execute a code sample: `dune exec examples/pohlig_hellman.exe`, or view some of the available Jupyter notebooks.
