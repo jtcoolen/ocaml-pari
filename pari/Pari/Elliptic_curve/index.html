@@ -32,9 +32,9 @@ val ell : Finite_field.t Elliptic_curve.t = &lt;abstr&gt;
 - : string = &quot;675&quot;</code></pre></div></div><div class="odoc-spec"><div class="spec value anchored" id="val-discriminant"><a href="#val-discriminant" class="anchor"></a><code><span><span class="keyword">val</span> discriminant : <span><span><span class="type-var">'a</span> <a href="#type-t">t</a></span> <span class="arrow">&#45;&gt;</span></span> <span class="type-var">'a</span></span></code></div></div><div class="odoc-spec"><div class="spec value anchored" id="val-j_invariant"><a href="#val-j_invariant" class="anchor"></a><code><span><span class="keyword">val</span> j_invariant : <span><span><span class="type-var">'a</span> <a href="#type-t">t</a></span> <span class="arrow">&#45;&gt;</span></span> <span class="type-var">'a</span></span></code></div></div><div class="odoc-spec"><div class="spec value anchored" id="val-random"><a href="#val-random" class="anchor"></a><code><span><span class="keyword">val</span> random : <span><span><span class="type-var">'a</span> <a href="#type-t">t</a></span> <span class="arrow">&#45;&gt;</span></span> <span><span class="type-var">'a</span> <a href="#type-elt">elt</a></span></span></code></div></div><div class="odoc-spec"><div class="spec value anchored" id="val-weil_pairing_ff"><a href="#val-weil_pairing_ff" class="anchor"></a><code><span><span class="keyword">val</span> weil_pairing_ff : 
   <span><span><a href="../Finite_field/index.html#type-t">Finite_field.t</a> <a href="#type-t">t</a></span> <span class="arrow">&#45;&gt;</span></span>
   <span><span class="label">l</span>:<a href="../Integer/index.html#type-t">Integer.t</a> <span class="arrow">&#45;&gt;</span></span>
-  <span><span class="label">p</span>:<span><a href="../Finite_field/index.html#type-t">Finite_field.t</a> <a href="#type-elt">elt</a></span> <span class="arrow">&#45;&gt;</span></span>
-  <span><span class="label">q</span>:<span><a href="../Finite_field/index.html#type-t">Finite_field.t</a> <a href="#type-elt">elt</a></span> <span class="arrow">&#45;&gt;</span></span>
-  <a href="../Finite_field/index.html#type-t">Finite_field.t</a></span></code></div><div class="spec-doc"><p><code>weil_pairing_ff ell ~l ~p ~q</code> returns the Weil pairing of the two points of <code>l</code>-torsion <code>p</code> and <code>q</code> on the elliptic curve <code>ell</code>.</p><pre class="language-ocaml"><code># let l = Integer.of_int 3;;
+  <span><span><a href="../Finite_field/index.html#type-t">Finite_field.t</a> <a href="#type-elt">elt</a></span> <span class="arrow">&#45;&gt;</span></span>
+  <span><span><a href="../Finite_field/index.html#type-t">Finite_field.t</a> <a href="#type-elt">elt</a></span> <span class="arrow">&#45;&gt;</span></span>
+  <a href="../Finite_field/index.html#type-t">Finite_field.t</a></span></code></div><div class="spec-doc"><p><code>weil_pairing_ff ell ~l p q</code> returns the Weil pairing of the two points of <code>l</code>-torsion <code>p</code> and <code>q</code> on the elliptic curve <code>ell</code>.</p><pre class="language-ocaml"><code># let l = Integer.of_int 3;;
 val l : Integer.t = &lt;abstr&gt;
 # let ord = Integer.of_int 103;;
 val ord : Integer.t = &lt;abstr&gt;
@@ -43,7 +43,7 @@ val ell : Finite_field.t Elliptic_curve.t = &lt;abstr&gt;
 # let (p, q) = Elliptic_curve.(of_coordinates ~x:(Finite_field.prime_field_element (Integer.of_int 0) ~p:ord) ~y:(Finite_field.prime_field_element (Integer.of_int 0) ~p:ord), of_coordinates ~x:(Finite_field.prime_field_element (Integer.of_int 57) ~p:ord) ~y:(Finite_field.prime_field_element (Integer.of_int 46) ~p:ord));;
 val p : Finite_field.t Elliptic_curve.elt = &lt;abstr&gt;
 val q : Finite_field.t Elliptic_curve.elt = &lt;abstr&gt;
-# let scalar = (Elliptic_curve.weil_pairing_ff ell ~l ~p ~q);;
+# let scalar = (Elliptic_curve.weil_pairing_ff ell ~l p q);;
 val scalar : Finite_field.t = &lt;abstr&gt;
 # Finite_field.to_string scalar (* 56 mod 103 *);;
 - : string = &quot;56&quot;
