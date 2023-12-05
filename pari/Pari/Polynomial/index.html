@@ -43,7 +43,7 @@ val q : Integer.t Polynomial.t = &lt;abstr&gt;
 # Polynomial.to_string q;;
 - : string = &quot;x^3 - 111*x^2 + 6064*x - 189804&quot;
 # let qmin = Polynomial.minimal q;;
-val qmin : ('a, ring) t Polynomial.t = &lt;abstr&gt;
+val qmin : ('a, ring) typ Polynomial.t = &lt;abstr&gt;
 # Polynomial.to_string qmin;;
 - : string = &quot;x^3 - x^2 - 60*x - 364&quot;
 # Number_field.(are_isomorphic (create q) (create qmin));
