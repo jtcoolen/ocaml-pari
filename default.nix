@@ -10,7 +10,7 @@ let ocamlPackages = pkgs.ocaml-ng.ocamlPackages_5_0;
 in pkgs.fastStdenv.mkDerivation {
   name = "ocaml_pari";
   nativeBuildInputs =
-    (with ocamlPackages; [ ocaml findlib dune_3 merlin utop ppx_cstubs containers mdx odoc ocaml-lsp hacl-star hex iter qcheck memtrace ])
+    (with ocamlPackages; [ ocaml findlib dune_3 merlin utop ppx_cstubs containers mdx odoc ocaml-lsp hacl-star hex iter qcheck memtrace ocamlformat ])
     ++ (with pkgs; [
       bison
       gnumake
