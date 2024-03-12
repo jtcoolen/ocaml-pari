@@ -19,8 +19,10 @@ in pkgs.fastStdenv.mkDerivation {
       gmp
       gmpxx
       libcxx
-      glibc
-      glibc.static
+      # for linux
+      #glibc
+      #glibc.static
+      clang # for i-shiny objects
       nixfmt
       ocamlformat
     ]);

@@ -23,15 +23,21 @@ let () = Printf.eprintf "%b\n" (Polynomial.is_irreducible q)
 let qmin : Integer.t Polynomial.t = Polynomial.minimal q
 let () = Printf.eprintf "%s\n" (Polynomial.to_string qmin)
 
+let inj_rat =
+  Polynomial.inj_base_ring ~inj:(fun x ->
+      x |> Integer.inj_rat |> Rational.inj_ring)
+
 let () =
-  Printf.eprintf "%b\n" Number_field.(are_isomorphic (create q) (create qmin))
+  Printf.eprintf "%b\n"
+    Number_field.(are_isomorphic (create (inj_rat q)) (create (inj_rat qmin)))
 
 (* Gaussian integers: the ring Z[i] (here we work in the field Q(i)) *)
 let gaussian_integers =
   (* Q(i) = Q[X]/(X^2+1) *)
   Number_field.create
     (Polynomial.create
-       [| Integer.of_int 1; Integer.of_int 0; Integer.of_int 1 |])
+       [| Integer.of_int 1; Integer.of_int 0; Integer.of_int 1 |]
+    |> inj_rat)
 
 (* Euclidean division of 6 + 8i by 1 + 5i. *)
 let a =

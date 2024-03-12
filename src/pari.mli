@@ -96,18 +96,18 @@ type bb_group
 type bb_field
 type bb_algebra
 type bb_ring
-type ring
-type field
-type unique_factorization_domain
-type complex
-type real
-type rational
-type integer
-type polynomial
-type integer_mod
-type finite_field
-type number_field
-type elliptic_curve
+type ring = private Ring
+type field = private Field
+type unique_factorization_domain = private Unique_factorization_domain
+type complex = private Complex
+type real = private Real
+type rational = private Rational
+type integer = private Integer
+type 'a polynomial = private Polynomial of 'a
+type integer_mod = private Integer_mod
+type finite_field = private Finite_field
+type number_field = private Number_field
+type elliptic_curve = private Elliptic_curve
 
 val factor :
   ('kind, unique_factorization_domain) typ ->
@@ -197,7 +197,7 @@ and Integer : sig
   end
 end
 
-type group
+type group = private Group
 
 type 'a group_structure = {
   mul : ('a, group) typ -> ('a, group) typ -> ('a, group) typ;
@@ -267,7 +267,7 @@ module Matrix : sig
 end
 
 module rec Polynomial : sig
-  type 'a t = (polynomial, ring) typ constraint 'a = ('b, ring) typ
+  type 'a t = ('a polynomial, ring) typ constraint 'a = ('b, ring) typ
 
   val to_string : 'a t -> string
   val mul : 'a t -> 'a t -> 'a t
@@ -351,6 +351,8 @@ module rec Polynomial : sig
     'a t ->
     ('b, _) Vector.t ->
     ('c, 'd) typ
+
+  val inj_base_ring : inj:('a -> 'b) -> 'a t -> 'b t
 end
 
 and Fp : sig
@@ -367,6 +369,7 @@ and Finite_field : sig
   val inj_field : (finite_field, ring) typ -> t
   val generator : order:Integer.t -> t
   val prime_field_element : Integer.t -> p:Integer.t -> t
+  val inj_prime_field : t -> Fp.t option
   val finite_field_element : Integer.t array -> t -> t
 
   val create : p:int -> degree:int -> (finite_field, ring) typ Polynomial.t

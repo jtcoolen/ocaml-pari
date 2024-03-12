@@ -4,19 +4,19 @@ type ('kind, 'structure) typ = gen
 
 let t = gen
 
-type group
-type ring
-type field
-type unique_factorization_domain
-type complex
-type real
-type rational
-type integer
-type polynomial
-type integer_mod
-type finite_field
-type number_field
-type elliptic_curve
+type group = Group
+type ring = Ring
+type field = Field
+type unique_factorization_domain = Unique_factorization_domain
+type complex = Complex
+type real = Real
+type rational = Rational
+type integer = Integer
+type 'a polynomial = Polynomial of 'a
+type integer_mod = Integer_mod
+type finite_field = Finite_field
+type number_field = Number_field
+type elliptic_curve = Elliptic_curve
 
 let register_gc v =
   Gc.finalise_last (fun () -> pari_free Ctypes.(coerce gen (ptr void) v)) v
@@ -273,6 +273,8 @@ module Polynomial = struct
       acc := f p.%[i] Vector.(v.%[i + 1]) !acc
     done;
     !acc
+
+  let inj_base_ring ~inj:_ p = p
 end
 
 module Integer_mod = struct
@@ -382,6 +384,16 @@ module Finite_field = struct
       Ctypes.(coerce (ptr void) (ptr gen) null)
 
   let prime_field_element x ~p = ff_z_mul (ff_1 (generator ~order:p)) x
+
+  let inj_prime_field x =
+    let p = ff_to_fpxq_i x in
+
+    if
+      glength p = Signed.Long.one
+      || Polynomial.degree p = 0
+      || Polynomial.degree p = 1
+    then Some Polynomial.(p.%[0])
+    else None
 
   let finite_field_element coeffs a =
     let len = Array.length coeffs in

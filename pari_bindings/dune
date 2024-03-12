@@ -23,7 +23,7 @@
     (chdir
      libpari
      (system
-      "if [ \"$(uname)\" = \"Darwin\" ]; then CC=$(find /usr/local/bin -name \"gcc-[0-9]*\" 2>&1 | head -n 1) ./Configure --prefix=local --with-gmp-lib=/opt/homebrew/lib --with-gmp-include=/opt/homebrew/include; elif [ \"$(uname)\" = \"FreeBSD\" ]; then ./Configure --prefix=local --with-gmp-lib=/usr/local/lib --with-gmp-include=/usr/local/include; else ./Configure --prefix=local; fi;"))
+      "if [ \"$(uname)\" = \"Darwin\" ]; then if [ ! command -v nix &> /dev/null ]; then ./Configure --prefix=local; else CC=$(find /usr/local/bin -name \"gcc-[0-9]*\" 2>&1 | head -n 1) ./Configure --prefix=local --with-gmp-lib=/opt/homebrew/lib --with-gmp-include=/opt/homebrew/include ; fi; elif [ \"$(uname)\" = \"FreeBSD\" ]; then ./Configure --prefix=local --with-gmp-lib=/usr/local/lib --with-gmp-include=/usr/local/include; else ./Configure --prefix=local; fi;"))
     (ignore-stderr
      (with-accepted-exit-codes
       (or 0 1)

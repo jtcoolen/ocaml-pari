@@ -87,7 +87,7 @@ module KZG :
   let commit c p =
     assert (Polynomial.degree p < Vector.length c.srs_g1);
     let f x p cm =
-      let n = Polynomial.(Finite_field.(residue_class (inj_field x)).%[0]) in
+      let n = Option.get Finite_field.(inj_prime_field (inj_field x)) in
       Elliptic_curve.(add c.curve cm (mul c.curve ~n ~p))
     in
     let acc = Elliptic_curve.zero c.curve in
@@ -111,16 +111,12 @@ module KZG :
       Elliptic_curve.(
         sub c.curve
           Vector.(c.srs_g2.%[2])
-          (mul c.curve
-             ~n:Polynomial.((Finite_field.residue_class x).%[0])
-             ~p:c.g2))
+          (mul c.curve ~n:(Option.get Finite_field.(inj_prime_field x)) ~p:c.g2))
     in
     let numerator =
       Elliptic_curve.(
         sub c.curve cm
-          (mul c.curve
-             ~n:Polynomial.((Finite_field.residue_class y).%[0])
-             ~p:c.g1))
+          (mul c.curve ~n:(Option.get Finite_field.(inj_prime_field y)) ~p:c.g1))
     in
     let lhs =
       Elliptic_curve.weil_pairing c.curve ~l:c.curve_subgroup_order pi
@@ -137,10 +133,9 @@ let c =
   let g = Finite_field.generator ~order:ToyCurve.r in
   let secret = Finite_field.random g in
   let coeff p i =
+    let n = Finite_field.pow secret (Integer.of_int i) in
     Elliptic_curve.mul ToyCurve.curve
-      ~n:
-        Polynomial.(
-          Finite_field.(residue_class (pow secret (Integer.of_int i))).%[0])
+      ~n:(Option.get Finite_field.(inj_prime_field n))
       ~p
   in
   let srs_g1 = Vector.init 100 ~f:(coeff ToyCurve.g1) in
