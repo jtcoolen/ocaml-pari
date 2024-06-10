@@ -75,7 +75,7 @@
      (-I./_build/default/pari_bindings)
      (-I../../../_build/default/pari_bindings)
      (-I../../_build/default/pari_bindings))
-    (c_library_flags :standard -fPIC -lpari)))
+    (c_library_flags :standard -fPIC)))
   (headers
    (include "pari.h"))
   (type_description
