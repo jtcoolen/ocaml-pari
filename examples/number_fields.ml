@@ -53,3 +53,27 @@ let q, r = Number_field.divrem gaussian_integers a b
 let () =
   Printf.eprintf "%b\n"
     Number_field.(equal a (add gaussian_integers (mul gaussian_integers b q) r))
+
+let _nf2 =
+  Number_field.create (Option.get @@ Polynomial.of_string "x^4-2" |> inj_rat)
+
+let a = Vector.((Number_field.z_basis _nf2).%[2])
+let a2 = Number_field.mul _nf2 a a
+let _ = Printf.eprintf "%s\n" (gentostr a2)
+let a4 = Number_field.mul _nf2 a2 a2
+let _ = Printf.eprintf "a4=%s\n" (gentostr a4)
+
+let mp =
+  nf_to_scalar_or_alg (Obj.magic _nf2)
+    (Number_field.add _nf2 a2
+       (Number_field.elt
+          [|
+            Integer.of_int (-3) |> Integer.inj_rat;
+            Integer.of_int 0 |> Integer.inj_rat;
+            Integer.of_int 0 |> Integer.inj_rat;
+            Integer.of_int 0 |> Integer.inj_rat;
+          |]))
+
+let _ = Printf.eprintf "mp=%s\n" (gentostr mp)
+let _ = Printf.eprintf "mp=%s\n" (gentostr (Number_field.splitting (`F _nf2)))
+let _ = Printf.eprintf "mp=%s\n" (gentostr (polred (Obj.magic mp)))

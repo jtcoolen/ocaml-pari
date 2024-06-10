@@ -303,6 +303,7 @@ module rec Polynomial : sig
       ]}
   *)
 
+  val of_string : string -> 'a t option
   val deriv : ?indeterminate:int -> 'a t -> 'a t
   val derivn : ?indeterminate:int -> 'a t -> int -> 'a t
   val cyclotomic : Signed.long -> Integer.t t
@@ -477,6 +478,7 @@ module Number_field : sig
   val discriminant : t -> Integer.t
   val z_basis : t -> (elt, [ `ROW ]) Vector.t
   val elt : Rational.t array -> elt
+  val inj_ring : elt -> (number_field, ring) typ
   val add : t -> elt -> elt -> elt
   val mul : t -> elt -> elt -> elt
   val equal : elt -> elt -> bool
@@ -16114,6 +16116,7 @@ val gtovecsmall0 :
   ('kind, 'structure) typ -> Signed.long -> ('kind, 'structure) typ
 
 val gtrunc : ('kind, 'structure) typ -> ('kind, 'structure) typ
+val gvar : ('kind, 'structure) typ -> Signed.long
 val gvar2 : ('kind, 'structure) typ -> Signed.long
 
 val hqfeval :

@@ -239,6 +239,11 @@ module Polynomial = struct
     register_gc p;
     p
 
+  let of_string s =
+    let g = gp_read_str s in
+    let typ = gentostr (type0 g) in
+    if typ = "\"t_POL\"" then Some g else None
+
   let var t = function Some var -> Signed.Long.(of_int var) | None -> gvar t
   let deriv ?indeterminate t = deriv t (var t indeterminate)
 
@@ -336,6 +341,7 @@ module Number_field = struct
   let discriminant nf = nf_get_disc nf
   let z_basis nf = nf_get_zk nf
   let elt a = Vector.(transpose_row (of_array a))
+  let inj_ring x = x
   let add nf a b = nfadd nf a b
   let mul nf a b = nfmul nf a b
 
