@@ -27,7 +27,7 @@ esac
 
 if test -z "$CC"; then
   echo Choosing C compiler ...
-  if test -n "$gcc"; then CC=$gcc; else CC=$cc; fi
+  if test -n "$gcc"; then CC=$cc; else CC=$cc; fi
 fi
 
 if test "$fastread" != yes; then
