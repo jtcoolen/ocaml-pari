@@ -266,7 +266,7 @@ module Matrix : sig
   val inj : 'a t -> inj:('a -> 'b) -> 'b t
 end
 
-module rec Polynomial : sig
+module Polynomial : sig
   type 'a t = ('a polynomial, ring) typ constraint 'a = ('b, ring) typ
 
   val to_string : 'a t -> string
@@ -356,14 +356,14 @@ module rec Polynomial : sig
   val inj_base_ring : inj:('a -> 'b) -> 'a t -> 'b t
 end
 
-and Fp : sig
+module Fp : sig
   type t = Integer.t
 
   val add : t -> t -> modulo:t -> t
   val pow : t -> exponent:t -> modulo:t -> t
 end
 
-and Finite_field : sig
+module Finite_field : sig
   type t = (finite_field, field) typ
 
   val inj_ring : t -> (finite_field, ring) typ
