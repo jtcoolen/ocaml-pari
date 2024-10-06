@@ -3,25 +3,17 @@
 let
   pkgs = import (fetchTarball {
     url =
-      "https://github.com/NixOS/nixpkgs/archive/1f9b3bbe176e386f6d91cf5574bc2492a1c6bbbc.tar.gz";
-    sha256 = "1wnswdga9fj8cgqj06a3zrri1xmwddjc22ja92fr407ijhajp404";
+      "https://github.com/NixOS/nixpkgs/archive/0034715d703ee02226c5708c263583a82539f2ea.tar.gz";
+    sha256 = "02jg1qwr3f8xagfwv5j8asyajwwgl1zmj6xaj5yfxd30l33d62y5";
   }) { inherit system; };
 in let
-  ocamlPackages = pkgs.ocaml-ng.ocamlPackages_5_1;
-  #.overrideScope' (self: super: {
-  #  ocaml = super.ocaml.override { flambdaSupport = true; };
+  ocamlPackages = pkgs.ocaml-ng.ocamlPackages_5_2; #.overrideScope' (self: super: {
+#    ocaml = super.ocaml.override { flambdaSupport = true; }; });
 
   ctypes-foreign = pkgs.lib.overrideDerivation (ocamlPackages.ctypes-foreign)
     (old: {
       NIX_CFLAGS_COMPILE = "-Wno-error=incompatible-function-pointer-types";
     });
-
-  mkFrameworkFlags = frameworks:
-    pkgs.lib.concatStringsSep " " (pkgs.lib.concatMap (framework: [
-      "-F${pkgs.darwin.apple_sdk.frameworks.${framework}}/Library/Frameworks"
-      "-framework ${framework}"
-    ]) frameworks);
-
 in pkgs.clangStdenv.mkDerivation {
   name = "ocaml_pari";
   nativeBuildInputs = (with ocamlPackages; [
@@ -30,7 +22,7 @@ in pkgs.clangStdenv.mkDerivation {
     dune_3
     merlin
     utop
-    ppx_cstubs
+#    ppx_cstubs
     ctypes
     containers
     mdx
@@ -60,14 +52,11 @@ in pkgs.clangStdenv.mkDerivation {
     llvmPackages.llvm
   ]);
   dontDetectOcamlConflicts = true;
-
   buildInputs =
     (with ocamlPackages; [ core ppx_expect ctypes odoc ctypes-foreign ]);
   #LD_LIBRARY_PATH = "${pkgs.glibc}/lib:${pkgs.glibc.static}/lib";
   NIX_LDFLAGS = [ "-lc -lm" ]
-    ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [ "-no_compact_unwind" ]
-    ++ [ (mkFrameworkFlags [ "CoreFoundation" "IOKit" "AppKit" "Security" ]) ];
-
+    ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [ "-no_compact_unwind" ];
   NIX_CFLAGS_COMPILE =
     # Silence errors (-Werror) for unsupported flags on MacOS.
     pkgs.lib.optionals pkgs.stdenv.isDarwin [
