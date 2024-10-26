@@ -22,10 +22,7 @@ let () = Printf.eprintf "%s\n" (Polynomial.to_string qq)
 let () = Printf.eprintf "%b\n" (Polynomial.is_irreducible q)
 let qmin : Integer.t Polynomial.t = Polynomial.minimal q
 let () = Printf.eprintf "%s\n" (Polynomial.to_string qmin)
-
-let inj_rat =
-  Polynomial.inj_base_ring ~inj:(fun x ->
-      x |> Integer.inj_rat |> Rational.inj_ring)
+let inj_rat = Polynomial.inj_base_ring ~inj:(fun x -> x |> Integer.inj_rat)
 
 let () =
   Printf.eprintf "%b\n"

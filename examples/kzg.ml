@@ -38,9 +38,9 @@ module ToyCurve = struct
       (`Quotient
         (Polynomial.create
            [|
-             Finite_field.(inj_ring (one fp));
-             Finite_field.(inj_ring (zero fp));
-             Finite_field.(inj_ring (one fp));
+             Finite_field.(one fp);
+             Finite_field.(zero fp);
+             Finite_field.(one fp);
            |]))
 
   let g1_x =
@@ -73,12 +73,12 @@ end
 module KZG :
   Polynomial_commitment
     with type common_input = kzg_common_input
-     and type polynomial = (finite_field, ring) typ Polynomial.t
+     and type polynomial = Finite_field.t Polynomial.t
      and type scalar = Finite_field.t
      and type evaluation = Finite_field.t
      and type commitment = Finite_field.t Elliptic_curve.elt = struct
   type common_input = kzg_common_input
-  type polynomial = (finite_field, ring) typ Polynomial.t
+  type polynomial = Finite_field.t Polynomial.t
   type scalar = Finite_field.t
   type evaluation = Finite_field.t
   type commitment = Finite_field.t Elliptic_curve.elt
@@ -87,21 +87,18 @@ module KZG :
   let commit c p =
     assert (Polynomial.degree p < Vector.length c.srs_g1);
     let f x p cm =
-      let n = Option.get Finite_field.(inj_prime_field (inj_field x)) in
+      let n = Option.get Finite_field.(inj_prime_field x) in
       Elliptic_curve.(add c.curve cm (mul c.curve ~n ~p))
     in
     let acc = Elliptic_curve.zero c.curve in
     Polynomial.fold_left2_vec ~f ~acc p c.srs_g1
 
   let prove c p x =
-    let y = Polynomial.(create [| eval p (Finite_field.inj_ring x) |]) in
+    let y = Polynomial.(create [| eval p x |]) in
     let n = Polynomial.(sub p y) in
     let d =
       Polynomial.create
-        [|
-          Finite_field.(inj_ring (one c.finite_field_generator));
-          Finite_field.(inj_ring (neg x));
-        |]
+        [| Finite_field.(one c.finite_field_generator); Finite_field.(neg x) |]
     in
     let q = Polynomial.div n d in
     commit c q
@@ -153,14 +150,14 @@ let c =
 let p =
   Polynomial.create
     [|
-      Finite_field.(inj_ring (random c.finite_field_generator));
-      Finite_field.(inj_ring (zero c.finite_field_generator));
-      Finite_field.(inj_ring (random c.finite_field_generator));
+      Finite_field.(random c.finite_field_generator);
+      Finite_field.(zero c.finite_field_generator);
+      Finite_field.(random c.finite_field_generator);
     |]
 
 let cm = KZG.commit c p
 let x = Finite_field.random c.finite_field_generator
-let y = Finite_field.inj_field (Polynomial.eval p (Finite_field.inj_ring x))
+let y = Polynomial.eval p x
 let pi = KZG.prove c p x
 
 let () =
@@ -170,8 +167,8 @@ let () =
 let p' =
   Polynomial.create
     [|
-      Finite_field.(inj_ring (random c.finite_field_generator));
-      Finite_field.(inj_ring (random c.finite_field_generator));
+      Finite_field.(random c.finite_field_generator);
+      Finite_field.(random c.finite_field_generator);
     |]
 
 let cm' = KZG.commit c p'
@@ -181,7 +178,7 @@ let rhs = KZG.commit c (Polynomial.add p p')
 (* KZG commitments are homomorphic *)
 let () = assert (Elliptic_curve.(equal lhs rhs))
 let x' = Finite_field.random c.finite_field_generator
-let y' = Finite_field.inj_field (Polynomial.eval p' (Finite_field.inj_ring x'))
+let y' = Polynomial.eval p' x'
 let pi' = KZG.prove c p' x'
 let () = assert (KZG.verify c cm' x' y' pi')
 

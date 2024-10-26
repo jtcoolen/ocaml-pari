@@ -1,6 +1,6 @@
 include Pari_bindings
 
-type ('kind, 'structure) typ = gen
+type 'kind ty = gen
 
 let t = gen
 
@@ -16,7 +16,7 @@ type 'a polynomial = Polynomial of 'a
 type integer_mod = Integer_mod
 type finite_field = Finite_field
 type number_field = Number_field
-type elliptic_curve = Elliptic_curve
+type 'a elliptic_curve = Elliptic_curve of 'a
 
 let register_gc v =
   Gc.finalise_last (fun () -> pari_free Ctypes.(coerce gen (ptr void) v)) v
@@ -48,7 +48,7 @@ end
 module Rational = struct
   type t = gen
 
-  let[@inline] inj_ring x = Fun.id x
+  let of_int i = stoi (Signed.Long.of_int i)
   let[@inline] inj_real x = Fun.id x
   let[@inline] inj_complex x = Fun.id x
   let shift x s = mpshift x (Signed.Long.of_int s)
@@ -60,8 +60,6 @@ module Integer = struct
   let[@inline] inj_rat x = Fun.id x
   let[@inline] inj_real x = Fun.id x
   let[@inline] inj_complex x = Fun.id x
-  let[@inline] inj_unique_factorization_domain x = Fun.id x
-  let to_integer : gen -> t = Fun.id
   let equal x y = equalii x y = 1
   let of_int i = stoi (Signed.Long.of_int i)
   let to_int i = Signed.Long.to_int (itos i)
@@ -341,7 +339,6 @@ module Number_field = struct
   let discriminant nf = nf_get_disc nf
   let z_basis nf = nf_get_zk nf
   let elt a = Vector.(transpose_row (of_array a))
-  let inj_ring x = x
   let add nf a b = nfadd nf a b
   let mul nf a b = nfmul nf a b
 
@@ -362,12 +359,12 @@ module Number_field = struct
 end
 
 type 'a group_structure = {
-  mul : ('a, group) typ -> ('a, group) typ -> ('a, group) typ;
-  pow : ('a, group) typ -> Integer.t -> ('a, group) typ;
-  rand : unit -> ('a, group) typ;
-  hash : ('a, group) typ -> Unsigned.ULong.t;
-  equal : ('a, group) typ -> ('a, group) typ -> bool;
-  equal_identity : ('a, group) typ -> bool;
+  mul : 'a ty -> 'a ty -> 'a ty;
+  pow : 'a ty -> Integer.t -> 'a ty;
+  rand : unit -> 'a ty;
+  hash : 'a ty -> Unsigned.ULong.t;
+  equal : 'a ty -> 'a ty -> bool;
+  equal_identity : 'a ty -> bool;
   bb_group : bb_group Ctypes.structure option;
 }
 
@@ -380,9 +377,6 @@ end
 
 module Finite_field = struct
   type t = gen
-
-  let[@inline] inj_ring x = Fun.id x
-  let[@inline] inj_field x = Fun.id x
 
   let generator ~order =
     ff_primroot

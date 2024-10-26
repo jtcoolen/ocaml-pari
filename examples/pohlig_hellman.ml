@@ -37,7 +37,7 @@ let pohlig_hellman_prime_power_order ~mul ~pow ~dlp_solve_prime ~base ~prime
 let pohlig_hellman ~order ~mul ~pow ~dlp_solve_prime ~base ~group_order h =
   let f base_order_factorization (prime, valuation) =
     let ord = Integer.(pow prime (of_int valuation)) in
-    let n = Integer.(divexact (to_integer group_order) ord) in
+    let n = Integer.(divexact group_order ord) in
     let*? intermediate_log =
       pohlig_hellman_prime_power_order ~mul ~pow ~dlp_solve_prime
         ~base:(pow base n) ~prime (pow h n) ~base_order_factorization
@@ -54,7 +54,7 @@ let pohlig_hellman ~order ~mul ~pow ~dlp_solve_prime ~base ~group_order h =
     else if dvdii (order base) (order h) = 0 then None
     else
       let factors = factor group_order in
-      let base_order = Integer.inj_unique_factorization_domain (order base) in
+      let base_order = order base in
       let logs = Array.map (f (factor base_order)) factors in
       if Array.for_all Option.is_some logs then
         let logs = Vector.of_array (Array.map Option.get logs) in
@@ -148,9 +148,7 @@ let rho_pollard_with_retries ~one ~mul ~pow ~class_x ~group_order ~base h =
 let zn_dlog ~base x =
   with_stack_clean_opt (fun () ->
       let modulo = Integer_mod.get_modulo base in
-      let group_order =
-        Integer.inj_unique_factorization_domain (eulerphi modulo)
-      in
+      let group_order = eulerphi modulo in
       let class_x x =
         Integer.(to_int (modulo (Integer_mod.lift x) (of_int 3)))
       in
@@ -177,10 +175,7 @@ let ell_solve_dlog ~ell ~base x =
         in
         Integer.(to_int (modulo h (of_int 3)))
       in
-      let group_order =
-        Integer.inj_unique_factorization_domain
-          (Elliptic_curve.order_elt ell base)
-      in
+      let group_order = Elliptic_curve.order_elt ell base in
       let mul = Elliptic_curve.add ell in
       let pow p n = Elliptic_curve.mul ell ~n ~p in
       pohlig_hellman
