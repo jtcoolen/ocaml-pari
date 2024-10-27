@@ -574,6 +574,183 @@ module Elliptic_curve : sig
   val order_elt : 'a t -> 'a elt -> Integer.t
   val to_string_elt : 'a elt -> string
   val log : 'a t -> base:'a elt -> 'a elt -> Integer.t option
+  val ellanalyticrank : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val ellanalyticrank_bitprec : 'a ty -> 'a ty -> Signed.long -> 'a ty
+
+  val ellanal_globalred_all :
+    'a ty ->
+    'a ty Ctypes_static.ptr ->
+    'a ty Ctypes_static.ptr ->
+    'a ty Ctypes_static.ptr ->
+    'a ty
+
+  val ellsupersingularj_fpxq : 'a ty -> 'a ty -> 'a ty
+  val elltrace_extension : 'a ty -> Signed.long -> 'a ty -> 'a ty
+  val ellheegner : 'a ty -> 'a ty
+  val elll1 : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val elll1_bitprec : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellconvertname : 'a ty -> 'a ty
+  val elldatagenerators : 'a ty -> 'a ty
+  val ellidentify : 'a ty -> 'a ty
+  val ellsearch : 'a ty -> 'a ty
+  val ellsearchcurve : 'a ty -> 'a ty
+  val ell_is_integral : 'a ty -> int
+  val ellq_get_cm : 'a ty -> Signed.long
+  val ellq_get_n : 'a ty -> 'a ty
+
+  val ellq_get_nfa :
+    'a ty -> 'a ty Ctypes_static.ptr -> 'a ty Ctypes_static.ptr -> unit
+
+  val ellqp_tate_uniformization : 'a ty -> Signed.long -> 'a ty
+  val ellqp_agm : 'a ty -> Signed.long -> 'a ty
+  val ellqp_u : 'a ty -> Signed.long -> 'a ty
+  val ellqp_u2 : 'a ty -> Signed.long -> 'a ty
+  val ellqp_q : 'a ty -> Signed.long -> 'a ty
+  val ellqp_ab : 'a ty -> Signed.long -> 'a ty
+  val ellqp_l : 'a ty -> Signed.long -> 'a ty
+  val ellqp_root : 'a ty -> Signed.long -> 'a ty
+  val ellqtwist_bsdperiod : 'a ty -> Signed.long -> 'a ty
+  val ellr_area : 'a ty -> Signed.long -> 'a ty
+  val ellr_ab : 'a ty -> Signed.long -> 'a ty
+  val ellr_eta : 'a ty -> Signed.long -> 'a ty
+  val ellr_omega : 'a ty -> Signed.long -> 'a ty
+  val ellr_roots : 'a ty -> Signed.long -> 'a ty
+  val ellan : 'a ty -> Signed.long -> 'a ty
+  val ellanq_zv : 'a ty -> Signed.long -> 'a ty
+  val ellanal_globalred : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
+  val ellap : 'a ty -> 'a ty -> 'a ty
+  val ellap_cm_fast : 'a ty -> pari_ulong -> Signed.long -> Signed.long
+  val ellbasechar : 'a ty -> 'a ty
+  val ellbsd : 'a ty -> Signed.long -> 'a ty
+  val ellchangecurve : 'a ty -> 'a ty -> 'a ty
+  val ellchangeinvert : 'a ty -> 'a ty
+  val ellchangepoint : 'a ty -> 'a ty -> 'a ty
+  val ellchangepointinv : 'a ty -> 'a ty -> 'a ty
+  val elleisnum : 'a ty -> Signed.long -> Signed.long -> Signed.long -> 'a ty
+  val elleta : 'a ty -> Signed.long -> 'a ty
+  val elleulerf : 'a ty -> 'a ty -> 'a ty
+  val ellff_get_card : 'a ty -> 'a ty
+  val ellff_get_gens : 'a ty -> 'a ty
+  val ellff_get_group : 'a ty -> 'a ty
+  val ellff_get_o : 'a ty -> 'a ty
+  val ellff_get_p : 'a ty -> 'a ty
+  val ellff_get_m : 'a ty -> 'a ty
+  val ellff_get_d : 'a ty -> 'a ty
+  val ellfromj : 'a ty -> 'a ty
+  val ellgenerators : 'a ty -> 'a ty
+  val ellglobalred : 'a ty -> 'a ty
+  val ellgroup : 'a ty -> 'a ty -> 'a ty
+  val ellgroup0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val ellheight0 : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val ellheight : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val ellheightmatrix : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val ellheightoo : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val ellintegralmodel : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
+  val ellintegralmodel_i : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
+  val elliscm : 'a ty -> Signed.long
+  val ellisoncurve : 'a ty -> 'a ty -> 'a ty
+  val ellisotree : 'a ty -> 'a ty
+  val ellissupersingular : 'a ty -> 'a ty -> int
+  val elljissupersingular : 'a ty -> int
+  val elllseries : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val elllocalred : 'a ty -> 'a ty -> 'a ty
+  val elllog : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val ellminimaldisc : 'a ty -> 'a ty
+  val ellminimalmodel : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
+  val ellminimaltwist : 'a ty -> 'a ty
+  val ellminimaltwist0 : 'a ty -> Signed.long -> 'a ty
+  val ellminimaltwistcond : 'a ty -> 'a ty
+  val ellnf_vecarea : 'a ty -> Signed.long -> 'a ty
+  val ellnf_veceta : 'a ty -> Signed.long -> 'a ty
+  val ellnf_vecomega : 'a ty -> Signed.long -> 'a ty
+  val ellneg : 'a ty -> 'a ty -> 'a ty
+  val ellorder : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val ellorder_q : 'a ty -> 'a ty -> Signed.long
+  val ellordinate : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val ellpadicheight0 : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty -> 'a ty
+  val ellpadicheightmatrix : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
+  val ellperiods : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellrootno : 'a ty -> 'a ty -> Signed.long
+  val ellrootno_global : 'a ty -> Signed.long
+  val ellsaturation : 'a ty -> 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellsea : 'a ty -> Signed.long -> 'a ty
+  val ellsigma : 'a ty -> 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellsupersingularj : 'a ty -> 'a ty
+  val elltamagawa : 'a ty -> 'a ty
+  val elltaniyama : 'a ty -> Signed.long -> 'a ty
+  val elltatepairing : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val elltors : 'a ty -> 'a ty
+  val elltors0 : 'a ty -> Signed.long -> 'a ty
+  val elltors_psylow : 'a ty -> pari_ulong -> 'a ty
+  val elltrace : 'a ty -> 'a ty -> 'a ty
+  val elltwist : 'a ty -> 'a ty -> 'a ty
+  val ellwp : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val ellwp0 : 'a ty -> 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellwpseries : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellxn : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellzeta : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val ellfromeqn : 'a ty -> 'a ty
+  val ellformaldifferential : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellformalexp : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellformallog : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellformalpoint : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellformalw : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellnonsingularmultiple : 'a ty -> 'a ty -> 'a ty
+
+  val ellpadicl :
+    'a ty -> 'a ty -> Signed.long -> 'a ty -> Signed.long -> 'a ty -> 'a ty
+
+  val ellpadicbsd : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
+  val ellpadicfrobenius : 'a ty -> pari_ulong -> Signed.long -> 'a ty
+  val ellpadicheight : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
+  val ellpadiclog : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
+  val ellpadicregulator : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
+  val ellpadics2 : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val ell2cover : 'a ty -> Signed.long -> 'a ty
+  val ellrank : 'a ty -> Signed.long -> 'a ty -> Signed.long -> 'a ty
+  val ellrankinit : 'a ty -> Signed.long -> 'a ty
+
+  val ellisdivisible :
+    'a ty -> 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> Signed.long
+
+  val ellisogenyapply : 'a ty -> 'a ty -> 'a ty
+
+  val ellisogeny :
+    'a ty -> 'a ty -> Signed.long -> Signed.long -> Signed.long -> 'a ty
+
+  val ellisomat : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val ellweilcurve : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
+  val ell_get_a1 : 'a ty -> 'a ty
+  val ell_get_a2 : 'a ty -> 'a ty
+  val ell_get_a3 : 'a ty -> 'a ty
+  val ell_get_a4 : 'a ty -> 'a ty
+  val ell_get_a6 : 'a ty -> 'a ty
+  val ell_get_b2 : 'a ty -> 'a ty
+  val ell_get_b4 : 'a ty -> 'a ty
+  val ell_get_b6 : 'a ty -> 'a ty
+  val ell_get_b8 : 'a ty -> 'a ty
+  val ell_get_c4 : 'a ty -> 'a ty
+  val ell_get_c6 : 'a ty -> 'a ty
+  val ell_get_type : 'a ty -> Signed.long
+  val ellff_get_field : 'a ty -> 'a ty
+  val ellff_get_a4a6 : 'a ty -> 'a ty
+  val ellqp_get_zero : 'a ty -> 'a ty
+  val ellqp_get_prec : 'a ty -> Signed.long
+  val ellqp_get_p : 'a ty -> 'a ty
+  val ellr_get_prec : 'a ty -> Signed.long
+  val ellr_get_sign : 'a ty -> Signed.long
+  val ellnf_get_nf : 'a ty -> 'a ty
+  val ellnf_get_bnf : 'a ty -> 'a ty
+  val ellmodulareqn : Signed.long -> Signed.long -> Signed.long -> 'a ty
+  val ellmoddegree : 'a ty -> 'a ty
+  val ellratpoints : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val elle : 'a ty -> Signed.long -> 'a ty
+  val ellk : 'a ty -> Signed.long -> 'a ty
+
+  val ellpadiclambdamu :
+    'a ty -> Signed.long -> Signed.long -> Signed.long -> 'a ty
+
+  val ell_is_inf : 'a ty -> int
 end
 
 val logstyle_none : int64
@@ -2387,8 +2564,6 @@ val get_fpxqe_group :
   'a ty ->
   bb_group Ctypes.structure Ctypes_static.ptr
 
-val ellsupersingularj_fpxq : 'a ty -> 'a ty -> 'a ty
-val elltrace_extension : 'a ty -> Signed.long -> 'a ty -> 'a ty
 val random_fpe : 'a ty -> 'a ty -> 'a ty -> 'a ty
 val random_fpxqe : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val fp_issquare : 'a ty -> 'a ty -> int
@@ -5663,24 +5838,6 @@ val dirpowerssumfun :
 
 val vecpowuu : Signed.long -> pari_ulong -> 'a ty
 val vecpowug : Signed.long -> 'a ty -> Signed.long -> 'a ty
-val ellanalyticrank : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val ellanalyticrank_bitprec : 'a ty -> 'a ty -> Signed.long -> 'a ty
-
-val ellanal_globalred_all :
-  'a ty ->
-  'a ty Ctypes_static.ptr ->
-  'a ty Ctypes_static.ptr ->
-  'a ty Ctypes_static.ptr ->
-  'a ty
-
-val ellheegner : 'a ty -> 'a ty
-val elll1 : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val elll1_bitprec : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellconvertname : 'a ty -> 'a ty
-val elldatagenerators : 'a ty -> 'a ty
-val ellidentify : 'a ty -> 'a ty
-val ellsearch : 'a ty -> 'a ty
-val ellsearchcurve : 'a ty -> 'a ty
 
 val forell :
   unit Ctypes_static.ptr ->
@@ -5690,7 +5847,6 @@ val forell :
   Signed.long ->
   unit
 
-val ellfromeqn : 'a ty -> 'a ty
 val akell : 'a ty -> 'a ty -> 'a ty
 val bilhell : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
 val checkell : 'a ty -> unit
@@ -5716,101 +5872,6 @@ val ec_dmfdy_evalq : 'a ty -> 'a ty -> 'a ty
 val ec_half_deriv_2divpol : 'a ty -> Signed.long -> 'a ty
 val ec_half_deriv_2divpol_evalx : 'a ty -> 'a ty -> 'a ty
 val ec_phi2 : 'a ty -> Signed.long -> 'a ty
-val ell_is_integral : 'a ty -> int
-val ellq_get_cm : 'a ty -> Signed.long
-val ellq_get_n : 'a ty -> 'a ty
-
-val ellq_get_nfa :
-  'a ty -> 'a ty Ctypes_static.ptr -> 'a ty Ctypes_static.ptr -> unit
-
-val ellqp_tate_uniformization : 'a ty -> Signed.long -> 'a ty
-val ellqp_agm : 'a ty -> Signed.long -> 'a ty
-val ellqp_u : 'a ty -> Signed.long -> 'a ty
-val ellqp_u2 : 'a ty -> Signed.long -> 'a ty
-val ellqp_q : 'a ty -> Signed.long -> 'a ty
-val ellqp_ab : 'a ty -> Signed.long -> 'a ty
-val ellqp_l : 'a ty -> Signed.long -> 'a ty
-val ellqp_root : 'a ty -> Signed.long -> 'a ty
-val ellqtwist_bsdperiod : 'a ty -> Signed.long -> 'a ty
-val ellr_area : 'a ty -> Signed.long -> 'a ty
-val ellr_ab : 'a ty -> Signed.long -> 'a ty
-val ellr_eta : 'a ty -> Signed.long -> 'a ty
-val ellr_omega : 'a ty -> Signed.long -> 'a ty
-val ellr_roots : 'a ty -> Signed.long -> 'a ty
-val ellan : 'a ty -> Signed.long -> 'a ty
-val ellanq_zv : 'a ty -> Signed.long -> 'a ty
-val ellanal_globalred : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
-val ellap : 'a ty -> 'a ty -> 'a ty
-val ellap_cm_fast : 'a ty -> pari_ulong -> Signed.long -> Signed.long
-val ellbasechar : 'a ty -> 'a ty
-val ellbsd : 'a ty -> Signed.long -> 'a ty
-val ellchangecurve : 'a ty -> 'a ty -> 'a ty
-val ellchangeinvert : 'a ty -> 'a ty
-val ellchangepoint : 'a ty -> 'a ty -> 'a ty
-val ellchangepointinv : 'a ty -> 'a ty -> 'a ty
-val elleisnum : 'a ty -> Signed.long -> Signed.long -> Signed.long -> 'a ty
-val elleta : 'a ty -> Signed.long -> 'a ty
-val elleulerf : 'a ty -> 'a ty -> 'a ty
-val ellff_get_card : 'a ty -> 'a ty
-val ellff_get_gens : 'a ty -> 'a ty
-val ellff_get_group : 'a ty -> 'a ty
-val ellff_get_o : 'a ty -> 'a ty
-val ellff_get_p : 'a ty -> 'a ty
-val ellff_get_m : 'a ty -> 'a ty
-val ellff_get_d : 'a ty -> 'a ty
-val ellfromj : 'a ty -> 'a ty
-val ellgenerators : 'a ty -> 'a ty
-val ellglobalred : 'a ty -> 'a ty
-val ellgroup : 'a ty -> 'a ty -> 'a ty
-val ellgroup0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val ellheight0 : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
-val ellheight : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val ellheightmatrix : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val ellheightoo : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val ellintegralmodel : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
-val ellintegralmodel_i : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
-val elliscm : 'a ty -> Signed.long
-val ellisoncurve : 'a ty -> 'a ty -> 'a ty
-val ellisotree : 'a ty -> 'a ty
-val ellissupersingular : 'a ty -> 'a ty -> int
-val elljissupersingular : 'a ty -> int
-val elllseries : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
-val elllocalred : 'a ty -> 'a ty -> 'a ty
-val elllog : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
-val ellminimaldisc : 'a ty -> 'a ty
-val ellminimalmodel : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
-val ellminimaltwist : 'a ty -> 'a ty
-val ellminimaltwist0 : 'a ty -> Signed.long -> 'a ty
-val ellminimaltwistcond : 'a ty -> 'a ty
-val ellnf_vecarea : 'a ty -> Signed.long -> 'a ty
-val ellnf_veceta : 'a ty -> Signed.long -> 'a ty
-val ellnf_vecomega : 'a ty -> Signed.long -> 'a ty
-val ellneg : 'a ty -> 'a ty -> 'a ty
-val ellorder : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val ellorder_q : 'a ty -> 'a ty -> Signed.long
-val ellordinate : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val ellpadicheight0 : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty -> 'a ty
-val ellpadicheightmatrix : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
-val ellperiods : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellrootno : 'a ty -> 'a ty -> Signed.long
-val ellrootno_global : 'a ty -> Signed.long
-val ellsaturation : 'a ty -> 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellsea : 'a ty -> Signed.long -> 'a ty
-val ellsigma : 'a ty -> 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellsupersingularj : 'a ty -> 'a ty
-val elltamagawa : 'a ty -> 'a ty
-val elltaniyama : 'a ty -> Signed.long -> 'a ty
-val elltatepairing : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
-val elltors : 'a ty -> 'a ty
-val elltors0 : 'a ty -> Signed.long -> 'a ty
-val elltors_psylow : 'a ty -> pari_ulong -> 'a ty
-val elltrace : 'a ty -> 'a ty -> 'a ty
-val elltwist : 'a ty -> 'a ty -> 'a ty
-val ellwp : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val ellwp0 : 'a ty -> 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellwpseries : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellxn : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellzeta : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val oncurve : 'a ty -> 'a ty -> int
 val orderell : 'a ty -> 'a ty -> 'a ty
 val pointell : 'a ty -> 'a ty -> Signed.long -> 'a ty
@@ -5828,40 +5889,10 @@ val qp_ascending_landen :
 val qp_descending_landen :
   'a ty -> 'a ty Ctypes_static.ptr -> 'a ty Ctypes_static.ptr -> unit
 
-val ellformaldifferential : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellformalexp : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellformallog : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellformalpoint : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellformalw : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellnonsingularmultiple : 'a ty -> 'a ty -> 'a ty
-
-val ellpadicl :
-  'a ty -> 'a ty -> Signed.long -> 'a ty -> Signed.long -> 'a ty -> 'a ty
-
-val ellpadicbsd : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
-val ellpadicfrobenius : 'a ty -> pari_ulong -> Signed.long -> 'a ty
-val ellpadicheight : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
-val ellpadiclog : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
-val ellpadicregulator : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
-val ellpadics2 : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val ell2cover : 'a ty -> Signed.long -> 'a ty
-val ellrank : 'a ty -> Signed.long -> 'a ty -> Signed.long -> 'a ty
-val ellrankinit : 'a ty -> Signed.long -> 'a ty
 val hyperell_locally_soluble : 'a ty -> 'a ty -> Signed.long
 val nf_hyperell_locally_soluble : 'a ty -> 'a ty -> 'a ty -> Signed.long
 val nfhilbert : 'a ty -> 'a ty -> 'a ty -> Signed.long
 val nfhilbert0 : 'a ty -> 'a ty -> 'a ty -> 'a ty -> Signed.long
-
-val ellisdivisible :
-  'a ty -> 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> Signed.long
-
-val ellisogenyapply : 'a ty -> 'a ty -> 'a ty
-
-val ellisogeny :
-  'a ty -> 'a ty -> Signed.long -> Signed.long -> Signed.long -> 'a ty
-
-val ellisomat : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val ellweilcurve : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
 
 val flxq_elldivpolmod :
   'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty -> pari_ulong -> 'a ty
@@ -5874,7 +5905,6 @@ val fq_ellcard_sea :
 val fq_elldivpolmod :
   'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 
-val ellmodulareqn : Signed.long -> Signed.long -> Signed.long -> 'a ty
 val externstr : string -> 'a ty
 val gp_filter : string -> string
 val gpextern : string -> 'a ty
@@ -7209,7 +7239,6 @@ val theta_get_isqrtn : 'a ty -> 'a ty
 val vgaeasytheta : 'a ty -> int
 val znchargauss : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
 val dirzetak : 'a ty -> 'a ty -> 'a ty
-val ellmoddegree : 'a ty -> 'a ty
 val eta_zxn : Signed.long -> Signed.long -> 'a ty
 val eta_product_zxn : 'a ty -> Signed.long -> 'a ty
 
@@ -8339,7 +8368,6 @@ val random_fl : pari_ulong -> pari_ulong
 val random_bits : Signed.long -> Signed.long
 val random_zv : Signed.long -> 'a ty
 val setrand : 'a ty -> unit
-val ellratpoints : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val hyperellratpoints : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val qx_complex_roots : 'a ty -> Signed.long -> 'a ty
 val fft : 'a ty -> 'a ty -> 'a ty
@@ -8588,8 +8616,6 @@ val consteuler : Signed.long -> 'a ty
 val constlog2 : Signed.long -> 'a ty
 val constpi : Signed.long -> 'a ty
 val cxexpm1 : 'a ty -> Signed.long -> 'a ty
-val elle : 'a ty -> Signed.long -> 'a ty
-val ellk : 'a ty -> Signed.long -> 'a ty
 val expir : 'a ty -> 'a ty
 val exp1r_abs : 'a ty -> 'a ty
 val gcos : 'a ty -> Signed.long -> 'a ty
@@ -8766,10 +8792,6 @@ val rgx_act_gl2q : 'a ty -> Signed.long -> 'a ty
 val rgx_act_zgl2q : 'a ty -> Signed.long -> 'a ty
 val checkms : 'a ty -> unit
 val checkmspadic : 'a ty -> unit
-
-val ellpadiclambdamu :
-  'a ty -> Signed.long -> Signed.long -> Signed.long -> 'a ty
-
 val mfnumcusps : 'a ty -> 'a ty
 val mfnumcusps_fact : 'a ty -> 'a ty
 val mfnumcuspsu_fact : 'a ty -> pari_ulong
@@ -9705,29 +9727,7 @@ val gdiventz : 'a ty -> 'a ty -> 'a ty -> unit
 val gmodz : 'a ty -> 'a ty -> 'a ty -> unit
 val gmul2nz : 'a ty -> Signed.long -> 'a ty -> unit
 val gshiftz : 'a ty -> Signed.long -> 'a ty -> unit
-val ell_get_a1 : 'a ty -> 'a ty
-val ell_get_a2 : 'a ty -> 'a ty
-val ell_get_a3 : 'a ty -> 'a ty
-val ell_get_a4 : 'a ty -> 'a ty
-val ell_get_a6 : 'a ty -> 'a ty
-val ell_get_b2 : 'a ty -> 'a ty
-val ell_get_b4 : 'a ty -> 'a ty
-val ell_get_b6 : 'a ty -> 'a ty
-val ell_get_b8 : 'a ty -> 'a ty
-val ell_get_c4 : 'a ty -> 'a ty
-val ell_get_c6 : 'a ty -> 'a ty
-val ell_get_type : 'a ty -> Signed.long
-val ellff_get_field : 'a ty -> 'a ty
-val ellff_get_a4a6 : 'a ty -> 'a ty
-val ellqp_get_zero : 'a ty -> 'a ty
-val ellqp_get_prec : 'a ty -> Signed.long
-val ellqp_get_p : 'a ty -> 'a ty
-val ellr_get_prec : 'a ty -> Signed.long
-val ellr_get_sign : 'a ty -> Signed.long
-val ellnf_get_nf : 'a ty -> 'a ty
-val ellnf_get_bnf : 'a ty -> 'a ty
 val checkell_i : 'a ty -> int
-val ell_is_inf : 'a ty -> int
 val modpr_get_pr : 'a ty -> 'a ty
 val modpr_get_p : 'a ty -> 'a ty
 val modpr_get_t : 'a ty -> 'a ty
