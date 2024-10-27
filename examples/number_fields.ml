@@ -73,4 +73,4 @@ let mp =
 
 let _ = Printf.eprintf "mp=%s\n" (gentostr mp)
 let _ = Printf.eprintf "mp=%s\n" (gentostr (Number_field.splitting (`F _nf2)))
-let _ = Printf.eprintf "mp=%s\n" (gentostr (polred (Obj.magic mp)))
+let _ = Printf.eprintf "mp=%s\n" (gentostr (Polynomial.polred (Obj.magic mp)))

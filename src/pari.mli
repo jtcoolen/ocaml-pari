@@ -331,6 +331,111 @@ module Polynomial : sig
     f:('a -> 'b -> 'c -> 'c) -> acc:'c -> 'a t -> ('b, _) Vector.t -> 'c
 
   val inj_base_ring : inj:('a -> 'b) -> 'a t -> 'b t
+
+  (* *)
+
+  val pol1_f2xx : Signed.long -> Signed.long -> 'a ty
+  val polx_f2xx : Signed.long -> Signed.long -> 'a ty
+  val pol1_flxx : Signed.long -> Signed.long -> 'a ty
+  val polx_flxx : Signed.long -> Signed.long -> 'a ty
+  val polisclass : 'a ty -> Signed.long
+  val polrootsff : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val polteichmuller : 'a ty -> pari_ulong -> Signed.long -> 'a ty
+  val polhensellift : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val polcyclofactors : 'a ty -> 'a ty
+  val poliscyclo : 'a ty -> Signed.long
+  val poliscycloprod : 'a ty -> Signed.long
+  val polredord : 'a ty -> 'a ty
+  val polred : 'a ty -> 'a ty
+  val polred0 : 'a ty -> Signed.long -> 'a ty -> 'a ty
+  val polred2 : 'a ty -> 'a ty
+  val polredabs : 'a ty -> 'a ty
+  val polredabs0 : 'a ty -> Signed.long -> 'a ty
+  val polredabs2 : 'a ty -> 'a ty
+  val polredabsall : 'a ty -> Signed.long -> 'a ty
+  val poltomonic : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
+  val polcompositum0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val poldiscfactors : 'a ty -> Signed.long -> 'a ty
+  val polmod_nffix : string -> 'a ty -> 'a ty -> int -> 'a ty
+  val polmod_nffix2 : string -> 'a ty -> 'a ty -> 'a ty -> int -> 'a ty
+  val polcyclo_eval : Signed.long -> 'a ty -> 'a ty
+  val polhermite : Signed.long -> Signed.long -> 'a ty
+  val polhermite_eval0 : Signed.long -> 'a ty -> Signed.long -> 'a ty
+  val polhermite_eval : Signed.long -> 'a ty -> 'a ty
+  val pollaguerre : Signed.long -> 'a ty -> Signed.long -> 'a ty
+  val pollaguerre_eval : Signed.long -> 'a ty -> 'a ty -> 'a ty
+  val pollaguerre_eval0 : Signed.long -> 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val pollegendre : Signed.long -> Signed.long -> 'a ty
+  val pollegendre_reduced : Signed.long -> Signed.long -> 'a ty
+  val pollegendre_eval : Signed.long -> 'a ty -> 'a ty
+  val pollegendre_eval0 : Signed.long -> 'a ty -> Signed.long -> 'a ty
+  val polint : 'a ty -> 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
+
+  val polint_i :
+    'a ty -> 'a ty -> 'a ty -> Signed.long Ctypes_static.ptr -> 'a ty
+
+  val polintspec :
+    'a ty ->
+    'a ty ->
+    'a ty ->
+    Signed.long ->
+    Signed.long Ctypes_static.ptr ->
+    'a ty
+
+  val polchebyshev : Signed.long -> Signed.long -> Signed.long -> 'a ty
+  val polchebyshev_eval : Signed.long -> Signed.long -> 'a ty -> 'a ty
+  val polchebyshev1 : Signed.long -> Signed.long -> 'a ty
+  val polchebyshev2 : Signed.long -> Signed.long -> 'a ty
+  val polrecip : 'a ty -> 'a ty
+  val polgalois : 'a ty -> Signed.long -> 'a ty
+  val polcoef : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val polcoef_i : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val poldegree : 'a ty -> Signed.long -> Signed.long
+  val pollead : 'a ty -> Signed.long -> 'a ty
+  val polfnf : 'a ty -> 'a ty -> 'a ty
+  val poldivrem : 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
+  val polrootspadic : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val poldisc0 : 'a ty -> Signed.long -> 'a ty
+  val polresultant0 : 'a ty -> 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val polsym : 'a ty -> Signed.long -> 'a ty
+  val polresultantext0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val polresultantext : 'a ty -> 'a ty -> 'a ty
+  val pol0_f2x : Signed.long -> 'a ty
+  val pol1_f2x : Signed.long -> 'a ty
+  val polx_f2x : Signed.long -> 'a ty
+  val polx_zx : Signed.long -> 'a ty
+  val pol_x_powers : Signed.long -> Signed.long -> 'a ty
+  val polclass : 'a ty -> Signed.long -> Signed.long -> 'a ty
+
+  val polmodular :
+    Signed.long -> Signed.long -> 'a ty -> Signed.long -> Signed.long -> 'a ty
+
+  val polmodular_zm : Signed.long -> Signed.long -> 'a ty
+
+  val polmodular_zxx :
+    Signed.long -> Signed.long -> Signed.long -> Signed.long -> 'a ty
+
+  val polgraeffe : 'a ty -> 'a ty
+  val polmod_to_embed : 'a ty -> Signed.long -> 'a ty
+  val polrootsbound : 'a ty -> 'a ty -> 'a ty
+  val polsubcyclo : Signed.long -> Signed.long -> Signed.long -> 'a ty
+
+  val polsubcyclofast :
+    'a ty -> Signed.long -> Signed.long -> Signed.long -> 'a ty
+
+  val polzag : Signed.long -> Signed.long -> 'a ty
+  val polylog0 : Signed.long -> 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val polylogmult : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val polylogmult_interpolate : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val pol_x : Signed.long -> 'a ty
+  val pol_xn : Signed.long -> Signed.long -> 'a ty
+  val pol_xnall : Signed.long -> Signed.long -> 'a ty
+  val polxn_flx : Signed.long -> Signed.long -> 'a ty
+  val pol_1 : Signed.long -> 'a ty
+  val pol_0 : Signed.long -> 'a ty
+  val pol0_flx : Signed.long -> 'a ty
+  val pol1_flx : Signed.long -> 'a ty
+  val polx_flx : Signed.long -> 'a ty
 end
 
 module Fp : sig
@@ -1803,8 +1908,6 @@ val get_f2xq_field :
   bb_field Ctypes.structure Ctypes_static.ptr
 
 val monomial_f2x : Signed.long -> Signed.long -> 'a ty
-val pol1_f2xx : Signed.long -> Signed.long -> 'a ty
-val polx_f2xx : Signed.long -> Signed.long -> 'a ty
 val random_f2xqx : Signed.long -> Signed.long -> 'a ty -> 'a ty
 val f2x_teichmuller : 'a ty -> Signed.long -> 'a ty
 val f2xq_ellcard : 'a ty -> 'a ty -> 'a ty -> 'a ty
@@ -2585,8 +2688,6 @@ val get_flxqxq_algebra :
   pari_ulong ->
   bb_algebra Ctypes.structure Ctypes_static.ptr
 
-val pol1_flxx : Signed.long -> Signed.long -> 'a ty
-val polx_flxx : Signed.long -> Signed.long -> 'a ty
 val random_flxqx : Signed.long -> Signed.long -> 'a ty -> pari_ulong -> 'a ty
 
 val zlxx_translate1 :
@@ -2659,7 +2760,6 @@ val get_flxqe_group :
 
 val rge_to_flxqe : 'a ty -> 'a ty -> pari_ulong -> 'a ty
 val random_flxqe : 'a ty -> 'a ty -> 'a ty -> pari_ulong -> 'a ty
-val polisclass : 'a ty -> Signed.long
 val fl_elltrace : pari_ulong -> pari_ulong -> pari_ulong -> Signed.long
 
 val fl_elltrace_cm :
@@ -3103,7 +3203,6 @@ val ff_parse_tp :
   Signed.long ->
   int
 
-val polrootsff : 'a ty -> 'a ty -> 'a ty -> 'a ty
 val rootmod0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val fpxqx_fpxq_mul : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val fpxqx_fpxqxqv_eval : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
@@ -3470,16 +3569,11 @@ val gen_zpx_newton :
   Ctypes_static.static_funptr ->
   'a ty
 
-val polteichmuller : 'a ty -> pari_ulong -> Signed.long -> 'a ty
-val polhensellift : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
 val quadratic_prec_mask : Signed.long -> pari_ulong
 val qx_factor : 'a ty -> 'a ty
 val zx_factor : 'a ty -> 'a ty
 val zx_is_irred : 'a ty -> Signed.long
 val zx_squff : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
-val polcyclofactors : 'a ty -> 'a ty
-val poliscyclo : 'a ty -> Signed.long
-val poliscycloprod : 'a ty -> Signed.long
 val rg_rgc_sub : 'a ty -> 'a ty -> 'a ty
 val rgc_rg_add : 'a ty -> 'a ty -> 'a ty
 val rgc_rg_div : 'a ty -> 'a ty -> 'a ty
@@ -4832,15 +4926,6 @@ val idealramfrobenius : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val idealramfrobenius_aut : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val idealramgroups : 'a ty -> 'a ty -> 'a ty -> 'a ty
 val idealramgroups_aut : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
-val polredord : 'a ty -> 'a ty
-val polred : 'a ty -> 'a ty
-val polred0 : 'a ty -> Signed.long -> 'a ty -> 'a ty
-val polred2 : 'a ty -> 'a ty
-val polredabs : 'a ty -> 'a ty
-val polredabs0 : 'a ty -> Signed.long -> 'a ty
-val polredabs2 : 'a ty -> 'a ty
-val polredabsall : 'a ty -> Signed.long -> 'a ty
-val poltomonic : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
 val rnfpolredabs : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val rnfpolredbest : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val smallpolred : 'a ty -> 'a ty
@@ -4874,14 +4959,12 @@ val compositum2 : 'a ty -> 'a ty -> 'a ty
 val get_modpr : 'a ty -> 'a ty
 val indexpartial : 'a ty -> 'a ty -> 'a ty
 val modpr_genfq : 'a ty -> 'a ty
-val polcompositum0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val idealprimedec : 'a ty -> 'a ty -> 'a ty
 val idealprimedec_galois : 'a ty -> 'a ty -> 'a ty
 val idealprimedec_degrees : 'a ty -> 'a ty -> 'a ty
 val idealprimedec_kummer : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
 val idealprimedec_limit_f : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val idealprimedec_limit_norm : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val poldiscfactors : 'a ty -> Signed.long -> 'a ty
 val rnfbasis : 'a ty -> 'a ty -> 'a ty
 val rnfdedekind : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
 val rnfdet : 'a ty -> 'a ty -> 'a ty
@@ -4955,8 +5038,6 @@ val indices_to_vec01 : 'a ty -> Signed.long -> 'a ty
 val matalgtobasis : 'a ty -> 'a ty -> 'a ty
 val matbasistoalg : 'a ty -> 'a ty -> 'a ty
 val multable : 'a ty -> 'a ty -> 'a ty
-val polmod_nffix : string -> 'a ty -> 'a ty -> int -> 'a ty
-val polmod_nffix2 : string -> 'a ty -> 'a ty -> 'a ty -> int -> 'a ty
 val pr_basis_perm : 'a ty -> 'a ty -> 'a ty
 val pr_equal : 'a ty -> 'a ty -> int
 val rnfalgtobasis : 'a ty -> 'a ty -> 'a ty
@@ -5433,7 +5514,6 @@ val cmp_prime_over_p : 'a ty -> 'a ty -> int
 val cmp_universal : 'a ty -> 'a ty -> int
 val convol : 'a ty -> 'a ty -> 'a ty
 val gen_cmp_rgx : unit Ctypes_static.ptr -> 'a ty -> 'a ty -> int
-val polcyclo_eval : Signed.long -> 'a ty -> 'a ty
 val dirdiv : 'a ty -> 'a ty -> 'a ty
 val dirmul : 'a ty -> 'a ty -> 'a ty
 val eulerianpol : Signed.long -> Signed.long -> 'a ty
@@ -5516,32 +5596,6 @@ val merge_sort_uniq :
   'a ty
 
 val modreverse : 'a ty -> 'a ty
-val polhermite : Signed.long -> Signed.long -> 'a ty
-val polhermite_eval0 : Signed.long -> 'a ty -> Signed.long -> 'a ty
-val polhermite_eval : Signed.long -> 'a ty -> 'a ty
-val pollaguerre : Signed.long -> 'a ty -> Signed.long -> 'a ty
-val pollaguerre_eval : Signed.long -> 'a ty -> 'a ty -> 'a ty
-val pollaguerre_eval0 : Signed.long -> 'a ty -> 'a ty -> Signed.long -> 'a ty
-val pollegendre : Signed.long -> Signed.long -> 'a ty
-val pollegendre_reduced : Signed.long -> Signed.long -> 'a ty
-val pollegendre_eval : Signed.long -> 'a ty -> 'a ty
-val pollegendre_eval0 : Signed.long -> 'a ty -> Signed.long -> 'a ty
-val polint : 'a ty -> 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
-val polint_i : 'a ty -> 'a ty -> 'a ty -> Signed.long Ctypes_static.ptr -> 'a ty
-
-val polintspec :
-  'a ty ->
-  'a ty ->
-  'a ty ->
-  Signed.long ->
-  Signed.long Ctypes_static.ptr ->
-  'a ty
-
-val polchebyshev : Signed.long -> Signed.long -> Signed.long -> 'a ty
-val polchebyshev_eval : Signed.long -> Signed.long -> 'a ty -> 'a ty
-val polchebyshev1 : Signed.long -> Signed.long -> 'a ty
-val polchebyshev2 : Signed.long -> Signed.long -> 'a ty
-val polrecip : 'a ty -> 'a ty
 val setbinop : 'a ty -> 'a ty -> 'a ty -> 'a ty
 val setdelta : 'a ty -> 'a ty -> 'a ty
 val setintersect : 'a ty -> 'a ty -> 'a ty
@@ -6323,7 +6377,6 @@ val galoissplittinginit : 'a ty -> 'a ty -> 'a ty
 val galoissubgroups : 'a ty -> 'a ty
 val galoissubfields : 'a ty -> Signed.long -> Signed.long -> 'a ty
 val numberofconjugates : 'a ty -> Signed.long -> Signed.long
-val polgalois : 'a ty -> Signed.long -> 'a ty
 val galoisnbpol : Signed.long -> 'a ty
 val galoisgetgroup : Signed.long -> Signed.long -> 'a ty
 val galoisgetname : Signed.long -> Signed.long -> 'a ty
@@ -6633,10 +6686,6 @@ val numer_i : 'a ty -> 'a ty
 val numerator : 'a ty -> 'a ty -> 'a ty
 val padicprec : 'a ty -> 'a ty -> Signed.long
 val padicprec_relative : 'a ty -> Signed.long
-val polcoef : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val polcoef_i : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val poldegree : 'a ty -> Signed.long -> Signed.long
-val pollead : 'a ty -> Signed.long -> 'a ty
 val precision : 'a ty -> Signed.long
 val qf_apply_rgm : 'a ty -> 'a ty -> 'a ty
 val qf_apply_zm : 'a ty -> 'a ty -> 'a ty
@@ -7632,7 +7681,6 @@ val fpm_ratlift : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val fpx_ratlift : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val qxqx_gcd : 'a ty -> 'a ty -> 'a ty -> 'a ty
 val zxqx_gcd : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val polfnf : 'a ty -> 'a ty -> 'a ty
 val rnfabelianconjgen : 'a ty -> 'a ty -> 'a ty
 val rnfisabelian : 'a ty -> 'a ty -> Signed.long
 
@@ -7947,8 +7995,6 @@ val factorpadic : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val gdeuc : 'a ty -> 'a ty -> 'a ty
 val grem : 'a ty -> 'a ty -> 'a ty
 val padicappr : 'a ty -> 'a ty -> 'a ty
-val poldivrem : 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
-val polrootspadic : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val flv_factorback : 'a ty -> 'a ty -> pari_ulong -> pari_ulong
 val flxqv_factorback : 'a ty -> 'a ty -> 'a ty -> pari_ulong -> 'a ty
 val fpv_factorback : 'a ty -> 'a ty -> 'a ty -> 'a ty
@@ -8124,9 +8170,6 @@ val ginvmod : 'a ty -> 'a ty -> 'a ty
 val glcm : 'a ty -> 'a ty -> 'a ty
 val glcm0 : 'a ty -> 'a ty -> 'a ty
 val newtonpoly : 'a ty -> 'a ty -> 'a ty
-val poldisc0 : 'a ty -> Signed.long -> 'a ty
-val polresultant0 : 'a ty -> 'a ty -> Signed.long -> Signed.long -> 'a ty
-val polsym : 'a ty -> Signed.long -> 'a ty
 val primitive_part : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
 val primpart : 'a ty -> 'a ty
 val reduceddiscsmith : 'a ty -> 'a ty
@@ -8144,8 +8187,6 @@ val subresext :
 val sylvestermatrix : 'a ty -> 'a ty -> 'a ty
 val trivial_fact : unit -> 'a ty
 val gcdext0 : 'a ty -> 'a ty -> 'a ty
-val polresultantext0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val polresultantext : 'a ty -> 'a ty -> 'a ty
 val prime_fact : 'a ty -> 'a ty
 val row_q_primpart : 'a ty -> 'a ty
 val vec_q_primpart : 'a ty -> 'a ty
@@ -8292,9 +8333,7 @@ val get_fq_field :
 
 val init_flxq : pari_ulong -> Signed.long -> Signed.long -> 'a ty
 val init_fq : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val pol_x_powers : Signed.long -> Signed.long -> 'a ty
 val residual_characteristic : 'a ty -> 'a ty
-val polclass : 'a ty -> Signed.long -> Signed.long -> 'a ty
 val fp_modinv_to_j : 'a ty -> Signed.long -> 'a ty -> 'a ty
 
 val fp_polmodular_evalx :
@@ -8307,15 +8346,6 @@ val modinv_good_disc : Signed.long -> Signed.long -> int
 val modinv_good_prime : Signed.long -> Signed.long -> int
 val modinv_is_weber : Signed.long -> int
 val modinv_is_double_eta : Signed.long -> int
-
-val polmodular :
-  Signed.long -> Signed.long -> 'a ty -> Signed.long -> Signed.long -> 'a ty
-
-val polmodular_zm : Signed.long -> Signed.long -> 'a ty
-
-val polmodular_zxx :
-  Signed.long -> Signed.long -> Signed.long -> Signed.long -> 'a ty
-
 val bpsw_isprime : 'a ty -> Signed.long
 val bpsw_psp : 'a ty -> Signed.long
 val addprimes : 'a ty -> 'a ty
@@ -8409,9 +8439,6 @@ val cleanroots : 'a ty -> Signed.long -> 'a ty
 val fujiwara_bound : 'a ty -> float
 val fujiwara_bound_real : 'a ty -> Signed.long -> float
 val isrealappr : 'a ty -> Signed.long -> int
-val polgraeffe : 'a ty -> 'a ty
-val polmod_to_embed : 'a ty -> Signed.long -> 'a ty
-val polrootsbound : 'a ty -> 'a ty -> 'a ty
 val roots : 'a ty -> Signed.long -> 'a ty
 val realroots : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val zx_graeffe : 'a ty -> 'a ty
@@ -8423,11 +8450,6 @@ val zx_uspensky : 'a ty -> 'a ty -> Signed.long -> Signed.long -> 'a ty
 val factor_aurifeuille : 'a ty -> Signed.long -> 'a ty
 val factor_aurifeuille_prime : 'a ty -> Signed.long -> 'a ty
 val galoissubcyclo : 'a ty -> 'a ty -> Signed.long -> Signed.long -> 'a ty
-val polsubcyclo : Signed.long -> Signed.long -> Signed.long -> 'a ty
-
-val polsubcyclofast :
-  'a ty -> Signed.long -> Signed.long -> Signed.long -> 'a ty
-
 val znsubgroupgenerators : 'a ty -> Signed.long -> 'a ty
 val subgrouplist : 'a ty -> 'a ty -> 'a ty
 
@@ -8531,8 +8553,6 @@ val limitnum :
   'a ty ->
   Signed.long ->
   'a ty
-
-val polzag : Signed.long -> Signed.long -> 'a ty
 
 val prodeuler :
   unit Ctypes_static.ptr ->
@@ -8792,7 +8812,6 @@ val jell : 'a ty -> Signed.long -> 'a ty
 val kbessel : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val mpeint1 : 'a ty -> 'a ty -> 'a ty
 val mpveceint1 : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val polylog0 : Signed.long -> 'a ty -> Signed.long -> Signed.long -> 'a ty
 val sumdedekind : 'a ty -> 'a ty -> 'a ty
 val sumdedekind_coprime : 'a ty -> 'a ty -> 'a ty
 val szeta : Signed.long -> Signed.long -> 'a ty
@@ -8877,8 +8896,6 @@ val msfarey :
 
 val msfarey0 : 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
 val checkfarey_i : 'a ty -> int
-val polylogmult : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val polylogmult_interpolate : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
 val zetamult : 'a ty -> Signed.long -> 'a ty
 val zetamultdual : 'a ty -> 'a ty
 val zetamult_interpolate : 'a ty -> 'a ty -> Signed.long -> 'a ty
@@ -9303,12 +9320,6 @@ val mkmoo : unit -> 'a ty
 val inf_get_sign : 'a ty -> Signed.long
 val mkmat22s : Signed.long -> Signed.long -> Signed.long -> Signed.long -> 'a ty
 val mkmat22 : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
-val pol_x : Signed.long -> 'a ty
-val pol_xn : Signed.long -> Signed.long -> 'a ty
-val pol_xnall : Signed.long -> Signed.long -> 'a ty
-val polxn_flx : Signed.long -> Signed.long -> 'a ty
-val pol_1 : Signed.long -> 'a ty
-val pol_0 : Signed.long -> 'a ty
 val const_vec : Signed.long -> 'a ty -> 'a ty
 val const_col : Signed.long -> 'a ty -> 'a ty
 val const_vecsmall : Signed.long -> Signed.long -> 'a ty
@@ -9574,16 +9585,9 @@ val flx_div : 'a ty -> 'a ty -> pari_ulong -> 'a ty
 val flx_div_pre : 'a ty -> 'a ty -> pari_ulong -> pari_ulong -> 'a ty
 val f2x_div : 'a ty -> 'a ty -> 'a ty
 val fpv_fpc_mul : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val pol0_flx : Signed.long -> 'a ty
-val pol1_flx : Signed.long -> 'a ty
-val polx_flx : Signed.long -> 'a ty
 val zero_zx : Signed.long -> 'a ty
-val polx_zx : Signed.long -> 'a ty
 val zx_shift : 'a ty -> Signed.long -> 'a ty
 val zero_f2x : Signed.long -> 'a ty
-val pol0_f2x : Signed.long -> 'a ty
-val pol1_f2x : Signed.long -> 'a ty
-val polx_f2x : Signed.long -> 'a ty
 val f2x_equal1 : 'a ty -> int
 val f2x_equal : 'a ty -> 'a ty -> int
 val f2x_copy : 'a ty -> 'a ty
