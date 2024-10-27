@@ -61,7 +61,7 @@ let a4 = Number_field.mul _nf2 a2 a2
 let _ = Printf.eprintf "a4=%s\n" (gentostr a4)
 
 let mp =
-  nf_to_scalar_or_alg (Obj.magic _nf2)
+  Number_field.nf_to_scalar_or_alg (Obj.magic _nf2)
     (Number_field.add _nf2 a2
        (Number_field.elt
           [|

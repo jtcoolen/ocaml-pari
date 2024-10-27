@@ -481,6 +481,206 @@ module Number_field : sig
       splitting field of [p], that is the smallest field over
       which [p] is totally split. *)
 
+  val nf_get_allroots : 'a ty -> 'a ty
+  val nf_get_prec : 'a ty -> Signed.long
+
+  val nfmaxord_to_nf :
+    nfmaxord_t Ctypes.structure Ctypes_static.ptr ->
+    'a ty ->
+    Signed.long ->
+    'a ty
+
+  val nfcertify : 'a ty -> 'a ty
+  val nfgaloismatrix : 'a ty -> 'a ty -> 'a ty
+  val nfgaloismatrixapply : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfgaloispermtobasis : 'a ty -> 'a ty -> 'a ty
+
+  val nfinit_basic :
+    nfmaxord_t Ctypes.structure Ctypes_static.ptr -> 'a ty -> unit
+
+  val nfinit_complete :
+    nfmaxord_t Ctypes.structure Ctypes_static.ptr ->
+    Signed.long ->
+    Signed.long ->
+    'a ty
+
+  val nfinit0 : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val nfinitred : 'a ty -> Signed.long -> 'a ty
+  val nfinitred2 : 'a ty -> Signed.long -> 'a ty
+  val nfisincl0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val nfisisom : 'a ty -> 'a ty -> 'a ty
+  val nfnewprec : 'a ty -> Signed.long -> 'a ty
+  val nfnewprec_shallow : 'a ty -> Signed.long -> 'a ty
+  val nfpoleval : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfsplitting0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val nftyp : 'a ty -> Signed.long
+  val nfgrunwaldwang : 'a ty -> 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val nfgwkummer : 'a ty -> 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val mf_get_m : 'a ty -> 'a ty
+  val mf_get_mindex : 'a ty -> 'a ty
+  val mf_get_minv : 'a ty -> 'a ty
+  val mf_get_basis : 'a ty -> 'a ty
+  val mf_get_dim : 'a ty -> Signed.long
+  val mf_get_e : 'a ty -> 'a ty
+  val mf_get_fields : 'a ty -> 'a ty
+  val mf_get_newforms : 'a ty -> 'a ty
+  val mf_get_space : 'a ty -> Signed.long
+  val mf_get_s : 'a ty -> 'a ty
+  val mfcusp_get_vmjd : 'a ty -> 'a ty
+  val mfnew_get_vj : 'a ty -> 'a ty
+
+  val nf_to_fq_init :
+    'a ty ->
+    'a ty Ctypes_static.ptr ->
+    'a ty Ctypes_static.ptr ->
+    'a ty Ctypes_static.ptr ->
+    'a ty
+
+  val nf_to_fq : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfm_to_fqm : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfv_to_fqv : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfx_to_fqx : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfx_to_monic : 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
+  val nfbasis : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
+  val nfcompositum : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val nfdiscfactors : 'a ty -> 'a ty
+
+  val nfmaxord :
+    nfmaxord_t Ctypes.structure Ctypes_static.ptr ->
+    'a ty ->
+    Signed.long ->
+    unit
+
+  val nfmodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfmodprinit : 'a ty -> 'a ty -> 'a ty
+  val nfmodprinit0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val nfmodprlift : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfreducemodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfdisc : 'a ty -> 'a ty
+  val nf_to_scalar_or_alg : 'a ty -> 'a ty -> 'a ty
+  val nf_to_scalar_or_basis : 'a ty -> 'a ty -> 'a ty
+  val nf_cxlog : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val nfv_cxlog : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val nfchecksigns : 'a ty -> 'a ty -> 'a ty -> int
+  val nfdiv : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfdiveuc : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfembed : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val nfeltembed : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
+
+  val nfeltembed_i :
+    'a ty Ctypes_static.ptr -> 'a ty -> 'a ty -> Signed.long -> 'a ty
+
+  val nfeltsign : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nffactorback : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfinv : 'a ty -> 'a ty -> 'a ty
+  val nfinvmodideal : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfissquare : 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> Signed.long
+
+  val nfispower :
+    'a ty -> 'a ty -> Signed.long -> 'a ty Ctypes_static.ptr -> Signed.long
+
+  val nflogembed :
+    'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> Signed.long -> 'a ty
+
+  val nfm_det : 'a ty -> 'a ty -> 'a ty
+  val nfm_inv : 'a ty -> 'a ty -> 'a ty
+  val nfm_ker : 'a ty -> 'a ty -> 'a ty
+  val nfm_mul : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfm_nfc_mul : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfmod : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfmuli : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfnorm : 'a ty -> 'a ty -> 'a ty
+  val nfpolsturm : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfpow : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfpow_u : 'a ty -> 'a ty -> pari_ulong -> 'a ty
+  val nfpowmodideal : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfsign : 'a ty -> 'a ty -> 'a ty
+  val nfsign_arch : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfsign_from_logarch : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfsqr : 'a ty -> 'a ty -> 'a ty
+  val nfsqri : 'a ty -> 'a ty -> 'a ty
+  val nfsub : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nftrace : 'a ty -> 'a ty -> 'a ty
+  val nfval : 'a ty -> 'a ty -> 'a ty -> Signed.long
+
+  val nfvalrem :
+    'a ty -> 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> Signed.long
+
+  val nf_get_varn : 'a ty -> Signed.long
+  val nf_get_pol : 'a ty -> 'a ty
+  val nf_get_degree : 'a ty -> Signed.long
+  val nf_get_r1 : 'a ty -> Signed.long
+  val nf_get_r2 : 'a ty -> Signed.long
+  val nf_get_index : 'a ty -> 'a ty
+  val nf_get_m : 'a ty -> 'a ty
+  val nf_get_g : 'a ty -> 'a ty
+  val nf_get_roundg : 'a ty -> 'a ty
+  val nf_get_tr : 'a ty -> 'a ty
+  val nf_get_diff : 'a ty -> 'a ty
+  val nf_get_ramified_primes : 'a ty -> 'a ty
+  val nf_get_roots : 'a ty -> 'a ty
+  val nf_get_zkprimpart : 'a ty -> 'a ty
+  val nf_get_zkden : 'a ty -> 'a ty
+  val nf_get_invzk : 'a ty -> 'a ty
+  val nfv_to_scalar_or_alg : 'a ty -> 'a ty -> 'a ty
+  val nfc_multable_mul : 'a ty -> 'a ty -> 'a ty
+  val nfc_nf_mul : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nf_get_gtwist : 'a ty -> 'a ty -> 'a ty
+  val nf_get_gtwist1 : 'a ty -> Signed.long -> 'a ty
+  val nf_to_fp_coprime : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfdetint : 'a ty -> 'a ty -> 'a ty
+  val nfdivmodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfhnf : 'a ty -> 'a ty -> 'a ty
+  val nfhnf0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val nfhnfmod : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfkermodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfmulmodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfpowmodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfreduce : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfsnf : 'a ty -> 'a ty -> 'a ty
+  val nfsnf0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val nfsolvemodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfsubfields : 'a ty -> Signed.long -> 'a ty
+  val nfsubfields0 : 'a ty -> Signed.long -> Signed.long -> 'a ty
+  val nfsubfieldscm : 'a ty -> Signed.long -> 'a ty
+  val nfsubfieldsmax : 'a ty -> Signed.long -> 'a ty
+  val nflist : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
+  val nfresolvent : 'a ty -> Signed.long -> 'a ty
+  val nf_pv_to_prv : 'a ty -> 'a ty -> 'a ty
+  val nf_rnfeq : 'a ty -> 'a ty -> 'a ty
+  val nf_rnfeqsimple : 'a ty -> 'a ty -> 'a ty
+  val nf_nfzk : 'a ty -> 'a ty -> 'a ty
+  val nfeltup : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfislocalpower : 'a ty -> 'a ty -> 'a ty -> 'a ty -> Signed.long
+  val nf_cxlog_normalize : 'a ty -> 'a ty -> Signed.long -> 'a ty
+  val nfcyclotomicunits : 'a ty -> 'a ty -> 'a ty
+  val nfsign_units : 'a ty -> 'a ty -> int -> 'a ty
+  val nfsign_tu : 'a ty -> 'a ty -> 'a ty
+  val nfsign_fu : 'a ty -> 'a ty -> 'a ty
+  val nf_deg1_prime : 'a ty -> 'a ty
+  val nfarchstar : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nf_hyperell_locally_soluble : 'a ty -> 'a ty -> 'a ty -> Signed.long
+  val nfhilbert : 'a ty -> 'a ty -> 'a ty -> Signed.long
+  val nfhilbert0 : 'a ty -> 'a ty -> 'a ty -> 'a ty -> Signed.long
+
+  val nfhyperellpadicfrobenius :
+    'a ty -> 'a ty -> pari_ulong -> Signed.long -> 'a ty
+
+  val nffactor : 'a ty -> 'a ty -> 'a ty
+  val nffactormod : 'a ty -> 'a ty -> 'a ty -> 'a ty
+  val nfgcd : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
+
+  val nfgcd_all :
+    'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
+
+  val nfissquarefree : 'a ty -> 'a ty -> int
+  val nfroots : 'a ty -> 'a ty -> 'a ty
+  val nfroots_if_split : 'a ty Ctypes_static.ptr -> 'a ty -> 'a ty
+  val nfrootsof1 : 'a ty -> 'a ty
+  val nfrootsq : 'a ty -> 'a ty
+  val nfx_disc : 'a ty -> 'a ty -> 'a ty
+  val nfx_resultant : 'a ty -> 'a ty -> 'a ty -> 'a ty
+
   module Infix : sig
     val ( = ) : elt -> elt -> bool
   end
@@ -3806,8 +4006,6 @@ val conjclasses_algcenter : 'a ty -> 'a ty -> 'a ty
 val galoischardet : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val galoischarpoly : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val galoischartable : 'a ty -> 'a ty
-val nfgrunwaldwang : 'a ty -> 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
-val nfgwkummer : 'a ty -> 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
 val f2ms_colelim : 'a ty -> Signed.long -> 'a ty
 val f2m_image : 'a ty -> 'a ty
 val f2m_indexrank : 'a ty -> 'a ty
@@ -4634,36 +4832,6 @@ val idealramfrobenius : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val idealramfrobenius_aut : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val idealramgroups : 'a ty -> 'a ty -> 'a ty -> 'a ty
 val idealramgroups_aut : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nf_get_allroots : 'a ty -> 'a ty
-val nf_get_prec : 'a ty -> Signed.long
-
-val nfmaxord_to_nf :
-  nfmaxord_t Ctypes.structure Ctypes_static.ptr -> 'a ty -> Signed.long -> 'a ty
-
-val nfcertify : 'a ty -> 'a ty
-val nfgaloismatrix : 'a ty -> 'a ty -> 'a ty
-val nfgaloismatrixapply : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfgaloispermtobasis : 'a ty -> 'a ty -> 'a ty
-
-val nfinit_basic :
-  nfmaxord_t Ctypes.structure Ctypes_static.ptr -> 'a ty -> unit
-
-val nfinit_complete :
-  nfmaxord_t Ctypes.structure Ctypes_static.ptr ->
-  Signed.long ->
-  Signed.long ->
-  'a ty
-
-val nfinit0 : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val nfinitred : 'a ty -> Signed.long -> 'a ty
-val nfinitred2 : 'a ty -> Signed.long -> 'a ty
-val nfisincl0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val nfisisom : 'a ty -> 'a ty -> 'a ty
-val nfnewprec : 'a ty -> Signed.long -> 'a ty
-val nfnewprec_shallow : 'a ty -> Signed.long -> 'a ty
-val nfpoleval : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfsplitting0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val nftyp : 'a ty -> Signed.long
 val polredord : 'a ty -> 'a ty
 val polred : 'a ty -> 'a ty
 val polred0 : 'a ty -> Signed.long -> 'a ty -> 'a ty
@@ -4703,35 +4871,9 @@ val zpx_resultant_val : 'a ty -> 'a ty -> 'a ty -> Signed.long -> Signed.long
 val checkmodpr : 'a ty -> unit
 val compositum : 'a ty -> 'a ty -> 'a ty
 val compositum2 : 'a ty -> 'a ty -> 'a ty
-val nfdisc : 'a ty -> 'a ty
 val get_modpr : 'a ty -> 'a ty
 val indexpartial : 'a ty -> 'a ty -> 'a ty
 val modpr_genfq : 'a ty -> 'a ty
-
-val nf_to_fq_init :
-  'a ty ->
-  'a ty Ctypes_static.ptr ->
-  'a ty Ctypes_static.ptr ->
-  'a ty Ctypes_static.ptr ->
-  'a ty
-
-val nf_to_fq : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfm_to_fqm : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfv_to_fqv : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfx_to_fqx : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfx_to_monic : 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
-val nfbasis : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
-val nfcompositum : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
-val nfdiscfactors : 'a ty -> 'a ty
-
-val nfmaxord :
-  nfmaxord_t Ctypes.structure Ctypes_static.ptr -> 'a ty -> Signed.long -> unit
-
-val nfmodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfmodprinit : 'a ty -> 'a ty -> 'a ty
-val nfmodprinit0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val nfmodprlift : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfreducemodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty
 val polcompositum0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val idealprimedec : 'a ty -> 'a ty -> 'a ty
 val idealprimedec_galois : 'a ty -> 'a ty -> 'a ty
@@ -4748,9 +4890,6 @@ val rnfdiscf : 'a ty -> 'a ty -> 'a ty
 val rnfequation : 'a ty -> 'a ty -> 'a ty
 val rnfequation0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val rnfequation2 : 'a ty -> 'a ty -> 'a ty
-val nf_pv_to_prv : 'a ty -> 'a ty -> 'a ty
-val nf_rnfeq : 'a ty -> 'a ty -> 'a ty
-val nf_rnfeqsimple : 'a ty -> 'a ty -> 'a ty
 
 val rnfequationall :
   'a ty ->
@@ -4816,52 +4955,6 @@ val indices_to_vec01 : 'a ty -> Signed.long -> 'a ty
 val matalgtobasis : 'a ty -> 'a ty -> 'a ty
 val matbasistoalg : 'a ty -> 'a ty -> 'a ty
 val multable : 'a ty -> 'a ty -> 'a ty
-val nf_to_scalar_or_alg : 'a ty -> 'a ty -> 'a ty
-val nf_to_scalar_or_basis : 'a ty -> 'a ty -> 'a ty
-val nf_cxlog : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val nfv_cxlog : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val nfchecksigns : 'a ty -> 'a ty -> 'a ty -> int
-val nfdiv : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfdiveuc : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfembed : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val nfeltembed : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
-
-val nfeltembed_i :
-  'a ty Ctypes_static.ptr -> 'a ty -> 'a ty -> Signed.long -> 'a ty
-
-val nfeltsign : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nffactorback : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfinv : 'a ty -> 'a ty -> 'a ty
-val nfinvmodideal : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfissquare : 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> Signed.long
-
-val nfispower :
-  'a ty -> 'a ty -> Signed.long -> 'a ty Ctypes_static.ptr -> Signed.long
-
-val nflogembed :
-  'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> Signed.long -> 'a ty
-
-val nfm_det : 'a ty -> 'a ty -> 'a ty
-val nfm_inv : 'a ty -> 'a ty -> 'a ty
-val nfm_ker : 'a ty -> 'a ty -> 'a ty
-val nfm_mul : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfm_nfc_mul : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfmod : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfmuli : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfnorm : 'a ty -> 'a ty -> 'a ty
-val nfpolsturm : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfpow : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfpow_u : 'a ty -> 'a ty -> pari_ulong -> 'a ty
-val nfpowmodideal : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfsign : 'a ty -> 'a ty -> 'a ty
-val nfsign_arch : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfsign_from_logarch : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfsqr : 'a ty -> 'a ty -> 'a ty
-val nfsqri : 'a ty -> 'a ty -> 'a ty
-val nfsub : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nftrace : 'a ty -> 'a ty -> 'a ty
-val nfval : 'a ty -> 'a ty -> 'a ty -> Signed.long
-val nfvalrem : 'a ty -> 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> Signed.long
 val polmod_nffix : string -> 'a ty -> 'a ty -> int -> 'a ty
 val polmod_nffix2 : string -> 'a ty -> 'a ty -> 'a ty -> int -> 'a ty
 val pr_basis_perm : 'a ty -> 'a ty -> 'a ty
@@ -4999,23 +5092,6 @@ val idealtyp : 'a ty Ctypes_static.ptr -> 'a ty Ctypes_static.ptr -> Signed.long
 val idealval : 'a ty -> 'a ty -> 'a ty -> Signed.long
 val isideal : 'a ty -> 'a ty -> Signed.long
 val matreduce : 'a ty -> 'a ty
-val nfc_multable_mul : 'a ty -> 'a ty -> 'a ty
-val nfc_nf_mul : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nf_get_gtwist : 'a ty -> 'a ty -> 'a ty
-val nf_get_gtwist1 : 'a ty -> Signed.long -> 'a ty
-val nf_to_fp_coprime : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfdetint : 'a ty -> 'a ty -> 'a ty
-val nfdivmodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfhnf : 'a ty -> 'a ty -> 'a ty
-val nfhnf0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val nfhnfmod : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfkermodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfmulmodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfpowmodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfreduce : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfsnf : 'a ty -> 'a ty -> 'a ty
-val nfsnf0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val nfsolvemodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val prv_lcm_capz : 'a ty -> 'a ty
 val prv_primes : 'a ty -> 'a ty
 val pr_hnf : 'a ty -> 'a ty -> 'a ty
@@ -5035,10 +5111,8 @@ val zkc_multable_mul : 'a ty -> 'a ty -> 'a ty
 val eltreltoabs : 'a ty -> 'a ty -> 'a ty
 val eltabstorel : 'a ty -> 'a ty -> 'a ty
 val eltabstorel_lift : 'a ty -> 'a ty -> 'a ty
-val nf_nfzk : 'a ty -> 'a ty -> 'a ty
 val rnf_build_nfabs : 'a ty -> Signed.long -> 'a ty
 val rnf_zkabs : 'a ty -> 'a ty
-val nfeltup : 'a ty -> 'a ty -> 'a ty -> 'a ty
 val rnfcomplete : 'a ty -> unit
 val rnfeltabstorel : 'a ty -> 'a ty -> 'a ty
 val rnfeltdown : 'a ty -> 'a ty -> 'a ty
@@ -5522,7 +5596,6 @@ val nv_fromdigits_2k : 'a ty -> Signed.long -> 'a ty
 val bnflogef : 'a ty -> 'a ty -> 'a ty
 val bnflog : 'a ty -> 'a ty -> 'a ty
 val bnflogdegree : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfislocalpower : 'a ty -> 'a ty -> 'a ty -> 'a ty -> Signed.long
 val rnfislocalcyclo : 'a ty -> Signed.long
 val bnfisunit : 'a ty -> 'a ty -> 'a ty
 val bnfissunit : 'a ty -> 'a ty -> 'a ty -> 'a ty
@@ -5556,11 +5629,6 @@ val bnrnewprec_shallow : 'a ty -> Signed.long -> 'a ty
 val isprincipalfact : 'a ty -> 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
 val isprincipalfact_or_fail : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val isprincipal : 'a ty -> 'a ty -> 'a ty
-val nf_cxlog_normalize : 'a ty -> 'a ty -> Signed.long -> 'a ty
-val nfcyclotomicunits : 'a ty -> 'a ty -> 'a ty
-val nfsign_units : 'a ty -> 'a ty -> int -> 'a ty
-val nfsign_tu : 'a ty -> 'a ty -> 'a ty
-val nfsign_fu : 'a ty -> 'a ty -> 'a ty
 val signunits : 'a ty -> 'a ty
 val hermite_bound : Signed.long -> Signed.long -> 'a ty
 
@@ -5614,8 +5682,6 @@ val discrayabslistarch : 'a ty -> 'a ty -> pari_ulong -> 'a ty
 val idealmoddivisor : 'a ty -> 'a ty -> 'a ty
 val isprincipalray : 'a ty -> 'a ty -> 'a ty
 val isprincipalraygen : 'a ty -> 'a ty -> 'a ty
-val nf_deg1_prime : 'a ty -> 'a ty
-val nfarchstar : 'a ty -> 'a ty -> 'a ty -> 'a ty
 val rnfconductor : 'a ty -> 'a ty -> 'a ty
 val rnfconductor0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val rnfnormgroup : 'a ty -> 'a ty -> 'a ty
@@ -5890,9 +5956,6 @@ val qp_descending_landen :
   'a ty -> 'a ty Ctypes_static.ptr -> 'a ty Ctypes_static.ptr -> unit
 
 val hyperell_locally_soluble : 'a ty -> 'a ty -> Signed.long
-val nf_hyperell_locally_soluble : 'a ty -> 'a ty -> 'a ty -> Signed.long
-val nfhilbert : 'a ty -> 'a ty -> 'a ty -> Signed.long
-val nfhilbert0 : 'a ty -> 'a ty -> 'a ty -> 'a ty -> Signed.long
 
 val flxq_elldivpolmod :
   'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty -> pari_ulong -> 'a ty
@@ -6742,10 +6805,6 @@ val hyperellminimalmodel : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty -> 'a ty
 val hyperellpadicfrobenius0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
 val hyperellpadicfrobenius : 'a ty -> pari_ulong -> Signed.long -> 'a ty
 val hyperellred : 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
-
-val nfhyperellpadicfrobenius :
-  'a ty -> 'a ty -> pari_ulong -> Signed.long -> 'a ty
-
 val hypergeom : 'a ty -> 'a ty -> 'a ty -> Signed.long -> 'a ty
 val airy : 'a ty -> Signed.long -> 'a ty
 val rgm_hnfall : 'a ty -> 'a ty Ctypes_static.ptr -> Signed.long -> 'a ty
@@ -7353,18 +7412,6 @@ val member_tate : 'a ty -> 'a ty
 val member_tu : 'a ty -> 'a ty
 val member_zk : 'a ty -> 'a ty
 val member_zkst : 'a ty -> 'a ty
-val mf_get_m : 'a ty -> 'a ty
-val mf_get_mindex : 'a ty -> 'a ty
-val mf_get_minv : 'a ty -> 'a ty
-val mf_get_basis : 'a ty -> 'a ty
-val mf_get_dim : 'a ty -> Signed.long
-val mf_get_e : 'a ty -> 'a ty
-val mf_get_fields : 'a ty -> 'a ty
-val mf_get_newforms : 'a ty -> 'a ty
-val mf_get_space : 'a ty -> Signed.long
-val mf_get_s : 'a ty -> 'a ty
-val mfcusp_get_vmjd : 'a ty -> 'a ty
-val mfnew_get_vj : 'a ty -> 'a ty
 val qab_tracerel : 'a ty -> Signed.long -> 'a ty -> 'a ty
 val qabm_tracerel : 'a ty -> Signed.long -> 'a ty -> 'a ty
 val qabv_tracerel : 'a ty -> Signed.long -> 'a ty -> 'a ty
@@ -7585,17 +7632,6 @@ val fpm_ratlift : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val fpx_ratlift : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
 val qxqx_gcd : 'a ty -> 'a ty -> 'a ty -> 'a ty
 val zxqx_gcd : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nffactor : 'a ty -> 'a ty -> 'a ty
-val nffactormod : 'a ty -> 'a ty -> 'a ty -> 'a ty
-val nfgcd : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
-
-val nfgcd_all :
-  'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty Ctypes_static.ptr -> 'a ty
-
-val nfissquarefree : 'a ty -> 'a ty -> int
-val nfroots : 'a ty -> 'a ty -> 'a ty
-val nfroots_if_split : 'a ty Ctypes_static.ptr -> 'a ty -> 'a ty
-val nfrootsof1 : 'a ty -> 'a ty
 val polfnf : 'a ty -> 'a ty -> 'a ty
 val rnfabelianconjgen : 'a ty -> 'a ty -> 'a ty
 val rnfisabelian : 'a ty -> 'a ty -> Signed.long
@@ -8088,7 +8124,6 @@ val ginvmod : 'a ty -> 'a ty -> 'a ty
 val glcm : 'a ty -> 'a ty -> 'a ty
 val glcm0 : 'a ty -> 'a ty -> 'a ty
 val newtonpoly : 'a ty -> 'a ty -> 'a ty
-val nfrootsq : 'a ty -> 'a ty
 val poldisc0 : 'a ty -> Signed.long -> 'a ty
 val polresultant0 : 'a ty -> 'a ty -> Signed.long -> Signed.long -> 'a ty
 val polsym : 'a ty -> Signed.long -> 'a ty
@@ -8257,8 +8292,6 @@ val get_fq_field :
 
 val init_flxq : pari_ulong -> Signed.long -> Signed.long -> 'a ty
 val init_fq : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val nfx_disc : 'a ty -> 'a ty -> 'a ty
-val nfx_resultant : 'a ty -> 'a ty -> 'a ty -> 'a ty
 val pol_x_powers : Signed.long -> Signed.long -> 'a ty
 val residual_characteristic : 'a ty -> 'a ty
 val polclass : 'a ty -> Signed.long -> Signed.long -> 'a ty
@@ -8396,12 +8429,6 @@ val polsubcyclofast :
   'a ty -> Signed.long -> Signed.long -> Signed.long -> 'a ty
 
 val znsubgroupgenerators : 'a ty -> Signed.long -> 'a ty
-val nfsubfields : 'a ty -> Signed.long -> 'a ty
-val nfsubfields0 : 'a ty -> Signed.long -> Signed.long -> 'a ty
-val nfsubfieldscm : 'a ty -> Signed.long -> 'a ty
-val nfsubfieldsmax : 'a ty -> Signed.long -> 'a ty
-val nflist : 'a ty -> 'a ty -> Signed.long -> 'a ty -> 'a ty
-val nfresolvent : 'a ty -> Signed.long -> 'a ty
 val subgrouplist : 'a ty -> 'a ty -> 'a ty
 
 val forsubgroup :
@@ -9739,22 +9766,6 @@ val pr_get_tau : 'a ty -> 'a ty
 val pr_is_inert : 'a ty -> int
 val pr_norm : 'a ty -> 'a ty
 val upr_norm : 'a ty -> pari_ulong
-val nf_get_varn : 'a ty -> Signed.long
-val nf_get_pol : 'a ty -> 'a ty
-val nf_get_degree : 'a ty -> Signed.long
-val nf_get_r1 : 'a ty -> Signed.long
-val nf_get_r2 : 'a ty -> Signed.long
-val nf_get_index : 'a ty -> 'a ty
-val nf_get_m : 'a ty -> 'a ty
-val nf_get_g : 'a ty -> 'a ty
-val nf_get_roundg : 'a ty -> 'a ty
-val nf_get_tr : 'a ty -> 'a ty
-val nf_get_diff : 'a ty -> 'a ty
-val nf_get_ramified_primes : 'a ty -> 'a ty
-val nf_get_roots : 'a ty -> 'a ty
-val nf_get_zkprimpart : 'a ty -> 'a ty
-val nf_get_zkden : 'a ty -> 'a ty
-val nf_get_invzk : 'a ty -> 'a ty
 val cyc_get_expo : 'a ty -> 'a ty
 val abgrp_get_no : 'a ty -> 'a ty
 val abgrp_get_cyc : 'a ty -> 'a ty
@@ -9770,7 +9781,6 @@ val bnf_get_sunits : 'a ty -> 'a ty
 val bnf_get_tuu : 'a ty -> 'a ty
 val bnf_get_tun : 'a ty -> Signed.long
 val bnf_get_fu_nocheck : 'a ty -> 'a ty
-val nfv_to_scalar_or_alg : 'a ty -> 'a ty -> 'a ty
 val bnf_get_fu : 'a ty -> 'a ty
 val bnr_get_bnf : 'a ty -> 'a ty
 val bnr_get_bid : 'a ty -> 'a ty
