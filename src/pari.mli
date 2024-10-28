@@ -311,11 +311,11 @@ module Polynomial : sig
           (Rational.of_int 6064);
           (Rational.of_int (-189804));
         |];;
-      val q : Integer.t Polynomial.t = <abstr>
+      val q : Rational.t Polynomial.t = <abstr>
       # Polynomial.to_string q;;
       - : string = "x^3 - 111*x^2 + 6064*x - 189804"
       # let qmin = Polynomial.minimal q;;
-      val qmin : ('a, ring) ty Polynomial.t = <abstr>
+      val qmin : Rational.t Polynomial.t = <abstr>
       # Polynomial.to_string qmin;;
       - : string = "x^3 - x^2 - 60*x - 364"
       # Number_field.(are_isomorphic (create q) (create qmin));
@@ -529,18 +529,18 @@ module Number_field : sig
             Rational.of_int 6064;
             Rational.of_int (-189804);
           |];;
-      val q : Integer.t Polynomial.t = <abstr>
+      val q : Rational.t Polynomial.t = <abstr>
       # let zero = Polynomial.create [| Rational.of_int 0 |];;
-      val zero : Integer.t Polynomial.t = <abstr>
+      val zero : Rational.t Polynomial.t = <abstr>
       # let qq = Polynomial.create [| q; q; zero; zero |];;
-      val qq : Integer.t Polynomial.t Polynomial.t = <abstr>
+      val qq : Rational.t Polynomial.t Polynomial.t = <abstr>
       # Polynomial.to_string qq;;
       - : string =
       "(x^3 - 111*x^2 + 6064*x - 189804)*y^3 + (x^3 - 111*x^2 + 6064*x - 189804)*y^2"
       # Polynomial.is_irreducible q;;
       - : bool = true
       # let qmin = Polynomial.minimal q;;
-      val qmin : Integer.t Polynomial.t = <abstr>
+      val qmin : Rational.t Polynomial.t = <abstr>
       # Polynomial.to_string qmin;;
       - : string = "x^3 - x^2 - 60*x - 364"
       # Number_field.(are_isomorphic (create q) (create qmin));;
@@ -860,7 +860,7 @@ module Elliptic_curve : sig
         # let ell = Option.get (Elliptic_curve.create ~a6:(Finite_field.pow g (Integer.of_int 6)) ());;
         val ell : Finite_field.t Elliptic_curve.t = <abstr>
         # let pdiv7 = (Elliptic_curve.l_division_polynomial ell ~l:(Signed.Long.of_int 7));;
-        val pdiv7 : (finite_field, ring) ty Polynomial.t = <abstr>
+        val pdiv7 : Finite_field.t ty Polynomial.t = <abstr>
         # Polynomial.to_string pdiv7;;
         - : string =
         "2*x^24 + (2*x^3 + x^2 + x + 2)*x^21 + (x^3 + x^2 + 3*x + 2)*x^18 + (2*x^3 + x^2 + 3*x)*x^15 + (2*x^3 + 4*x^2 + 3)*x^12 + (4*x^3 + x^2 + 2*x)*x^9 + (3*x^3 + 3*x^2)*x^6 + (4*x^3 + 2*x^2 + 3)*x^3 + (3*x^3 + 3*x^2 + 3*x + 1)"
@@ -879,7 +879,15 @@ module Elliptic_curve : sig
   val order_elt : 'a t -> 'a elt -> Integer.t
   val to_string_elt : 'a elt -> string
   val log : 'a t -> base:'a elt -> 'a elt -> Integer.t option
-  val ellanalyticrank : 'a ty -> 'a ty -> Signed.long -> 'a ty
+
+  val ellanalyticrank : Rational.t t -> (Rational.t, [ `ROW ]) Vector.t
+  (** {@ocaml[
+        # let ell = Option.get (Elliptic_curve.create ~a6:(Rational.of_int 6) ());;
+        val ell : Rational.t Elliptic_curve.t = <abstr>
+        # Elliptic_curve.ellanalyticrank ell |> Vector.to_string
+        - : string = "[0, 3.1205690727970642238215206887060527526]"
+        ]} *)
+
   val ellanalyticrank_bitprec : 'a ty -> 'a ty -> Signed.long -> 'a ty
 
   val ellanal_globalred_all :

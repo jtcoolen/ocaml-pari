@@ -753,7 +753,11 @@ module Elliptic_curve = struct
 
   (*  *)
 
-  let ellanalyticrank = ellanalyticrank
+  let ellanalyticrank ell =
+    let prec = Signed.Long.of_int 10 in
+    let eps = Ctypes.(coerce (ptr void) gen null) in
+    ellanalyticrank ell eps prec
+
   let ellanalyticrank_bitprec = ellanalyticrank_bitprec
   let ellanal_globalred_all = ellanal_globalred_all
   let ellsupersingularj_fpxq = ellsupersingularj_fpxq
