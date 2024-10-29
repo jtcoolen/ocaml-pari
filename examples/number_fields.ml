@@ -51,6 +51,13 @@ let () =
   Printf.eprintf "%b\n"
     Number_field.(equal a (add gaussian_integers (mul gaussian_integers b q) r))
 
+(* Smith normal form *)
+let m = gp_read_str "[1, 0, x; 0, x, 0; 0,0,1+x]"
+let d, u, v = Number_field.smith_normal_form gaussian_integers m
+
+let _ =
+  Printf.eprintf "res=%s %s\n" (gentostr Matrix.(mul (mul u m) v)) (gentostr d)
+
 let _nf2 =
   Number_field.create (Option.get @@ Polynomial.of_string "x^4-2" |> inj_rat)
 

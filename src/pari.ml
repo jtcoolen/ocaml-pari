@@ -17,6 +17,7 @@ type integer_mod = Integer_mod
 type finite_field = Finite_field
 type number_field = Number_field
 type 'a elliptic_curve = Elliptic_curve of 'a
+type 'a matrix = private Matrix of 'a
 
 let register_gc v =
   Gc.finalise_last (fun () -> pari_free Ctypes.(coerce gen (ptr void) v)) v
@@ -557,7 +558,23 @@ module Number_field = struct
   let nfmulmodpr = nfmulmodpr
   let nfpowmodpr = nfpowmodpr
   let nfreduce = nfreduce
-  let nfsnf = nfsnf
+
+  let smith_normal_form nf sipm =
+    (*square integral invertible pseudo-matrix sipm*)
+    let d, _ = Matrix.dimensions sipm in
+    let sipm =
+      Vector.of_array
+        [|
+          sipm;
+          Vector.init d ~f:(fun _ -> Integer.of_int 1);
+          Vector.init d ~f:(fun _ -> Integer.of_int 1);
+        |]
+    in
+    let res = nfsnf0 nf sipm Signed.Long.one in
+    ( Vector.(res.%[1]),
+      Vector.(res.%[2]) |> matbasistoalg nf,
+      Vector.(res.%[3]) |> matbasistoalg nf )
+
   let nfsnf0 = nfsnf0
   let nfsolvemodpr = nfsolvemodpr
   let nfsubfields = nfsubfields
@@ -913,6 +930,8 @@ module Elliptic_curve = struct
   let ellpadiclambdamu = ellpadiclambdamu
   let ell_is_inf = ell_is_inf
 end
+
+let isdiagonal e = isdiagonal e = 1
 
 let factor e =
   let m = factor e in

@@ -241,8 +241,10 @@ module Vector : sig
   end
 end
 
+type 'a matrix = private Matrix of 'a
+
 module Matrix : sig
-  type 'a t constraint 'a = 'b ty
+  type 'a t = 'a matrix ty constraint 'a = 'b ty
 
   val dimensions : 'a t -> int * int
   val id : int -> Integer.t t
@@ -742,7 +744,29 @@ module Number_field : sig
   val nfmulmodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
   val nfpowmodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
   val nfreduce : 'a ty -> 'a ty -> 'a ty -> 'a ty
-  val nfsnf : 'a ty -> 'a ty -> 'a ty
+
+  val smith_normal_form :
+    t -> elt Matrix.t -> elt Matrix.t * elt Matrix.t * elt Matrix.t
+  (**
+      {@ocaml[
+      # let gaussian_integers =
+        (* Gaussian integers: the ring Z[i] (here we work in the field Q(i)) *)
+        Number_field.create
+        (Polynomial.create [| Rational.of_int 1; Rational.of_int 0; Rational.of_int 1 |]);;
+      val gaussian_integers : Number_field.t = <abstr>
+      # let m = gp_read_str "[1, 0, x; 0, x, 0; 0,0,1+x]"
+      val m : '_weak1 ty = <abstr>
+      # let _, u, v = Number_field.smith_normal_form gaussian_integers m
+      val u : Number_field.elt Matrix.t = <abstr>
+      val v : Number_field.elt Matrix.t = <abstr>
+      # let d = Matrix.(mul (mul u m) v);;
+      val d : Number_field.elt Matrix.t = <abstr>
+      # gentostr d
+      - : string = "[1, 0, 0; 0, 1, 0; 0, 0, 1]"
+      # isdiagonal d 
+      - : bool = true
+      ]} *)
+
   val nfsnf0 : 'a ty -> 'a ty -> Signed.long -> 'a ty
   val nfsolvemodpr : 'a ty -> 'a ty -> 'a ty -> 'a ty -> 'a ty
   val nfsubfields : 'a ty -> Signed.long -> 'a ty
@@ -3639,7 +3663,7 @@ val rgv_zc_mul : 'a ty -> 'a ty -> 'a ty
 val rgv_zm_mul : 'a ty -> 'a ty -> 'a ty
 val rgx_rgm_eval : 'a ty -> 'a ty -> 'a ty
 val rgx_rgmv_eval : 'a ty -> 'a ty -> 'a ty
-val isdiagonal : 'a ty -> int
+val isdiagonal : 'a ty -> bool
 val scalarcol : 'a ty -> Signed.long -> 'a ty
 val scalarcol_shallow : 'a ty -> Signed.long -> 'a ty
 val scalarmat : 'a ty -> Signed.long -> 'a ty
