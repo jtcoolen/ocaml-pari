@@ -111,6 +111,126 @@ type 'a elliptic_curve = private Elliptic_curve of 'a
 
 val factor : 'a ty -> ('a ty * int) array
 
+module F : sig
+  module type PARI_t = sig
+    type t
+    type k
+
+    external of_gen : k ty -> t = "%identity"
+    external to_gen : t -> k ty = "%identity"
+  end
+
+  module type Ring = sig
+    type t
+
+    val add : t -> t -> t
+    val mul : t -> t -> t
+  end
+
+  module Natural : sig
+    type t
+  end
+
+  module type Multiplicative = sig
+    type t
+
+    val mul : t -> t -> t
+  end
+
+  module type Unital = sig
+    type t
+
+    include Multiplicative with type t := t
+
+    val one : t
+    val pow : t -> Natural.t -> t
+  end
+
+  module type Division = sig
+    type t
+
+    include Unital with type t := t
+
+    val reciprocal : t -> t
+    val divide : t -> t -> t
+  end
+
+  module type Domain = sig
+    type t
+
+    include Ring with type t := t
+
+    val divides : t -> t -> bool
+  end
+
+  module type IntegralDomain = sig
+    type t
+
+    include Domain with type t := t
+
+    val divides : t -> t -> bool
+  end
+
+  module type GCDDomain = sig
+    type t
+
+    include IntegralDomain with type t := t
+
+    val gcd : t -> t -> t
+    val lcm : t -> t -> t
+  end
+
+  module type UFD = sig
+    type t
+
+    include IntegralDomain with type t := t
+
+    val factor : t -> (t * int) array
+  end
+
+  module type PID = sig
+    type t
+
+    include UFD with type t := t
+
+    val egcd : t -> t -> t * t * t
+  end
+
+  module type EuclideanDomain = sig
+    type t
+
+    include PID with type t := t
+
+    val ediv : t -> t -> t * t
+    val quot : t -> t -> t
+    val rem : t -> t -> t
+    val chinese : (t * t) array -> (t * t)
+  end
+
+  module type Field = sig
+    type t
+
+    include EuclideanDomain with type t := t
+    include Division with type t := t
+  end
+
+  module type Poly = sig
+    include PARI_t
+    include Ring with type t := t
+    module BaseRing : Ring
+
+    val create : BaseRing.t array -> t
+  end
+
+  module Polynomial (R : sig
+    include PARI_t
+    include Ring with type t := t
+  end) : Poly with type k = R.k polynomial
+
+  type ('t, 'coeff) poly =
+    (module Poly with type k = 'coeff polynomial and type t = 't)
+end
+
 module rec Complex : sig
   type t = complex ty
 
