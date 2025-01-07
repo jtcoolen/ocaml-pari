@@ -123,6 +123,8 @@ module F : sig
   module type Ring = sig
     type t
 
+    include PARI_t with type t := t
+
     val add : t -> t -> t
     val mul : t -> t -> t
   end
@@ -204,7 +206,7 @@ module F : sig
     val ediv : t -> t -> t * t
     val quot : t -> t -> t
     val rem : t -> t -> t
-    val chinese : (t * t) array -> (t * t)
+    val chinese : (t * t) array -> t * t
   end
 
   module type Field = sig
@@ -222,10 +224,21 @@ module F : sig
     val create : BaseRing.t array -> t
   end
 
+  module type Integer_mod = sig
+    include PARI_t
+    include Ring with type t := t
+
+    val create : int -> t
+  end
+
+  module IntegerMod (_ : sig
+    val modulus : int
+  end) : Integer_mod with type k = integer_mod
+
   module Polynomial (R : sig
     include PARI_t
     include Ring with type t := t
-  end) : Poly with type k = R.k polynomial
+  end) : Poly with type k = R.k polynomial and type BaseRing.t = R.t
 
   type ('t, 'coeff) poly =
     (module Poly with type k = 'coeff polynomial and type t = 't)
@@ -274,7 +287,10 @@ end
 
 and Integer : sig
   type t = integer ty
+  type k
 
+  external of_gen : k ty -> t = "%identity"
+  external to_gen : t -> k ty = "%identity"
   val inj_rat : t -> Rational.t
   val inj_real : t -> Real.t
   val inj_complex : t -> Complex.t
@@ -612,7 +628,10 @@ end
 
 module Integer_mod : sig
   type t = integer_mod ty
+  type k
 
+  external of_gen : k ty -> t = "%identity"
+  external to_gen : t -> k ty = "%identity"
   val inj_group : t -> integer_mod ty
   val create : Integer.t -> modulo:Integer.t -> t
 
@@ -621,6 +640,7 @@ module Integer_mod : sig
 
   val lift : integer_mod ty -> Integer.t
   val inverse : integer_mod ty -> integer_mod ty option
+  val add : integer_mod ty -> integer_mod ty -> integer_mod ty
   val mul : integer_mod ty -> integer_mod ty -> integer_mod ty
   val pow : integer_mod ty -> Integer.t -> integer_mod ty
   val chinese : (t, [ `ROW ]) Vector.t -> t

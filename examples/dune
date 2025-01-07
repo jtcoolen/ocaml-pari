@@ -31,3 +31,8 @@
   iter
   qcheck)
  (modules pohlig_hellman))
+
+(executable
+ (name functorized)
+ (libraries core ctypes.stubs ctypes.foreign ctypes pari)
+ (modules functorized))

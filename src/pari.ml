@@ -34,6 +34,8 @@ module F = struct
   module type Ring = sig
     type t
 
+    include PARI_t with type t := t
+
     val add : t -> t -> t
     val mul : t -> t -> t
   end
@@ -125,6 +127,32 @@ module F = struct
     include Division with type t := t
   end
 
+  module type Integer_mod = sig
+    include PARI_t
+    include Ring with type t := t
+
+    val create : int -> t
+  end
+
+  module IntegerMod (M : sig
+    val modulus : int
+  end) : Integer_mod with type k = integer_mod = struct
+    type t = gen
+    type k = integer_mod
+
+    external of_gen : k ty -> t = "%identity"
+    external to_gen : t -> k ty = "%identity"
+
+    let create x =
+      let x = stoi (Signed.Long.of_int x) in
+      let modu = stoi (Signed.Long.of_int M.modulus) in
+
+      mkintmod x modu
+
+    let add = gadd
+    let mul = gmul
+  end
+
   module type Poly = sig
     include PARI_t
     include Ring with type t := t
@@ -136,7 +164,7 @@ module F = struct
   module Polynomial (R : sig
     include PARI_t
     include Ring with type t := t
-  end) : Poly with type k = R.k polynomial = struct
+  end) : Poly with type k = R.k polynomial and type BaseRing.t = R.t = struct
     type t = gen
     type k = R.k polynomial
 
@@ -207,6 +235,10 @@ end
 
 module Integer = struct
   type t = gen
+  type k
+
+  external of_gen : k ty -> t = "%identity"
+  external to_gen : t -> k ty = "%identity"
 
   let[@inline] inj_rat x = Fun.id x
   let[@inline] inj_real x = Fun.id x
@@ -519,6 +551,10 @@ end
 
 module Integer_mod = struct
   type t = gen
+  type k
+
+  external of_gen : k ty -> t = "%identity"
+  external to_gen : t -> k ty = "%identity"
 
   let[@inline] inj_group x = Fun.id x
 
@@ -536,6 +572,7 @@ module Integer_mod = struct
       Some (create Ctypes.(!@res) ~modulo)
     else None
 
+  let add = gadd
   let mul = gmul
   let pow = powgi
   let chinese : (t, [ `ROW ]) Vector.t -> t = chinese1
