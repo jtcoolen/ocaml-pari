@@ -13,7 +13,8 @@
   parimt.h
   mpinl.h
   parinf.h
-  paristio.h)
+  paristio.h
+  paripriv.h)
  (action
   (no-infer
    (progn
@@ -39,6 +40,7 @@
     (copy libpari/local/lib/libpari.a libpari.a)
     (copy libpari/src/headers/parinf.h parinf.h)
     (copy libpari/src/headers/paristio.h paristio.h)
+    (copy libpari/src/headers/paripriv.h paripriv.h)
     (system "find . -type d -regex '.*O[linux|darwin|freebsd].*' > target")
     ; linux
     (ignore-stderr
@@ -77,7 +79,7 @@
      (-I../../_build/default/pari_bindings))
     (c_library_flags :standard -fPIC)))
   (headers
-   (include "pari.h"))
+   (include "pari.h" "paripriv.h"))
   (type_description
    (instance Type)
    (functor Type_description))

@@ -12497,6 +12497,1395 @@ module F61 (F : Ctypes.FOREIGN) = struct
     foreign "pari_err_VAR" (string @-> gen @-> gen @-> returning void)
 
   let pari_err_roots0 = foreign "pari_err_ROOTS0" (string @-> returning void)
+  let clone_lock = foreign "clone_lock" (gen @-> returning void)
+  let clone_unlock = foreign "clone_unlock" (gen @-> returning void)
+  let clone_unlock_deep = foreign "clone_unlock_deep" (gen @-> returning void)
+  let incloop = foreign "incloop" (gen @-> returning gen)
+  let resetloop = foreign "resetloop" (gen @-> gen @-> returning gen)
+  let setloop = foreign "setloop" (gen @-> returning gen)
+
+  let dirpowerssum0 =
+    foreign "dirpowerssum0"
+      (gen @-> gen @-> gen @-> long @-> long @-> returning gen)
+
+  let iferrpari = foreign "iferrpari" (gen @-> gen @-> gen @-> returning gen)
+
+  let forfactored =
+    foreign "forfactored" (gen @-> gen @-> gen @-> returning void)
+
+  let forpari = foreign "forpari" (gen @-> gen @-> gen @-> returning void)
+  let foreachpari = foreign "foreachpari" (gen @-> gen @-> returning void)
+
+  let forsquarefree =
+    foreign "forsquarefree" (gen @-> gen @-> gen @-> returning void)
+
+  let untilpari = foreign "untilpari" (gen @-> gen @-> returning void)
+  let whilepari = foreign "whilepari" (gen @-> gen @-> returning void)
+  let ifpari = foreign "ifpari" (gen @-> gen @-> gen @-> returning gen)
+  let andpari = foreign "andpari" (gen @-> gen @-> returning gen)
+  let orpari = foreign "orpari" (gen @-> gen @-> returning gen)
+
+  let ifpari_void =
+    foreign "ifpari_void" (gen @-> gen @-> gen @-> returning void)
+
+  let ifpari_multi = foreign "ifpari_multi" (gen @-> gen @-> returning gen)
+  let geval_gp = foreign "geval_gp" (gen @-> gen @-> returning gen)
+  let gadde = foreign "gadde" (ptr gen @-> gen @-> returning gen)
+  let gadd1e = foreign "gadd1e" (ptr gen @-> returning gen)
+  let gdive = foreign "gdive" (ptr gen @-> gen @-> returning gen)
+  let gdivente = foreign "gdivente" (ptr gen @-> gen @-> returning gen)
+  let gdivrounde = foreign "gdivrounde" (ptr gen @-> gen @-> returning gen)
+  let gmode = foreign "gmode" (ptr gen @-> gen @-> returning gen)
+  let gmule = foreign "gmule" (ptr gen @-> gen @-> returning gen)
+  let gshiftle = foreign "gshiftle" (ptr gen @-> long @-> returning gen)
+  let gshiftre = foreign "gshiftre" (ptr gen @-> long @-> returning gen)
+  let gsube = foreign "gsube" (ptr gen @-> gen @-> returning gen)
+  let gsub1e = foreign "gsub1e" (ptr gen @-> returning gen)
+  let gshift_right = foreign "gshift_right" (gen @-> long @-> returning gen)
+  let asympnum0 = foreign "asympnum0" (gen @-> gen @-> long @-> returning gen)
+
+  let asympnumraw0 =
+    foreign "asympnumraw0" (gen @-> long @-> gen @-> long @-> returning gen)
+
+  let derivnum0 =
+    foreign "derivnum0" (gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let derivfun0 =
+    foreign "derivfun0" (gen @-> gen @-> gen @-> long @-> long @-> returning gen)
+
+  let direuler0 =
+    foreign "direuler0" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let direuler_bad =
+    foreign "direuler_bad"
+      (ptr void
+      @-> static_funptr Ctypes.(ptr void @-> gen @-> long @-> returning gen)
+      @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let forcomposite =
+    foreign "forcomposite" (gen @-> gen @-> gen @-> returning void)
+
+  let fordiv = foreign "fordiv" (gen @-> gen @-> returning void)
+  let fordivfactored = foreign "fordivfactored" (gen @-> gen @-> returning void)
+
+  let forell0 =
+    foreign "forell0" (long @-> long @-> gen @-> long @-> returning void)
+
+  let forperm0 = foreign "forperm0" (gen @-> gen @-> returning void)
+  let forprime = foreign "forprime" (gen @-> gen @-> gen @-> returning void)
+
+  let forprimestep =
+    foreign "forprimestep" (gen @-> gen @-> gen @-> gen @-> returning void)
+
+  let forstep =
+    foreign "forstep" (gen @-> gen @-> gen @-> gen @-> returning void)
+
+  let forsubgroup0 =
+    foreign "forsubgroup0" (gen @-> gen @-> gen @-> returning void)
+
+  let forsubset0 = foreign "forsubset0" (gen @-> gen @-> returning void)
+  let forvec = foreign "forvec" (gen @-> gen @-> long @-> returning void)
+
+  let forpart0 =
+    foreign "forpart0" (gen @-> gen @-> gen @-> gen @-> returning void)
+
+  let intcirc0 =
+    foreign "intcirc0" (gen @-> gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let intfuncinit0 =
+    foreign "intfuncinit0"
+      (gen @-> gen @-> gen @-> long @-> long @-> returning gen)
+
+  let intnum0 =
+    foreign "intnum0" (gen @-> gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let intnumgauss0 =
+    foreign "intnumgauss0"
+      (gen @-> gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let intnumosc0 =
+    foreign "intnumosc0"
+      (gen @-> gen @-> gen @-> long @-> gen @-> long @-> returning gen)
+
+  let intnumromb0_bitprec =
+    foreign "intnumromb0_bitprec"
+      (gen @-> gen @-> gen @-> long @-> long @-> returning gen)
+
+  let laurentseries0 =
+    foreign "laurentseries0" (gen @-> long @-> long @-> long @-> returning gen)
+
+  let limitnum0 = foreign "limitnum0" (gen @-> gen @-> long @-> returning gen)
+  let matrice = foreign "matrice" (gen @-> gen @-> gen @-> returning gen)
+
+  let pariplot0 =
+    foreign "pariplot0"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> long @-> returning void)
+
+  let prodeuler0 =
+    foreign "prodeuler0" (gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let prodinf0 =
+    foreign "prodinf0" (gen @-> gen @-> long @-> long @-> returning gen)
+
+  let produit = foreign "produit" (gen @-> gen @-> gen @-> gen @-> returning gen)
+  let somme = foreign "somme" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let sumalt0 =
+    foreign "sumalt0" (gen @-> gen @-> long @-> long @-> returning gen)
+
+  let sumdivexpr = foreign "sumdivexpr" (gen @-> gen @-> returning gen)
+  let sumdivmultexpr0 = foreign "sumdivmultexpr0" (gen @-> gen @-> returning gen)
+
+  let suminf0_bitprec =
+    foreign "suminf0_bitprec" (gen @-> gen @-> long @-> returning gen)
+
+  let sumnum0 =
+    foreign "sumnum0" (gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let sumnumap0 =
+    foreign "sumnumap0" (gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let sumnumlagrange0 =
+    foreign "sumnumlagrange0" (gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let sumnummonien0 =
+    foreign "sumnummonien0" (gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let sumnumsidi0 =
+    foreign "sumnumsidi0" (gen @-> gen @-> long @-> long @-> returning gen)
+
+  let sumpos0 =
+    foreign "sumpos0" (gen @-> gen @-> long @-> long @-> returning gen)
+
+  let vecexpr0 = foreign "vecexpr0" (gen @-> gen @-> gen @-> returning gen)
+  let vecexpr1 = foreign "vecexpr1" (gen @-> gen @-> gen @-> returning gen)
+  let vecteursmall = foreign "vecteursmall" (gen @-> gen @-> returning gen)
+  let vecteur = foreign "vecteur" (gen @-> gen @-> returning gen)
+  let vvecteur = foreign "vvecteur" (gen @-> gen @-> returning gen)
+end
+
+module F62 (F : Ctypes.FOREIGN) = struct
+  open F
+
+  let zbrent0 =
+    foreign "zbrent0" (gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let solvestep0 =
+    foreign "solvestep0"
+      (gen @-> gen @-> gen @-> gen @-> long @-> long @-> returning gen)
+
+  let ploth0 =
+    foreign "ploth0"
+      (gen @-> gen @-> gen @-> long @-> long @-> long @-> returning gen)
+
+  let plothexport0 =
+    foreign "plothexport0"
+      (gen @-> gen @-> gen @-> gen @-> long @-> long @-> long @-> returning gen)
+
+  let psploth0 =
+    foreign "psploth0"
+      (gen @-> gen @-> gen @-> long @-> long @-> long @-> returning gen)
+
+  let plotrecth0 =
+    foreign "plotrecth0"
+      (long @-> gen @-> gen @-> gen @-> pari_ulong @-> long @-> long
+     @-> returning gen)
+
+  let listcreate_gp = foreign "listcreate_gp" (long @-> returning gen)
+  let mt_sigint = foreign "mt_sigint" (void @-> returning void)
+  let mt_err_recover = foreign "mt_err_recover" (long @-> returning void)
+  let mt_break_recover = foreign "mt_break_recover" (void @-> returning void)
+  let mt_export_add = foreign "mt_export_add" (string @-> gen @-> returning void)
+  let mt_export_del = foreign "mt_export_del" (string @-> returning void)
+  let mt_is_thread = foreign "mt_is_thread" (void @-> returning int)
+  let mt_thread_init = foreign "mt_thread_init" (void @-> returning void)
+
+  let eisker_worker =
+    foreign "eisker_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let pareval_worker = foreign "pareval_worker" (gen @-> returning gen)
+
+  let parfor0 =
+    foreign "parfor0" (gen @-> gen @-> gen @-> gen @-> returning void)
+
+  let parfor_worker = foreign "parfor_worker" (gen @-> gen @-> returning gen)
+
+  let parforeach0 =
+    foreign "parforeach0" (gen @-> gen @-> gen @-> returning void)
+
+  let parforprime0 =
+    foreign "parforprime0" (gen @-> gen @-> gen @-> gen @-> returning void)
+
+  let parforprimestep0 =
+    foreign "parforprimestep0"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning void)
+
+  let parforvec0 =
+    foreign "parforvec0" (gen @-> gen @-> gen @-> long @-> returning void)
+
+  let parvector_worker =
+    foreign "parvector_worker" (gen @-> gen @-> returning gen)
+
+  let polmodular_worker =
+    foreign "polmodular_worker"
+      (gen @-> pari_ulong @-> gen @-> gen @-> gen @-> gen @-> long @-> gen
+     @-> gen @-> gen @-> gen @-> returning gen)
+
+  let polclass_worker =
+    foreign "polclass_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let nf_l2_bound =
+    foreign "nf_L2_bound" (gen @-> gen @-> ptr gen @-> returning gen)
+
+  let nmv_polint_center_tree_worker =
+    foreign "nmV_polint_center_tree_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nmv_chinese_center_tree_seq =
+    foreign "nmV_chinese_center_tree_seq"
+      (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nxmv_polint_center_tree_worker =
+    foreign "nxMV_polint_center_tree_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nxmv_chinese_center_tree_seq =
+    foreign "nxMV_chinese_center_tree_seq"
+      (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let f2xq_log_coppersmith_worker =
+    foreign "F2xq_log_Coppersmith_worker"
+      (gen @-> long @-> gen @-> gen @-> returning gen)
+
+  let flxq_log_coppersmith_worker =
+    foreign "Flxq_log_Coppersmith_worker"
+      (gen @-> long @-> gen @-> gen @-> returning gen)
+
+  let fp_log_sieve_worker =
+    foreign "Fp_log_sieve_worker"
+      (long @-> long @-> gen @-> gen @-> gen @-> gen @-> gen @-> gen
+     @-> returning gen)
+
+  let qm_charpoly_zx_worker =
+    foreign "QM_charpoly_ZX_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let qxq_div_worker =
+    foreign "QXQ_div_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let qxq_inv_worker =
+    foreign "QXQ_inv_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let rgm_zm_mul_worker =
+    foreign "RgM_ZM_mul_worker" (gen @-> gen @-> returning gen)
+
+  let zx_resultant_worker =
+    foreign "ZX_resultant_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let zxqx_resultant_worker =
+    foreign "ZXQX_resultant_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let zx_zxy_resultant_worker =
+    foreign "ZX_ZXY_resultant_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let zx_composedsum_worker =
+    foreign "ZX_composedsum_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let zxqx_composedsum_worker =
+    foreign "ZXQX_composedsum_worker"
+      (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let zx_gcd_worker =
+    foreign "ZX_gcd_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let zxq_minpoly_worker =
+    foreign "ZXQ_minpoly_worker" (gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let zm_det_worker = foreign "ZM_det_worker" (gen @-> gen @-> returning gen)
+  let zm_inv_worker = foreign "ZM_inv_worker" (gen @-> gen @-> returning gen)
+  let zm_ker_worker = foreign "ZM_ker_worker" (gen @-> gen @-> returning gen)
+
+  let zm_mul_worker =
+    foreign "ZM_mul_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let zabm_inv_worker =
+    foreign "ZabM_inv_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let aprcl_step4_worker =
+    foreign "aprcl_step4_worker"
+      (pari_ulong @-> gen @-> gen @-> gen @-> returning gen)
+
+  let aprcl_step6_worker =
+    foreign "aprcl_step6_worker"
+      (gen @-> long @-> gen @-> gen @-> gen @-> returning gen)
+
+  let ecpp_sqrt_worker =
+    foreign "ecpp_sqrt_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let ecpp_ispsp_worker = foreign "ecpp_ispsp_worker" (gen @-> returning gen)
+
+  let ecpp_step2_worker =
+    foreign "ecpp_step2_worker" (gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let primecertisvalid_ecpp_worker =
+    foreign "primecertisvalid_ecpp_worker" (gen @-> returning gen)
+
+  let lfuninit_worker =
+    foreign "lfuninit_worker"
+      (long @-> gen @-> gen @-> gen @-> gen @-> gen @-> gen @-> gen @-> gen
+     @-> returning gen)
+
+  let lfuninit_theta2_worker =
+    foreign "lfuninit_theta2_worker"
+      (long @-> gen @-> gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let gen_parapply = foreign "gen_parapply" (gen @-> gen @-> returning gen)
+
+  let gen_parapply_percent =
+    foreign "gen_parapply_percent" (gen @-> gen @-> long @-> returning gen)
+
+  let parapply_slice_worker =
+    foreign "parapply_slice_worker" (gen @-> gen @-> returning gen)
+
+  let gen_parapply_slice =
+    foreign "gen_parapply_slice" (gen @-> gen @-> long @-> returning gen)
+
+  let gen_crt =
+    foreign "gen_crt"
+      (string @-> gen @-> ptr forprime_t @-> gen @-> pari_ulong @-> long
+     @-> ptr gen
+      @-> static_funptr Ctypes.(gen @-> gen @-> ptr gen @-> returning gen)
+      @-> static_funptr Ctypes.(gen @-> gen @-> gen @-> returning gen)
+      @-> returning gen)
+
+  let gen_inccrt =
+    foreign "gen_inccrt"
+      (string @-> gen @-> gen @-> long @-> long @-> ptr forprime_t @-> ptr gen
+     @-> ptr gen
+      @-> static_funptr Ctypes.(gen @-> gen @-> ptr gen @-> returning gen)
+      @-> static_funptr Ctypes.(gen @-> gen @-> gen @-> returning gen)
+      @-> returning void)
+
+  let gen_inccrt_i =
+    foreign "gen_inccrt_i"
+      (string @-> gen @-> gen @-> long @-> long @-> ptr forprime_t @-> ptr gen
+     @-> ptr gen
+      @-> static_funptr Ctypes.(gen @-> gen @-> ptr gen @-> returning gen)
+      @-> static_funptr Ctypes.(gen @-> gen @-> gen @-> returning gen)
+      @-> returning void)
+
+  let direllnf_worker =
+    foreign "direllnf_worker" (gen @-> pari_ulong @-> gen @-> returning gen)
+
+  let dirartin_worker =
+    foreign "dirartin_worker"
+      (gen @-> pari_ulong @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let direllsympow_worker =
+    foreign "direllsympow_worker"
+      (gen @-> pari_ulong @-> gen @-> pari_ulong @-> returning gen)
+
+  let dirgenus2_worker =
+    foreign "dirgenus2_worker" (gen @-> pari_ulong @-> gen @-> returning gen)
+
+  let dirhgm_worker =
+    foreign "dirhgm_worker"
+      (gen @-> pari_ulong @-> gen @-> gen @-> returning gen)
+
+  let pardireuler =
+    foreign "pardireuler" (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let fpm_ratlift_worker =
+    foreign "FpM_ratlift_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let ellq_factorback_worker =
+    foreign "ellQ_factorback_worker"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let chinese_unit_worker =
+    foreign "chinese_unit_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let partmap_reverse_frac_worker =
+    foreign "partmap_reverse_frac_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let parsum_slice_worker =
+    foreign "parsum_slice_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let ff_ellinit = foreign "FF_ellinit" (gen @-> gen @-> returning gen)
+  let ff_elldata = foreign "FF_elldata" (gen @-> gen @-> returning gen)
+
+  (*let norm_eqn_set =
+    foreign "norm_eqn_set"
+      (norm_eqn_t @-> long @-> long @-> long @-> long @-> gen @-> pari_ulong
+     @-> returning void)*)
+
+  let flx_coeff = foreign "Flx_coeff" (gen @-> long @-> returning pari_ulong)
+
+  let flx_deg1_root =
+    foreign "Flx_deg1_root" (gen @-> pari_ulong @-> returning pari_ulong)
+
+  let getdebugvar = foreign "getdebugvar" (void @-> returning long)
+  let setdebugvar = foreign "setdebugvar" (long @-> returning void)
+  let debug_stack = foreign "debug_stack" (void @-> returning void)
+
+  let minim_alloc =
+    foreign "minim_alloc"
+      (long
+      @-> ptr (ptr (ptr double))
+      @-> ptr gen
+      @-> ptr (ptr double)
+      @-> ptr (ptr double)
+      @-> ptr (ptr double)
+      @-> returning void)
+
+  let pop_entree_block =
+    foreign "pop_entree_block" (ptr entree @-> long @-> returning int)
+
+  let pop_val_if_newer =
+    foreign "pop_val_if_newer" (ptr entree @-> long @-> returning int)
+
+  let print_text = foreign "print_text" (string @-> returning void)
+  let is_keyword_char = foreign "is_keyword_char" (char @-> returning long)
+
+  let hash_from_link =
+    foreign "hash_from_link" (gen @-> gen @-> int @-> returning (ptr hashtable))
+
+  let gen_relink =
+    foreign "gen_relink" (gen @-> ptr hashtable @-> returning void)
+
+  let do_alias = foreign "do_alias" (ptr entree @-> returning (ptr entree))
+  let get_sep = foreign "get_sep" (string @-> returning string)
+  let get_int = foreign "get_int" (string @-> long @-> returning long)
+  let get_uint = foreign "get_uint" (string @-> returning pari_ulong)
+  let pari_sigint = foreign "pari_sigint" (string @-> returning void)
+  let initout = foreign "initout" (int @-> returning void)
+  let resetout = foreign "resetout" (int @-> returning void)
+end
+
+module F63 (F : Ctypes.FOREIGN) = struct
+  open F
+
+  let init_linewrap = foreign "init_linewrap" (long @-> returning void)
+
+  let print_functions_hash =
+    foreign "print_functions_hash" (string @-> returning void)
+
+  let readbin =
+    foreign "readbin" (string @-> ptr int @-> ptr int @-> returning gen)
+
+  let term_height = foreign "term_height" (void @-> returning int)
+  let term_width = foreign "term_width" (void @-> returning int)
+
+  let decode_color =
+    foreign "decode_color" (long @-> ptr long @-> returning void)
+
+  let lim_lines_output =
+    foreign "lim_lines_output" (string @-> long @-> long @-> returning void)
+
+  let tex2mail_output =
+    foreign "tex2mail_output" (gen @-> long @-> returning int)
+
+  let gen_output = foreign "gen_output" (gen @-> returning void)
+  let parsestate_reset = foreign "parsestate_reset" (void @-> returning void)
+
+  let parsestate_save =
+    foreign "parsestate_save" (ptr pari_parsestate @-> returning void)
+
+  let parsestate_restore =
+    foreign "parsestate_restore" (ptr pari_parsestate @-> returning void)
+
+  let compilestate_reset = foreign "compilestate_reset" (void @-> returning void)
+
+  let compilestate_save =
+    foreign "compilestate_save" (ptr pari_compilestate @-> returning void)
+
+  let compilestate_restore =
+    foreign "compilestate_restore" (ptr pari_compilestate @-> returning void)
+
+  let evalstate_get_trace =
+    foreign "evalstate_get_trace" (void @-> returning long)
+
+  let evalstate_set_trace =
+    foreign "evalstate_set_trace" (long @-> returning void)
+
+  let evalstate_clone = foreign "evalstate_clone" (void @-> returning void)
+  let evalstate_reset = foreign "evalstate_reset" (void @-> returning void)
+
+  let evalstate_restore =
+    foreign "evalstate_restore" (ptr pari_evalstate @-> returning void)
+
+  let evalstate_restore_err =
+    foreign "evalstate_restore_err" (ptr pari_evalstate @-> returning gen)
+
+  let evalstate_save =
+    foreign "evalstate_save" (ptr pari_evalstate @-> returning void)
+
+  let varstate_save =
+    foreign "varstate_save" (ptr pari_varstate @-> returning void)
+
+  let varstate_restore =
+    foreign "varstate_restore" (ptr pari_varstate @-> returning void)
+
+  let mtstate_save = foreign "mtstate_save" (ptr pari_mtstate @-> returning void)
+  let mtstate_reset = foreign "mtstate_reset" (void @-> returning void)
+
+  let mtstate_restore =
+    foreign "mtstate_restore" (ptr pari_mtstate @-> returning void)
+
+  let debug_context = foreign "debug_context" (void @-> returning void)
+
+  let forpath_init =
+    foreign "forpath_init"
+      (ptr forpath_t @-> ptr gp_path @-> string @-> returning void)
+
+  let forpath_next = foreign "forpath_next" (ptr forpath_t @-> returning string)
+  let gpwritebin = foreign "gpwritebin" (string @-> gen @-> returning void)
+  let new_buffer = foreign "new_buffer" (void @-> returning (ptr buffer))
+  let delete_buffer = foreign "delete_buffer" (ptr buffer @-> returning void)
+  let fix_buffer = foreign "fix_buffer" (ptr buffer @-> long @-> returning void)
+
+  let init_filtre =
+    foreign "init_filtre" (ptr filtre_t @-> ptr buffer @-> returning void)
+
+  let filtered_buffer =
+    foreign "filtered_buffer" (ptr filtre_t @-> returning (ptr buffer))
+
+  let kill_buffers_upto_including =
+    foreign "kill_buffers_upto_including" (ptr buffer @-> returning void)
+
+  let pop_buffer = foreign "pop_buffer" (void @-> returning void)
+
+  let kill_buffers_upto =
+    foreign "kill_buffers_upto" (ptr buffer @-> returning void)
+
+  let gp_read_line =
+    foreign "gp_read_line" (ptr filtre_t @-> string @-> returning int)
+
+  let parse_key_val =
+    foreign "parse_key_val"
+      (string @-> ptr string @-> ptr string @-> returning void)
+
+  let get_line_from_file =
+    foreign "get_line_from_file"
+      (string @-> ptr filtre_t @-> ptr int @-> returning int)
+
+  let pari_skip_space = foreign "pari_skip_space" (ptr string @-> returning void)
+  let pari_skip_alpha = foreign "pari_skip_alpha" (ptr string @-> returning void)
+
+  let pari_translate_string =
+    foreign "pari_translate_string"
+      (string @-> string @-> string @-> returning string)
+
+  (*let default_gp_data =
+      foreign "default_gp_data" (void @-> returning (ptr gp_data))
+
+    let input_loop =
+      foreign "input_loop" (ptr filtre_t @-> ptr input_method @-> returning int)
+
+    let file_input =
+      foreign "file_input"
+        (ptr string @-> int @-> ptr input_method @-> ptr filtre_t
+       @-> returning string)
+
+    let file_getline =
+      foreign "file_getline"
+        (ptr buffer @-> ptr string @-> ptr input_method @-> returning string)*)
+
+  let adduispec_offset =
+    foreign "adduispec_offset"
+      (pari_ulong @-> gen @-> long @-> long @-> returning gen)
+
+  let lgcdii =
+    foreign "lgcdii"
+      (ptr pari_ulong @-> ptr pari_ulong @-> ptr pari_ulong @-> ptr pari_ulong
+     @-> ptr pari_ulong @-> ptr pari_ulong @-> pari_ulong @-> returning int)
+
+  let rgcduu =
+    foreign "rgcduu"
+      (pari_ulong @-> pari_ulong @-> pari_ulong @-> ptr pari_ulong
+     @-> ptr pari_ulong @-> ptr pari_ulong @-> ptr pari_ulong @-> ptr long
+     @-> returning pari_ulong)
+
+  let xgcduu =
+    foreign "xgcduu"
+      (pari_ulong @-> pari_ulong @-> int @-> ptr pari_ulong @-> ptr pari_ulong
+     @-> ptr long @-> returning pari_ulong)
+
+  let xxgcduu =
+    foreign "xxgcduu"
+      (pari_ulong @-> pari_ulong @-> int @-> ptr pari_ulong @-> ptr pari_ulong
+     @-> ptr pari_ulong @-> ptr pari_ulong @-> ptr long @-> returning pari_ulong
+      )
+
+  let muliispec =
+    foreign "muliispec" (gen @-> gen @-> long @-> long @-> returning gen)
+
+  let red_montgomery =
+    foreign "red_montgomery" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let sqrispec = foreign "sqrispec" (gen @-> long @-> returning gen)
+  let convi = foreign "convi" (gen @-> ptr long @-> returning (ptr pari_ulong))
+
+  let rpowuu =
+    foreign "rpowuu" (pari_ulong @-> pari_ulong @-> long @-> returning gen)
+
+  let dabs = foreign "dabs" (double @-> double @-> returning double)
+  let darg = foreign "darg" (double @-> double @-> returning double)
+
+  let dcxlog =
+    foreign "dcxlog"
+      (double @-> double @-> ptr double @-> ptr double @-> returning void)
+
+  let dnorm = foreign "dnorm" (double @-> double @-> returning double)
+  let dbllog2 = foreign "dbllog2" (gen @-> returning double)
+  let dbllambertw0 = foreign "dbllambertW0" (double @-> returning double)
+  let dbllambertw_1 = foreign "dbllambertW_1" (double @-> returning double)
+
+  let hnfadd =
+    foreign "hnfadd"
+      (gen @-> gen @-> ptr gen @-> ptr gen @-> ptr gen @-> gen @-> gen
+     @-> returning gen)
+
+  let hnfadd_i =
+    foreign "hnfadd_i"
+      (gen @-> gen @-> ptr gen @-> ptr gen @-> ptr gen @-> gen @-> gen
+     @-> returning gen)
+
+  let hnfspec_i =
+    foreign "hnfspec_i"
+      (gen @-> gen @-> ptr gen @-> ptr gen @-> ptr gen @-> long
+     @-> returning gen)
+
+  let hnfspec =
+    foreign "hnfspec"
+      (gen @-> gen @-> ptr gen @-> ptr gen @-> ptr gen @-> long
+     @-> returning gen)
+
+  let mathnfspec =
+    foreign "mathnfspec"
+      (gen @-> ptr gen @-> ptr gen @-> ptr gen @-> ptr gen @-> returning gen)
+
+  let zm_hnfmodall_i =
+    foreign "ZM_hnfmodall_i" (gen @-> gen @-> long @-> returning gen)
+
+  let lll_check_progress =
+    foreign "LLL_check_progress"
+      (gen @-> long @-> gen @-> int @-> ptr long @-> returning gen)
+
+  let is_kth_power =
+    foreign "is_kth_power"
+      (gen @-> pari_ulong @-> ptr gen @-> returning pari_ulong)
+
+  let mpqs = foreign "mpqs" (gen @-> returning gen)
+  let lift_if_rational = foreign "lift_if_rational" (gen @-> returning gen)
+  let monomial = foreign "monomial" (gen @-> long @-> long @-> returning gen)
+
+  let monomialcopy =
+    foreign "monomialcopy" (gen @-> long @-> long @-> returning gen)
+
+  let ser2pol_i = foreign "ser2pol_i" (gen @-> long @-> returning gen)
+
+  let ser2pol_i_normalize =
+    foreign "ser2pol_i_normalize" (gen @-> long @-> ptr long @-> returning gen)
+
+  let ser2rfrac_i = foreign "ser2rfrac_i" (gen @-> returning gen)
+  let swap_vars = foreign "swap_vars" (gen @-> long @-> returning gen)
+
+  let rgx_recipspec_shallow =
+    foreign "RgX_recipspec_shallow" (gen @-> long @-> long @-> returning gen)
+
+  let bezout_lift_fact =
+    foreign "bezout_lift_fact" (gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let polsym_gen =
+    foreign "polsym_gen" (gen @-> gen @-> long @-> gen @-> gen @-> returning gen)
+
+  let zxq_charpoly_sqf =
+    foreign "ZXQ_charpoly_sqf"
+      (gen @-> gen @-> ptr long @-> long @-> returning gen)
+
+  let zx_disc_all = foreign "ZX_disc_all" (gen @-> pari_ulong @-> returning gen)
+
+  let zx_resultant_all =
+    foreign "ZX_resultant_all"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let zx_zxy_resultant_all =
+    foreign "ZX_ZXY_resultant_all"
+      (gen @-> gen @-> ptr long @-> ptr gen @-> returning gen)
+
+  let flxqm_mul_kronecker =
+    foreign "FlxqM_mul_Kronecker"
+      (gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let fqm_mul_kronecker =
+    foreign "FqM_mul_Kronecker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let chk_factors_get =
+    foreign "chk_factors_get"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let cmbf_maxk = foreign "cmbf_maxK" (long @-> returning long)
+  let zx_ddf = foreign "ZX_DDF" (gen @-> returning gen)
+  let zx_ddf_max = foreign "ZX_DDF_max" (gen @-> long @-> returning gen)
+
+  let initgaloisborne =
+    foreign "initgaloisborne"
+      (gen @-> gen @-> long @-> ptr gen @-> ptr gen @-> ptr gen
+     @-> returning gen)
+
+  let nflist_c3_worker =
+    foreign "nflist_C3_worker" (gen @-> gen @-> returning gen)
+
+  let nflist_c4vec_worker =
+    foreign "nflist_C4vec_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_v4_worker =
+    foreign "nflist_V4_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_d4_worker =
+    foreign "nflist_D4_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+end
+
+module F64 (F : Ctypes.FOREIGN) = struct
+  open F
+
+  let nflist_a4s4_worker =
+    foreign "nflist_A4S4_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_c5_worker =
+    foreign "nflist_C5_worker" (gen @-> gen @-> returning gen)
+
+  let nflist_cl_worker =
+    foreign "nflist_CL_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_dl_worker =
+    foreign "nflist_DL_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_mgen_worker =
+    foreign "nflist_Mgen_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_c6_worker =
+    foreign "nflist_C6_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_d612_worker =
+    foreign "nflist_D612_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_a46s46p_worker =
+    foreign "nflist_A46S46P_worker"
+      (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_s46m_worker =
+    foreign "nflist_S46M_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_a462_worker =
+    foreign "nflist_A462_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_s3c3_worker =
+    foreign "nflist_S3C3_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_s462_worker =
+    foreign "nflist_S462_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_s36_worker =
+    foreign "nflist_S36_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_c32c4_worker =
+    foreign "nflist_C32C4_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_c32d4_worker =
+    foreign "nflist_C32D4_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_c9_worker =
+    foreign "nflist_C9_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_c3c3_worker =
+    foreign "nflist_C3C3_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_s3r_worker =
+    foreign "nflist_S3R_worker" (gen @-> gen @-> returning gen)
+
+  let nflist_s3i_worker =
+    foreign "nflist_S3I_worker" (gen @-> gen @-> returning gen)
+
+  let nflist_d9_worker =
+    foreign "nflist_D9_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let nflist_s32_worker =
+    foreign "nflist_S32_worker"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let pari_close_compiler =
+    foreign "pari_close_compiler" (void @-> returning void)
+
+  let pari_close_evaluator =
+    foreign "pari_close_evaluator" (void @-> returning void)
+
+  let pari_close_files = foreign "pari_close_files" (void @-> returning void)
+  let pari_close_floats = foreign "pari_close_floats" (void @-> returning void)
+  let pari_close_homedir = foreign "pari_close_homedir" (void @-> returning void)
+  let pari_close_parser = foreign "pari_close_parser" (void @-> returning void)
+  let pari_close_paths = foreign "pari_close_paths" (void @-> returning void)
+  let pari_close_primes = foreign "pari_close_primes" (void @-> returning void)
+  let pari_init_buffers = foreign "pari_init_buffers" (void @-> returning void)
+  let pari_init_compiler = foreign "pari_init_compiler" (void @-> returning void)
+  let pari_init_defaults = foreign "pari_init_defaults" (void @-> returning void)
+
+  let pari_init_ellcondfile =
+    foreign "pari_init_ellcondfile" (void @-> returning void)
+
+  let pari_init_evaluator =
+    foreign "pari_init_evaluator" (void @-> returning void)
+
+  let pari_init_files = foreign "pari_init_files" (void @-> returning void)
+  let pari_init_floats = foreign "pari_init_floats" (void @-> returning void)
+  let pari_close_hgm = foreign "pari_close_hgm" (void @-> returning void)
+  let pari_init_hgm = foreign "pari_init_hgm" (void @-> returning void)
+  let pari_init_homedir = foreign "pari_init_homedir" (void @-> returning void)
+  let pari_init_graphics = foreign "pari_init_graphics" (void @-> returning void)
+  let pari_init_parser = foreign "pari_init_parser" (void @-> returning void)
+  let pari_init_rand = foreign "pari_init_rand" (void @-> returning void)
+  let pari_init_paths = foreign "pari_init_paths" (void @-> returning void)
+  let pari_get_seadata = foreign "pari_get_seadata" (void @-> returning gen)
+  let pari_set_primetab = foreign "pari_set_primetab" (gen @-> returning void)
+  let pari_set_seadata = foreign "pari_set_seadata" (gen @-> returning void)
+
+  let pari_set_varstate =
+    foreign "pari_set_varstate"
+      (ptr long @-> ptr pari_varstate @-> returning void)
+
+  let pari_thread_close_files =
+    foreign "pari_thread_close_files" (void @-> returning void)
+
+  let export_add = foreign "export_add" (string @-> gen @-> returning void)
+  let export_del = foreign "export_del" (string @-> returning void)
+  let export_get = foreign "export_get" (string @-> returning gen)
+  let exportall = foreign "exportall" (void @-> returning void)
+  let unexportall = foreign "unexportall" (void @-> returning void)
+  let coltoalg = foreign "coltoalg" (gen @-> gen @-> returning gen)
+
+  let fincke_pohst =
+    foreign "fincke_pohst"
+      (gen @-> gen @-> long @-> long @-> ptr fp_chk_fun @-> returning gen)
+
+  let init_zlog = foreign "init_zlog" (ptr zlog_s @-> gen @-> returning void)
+
+  let log_gen_arch =
+    foreign "log_gen_arch" (ptr zlog_s @-> long @-> returning gen)
+
+  let log_gen_pr =
+    foreign "log_gen_pr" (ptr zlog_s @-> long @-> gen @-> long @-> returning gen)
+
+  let make_integral =
+    foreign "make_integral" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let poltobasis = foreign "poltobasis" (gen @-> gen @-> returning gen)
+
+  let rnfdisc_get_t =
+    foreign "rnfdisc_get_T" (gen @-> gen @-> ptr gen @-> returning gen)
+
+  let rnfallbase =
+    foreign "rnfallbase"
+      (gen @-> gen @-> gen @-> gen @-> ptr gen @-> ptr gen @-> ptr gen
+     @-> returning gen)
+
+  let sprk_log_gen_pr =
+    foreign "sprk_log_gen_pr" (gen @-> gen @-> long @-> returning gen)
+
+  let sprk_log_gen_pr2 =
+    foreign "sprk_log_gen_pr2" (gen @-> gen @-> long @-> returning gen)
+
+  let sprk_log_prk1 =
+    foreign "sprk_log_prk1" (gen @-> gen @-> gen @-> returning gen)
+
+  let sprk_to_bid =
+    foreign "sprk_to_bid" (gen @-> gen @-> long @-> returning gen)
+
+  let subgroupcondlist =
+    foreign "subgroupcondlist" (gen @-> gen @-> gen @-> returning gen)
+
+  let redimagsl2 = foreign "redimagsl2" (gen @-> ptr gen @-> returning gen)
+  let zm_pivots = foreign "ZM_pivots" (gen @-> ptr long @-> returning gen)
+
+  (*let rgm_pivots =
+    foreign "RgM_pivots"
+      (gen @-> gen @-> ptr long @-> pivot_fun @-> returning gen)*)
+
+  let rgms_structelim_col =
+    foreign "RgMs_structelim_col"
+      (gen @-> long @-> long @-> gen @-> ptr gen @-> ptr gen @-> returning void)
+
+  let is_gener_fp =
+    foreign "is_gener_Fp" (gen @-> gen @-> gen @-> gen @-> returning int)
+
+  let is_gener_fl =
+    foreign "is_gener_Fl"
+      (pari_ulong @-> pari_ulong @-> pari_ulong @-> gen @-> returning int)
+
+  let divisors_init =
+    foreign "divisors_init" (gen @-> ptr gen @-> ptr gen @-> returning int)
+
+  let set_optimize = foreign "set_optimize" (long @-> gen @-> returning long)
+
+  let zk_galoisapplymod =
+    foreign "zk_galoisapplymod" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let zx_canon_neg = foreign "ZX_canon_neg" (gen @-> returning int)
+  let dim1proj = foreign "dim1proj" (gen @-> returning gen)
+
+  let gen_if_principal =
+    foreign "gen_if_principal" (gen @-> gen @-> returning gen)
+
+  let check_nfelt = foreign "check_nfelt" (gen @-> ptr gen @-> returning void)
+  let zk_ei_mul = foreign "zk_ei_mul" (gen @-> gen @-> long @-> returning gen)
+  let log_prk = foreign "log_prk" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let log_prk_units =
+    foreign "log_prk_units" (gen @-> gen @-> gen @-> returning gen)
+
+  let log_prk_units_init = foreign "log_prk_units_init" (gen @-> returning gen)
+  let veclog_prk = foreign "veclog_prk" (gen @-> gen @-> gen @-> returning gen)
+
+  let log_prk_init =
+    foreign "log_prk_init" (gen @-> gen @-> long @-> gen @-> returning gen)
+
+  let check_mod_factored =
+    foreign "check_mod_factored"
+      (gen @-> gen @-> ptr gen @-> ptr gen @-> ptr gen @-> gen @-> returning gen)
+
+  let sprk_get_cyc = foreign "sprk_get_cyc" (gen @-> returning gen)
+  let sprk_get_expo = foreign "sprk_get_expo" (gen @-> returning gen)
+  let sprk_get_gen = foreign "sprk_get_gen" (gen @-> returning gen)
+  let sprk_get_prk = foreign "sprk_get_prk" (gen @-> returning gen)
+  let sprk_get_ff = foreign "sprk_get_ff" (gen @-> returning gen)
+  let sprk_get_pr = foreign "sprk_get_pr" (gen @-> returning gen)
+
+  let sprk_get_agl2 =
+    foreign "sprk_get_AgL2"
+      (gen @-> ptr gen @-> ptr gen @-> ptr gen @-> returning void)
+
+  let sprk_get_u2 =
+    foreign "sprk_get_U2" (gen @-> ptr gen @-> ptr gen @-> returning void)
+
+  let famat_zlog_pr =
+    foreign "famat_zlog_pr"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let factorbackprime =
+    foreign "factorbackprime" (gen @-> gen @-> gen @-> returning gen)
+
+  let producttree_scheme = foreign "producttree_scheme" (long @-> returning gen)
+end
+
+module F65 (F : Ctypes.FOREIGN) = struct
+  open F
+
+  let bernbitprec = foreign "bernbitprec" (long @-> returning long)
+
+  let sort_factor_pol =
+    foreign "sort_factor_pol"
+      (gen
+      @-> static_funptr Ctypes.(gen @-> gen @-> returning int)
+      @-> returning gen)
+
+  let bnf_increase_limc =
+    foreign "bnf_increase_LIMC"
+      (pari_ulong @-> pari_ulong @-> returning pari_ulong)
+
+  let free_grhcheck = foreign "free_GRHcheck" (ptr grhcheck_t @-> returning void)
+
+  let init_grhcheck =
+    foreign "init_GRHcheck"
+      (ptr grhcheck_t @-> long @-> long @-> double @-> returning void)
+
+  let grh_ensure =
+    foreign "GRH_ensure" (ptr grhcheck_t @-> long @-> returning void)
+
+  let grh_last_prime =
+    foreign "GRH_last_prime" (ptr grhcheck_t @-> returning pari_ulong)
+
+  let grhok =
+    foreign "GRHok"
+      (ptr grhcheck_t @-> double @-> double @-> double @-> returning int)
+
+  let extract_full_lattice =
+    foreign "extract_full_lattice" (gen @-> returning gen)
+
+  let init_red_mod_units =
+    foreign "init_red_mod_units" (gen @-> long @-> returning gen)
+
+  let isprincipalarch =
+    foreign "isprincipalarch"
+      (gen @-> gen @-> gen @-> gen @-> gen @-> ptr long @-> returning gen)
+
+  let red_mod_units = foreign "red_mod_units" (gen @-> gen @-> returning gen)
+
+  let minkowski_bound =
+    foreign "minkowski_bound" (gen @-> long @-> long @-> long @-> returning gen)
+
+  let subgroup_conductor_ok =
+    foreign "subgroup_conductor_ok" (gen @-> gen @-> returning int)
+
+  let subgrouplist_cond_sub =
+    foreign "subgrouplist_cond_sub" (gen @-> gen @-> gen @-> returning gen)
+
+  let random_curves_with_m_torsion =
+    foreign "random_curves_with_m_torsion"
+      (ptr pari_ulong @-> ptr pari_ulong @-> ptr pari_ulong @-> ptr pari_ulong
+     @-> long @-> long @-> pari_ulong @-> pari_ulong @-> returning void)
+
+  let direuler_factor =
+    foreign "direuler_factor" (gen @-> long @-> returning gen)
+
+  let hnaive_max = foreign "hnaive_max" (gen @-> gen @-> returning gen)
+
+  let ellq_genreduce =
+    foreign "ellQ_genreduce" (gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let ellq_isdivisible =
+    foreign "ellQ_isdivisible" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let ellminimalbmodel =
+    foreign "ellminimalbmodel" (gen @-> ptr gen @-> returning gen)
+
+  let ellintegralbmodel =
+    foreign "ellintegralbmodel" (gen @-> ptr gen @-> returning gen)
+
+  let ellprint = foreign "ellprint" (gen @-> returning void)
+
+  let ell2selmer_basis =
+    foreign "ell2selmer_basis" (gen @-> ptr gen @-> long @-> returning gen)
+
+  let killallfiles = foreign "killallfiles" (void @-> returning void)
+  let popinfile = foreign "popinfile" (void @-> returning int)
+
+  let f2m_gauss_pivot =
+    foreign "F2m_gauss_pivot" (gen @-> ptr long @-> returning gen)
+
+  let f2m_gauss_sp = foreign "F2m_gauss_sp" (gen @-> gen @-> returning gen)
+  let f2m_invimage_i = foreign "F2m_invimage_i" (gen @-> gen @-> returning gen)
+
+  let flev_add_pre_inplace =
+    foreign "FleV_add_pre_inplace"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning void)
+
+  let flev_dbl_pre_inplace =
+    foreign "FleV_dbl_pre_inplace"
+      (gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning void)
+
+  let flev_mulu_pre_inplace =
+    foreign "FleV_mulu_pre_inplace"
+      (gen @-> pari_ulong @-> gen @-> pari_ulong @-> pari_ulong
+     @-> returning void)
+
+  let flev_sub_pre_inplace =
+    foreign "FleV_sub_pre_inplace"
+      (gen @-> gen @-> gen @-> pari_ulong @-> pari_ulong @-> returning void)
+
+  let flm_gauss_sp =
+    foreign "Flm_gauss_sp"
+      (gen @-> gen @-> ptr pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flm_invimage_i =
+    foreign "Flm_invimage_i" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flm_inv_sp =
+    foreign "Flm_inv_sp"
+      (gen @-> ptr pari_ulong @-> pari_ulong @-> returning gen)
+
+  let flm_pivots =
+    foreign "Flm_pivots"
+      (gen @-> pari_ulong @-> ptr long @-> long @-> returning gen)
+
+  let flxq_log_index =
+    foreign "Flxq_log_index"
+      (gen @-> gen @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let flxq_log_use_index =
+    foreign "Flxq_log_use_index" (gen @-> gen @-> pari_ulong @-> returning int)
+
+  let zpxq_norm_pcyc =
+    foreign "ZpXQ_norm_pcyc" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let zx_is_pcyc = foreign "zx_is_pcyc" (gen @-> returning long)
+
+  let fpms_leftkernel_elt_col =
+    foreign "FpMs_leftkernel_elt_col"
+      (gen @-> long @-> long @-> gen @-> returning gen)
+
+  let fpx_to_mod_raw = foreign "FpX_to_mod_raw" (gen @-> gen @-> returning gen)
+
+  let zlxqxn_expint =
+    foreign "ZlXQXn_expint"
+      (gen @-> long @-> gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let ddf_to_ddf2 = foreign "ddf_to_ddf2" (gen @-> returning gen)
+  let ddf_to_nbfact = foreign "ddf_to_nbfact" (gen @-> returning long)
+
+  let vddf_to_simplefact =
+    foreign "vddf_to_simplefact" (gen @-> long @-> returning gen)
+
+  let fpxqx_factor_berlekamp =
+    foreign "FpXQX_factor_Berlekamp" (gen @-> gen @-> gen @-> returning gen)
+
+  let init_modular_big =
+    foreign "init_modular_big" (ptr forprime_t @-> returning void)
+
+  let init_modular_small =
+    foreign "init_modular_small" (ptr forprime_t @-> returning void)
+
+  let galoiscosets = foreign "galoiscosets" (gen @-> gen @-> returning gen)
+
+  let galoisinitfromaut =
+    foreign "galoisinitfromaut" (gen @-> gen @-> pari_ulong @-> returning gen)
+
+  let matrixnorm = foreign "matrixnorm" (gen @-> long @-> returning gen)
+
+  let gred_rfrac_simple =
+    foreign "gred_rfrac_simple" (gen @-> gen @-> returning gen)
+
+  let sqr_ser_part =
+    foreign "sqr_ser_part" (gen @-> long @-> long @-> returning gen)
+
+  let hashstr_import_static =
+    foreign "hashstr_import_static"
+      (ptr hashentry @-> pari_ulong @-> returning (ptr hashtable))
+
+  let zlxqx_hyperellpadicfrobenius =
+    foreign "ZlXQX_hyperellpadicfrobenius"
+      (gen @-> gen @-> pari_ulong @-> long @-> returning gen)
+
+  let snextpr =
+    foreign "snextpr"
+      (pari_ulong @-> ptr byteptr @-> ptr long @-> ptr long
+      @-> static_funptr Ctypes.(pari_ulong @-> returning int)
+      @-> returning pari_ulong)
+
+  let contfraceval_inv =
+    foreign "contfraceval_inv" (gen @-> gen @-> long @-> returning gen)
+
+  let pari_close_mf = foreign "pari_close_mf" (void @-> returning void)
+  let polishomogeneous = foreign "polishomogeneous" (gen @-> returning long)
+  let sertocol = foreign "sertocol" (gen @-> returning gen)
+  let mfrhopol = foreign "mfrhopol" (long @-> returning gen)
+
+  let mfrhopol_u_eval =
+    foreign "mfrhopol_u_eval" (gen @-> pari_ulong @-> returning gen)
+
+  let mfrhopol_eval = foreign "mfrhopol_eval" (gen @-> gen @-> returning gen)
+
+  let bpsw_psp_nosmalldiv =
+    foreign "BPSW_psp_nosmalldiv" (gen @-> returning long)
+
+  let mr_jaeschke = foreign "MR_Jaeschke" (gen @-> returning int)
+
+  let isanypower_nosmalldiv =
+    foreign "isanypower_nosmalldiv" (gen @-> ptr gen @-> returning long)
+
+  let prime_table_next_p =
+    foreign "prime_table_next_p"
+      (pari_ulong @-> ptr byteptr @-> ptr pari_ulong @-> ptr pari_ulong
+     @-> returning void)
+
+  let perm_generate =
+    foreign "perm_generate" (gen @-> gen @-> long @-> returning gen)
+
+  let perm_relorder = foreign "perm_relorder" (gen @-> gen @-> returning long)
+
+  let vecperm_extendschreier =
+    foreign "vecperm_extendschreier" (gen @-> gen @-> long @-> returning gen)
+
+  let polclass0 =
+    foreign "polclass0" (long @-> long @-> long @-> ptr gen @-> returning gen)
+
+  let polmodular0_zm =
+    foreign "polmodular0_ZM"
+      (long @-> long @-> gen @-> gen @-> int @-> ptr gen @-> returning gen)
+
+  let flm_fl_polmodular_evalx =
+    foreign "Flm_Fl_polmodular_evalx"
+      (gen @-> long @-> pari_ulong @-> pari_ulong @-> pari_ulong
+     @-> returning gen)
+
+  let polmodular_db_init = foreign "polmodular_db_init" (long @-> returning gen)
+
+  let polmodular_db_add_level =
+    foreign "polmodular_db_add_level"
+      (ptr gen @-> long @-> long @-> returning void)
+
+  let polmodular_db_add_levels =
+    foreign "polmodular_db_add_levels"
+      (ptr gen @-> ptr long @-> long @-> long @-> returning void)
+
+  let polmodular_db_for_inv =
+    foreign "polmodular_db_for_inv" (gen @-> long @-> returning gen)
+
+  let polmodular_db_getp =
+    foreign "polmodular_db_getp" (gen @-> long @-> pari_ulong @-> returning gen)
+
+  let modinv_level = foreign "modinv_level" (long @-> returning long)
+
+  let modinv_degree =
+    foreign "modinv_degree" (ptr long @-> ptr long @-> long @-> returning long)
+
+  let modinv_ramified =
+    foreign "modinv_ramified" (long @-> long @-> ptr long @-> returning long)
+
+  let modinv_j_from_2double_eta =
+    foreign "modinv_j_from_2double_eta"
+      (gen @-> long @-> pari_ulong @-> pari_ulong @-> pari_ulong @-> pari_ulong
+     @-> returning long)
+
+  let double_eta_raw = foreign "double_eta_raw" (long @-> returning gen)
+
+  (*let modfn_root =
+      foreign "modfn_root"
+        (pari_ulong @-> norm_eqn_t @-> long @-> returning pari_ulong)
+
+    let modfn_unambiguous_root =
+      foreign "modfn_unambiguous_root"
+        (ptr pari_ulong @-> long @-> pari_ulong @-> norm_eqn_t @-> gen
+       @-> returning long)*)
+
+  let qfb_nform = foreign "qfb_nform" (long @-> long @-> returning gen)
+
+  let flj_order_ufact =
+    foreign "Flj_order_ufact"
+      (gen @-> pari_ulong @-> gen @-> pari_ulong @-> pari_ulong @-> pari_ulong
+     @-> returning pari_ulong)
+
+  let flm_frobenius_pow =
+    foreign "Flm_Frobenius_pow"
+      (gen @-> long @-> gen @-> pari_ulong @-> returning gen)
+
+  let fpm_frobenius_pow =
+    foreign "FpM_Frobenius_pow" (gen @-> long @-> gen @-> gen @-> returning gen)
+
+  let rgxq_charpoly_i =
+    foreign "RgXQ_charpoly_i" (gen @-> gen @-> long @-> returning gen)
+
+  let zx_zxy_resbound =
+    foreign "ZX_ZXY_ResBound" (gen @-> gen @-> gen @-> returning pari_ulong)
+
+  let ffinit_artin_schreier =
+    foreign "ffinit_Artin_Schreier" (pari_ulong @-> long @-> returning gen)
+
+  let ffinit_rand = foreign "ffinit_rand" (gen @-> long @-> returning gen)
+
+  let nf_direct_compositum =
+    foreign "nf_direct_compositum" (gen @-> gen @-> gen @-> returning gen)
+
+  let veccond_to_a5 = foreign "veccond_to_A5" (gen @-> long @-> returning gen)
+  let ceilsqrtdiv = foreign "ceilsqrtdiv" (gen @-> gen @-> returning long)
+end
+
+module F66 (F : Ctypes.FOREIGN) = struct
+  open F
+
+  let nflistqt = foreign "nflistQT" (long @-> long @-> long @-> returning gen)
+
+  let ramanujantau_worker =
+    foreign "ramanujantau_worker" (gen @-> gen @-> gen @-> gen @-> returning gen)
+
+  let taugen_n_worker =
+    foreign "taugen_n_worker" (gen @-> gen @-> gen @-> returning gen)
+
+  let pari_completion =
+    foreign "pari_completion"
+      (ptr pari_rl_interface @-> string @-> int @-> int
+      @-> returning (ptr string))
+
+  let pari_completion_matches =
+    foreign "pari_completion_matches"
+      (ptr pari_rl_interface @-> string @-> long @-> ptr long
+      @-> returning (ptr string))
+
+  let galoiscyclo = foreign "galoiscyclo" (long @-> long @-> returning gen)
+
+  let subcyclo_nh =
+    foreign "subcyclo_nH" (string @-> gen @-> ptr gen @-> returning long)
+
+  let znstar_bits = foreign "znstar_bits" (long @-> gen @-> returning gen)
+  let znstar_conductor = foreign "znstar_conductor" (gen @-> returning long)
+
+  let znstar_conductor_bits =
+    foreign "znstar_conductor_bits" (gen @-> returning long)
+
+  let znstar_cosets =
+    foreign "znstar_cosets" (long @-> long @-> gen @-> returning gen)
+
+  let znstar_elts = foreign "znstar_elts" (long @-> gen @-> returning gen)
+
+  let znstar_generate =
+    foreign "znstar_generate" (long @-> gen @-> returning gen)
+
+  let znstar_hnf = foreign "znstar_hnf" (gen @-> gen @-> returning gen)
+  let znstar_hnf_elts = foreign "znstar_hnf_elts" (gen @-> gen @-> returning gen)
+
+  let znstar_hnf_generators =
+    foreign "znstar_hnf_generators" (gen @-> gen @-> returning gen)
+
+  let znstar_reduce_modulus =
+    foreign "znstar_reduce_modulus" (gen @-> long @-> returning gen)
+
+  let znstar_small = foreign "znstar_small" (gen @-> returning gen)
+  let abpq_init = foreign "abpq_init" (ptr abpq @-> long @-> returning void)
+
+  let abpq_sum =
+    foreign "abpq_sum"
+      (ptr abpq_res @-> long @-> long @-> ptr abpq @-> returning void)
+
+  let logagmcx = foreign "logagmcx" (gen @-> long @-> returning gen)
+
+  let zellagmcx =
+    foreign "zellagmcx" (gen @-> gen @-> gen @-> gen @-> long @-> returning gen)
+
+  let trans_fix_arg =
+    foreign "trans_fix_arg"
+      (ptr long @-> ptr gen @-> ptr gen @-> ptr gen @-> ptr pari_sp @-> ptr gen
+     @-> returning gen)
+
+  let double_eta_quotient =
+    foreign "double_eta_quotient"
+      (gen @-> gen @-> gen @-> long @-> long @-> gen @-> gen @-> returning gen)
+
+  let inv_szeta_euler =
+    foreign "inv_szeta_euler" (long @-> long @-> returning gen)
+
+  let lerch_worker = foreign "lerch_worker" (gen @-> gen @-> returning gen)
+
+  let j_level_in_volcano =
+    foreign "j_level_in_volcano"
+      (gen @-> pari_ulong @-> pari_ulong @-> pari_ulong @-> long @-> long
+     @-> returning long)
+
+  let ascend_volcano =
+    foreign "ascend_volcano"
+      (gen @-> pari_ulong @-> pari_ulong @-> pari_ulong @-> long @-> long
+     @-> long @-> long @-> returning pari_ulong)
+
+  let descend_volcano =
+    foreign "descend_volcano"
+      (gen @-> pari_ulong @-> pari_ulong @-> pari_ulong @-> long @-> long
+     @-> long @-> long @-> returning pari_ulong)
+
+  let next_surface_nbr =
+    foreign "next_surface_nbr"
+      (ptr pari_ulong @-> gen @-> long @-> long @-> pari_ulong
+     @-> ptr pari_ulong @-> pari_ulong @-> pari_ulong @-> returning long)
+
+  (*let enum_roots =
+    foreign "enum_roots"
+      (pari_ulong @-> norm_eqn_t @-> gen @-> gen @-> gen @-> returning gen)*)
+
   let mkintmod = foreign "mkintmod" (gen @-> gen @-> returning gen)
 
   let mkintmodu =
@@ -12601,6 +13990,11 @@ module F61 (F : Ctypes.FOREIGN) = struct
   let zeroser = foreign "zeroser" (long @-> long @-> returning gen)
   let ser_isexactzero = foreign "ser_isexactzero" (gen @-> returning int)
   let zeropol = foreign "zeropol" (long @-> returning gen)
+end
+
+module F67 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let zerocol = foreign "zerocol" (long @-> returning gen)
   let zerovec = foreign "zerovec" (long @-> returning gen)
   let zeromat = foreign "zeromat" (long @-> long @-> returning gen)
@@ -12611,11 +14005,6 @@ module F61 (F : Ctypes.FOREIGN) = struct
   let zero_f2v = foreign "zero_F2v" (long @-> returning gen)
   let zero_f2m = foreign "zero_F2m" (long @-> long @-> returning gen)
   let zero_f2m_copy = foreign "zero_F2m_copy" (long @-> long @-> returning gen)
-end
-
-module F62 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let zeromatcopy = foreign "zeromatcopy" (long @-> long @-> returning gen)
   let zerovec_block = foreign "zerovec_block" (long @-> returning gen)
   let col_ei = foreign "col_ei" (long @-> long @-> returning gen)
@@ -12754,6 +14143,10 @@ module F62 (F : Ctypes.FOREIGN) = struct
 
   let gerepileuptoleaf =
     foreign "gerepileuptoleaf" (pari_sp @-> gen @-> returning gen)
+end
+
+module F68 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let gerepileuptoint =
     foreign "gerepileuptoint" (pari_sp @-> gen @-> returning gen)
@@ -12773,11 +14166,6 @@ module F62 (F : Ctypes.FOREIGN) = struct
     foreign "gerepilecoeffs" (pari_sp @-> gen @-> int @-> returning void)
 
   let bin_copy = foreign "bin_copy" (ptr genbin @-> returning gen)
-end
-
-module F63 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let genbinbase = foreign "GENbinbase" (ptr genbin @-> returning gen)
   let cgiv = foreign "cgiv" (gen @-> returning void)
   let killblock = foreign "killblock" (gen @-> returning void)
@@ -12888,6 +14276,10 @@ module F63 (F : Ctypes.FOREIGN) = struct
 
   let submuliu_inplace =
     foreign "submuliu_inplace" (gen @-> gen @-> pari_ulong @-> returning gen)
+end
+
+module F69 (F : Ctypes.FOREIGN) = struct
+  open F
 
   let addmuliu_inplace =
     foreign "addmuliu_inplace" (gen @-> gen @-> pari_ulong @-> returning gen)
@@ -12903,11 +14295,6 @@ module F63 (F : Ctypes.FOREIGN) = struct
   let is_qfb_t = foreign "is_qfb_t" (long @-> returning int)
   let is_rational_t = foreign "is_rational_t" (long @-> returning int)
   let is_real_t = foreign "is_real_t" (long @-> returning int)
-end
-
-module F64 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let is_recursive_t = foreign "is_recursive_t" (long @-> returning int)
   let is_scalar_t = foreign "is_scalar_t" (long @-> returning int)
   let is_vec_t = foreign "is_vec_t" (long @-> returning int)
@@ -13019,6 +14406,11 @@ module F64 (F : Ctypes.FOREIGN) = struct
   let zero_zv = foreign "zero_zv" (long @-> returning gen)
   let zm_transpose = foreign "zm_transpose" (gen @-> returning gen)
   let zm_copy = foreign "zm_copy" (gen @-> returning gen)
+end
+
+module F70 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let zv_copy = foreign "zv_copy" (gen @-> returning gen)
   let zm_row = foreign "zm_row" (gen @-> long @-> returning gen)
   let zc_hnfrem = foreign "ZC_hnfrem" (gen @-> gen @-> returning gen)
@@ -13032,11 +14424,6 @@ module F64 (F : Ctypes.FOREIGN) = struct
   let f2m_copy = foreign "F2m_copy" (gen @-> returning gen)
   let f3m_copy = foreign "F3m_copy" (gen @-> returning gen)
   let flm_copy = foreign "Flm_copy" (gen @-> returning gen)
-end
-
-module F65 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let zv_dvd = foreign "ZV_dvd" (gen @-> gen @-> returning int)
   let zm_zv_mod = foreign "ZM_ZV_mod" (gen @-> gen @-> returning gen)
   let zv_zv_mod = foreign "ZV_ZV_mod" (gen @-> gen @-> returning gen)
@@ -13214,6 +14601,11 @@ module F65 (F : Ctypes.FOREIGN) = struct
   let gmax_shallow = foreign "gmax_shallow" (gen @-> gen @-> returning gen)
   let gmin_shallow = foreign "gmin_shallow" (gen @-> gen @-> returning gen)
   let cxnorm = foreign "cxnorm" (gen @-> returning gen)
+end
+
+module F71 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let quadnorm = foreign "quadnorm" (gen @-> returning gen)
   let quad_disc = foreign "quad_disc" (gen @-> returning gen)
   let qfb_disc3 = foreign "qfb_disc3" (gen @-> gen @-> gen @-> returning gen)
@@ -13224,11 +14616,6 @@ module F65 (F : Ctypes.FOREIGN) = struct
   let powis = foreign "powIs" (long @-> returning gen)
   let mpexpz = foreign "mpexpz" (gen @-> gen @-> returning void)
   let mplogz = foreign "mplogz" (gen @-> gen @-> returning void)
-end
-
-module F66 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let mpcosz = foreign "mpcosz" (gen @-> gen @-> returning void)
   let mpsinz = foreign "mpsinz" (gen @-> gen @-> returning void)
   let gnegz = foreign "gnegz" (gen @-> gen @-> returning void)
@@ -13328,6 +14715,11 @@ module F66 (F : Ctypes.FOREIGN) = struct
   let bnr_get_mod = foreign "bnr_get_mod" (gen @-> returning gen)
   let bnr_get_nf = foreign "bnr_get_nf" (gen @-> returning gen)
   let bnr_get_clgp = foreign "bnr_get_clgp" (gen @-> returning gen)
+end
+
+module F72 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let bnr_get_no = foreign "bnr_get_no" (gen @-> returning gen)
   let bnr_get_cyc = foreign "bnr_get_cyc" (gen @-> returning gen)
   let bnr_get_gen_nocheck = foreign "bnr_get_gen_nocheck" (gen @-> returning gen)
@@ -13338,11 +14730,6 @@ module F66 (F : Ctypes.FOREIGN) = struct
   let locs_get_mod = foreign "locs_get_mod" (gen @-> returning gen)
   let locs_get_famod = foreign "locs_get_famod" (gen @-> returning gen)
   let locs_get_m_infty = foreign "locs_get_m_infty" (gen @-> returning gen)
-end
-
-module F67 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let gchar_get_basis = foreign "gchar_get_basis" (gen @-> returning gen)
   let gchar_get_bnf = foreign "gchar_get_bnf" (gen @-> returning gen)
   let gchar_get_nf = foreign "gchar_get_nf" (gen @-> returning gen)
@@ -13460,6 +14847,11 @@ module F67 (F : Ctypes.FOREIGN) = struct
   let rnf_get_varn = foreign "rnf_get_varn" (gen @-> returning long)
   let rnf_get_nfpol = foreign "rnf_get_nfpol" (gen @-> returning gen)
   let rnf_get_nfvarn = foreign "rnf_get_nfvarn" (gen @-> returning long)
+end
+
+module F73 (F : Ctypes.FOREIGN) = struct
+  open F
+
   let rnf_get_zk = foreign "rnf_get_zk" (gen @-> returning gen)
   let rnf_get_map = foreign "rnf_get_map" (gen @-> returning gen)
   let rnf_get_invzk = foreign "rnf_get_invzk" (gen @-> returning gen)
@@ -13476,11 +14868,6 @@ module F67 (F : Ctypes.FOREIGN) = struct
   let closure_codestr = foreign "closure_codestr" (gen @-> returning string)
   let closure_get_code = foreign "closure_get_code" (gen @-> returning gen)
   let closure_get_oper = foreign "closure_get_oper" (gen @-> returning gen)
-end
-
-module F68 (F : Ctypes.FOREIGN) = struct
-  open F
-
   let closure_get_data = foreign "closure_get_data" (gen @-> returning gen)
   let closure_get_dbg = foreign "closure_get_dbg" (gen @-> returning gen)
   let closure_get_text = foreign "closure_get_text" (gen @-> returning gen)
@@ -13619,4 +15006,9 @@ module Functions (F : Ctypes.FOREIGN) = struct
   include F65 (F)
   include F66 (F)
   include F67 (F)
+  include F68 (F)
+  include F69 (F)
+  include F70 (F)
+  include F71 (F)
+  include F72 (F)
 end

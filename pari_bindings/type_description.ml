@@ -19,6 +19,15 @@ module Types (T : Ctypes.TYPE) = struct
 
   let pari_sp : pari_sp typ = pari_ulong
 
+  (*type qscomp = (Ctypes.((void) ptr @-> (void) ptr @-> returning (int)) static_funptr)
+    let qscomp : qscomp typ = (static_funptr T.(ptr (void) @-> ptr (void) @-> returning (int)))*)
+
+  (*type fgets_t = (Ctypes.(string @-> int @-> (void) ptr @-> returning (string)) static_funptr)
+    let fgets_t : fgets_t typ = (static_funptr T.(string @-> int @-> ptr (void) @-> returning (string)))
+
+    type pivot_fun = (Ctypes.(GEN @-> GEN @-> Signed.Long.t @-> GEN @-> returning (Signed.Long.t)) static_funptr)
+    let pivot_fun : pivot_fun typ = (static_funptr T.(GEN @-> GEN @-> long @-> GEN @-> returning (long)))*)
+
   type pari_logstyles =
     | LOGSTYLE_NONE
     | LOGSTYLE_PLAIN
@@ -101,6 +110,16 @@ module Types (T : Ctypes.TYPE) = struct
   type bb_field
   type bb_algebra
   type bb_ring
+  type norm_eqn_struct
+  type buffer
+  type filtre_t
+  type input_method
+  type forpath_t
+  type pari_rl_interface
+  type grhprime_t
+  type grhcheck_t
+  type abpq
+  type abpq_res
 
   let logstyle_none = constant "logstyle_none" int64_t
   let logstyle_plain = constant "logstyle_plain" int64_t
@@ -659,4 +678,126 @@ module Types (T : Ctypes.TYPE) = struct
     field bb_ring "sqr" (static_funptr T.(ptr void @-> gen @-> returning gen))
 
   let () = seal bb_ring
+
+  let norm_eqn_struct : norm_eqn_struct structure typ =
+    typedef (structure "norm_eqn_struct") "norm_eqn_struct"
+
+  let norm_eqn_struct_faw = field norm_eqn_struct "faw" gen
+  let norm_eqn_struct_D = field norm_eqn_struct "D" long
+  let norm_eqn_struct_t = field norm_eqn_struct "t" long
+  let norm_eqn_struct_u = field norm_eqn_struct "u" long
+  let norm_eqn_struct_v = field norm_eqn_struct "v" long
+  let norm_eqn_struct_p = field norm_eqn_struct "p" pari_ulong
+  let norm_eqn_struct_pi = field norm_eqn_struct "pi" pari_ulong
+  let norm_eqn_struct_s2 = field norm_eqn_struct "s2" pari_ulong
+  let norm_eqn_struct_T = field norm_eqn_struct "T" pari_ulong
+  let () = seal norm_eqn_struct
+
+  (*let norm_eqn_t = array 1 norm_eqn_struct*)
+  let buffer : buffer structure typ = typedef (structure "Buffer") "Buffer"
+  let buffer_buf = field buffer "buf" string
+  let buffer_len = field buffer "len" pari_ulong
+  let buffer_env = field buffer "env" int
+  let () = seal buffer
+
+  let filtre_t : filtre_t structure typ =
+    typedef (structure "filtre_t") "filtre_t"
+
+  let filtre_t_s = field filtre_t "s" string
+  let filtre_t_t = field filtre_t "t" string
+  let filtre_t_end = field filtre_t "end" string
+  let filtre_t_in_string = field filtre_t "in_string" int
+  let filtre_t_in_comment = field filtre_t "in_comment" int
+  let filtre_t_more_input = field filtre_t "more_input" int
+  let filtre_t_wait_for_brace = field filtre_t "wait_for_brace" int
+  let filtre_t_buf = field filtre_t "buf" (ptr buffer)
+  let () = seal filtre_t
+
+  (* Define the structure forpath_t *)
+  let forpath_t : forpath_t structure typ =
+    (*structure "forpath_t" *) typedef (structure "forpath_t") "forpath_t"
+
+  let s = field forpath_t "s" (ptr char) (* const char *s *)
+  let ls = field forpath_t "ls" size_t (* size_t ls *)
+  let dir = field forpath_t "dir" (ptr (ptr char)) (* char **dir *)
+
+  (* Finalize the structure definition *)
+  let () = seal forpath_t
+
+  (*let input_method : input_method structure typ = typedef (structure "input_method") "input_method"
+    let input_method_myfgets = field input_method "myfgets" (fgets_t)
+    let input_method_getline = field input_method "getline" ((static_funptr T.(ptr (string) @-> int @-> ptr ( input_method) @-> ptr (filtre_t) @-> returning (string))))
+    let input_method_free = field input_method "free" (int)
+    let input_method_prompt = field input_method "prompt" (string)
+    let input_method_prompt_cont = field input_method "prompt_cont" (string)
+    let input_method_file = field input_method "file" (ptr (void))
+    let () = seal input_method*)
+
+  let pari_rl_interface : pari_rl_interface structure typ =
+    typedef (structure "pari_rl_interface") "pari_rl_interface"
+
+  let pari_rl_interface_line_buffer =
+    field pari_rl_interface "line_buffer" (ptr string)
+
+  let pari_rl_interface_point = field pari_rl_interface "point" (ptr int)
+  let pari_rl_interface_end = field pari_rl_interface "end" (ptr int)
+
+  let pari_rl_interface_completion_matches =
+    field pari_rl_interface "completion_matches"
+      (static_funptr
+         T.(
+           string
+           @-> static_funptr T.(string @-> int @-> returning string)
+           @-> returning (ptr string)))
+
+  let pari_rl_interface_filename_completion_function =
+    field pari_rl_interface "filename_completion_function"
+      (static_funptr T.(string @-> int @-> returning string))
+
+  let pari_rl_interface_username_completion_function =
+    field pari_rl_interface "username_completion_function"
+      (static_funptr T.(string @-> int @-> returning string))
+
+  let pari_rl_interface_insert =
+    field pari_rl_interface "insert"
+      (static_funptr T.(int @-> int @-> returning int))
+
+  let pari_rl_interface_completion_append_character =
+    field pari_rl_interface "completion_append_character" (ptr int)
+
+  let pari_rl_interface_back = field pari_rl_interface "back" int
+  let () = seal pari_rl_interface
+
+  let grhprime_t : grhprime_t structure typ =
+    typedef (structure "GRHprime_t") "GRHprime_t"
+
+  let grhprime_t_p = field grhprime_t "p" pari_ulong
+  let grhprime_t_logp = field grhprime_t "logp" double
+  let grhprime_t_dec = field grhprime_t "dec" gen
+  let () = seal grhprime_t
+
+  let grhcheck_t : grhcheck_t structure typ =
+    typedef (structure "GRHcheck_t") "GRHcheck_t"
+
+  let grhcheck_t_cD = field grhcheck_t "cD" double
+  let grhcheck_t_cN = field grhcheck_t "cN" double
+  let grhcheck_t_primes = field grhcheck_t "primes" (ptr grhprime_t)
+  let grhcheck_t_clone = field grhcheck_t "clone" long
+  let grhcheck_t_nprimes = field grhcheck_t "nprimes" long
+  let grhcheck_t_maxprimes = field grhcheck_t "maxprimes" long
+  let grhcheck_t_limp = field grhcheck_t "limp" pari_ulong
+  let grhcheck_t_P = field grhcheck_t "P" forprime_t
+  let () = seal grhcheck_t
+  let abpq : abpq structure typ = structure "abpq"
+  let abpq_a = field abpq "a" (ptr gen)
+  let abpq_b = field abpq "b" (ptr gen)
+  let abpq_p = field abpq "p" (ptr gen)
+  let abpq_q = field abpq "q" (ptr gen)
+  let () = seal abpq
+  let abpq_res : abpq_res structure typ = structure "abpq_res"
+  let abpq_res_P = field abpq_res "P" gen
+  let abpq_res_Q = field abpq_res "Q" gen
+  let abpq_res_B = field abpq_res "B" gen
+  let abpq_res_T = field abpq_res "T" gen
+  let () = seal abpq_res
 end

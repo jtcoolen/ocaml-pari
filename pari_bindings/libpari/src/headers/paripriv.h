@@ -12,6 +12,8 @@ Check the License for details. You should have received a copy of it, along
 with the package; see the file 'COPYING'. If not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. */
 
+#pragma once
+
 BEGINEXTERN
 
 /* for qsort */
@@ -162,7 +164,6 @@ void mt_err_recover(long er);
 void mt_break_recover(void);
 void mt_export_add(const char *str, GEN val);
 void mt_export_del(const char *str);
-void mt_init_stack(size_t s);
 int  mt_is_thread(void);
 void mt_thread_init(void);
 
@@ -339,8 +340,6 @@ ulong get_uint(const char *s);
 void gp_initrc(pari_stack *p_A);
 
 void pari_sigint(const char *s);
-void* get_stack(double fraction, long min);
-void  free_graph(void);
 void  initout(int initerr);
 void  resetout(int initerr);
 void  init_linewrap(long w);
@@ -387,7 +386,7 @@ void mtstate_restore(struct pari_mtstate *s);
 
 void debug_context(void);
 
-typedef struct {
+typedef struct forpath_t {
   const char *s;
   size_t ls;
   char **dir;
@@ -623,8 +622,6 @@ void pari_init_graphics(void);
 void pari_init_parser(void);
 void pari_init_rand(void);
 void pari_init_paths(void);
-void pari_init_primetab(void);
-void pari_init_seadata(void);
 GEN pari_get_seadata(void);
 void pari_set_primetab(GEN global_primetab);
 void pari_set_seadata(GEN seadata);
@@ -876,7 +873,6 @@ void    prime_table_next_p(ulong a, byteptr *pd, ulong *pp, ulong *pn);
 
 /* perm.c */
 
-long    cosets_perm_search(GEN C, GEN p);
 GEN     perm_generate(GEN S, GEN H, long o);
 long    perm_relorder(GEN p, GEN S);
 GEN     vecperm_extendschreier(GEN C, GEN v, long n);
@@ -890,7 +886,6 @@ GEN polclass0(long D, long inv, long vx, GEN *db);
 GEN polmodular0_ZM(long L, long inv, GEN J, GEN Q, int compute_derivs, GEN *db);
 GEN Flm_Fl_polmodular_evalx(GEN phi, long L, ulong j, ulong p, ulong pi);
 GEN polmodular_db_init(long inv);
-void polmodular_db_clear(GEN db);
 void polmodular_db_add_level(GEN *db, long L, long inv);
 void polmodular_db_add_levels(GEN *db, long *levels, long k, long inv);
 GEN polmodular_db_for_inv(GEN db, long inv);
