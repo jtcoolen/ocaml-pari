@@ -66,15 +66,19 @@
   (:standard -fPIC -L/opt/homebrew/lib -L/usr/local/lib -lgmp))
  (ctypes
   (external_library_name libpari)
+  (deps
+   (glob_files libpari/src/headers/*.h)
+   paricfg.h
+   parimt.h
+   mpinl.h
+   parinf.h
+   paristio.h)
   (build_flags_resolver
    (vendored
     (c_flags
      (:standard -Ofast -finline-functions -ffast-math -funroll-all-loops)
-     (-I./pari_bindings/libpari/src/headers)
-     (-I../pari_bindings/libpari/src/headers)
-     (-I./_build/default/pari_bindings)
-     (-I../../../_build/default/pari_bindings)
-     (-I../../_build/default/pari_bindings))
+     -Ilibpari/src/headers
+     -I.)
     (c_library_flags :standard -fPIC)))
   (headers
    (include "pari.h"))
